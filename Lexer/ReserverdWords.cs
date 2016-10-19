@@ -19,15 +19,14 @@ namespace Lexer
             _operators = new Dictionary<string, TokenType>();
             _separators = new Dictionary<string,TokenType>();
 
-            InitializeReservedWords();
+            InitializeKeywords();
             InitializeOperators();
             InitializeSeparators();
         }
 
         private void InitializeSeparators()
         {
-           //         
-
+           //      
             _separators.Add("(", TokenType.OpenParenthesis);
             _separators.Add(")", TokenType.CloseParenthesis);
             _separators.Add("[", TokenType.OpenSquareBracket);
@@ -37,17 +36,54 @@ namespace Lexer
             _separators.Add(";", TokenType.EndOfSentence);
             _separators.Add(",", TokenType.Comma);
             _separators.Add(".", TokenType.Dot);
-            _separators.Add(":", TokenType.Assignation);
+            _separators.Add(":", TokenType.Colon);
         }
 
         private void InitializeOperators()
         {
-           // _operators.Add(";",TokenType.EndOfSentence);
+            //Arithmetic Operators
+            _operators.Add("+", TokenType.OpAdd);
+            _operators.Add("-", TokenType.OpSubstraction);
+            _operators.Add("*", TokenType.OpMultiplication);
+            _operators.Add("/", TokenType.OpDivision);
+            _operators.Add("%", TokenType.OpModule);
+
+            //Relational Operators
+            _operators.Add("<", TokenType.OpLessThan);
+            _operators.Add("<=", TokenType.OpLessThanOrEqualTo);
+            _operators.Add(">", TokenType.OpGreaterThan);
+            _operators.Add(">=", TokenType.OpGreaterThanOrEqualTo);
+            _operators.Add("==", TokenType.OpEqualTo);
+            _operators.Add("!=", TokenType.OpNotEqualTo);
+
+            //Logical Operators
+            _operators.Add("&&", TokenType.OpAnd);
+            _operators.Add("||", TokenType.OpOr);
+            _operators.Add("!", TokenType.OpNot);
+
+            //Asignament Operators
+            _operators.Add("=", TokenType.OpAssingment);
+
+            //Increment and decrement operators
+            _operators.Add("++", TokenType.OpIncrement);
+            _operators.Add("--", TokenType.OpDecrement);
+
+            /* Conditional Operator
+            The operator pair “?” and “:” is known as conditional operator. These pair of operators are ternary operators. 
+            The general syntax of conditional operator is: expression1 ? expression2 : expression3 ; */
+
+            //Bitwise Operators
+            _operators.Add("&", TokenType.OpBitAnd);
+           // _operators.Add("!", TokenType.OpBitOr);
+            _operators.Add("^", TokenType.OpBitXor);
+            _operators.Add("<<", TokenType.OpBitShiftLeft);
+            _operators.Add(">>", TokenType.OpBitShiftRight);
+
         }
 
-        private void InitializeReservedWords()
+        private void InitializeKeywords()
         {
-            _keywords.Add("print", TokenType.RwPrint);
+            //_keywords.Add("print", TokenType.RwPrint);
 
             //C language reserved words
             _keywords.Add("auto",TokenType.RwAuto);

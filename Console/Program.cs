@@ -11,8 +11,16 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            var lex = new Lexer.Lexer(new SourceCode("print 1cont cont1 12 \n" +
-                                                     "dos tres 4 6 ;"));
+            var code = @"print cont cont1 12 
+                dos tres 4 6 
+                var cuatro 4;;; ;;
+                { ] > && != 
+                int x = 65;
+                bool y = false;
+                x = 9 - 12 / (3 + 3) * (2 - 1)";
+
+            var lex = new Lexer.Lexer(new SourceCode(code));
+
             var currentToken = lex.GetNextToken();
 
             while (currentToken.TokenType != TokenType.EndOfFile)

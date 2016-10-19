@@ -5,12 +5,11 @@
         EndOfFile,
         Identifier,
         OperatorEquals,
-        LiteralNumber,
-        RwPrint,  //Rw stands for reserved word
+        LiteralNumber,  
         EndOfSentence,
 
         //Keywords
-        RwAuto,
+        RwAuto, //Rw stands for reserved word
         RwBreak,
         RwCase,
         RwChar,
@@ -43,7 +42,7 @@
         RwVolatile,
         RwUnsigned,
 
-        //Searators
+        //Separators
         OpenParenthesis,
         CloseParenthesis,
         OpenSquareBracket,
@@ -52,6 +51,36 @@
         CloseCurlyBracket,
         Comma,
         Dot,
-        Assignation
+        Colon,
+        
+        //Arithmetic Operators
+        OpAdd,
+        OpSubstraction,
+        OpMultiplication,
+        OpDivision,
+        OpModule,
+
+        //Relational Operators
+        OpLessThan,
+        OpLessThanOrEqualTo,
+        OpGreaterThan,
+        OpGreaterThanOrEqualTo,
+        OpEqualTo,
+        OpNotEqualTo,
+        
+        //Logical Operators
+        OpAnd,
+        OpOr,
+        OpNot,
+        OpAssingment,
+        OpIncrement,
+        OpDecrement,
+
+        //Bitwise Operators
+        OpBitAnd,
+        OpBitOr,
+        OpBitXor,
+        OpBitShiftLeft,
+        OpBitShiftRight
     }
 }

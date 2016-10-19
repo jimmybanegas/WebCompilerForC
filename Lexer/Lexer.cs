@@ -57,17 +57,51 @@ namespace Lexer
                 return GetNumber(lexeme,tokenColumn,tokenRow);
             }
 
-            if (_reservedWords._operators.ContainsKey(_currentSymbol.CurrentSymbol.ToString()))
+            if (_reservedWords._separators.ContainsKey(_currentSymbol.CurrentSymbol.ToString()))
             {
-               //state = 5;
+                lexeme += _currentSymbol.CurrentSymbol;
                 tokenColumn = _currentSymbol.Column;
                 tokenRow = _currentSymbol.Row;
-                lexeme += _currentSymbol.CurrentSymbol;
-               // _currentSymbol = Content.nextSymbol();
 
+                return GetSeparator(lexeme, tokenColumn, tokenRow);
+            }
+
+            if (_reservedWords._operators.ContainsKey(_currentSymbol.CurrentSymbol.ToString()))
+            {
+                lexeme += _currentSymbol.CurrentSymbol;
+                tokenColumn = _currentSymbol.Column;
+                tokenRow = _currentSymbol.Row;
+
+                return GetOperator(lexeme, tokenColumn, tokenRow);
             }
 
             throw new LexicalException($"Symbol {_currentSymbol.CurrentSymbol} not recognized at Row:{_currentSymbol.Row} Col: {_currentSymbol.Column}");
+        }
+
+        private Token GetOperator(string lexeme, int tokenColumn, int tokenRow)
+        {
+            _currentSymbol = _sourceCode.GetNextSymbol();
+
+            return new Token
+            {
+                TokenType = _reservedWords._operators[lexeme],
+                Lexeme = lexeme,
+                Column = tokenColumn,
+                Row = tokenRow
+            };
+        }
+
+        private Token GetSeparator(string lexeme, int tokenColumn, int tokenRow)
+        {
+            _currentSymbol = _sourceCode.GetNextSymbol();
+
+            return new Token
+            {
+                TokenType = _reservedWords._separators[lexeme],
+                Lexeme = lexeme,
+                Column = tokenColumn,
+                Row = tokenRow
+            };
         }
 
         private Token GetNumber(string lexeme,int tokenColumn, int tokenRow)
