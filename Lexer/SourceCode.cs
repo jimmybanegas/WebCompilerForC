@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 
 namespace Lexer
 {
@@ -13,7 +14,7 @@ namespace Lexer
         {
             _sourceCode = sourceCode;
             _currentIndex = 0;
-            _row = 0;
+            _row = 1;
             _column = 0;
         }
 
@@ -38,6 +39,8 @@ namespace Lexer
             {
                 _column += 1;
             }
+
+            //Console.WriteLine(symbol.CurrentSymbol);
 
             return symbol;
         }

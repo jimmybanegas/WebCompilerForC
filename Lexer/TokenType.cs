@@ -7,7 +7,11 @@
         OperatorEquals,
         LiteralNumber,  
         EndOfSentence,
-
+        LiteralString,
+        LiteralChar,
+        LineComment,
+        BlockComment,
+        
         //Keywords
         RwAuto, //Rw stands for reserved word
         RwBreak,
@@ -81,6 +85,8 @@
         OpBitOr,
         OpBitXor,
         OpBitShiftLeft,
-        OpBitShiftRight
+        OpBitShiftRight,
+
+       
     }
 }

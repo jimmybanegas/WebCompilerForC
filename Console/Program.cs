@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lexer;
+﻿using Lexer;
 
 namespace ConsoleTest
 {
@@ -11,13 +6,23 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            var code = @"print cont cont1 12 
+          
+            HandlerFiles file = new HandlerFiles("C:\\Users\\Jimmy Ramos\\Documents\\WebCompilerForC\\code.c");
+
+            var code = file.GetCode();
+
+            /*var code = @"print cont cont1 12 
                 dos tres 4 6 
                 var cuatro 4;;; ;;
                 { ] > && != 
                 int x = 65;
                 bool y = false;
-                x = 9 - 12 / (3 + 3) * (2 - 1)";
+                string c = ""prueba de cadena"";
+                x=9-12/(3+3)*(2-1)";
+
+            code = Regex.Replace(code, @"[\r\t]+", "");*/
+
+            System.Console.WriteLine(code);
 
             var lex = new Lexer.Lexer(new SourceCode(code));
 
@@ -25,11 +30,11 @@ namespace ConsoleTest
 
             while (currentToken.TokenType != TokenType.EndOfFile)
             {
-                Console.WriteLine(currentToken.ToString());
+                System.Console.WriteLine(currentToken.ToString());
                 currentToken = lex.GetNextToken();
             }
 
-            Console.ReadKey();
+            System.Console.ReadKey();
         }
     }
 }

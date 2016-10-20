@@ -13,15 +13,33 @@ namespace Lexer
         public Dictionary<string, TokenType> _operators;
         public Dictionary<string, TokenType> _separators;
 
+        //This one, the especial is used for the operators which are composed by two operators
+        public List<char> _specialSymbols;
+
         public ReserverdWords()
         {
             _keywords = new Dictionary<string, TokenType>();
             _operators = new Dictionary<string, TokenType>();
             _separators = new Dictionary<string,TokenType>();
+            _specialSymbols = new List<char>();
 
             InitializeKeywords();
             InitializeOperators();
             InitializeSeparators();
+            InitializeSpecial();
+        }
+
+        private void InitializeSpecial()
+        {
+            _specialSymbols.Add('<');
+            _specialSymbols.Add('>');
+            _specialSymbols.Add('=');
+            _specialSymbols.Add('&');
+            _specialSymbols.Add('|');
+            _specialSymbols.Add('+');
+            _specialSymbols.Add('-');
+            _specialSymbols.Add('/');
+            _specialSymbols.Add('*');
         }
 
         private void InitializeSeparators()
@@ -78,6 +96,10 @@ namespace Lexer
             _operators.Add("^", TokenType.OpBitXor);
             _operators.Add("<<", TokenType.OpBitShiftLeft);
             _operators.Add(">>", TokenType.OpBitShiftRight);
+
+            //Special for comments
+            _operators.Add("//", TokenType.LineComment);
+            _operators.Add("/*", TokenType.BlockComment);
 
         }
 
