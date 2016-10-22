@@ -40,7 +40,7 @@ namespace Lexer
                 };
             }
 
-            if (char.IsLetter(_currentSymbol.CurrentSymbol))
+            if (char.IsLetter(_currentSymbol.CurrentSymbol) || _currentSymbol.CurrentSymbol == '_')
             {
                 lexeme += _currentSymbol.CurrentSymbol;
                 tokenColumn = _currentSymbol.Column;
@@ -72,7 +72,7 @@ namespace Lexer
                 lexeme += _currentSymbol.CurrentSymbol;
                 tokenColumn = _currentSymbol.Column;
                 tokenRow = _currentSymbol.Row;
-
+                
                 return GetOperator(lexeme, tokenColumn, tokenRow);
             }
 
@@ -114,18 +114,6 @@ namespace Lexer
                     Row = tokenRow
                 };
             }
-
-            //Special one used because of exception when reading code from .c file
-            //if (_currentSymbol.CurrentSymbol == '\n')
-            //{
-            //    return new Token
-            //    {
-            //        TokenType = TokenType.EndOfSentence,
-            //        Lexeme = lexeme,
-            //        Column = tokenColumn,
-            //        Row = tokenRow
-            //    };
-            //}
 
             throw new LexicalException($"Symbol {_currentSymbol.CurrentSymbol} not recognized at Row:{_currentSymbol.Row} Col: {_currentSymbol.Column}");
         }

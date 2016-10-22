@@ -81,6 +81,8 @@ namespace Lexer
 
             //Asignament Operators
             _operators.Add("=", TokenType.OpAssingment);
+            _operators.Add("+=", TokenType.OpAppend);
+            _operators.Add("-=", TokenType.OpUnAappend);
 
             //Increment and decrement operators
             _operators.Add("++", TokenType.OpIncrement);
