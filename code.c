@@ -1,11 +1,29 @@
+#include "header.h"
+#include "Physics/Solver.h"
+#include <stdio.h>
+
+
 float average (int n_args, ...)
 {
+    
+    date my_date = #14-05-1993#;
+
+    var mistr = "This\nis\na\ntest\n\nShe said, \"How are you?\"\n";
+
     va_list _myList;
     va_start (myList, n_args);
     
     int numbersAdded = 0;
+
     int sum = 23.45;
-     
+
+    int hex = 0x3F7;
+
+    int octal = 07;
+
+    int number = 78;
+
+
     while (numbersAdded < n_args) {
         int number = va_arg (myList, int); // Get next number from list
         sum += number;
@@ -20,9 +38,9 @@ float average (int n_args, ...)
       /* my first program in C */
    printf("Hello, World! \n");
 
-   char[100] string = "mi cadena"
+   char[100] string = "mi cadena";
 
-   string mistr =  "mi cadena "
+   string mistr =  "mi cadena ";
 
    float =  'a';
    

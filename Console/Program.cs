@@ -7,7 +7,14 @@ namespace ConsoleTest
         static void Main(string[] args)
         {
           
-            HandlerFiles file = new HandlerFiles("C:\\Users\\Jimmy Ramos\\Documents\\WebCompilerForC\\code.c");
+           // HandlerFiles file = new HandlerFiles("C:\\Users\\Jimmy Ramos\\Documents\\WebCompilerForC\\code.c");
+            HandlerFiles file = new HandlerFiles();
+
+            System.Console.WriteLine(file._defaultPath);
+
+            string cadena = "Hello\tWorld\n\n";
+
+            System.Console.WriteLine(cadena);
 
             var code = file.GetCode();
 

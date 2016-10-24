@@ -6,8 +6,9 @@ namespace ConsoleTest
 {
     class HandlerFiles
     {
-        private readonly string _defaultPath = "code.c";
+        public readonly string _defaultPath = Directory.GetParent(@"..\..\..\").FullName + @"\code.c";
 
+        
         public HandlerFiles()
         {
 

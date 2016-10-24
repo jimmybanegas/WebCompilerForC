@@ -17,6 +17,7 @@
         RwBreak,
         RwCase,
         RwChar,
+        RwString,
         RwContinue,
         RwDo,
         RwDefault,
@@ -26,6 +27,7 @@
         RwEnum,
         RwExtern,
         RwFor,
+        RwForEach,
         RwIf,
         RwGoto,
         RwFloat,
@@ -45,6 +47,9 @@
         RwWhile,
         RwVolatile,
         RwUnsigned,
+        RwDate,
+        RwInclude,
+        RwBool,
 
         //Separators
         OpenParenthesis,
@@ -71,6 +76,7 @@
         OpGreaterThanOrEqualTo,
         OpEqualTo,
         OpNotEqualTo,
+        OpPointerStructs,
         
         //Logical Operators
         OpAnd,
@@ -87,8 +93,11 @@
         OpBitShiftLeft,
         OpBitShiftRight,
 
-
+        //Other operators
         OpAppend,
-        OpUnAappend
+        OpUnAappend,
+        LiteralHexadecimal,
+        LiteralOctal,
+        LiteralDate        
     }
 }

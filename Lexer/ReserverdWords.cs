@@ -12,6 +12,8 @@ namespace Lexer
         public readonly Dictionary<string, TokenType> _keywords;
         public Dictionary<string, TokenType> _operators;
         public Dictionary<string, TokenType> _separators;
+        public Dictionary<string, int> _hexLetters;
+        public List<char> _octalNumbers;
 
         //This one, the especial is used for the operators which are composed by two operators
         public List<char> _specialSymbols;
@@ -22,11 +24,37 @@ namespace Lexer
             _operators = new Dictionary<string, TokenType>();
             _separators = new Dictionary<string,TokenType>();
             _specialSymbols = new List<char>();
+            _hexLetters = new Dictionary<string, int>();
+            _octalNumbers = new List<char>();
 
             InitializeKeywords();
             InitializeOperators();
             InitializeSeparators();
             InitializeSpecial();
+            IntializeHexLetters();
+            InitializeOctalNumbers();
+        }
+
+        private void InitializeOctalNumbers()
+        {
+            _octalNumbers.Add('0');
+            _octalNumbers.Add('1');
+            _octalNumbers.Add('2');
+            _octalNumbers.Add('3');
+            _octalNumbers.Add('4');
+            _octalNumbers.Add('5');
+            _octalNumbers.Add('6');
+            _octalNumbers.Add('7');        
+        }
+
+        private void IntializeHexLetters()
+        {
+            _hexLetters.Add("A", 10);
+            _hexLetters.Add("B", 11);
+            _hexLetters.Add("C", 12);
+            _hexLetters.Add("D", 13);
+            _hexLetters.Add("E", 14);
+            _hexLetters.Add("F", 15);
         }
 
         private void InitializeSpecial()
@@ -73,6 +101,7 @@ namespace Lexer
             _operators.Add(">=", TokenType.OpGreaterThanOrEqualTo);
             _operators.Add("==", TokenType.OpEqualTo);
             _operators.Add("!=", TokenType.OpNotEqualTo);
+            _operators.Add("->", TokenType.OpPointerStructs);
 
             //Logical Operators
             _operators.Add("&&", TokenType.OpAnd);
@@ -94,7 +123,6 @@ namespace Lexer
 
             //Bitwise Operators
             _operators.Add("&", TokenType.OpBitAnd);
-           // _operators.Add("!", TokenType.OpBitOr);
             _operators.Add("^", TokenType.OpBitXor);
             _operators.Add("<<", TokenType.OpBitShiftLeft);
             _operators.Add(">>", TokenType.OpBitShiftRight);
@@ -114,6 +142,7 @@ namespace Lexer
             _keywords.Add("break", TokenType.RwBreak);
             _keywords.Add("case", TokenType.RwCase);
             _keywords.Add("char", TokenType.RwChar);
+            _keywords.Add("string", TokenType.RwString);
             _keywords.Add("continue", TokenType.RwContinue);
             _keywords.Add("do", TokenType.RwDo);
             _keywords.Add("default", TokenType.RwDefault);
@@ -123,6 +152,7 @@ namespace Lexer
             _keywords.Add("enum", TokenType.RwEnum);
             _keywords.Add("extern", TokenType.RwExtern);
             _keywords.Add("for", TokenType.RwFor);
+            _keywords.Add("foreach", TokenType.RwForEach);
             _keywords.Add("if", TokenType.RwIf);
             _keywords.Add("goto", TokenType.RwGoto);
             _keywords.Add("float", TokenType.RwFloat);
@@ -142,6 +172,9 @@ namespace Lexer
             _keywords.Add("while", TokenType.RwWhile);
             _keywords.Add("volatile", TokenType.RwVolatile);
             _keywords.Add("unsigned", TokenType.RwUnsigned);
+            _keywords.Add("date", TokenType.RwDate);
+            _keywords.Add("#include", TokenType.RwInclude);
+            _keywords.Add("bool", TokenType.RwBool);
         }
     }
 }
