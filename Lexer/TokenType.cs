@@ -100,6 +100,8 @@
         OpUnAappend,
         LiteralHexadecimal,
         LiteralOctal,
-        LiteralDate
+        LiteralDate,
+        LiteralFloat,
+        LiteralDecimal
     }
 }

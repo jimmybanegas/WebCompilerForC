@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Lexer
@@ -92,6 +93,8 @@ namespace Lexer
             {
                 tokenColumn = _currentSymbol.Column;
                 tokenRow = _currentSymbol.Row;
+                //lexeme += _currentSymbol.CurrentSymbol;
+
                 _currentSymbol = _sourceCode.GetNextSymbol();
 
                 lexeme = GetLiteralStringOrChar(lexeme, '\'');
@@ -284,33 +287,48 @@ namespace Lexer
         {
             _currentSymbol = _sourceCode.GetNextSymbol();
 
-            while (char.IsDigit(_currentSymbol.CurrentSymbol))
+            while (char.IsDigit(_currentSymbol.CurrentSymbol) || _currentSymbol.CurrentSymbol == '.' 
+                || _currentSymbol.CurrentSymbol == 'e' || _currentSymbol.CurrentSymbol == 'E' || _currentSymbol.CurrentSymbol== '-')
             {
                 lexeme += _currentSymbol.CurrentSymbol;
                 _currentSymbol = _sourceCode.GetNextSymbol();
-
-                //float and double numbers
-                if (_currentSymbol.CurrentSymbol == '.')
-                {
-                    lexeme += _currentSymbol.CurrentSymbol;
-                    _currentSymbol = _sourceCode.GetNextSymbol();
-                }
-
-                //For exponent
-                if (_currentSymbol.CurrentSymbol == 'e' || _currentSymbol.CurrentSymbol == 'E')
-                {
-                    lexeme += _currentSymbol.CurrentSymbol;
-                    lexeme += ConsumeNegativeSymbol();
-                }
             }
 
-            return new Token
+            if (Regex.IsMatch(lexeme, @"^[0-9]*(?:\.[0-9]*)?$") )
             {
-                TokenType = TokenType.LiteralNumber,
-                Lexeme = lexeme,
-                Column = tokenColumn,
-                Row = tokenRow
-            };
+                if (lexeme.Contains("."))
+                {
+                    return new Token
+                    {
+                        TokenType = TokenType.LiteralDecimal,
+                        Lexeme = lexeme,
+                        Column = tokenColumn,
+                        Row = tokenRow
+                    };
+                }
+
+                return new Token
+                {
+                    TokenType = TokenType.LiteralNumber,
+                    Lexeme = lexeme,
+                    Column = tokenColumn,
+                    Row = tokenRow
+                };
+            }
+
+            //Floating point numbers
+            if (Regex.IsMatch(lexeme, @"[\d.]+e[-+]?\d+") || Regex.IsMatch(lexeme, @"[\d.]+E[-+]?\d+"))
+            {
+                return new Token
+                {
+                    TokenType = TokenType.LiteralFloat,
+                    Lexeme = lexeme,
+                    Column = tokenColumn,
+                    Row = tokenRow
+                };
+            }
+
+            throw new LexicalException($"Symbol {_currentSymbol.CurrentSymbol} not recognized at Row:{_currentSymbol.Row} Col: {_currentSymbol.Column}");
         }
 
         private Token GetIdentifier(string lexeme,int tokenColumn, int tokenRow)
@@ -378,20 +396,9 @@ namespace Lexer
             return lexeme;
         }
 
-        private string ConsumeNegativeSymbol()
-        {
-            string lex = string.Empty;
-
-            _currentSymbol = _sourceCode.GetNextSymbol();
-            lex += _currentSymbol.CurrentSymbol;
-            _currentSymbol = _sourceCode.GetNextSymbol();
-
-            return lex;
-        }
-
         private string GetLiteralStringOrChar(string lexeme, char breakSymbol)
         {
-            while (_currentSymbol.CurrentSymbol != breakSymbol)
+          while (_currentSymbol.CurrentSymbol != breakSymbol)
             {
                 lexeme += _currentSymbol.CurrentSymbol;
                 _currentSymbol = _sourceCode.GetNextSymbol();
@@ -404,6 +411,8 @@ namespace Lexer
             }
 
             _currentSymbol = _sourceCode.GetNextSymbol();
+
+
             return lexeme;
 
         }
@@ -417,8 +426,6 @@ namespace Lexer
             {
                 lex += _currentSymbol.CurrentSymbol;
                 _currentSymbol = _sourceCode.GetNextSymbol();
-              //  lex += _currentSymbol.CurrentSymbol;
-             //   _currentSymbol = _sourceCode.GetNextSymbol();
             }
             else
             {
@@ -428,7 +435,6 @@ namespace Lexer
                     lex += _currentSymbol.CurrentSymbol;
                     _currentSymbol = _sourceCode.GetNextSymbol();
                 }
-               
             }
 
             return lex;

@@ -24,8 +24,8 @@ namespace ConsoleTest
             string file;
             try
             {
-             //   file = System.IO.File.ReadAllText(defaultPath);
-                 file = Regex.Replace(File.ReadAllText(_defaultPath), @"[\r\t]+", "");
+               // file = System.IO.File.ReadAllText(_defaultPath);
+                file = Regex.Replace(File.ReadAllText(_defaultPath), @"[\r\t]+", "");
 
             }
             catch (Exception e)
@@ -42,7 +42,7 @@ namespace ConsoleTest
         {
             try
             {
-                File.WriteAllText("C:\\Users\\Jimmy Ramos\\Documents\\code.c", code);
+                File.AppendAllText("C:\\Users\\Jimmy Ramos\\Documents\\lexer.c", code);
             }
             catch (Exception e)
             {
