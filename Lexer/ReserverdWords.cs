@@ -175,6 +175,8 @@ namespace Lexer
             _keywords.Add("date", TokenType.RwDate);
             _keywords.Add("#include", TokenType.RwInclude);
             _keywords.Add("bool", TokenType.RwBool);
+            _keywords.Add("true", TokenType.RwTrue);
+            _keywords.Add("false", TokenType.RwFalse);
         }
     }
 }

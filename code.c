@@ -6,22 +6,33 @@
 float average (int n_args, ...)
 {
     
+    char newline = '\n';
+    char tab = '\t';
+    char backspace = '\b';
+    char backslash = '\\';
+    char nullChar = '\0';
+    char quot = '"';
+   
     date my_date = #14-05-1993#;
 
-    var mistr = "This\nis\na\ntest\n\nShe said, \"How are you?\"\n";
+    var mistr = "This\nis\na\ntest\n\nShe \"said, \"How are you?\"\n";
 
     va_list _myList;
     va_start (myList, n_args);
     
     int numbersAdded = 0;
 
-    int sum = 23.45;
+    int sum = 23.45.;
 
     int hex = 0x3F7;
 
     int octal = 07;
 
     int number = 78;
+
+    int n = 23e10;
+
+    int n2 = 23e-5;
 
 
     while (numbersAdded < n_args) {
@@ -30,7 +41,6 @@ float average (int n_args, ...)
         numbersAdded += 1;
     }
     va_end (myList);
-
          
     float avg = (float)(sum) / (float)(numbersAdded); // Find the average
     return avg;
@@ -58,7 +68,7 @@ float average (int n_args, ...)
 
 //"This\nis\na\ntest\n\nShe said, \"How are you?\"\n"
 
- int x;            /* A normal integer*/
+    int x;            /* A normal integer*/
     int *p;           /* A pointer to an integer ("*p" is an integer, so p
                        must be a pointer to an integer) */
 

@@ -50,6 +50,8 @@
         RwDate,
         RwInclude,
         RwBool,
+        RwTrue,
+        RwFalse,
 
         //Separators
         OpenParenthesis,
@@ -98,6 +100,6 @@
         OpUnAappend,
         LiteralHexadecimal,
         LiteralOctal,
-        LiteralDate        
+        LiteralDate
     }
 }

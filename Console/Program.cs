@@ -12,7 +12,7 @@ namespace ConsoleTest
 
             System.Console.WriteLine(file._defaultPath);
 
-            string cadena = "Hello\tWorld\n\n";
+            string cadena = "This\nis\na\ntest\n\nShe said, \"How are you?\n";
 
             System.Console.WriteLine(cadena);
 
