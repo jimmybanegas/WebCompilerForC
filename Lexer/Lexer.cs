@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Lexer
 {
@@ -58,7 +54,30 @@ namespace Lexer
                 tokenColumn = _currentSymbol.Column;
                 tokenRow = _currentSymbol.Row;
 
-                return GetLiteralHexOrOctal(lexeme, tokenColumn, tokenRow);
+                _currentSymbol = _sourceCode.GetNextSymbol();
+
+                if (_currentSymbol.CurrentSymbol == 'x')
+                {
+                    lexeme += _currentSymbol.CurrentSymbol;
+                    return GetLiteralHexadecimal(lexeme, tokenColumn, tokenRow);
+                }
+
+                if (!char.IsDigit(_currentSymbol.CurrentSymbol))
+                {
+                    //this applies for a single zero
+                    if (lexeme.Length == 1 && lexeme == "0")
+                    {
+                        return new Token
+                        {
+                            TokenType = TokenType.LiteralNumber,
+                            Lexeme = lexeme,
+                            Column = tokenColumn,
+                            Row = tokenRow
+                        };
+                    }
+                }
+                lexeme += _currentSymbol.CurrentSymbol;
+                return GetLiteralOctal(lexeme, tokenColumn, tokenRow);
             }
 
             if (char.IsDigit(_currentSymbol.CurrentSymbol))
@@ -177,23 +196,47 @@ namespace Lexer
             throw new LexicalException($"Symbol {_currentSymbol.CurrentSymbol} not recognized at Row:{_currentSymbol.Row} Col: {_currentSymbol.Column}");
         }
 
-        private Token GetLiteralHexOrOctal(string lexeme, int tokenColumn, int tokenRow)
+        private Token GetLiteralOctal(string lexeme, int tokenColumn, int tokenRow)
         {
             _currentSymbol = _sourceCode.GetNextSymbol();
 
-            //Hexadecimal literals
-            if (_currentSymbol.CurrentSymbol == 'x')
+            if (!char.IsLetter(_currentSymbol.CurrentSymbol))
             {
-                lexeme += _currentSymbol.CurrentSymbol;
-                _currentSymbol = _sourceCode.GetNextSymbol();
-
-                while (char.IsDigit(_currentSymbol.CurrentSymbol) ||
-                    _reservedWords._hexLetters.ContainsKey(_currentSymbol.CurrentSymbol.ToString().ToUpper()))
+                //Octal numbers
+                while (char.IsDigit(_currentSymbol.CurrentSymbol))
                 {
                     lexeme += _currentSymbol.CurrentSymbol;
                     _currentSymbol = _sourceCode.GetNextSymbol();
                 }
 
+                if (Regex.IsMatch(lexeme, "^[0-7]+$"))
+                {
+                    return new Token
+                    {
+                        TokenType = TokenType.LiteralOctal,
+                        Lexeme = lexeme,
+                        Column = tokenColumn,
+                        Row = tokenRow
+                    };
+                }
+            }
+
+            throw new LexicalException($"Symbol {_currentSymbol.CurrentSymbol} not recognized at Row:{_currentSymbol.Row} Col: {_currentSymbol.Column}");
+        }
+
+        private Token GetLiteralHexadecimal(string lexeme, int tokenColumn, int tokenRow)
+        {
+            _currentSymbol = _sourceCode.GetNextSymbol();
+
+           //Hexadecimal literal
+            while (char.IsLetterOrDigit(_currentSymbol.CurrentSymbol))
+            {
+                lexeme += _currentSymbol.CurrentSymbol;
+                _currentSymbol = _sourceCode.GetNextSymbol();
+            }
+
+            if (Regex.IsMatch(lexeme, @"\A\b(0[xX])?[0-9a-fA-F]+\b\Z"))
+            {
                 return new Token
                 {
                     TokenType = TokenType.LiteralHexadecimal,
@@ -202,33 +245,9 @@ namespace Lexer
                     Row = tokenRow
                 };
             }
-            
-            //Octal numbers
-             while (char.IsDigit(_currentSymbol.CurrentSymbol) && 
-                _reservedWords._octalNumbers.Contains(_currentSymbol.CurrentSymbol))
-            {
-                lexeme += _currentSymbol.CurrentSymbol;
-                _currentSymbol = _sourceCode.GetNextSymbol();
-            }
+    
 
-            //this applies for a single zero
-            if(lexeme.Length == 1)
-            {
-                return new Token
-                {
-                    TokenType = TokenType.LiteralNumber,
-                    Lexeme = lexeme,
-                    Column = tokenColumn,
-                    Row = tokenRow
-                };
-            }
-            return new Token
-            {
-                TokenType = TokenType.LiteralOctal,
-                Lexeme = lexeme,
-                Column = tokenColumn,
-                Row = tokenRow
-            };            
+            throw new LexicalException($"Symbol {_currentSymbol.CurrentSymbol} not recognized at Row:{_currentSymbol.Row} Col: {_currentSymbol.Column}");
         }
 
         private Token GetOperator(string lexeme, int tokenColumn, int tokenRow)
@@ -287,7 +306,7 @@ namespace Lexer
         {
             _currentSymbol = _sourceCode.GetNextSymbol();
 
-            while (char.IsDigit(_currentSymbol.CurrentSymbol) || _currentSymbol.CurrentSymbol == '.' 
+            while (char.IsLetterOrDigit(_currentSymbol.CurrentSymbol) || _currentSymbol.CurrentSymbol == '.' 
                 || _currentSymbol.CurrentSymbol == 'e' || _currentSymbol.CurrentSymbol == 'E' || _currentSymbol.CurrentSymbol== '-')
             {
                 lexeme += _currentSymbol.CurrentSymbol;

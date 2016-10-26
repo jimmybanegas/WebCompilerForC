@@ -24,4 +24,17 @@ int main () {
    cout << "double d :" << d << endl;
  
    return 0;
+
+    char newline = '\FSAAJ';
+
+    int numbersAdded = 3.0;   
+ 
+    int hex = 0x3aF7; 
+    int octal = 07;
+    int oc = 0; 
+    int oc = 011111;
+    int number = 07777; 
+    int n = 23E10;  
+    int n2 = 23e-5;
+       int sum = 23.4=5; 
 }
