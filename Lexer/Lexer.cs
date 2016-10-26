@@ -139,6 +139,21 @@ namespace Lexer
 
                 lexeme = GetLiteralStringOrChar(lexeme, '"');
 
+                //Check if the string has escape characters, this is for special strings with a \
+                /*like :   cout << "Line 4 - a is either less than \
+                                 or euqal to  b" << endl ;*/
+
+                if (lexeme.Contains('\\'+Environment.NewLine))
+                {
+                    return new Token
+                    {
+                        TokenType = TokenType.LiteralString,
+                        Lexeme = lexeme,
+                        Column = tokenColumn,
+                        Row = tokenRow
+                    };
+                }
+
                 //Check if the string has escape characters
                 if (!lexeme.Contains(Environment.NewLine))
                 {
@@ -257,7 +272,7 @@ namespace Lexer
         {
             _currentSymbol = _sourceCode.GetNextSymbol();
 
-            if (_reservedWords._specialSymbols.Contains(_currentSymbol.CurrentSymbol))
+            if (_reservedWords._specialSymbols.Contains(_currentSymbol.CurrentSymbol.ToString()))
             {
                 lexeme += _currentSymbol.CurrentSymbol;
                 _currentSymbol = _sourceCode.GetNextSymbol();
@@ -272,6 +287,25 @@ namespace Lexer
                 if (lexeme == "/*")
                 {
                     lexeme = GetBlockComment(lexeme);
+                }
+
+                //special operators like >>= and <<=
+                if (_reservedWords._specialSymbols.Contains(lexeme.Substring(0, 2)))
+                {
+                  //  lexeme += _currentSymbol.CurrentSymbol;
+                   // _currentSymbol = _sourceCode.GetNextSymbol();
+
+                    if (_currentSymbol.CurrentSymbol == '=')
+                    {
+                        lexeme += _currentSymbol.CurrentSymbol;
+                        return new Token
+                        {
+                            TokenType = _reservedWords._operators[lexeme.Substring(0, 3)],
+                            Lexeme = lexeme,
+                            Column = tokenColumn,
+                            Row = tokenRow
+                        };
+                    }
                 }
 
                 return new Token

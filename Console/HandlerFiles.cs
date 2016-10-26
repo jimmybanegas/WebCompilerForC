@@ -7,8 +7,9 @@ namespace ConsoleTest
     class HandlerFiles
     {
         public readonly string _defaultPath = Directory.GetParent(@"..\..\..\").FullName + @"\code.c";
+        public readonly string _defaultPathLexer = Directory.GetParent(@"..\..\..\").FullName + @"\lexer.c";
 
-        
+
         public HandlerFiles()
         {
 
@@ -42,7 +43,7 @@ namespace ConsoleTest
         {
             try
             {
-                File.AppendAllText("C:\\Users\\Jimmy Ramos\\Documents\\lexer.c", code);
+                File.AppendAllText(_defaultPathLexer, code);
             }
             catch (Exception e)
             {

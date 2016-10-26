@@ -70,6 +70,8 @@
         OpMultiplication,
         OpDivision,
         OpModule,
+        OpIncrement,
+        OpDecrement,
 
         //Relational Operators
         OpLessThan,
@@ -84,9 +86,8 @@
         OpAnd,
         OpLogicalOr,
         OpNot,
-        OpAssingment,
-        OpIncrement,
-        OpDecrement,
+        OpSimpleAssingment,
+        OpMultiplyAndAssignment,
 
         //Bitwise Operators
         OpBitAnd,
@@ -94,14 +95,23 @@
         OpBitXor,
         OpBitShiftLeft,
         OpBitShiftRight,
+        OpComplement,
 
         //Other operators
-        OpAppend,
-        OpUnAappend,
+        OpAddAndAssigment,
+        OpSusbtractAndAssignment,
         LiteralHexadecimal,
         LiteralOctal,
         LiteralDate,
         LiteralFloat,
-        LiteralDecimal
+        LiteralDecimal,
+        OpDivideAssignment,
+        OpModulusAssignment,
+        OpBitShiftLeftAndAssignment,
+        OpBitShiftRightAndAssignment,
+        OpBitwiseAndAssignment,
+        OpBitwiseXorAndAssingment,
+        OpBitwiseInclusiveOrAndAssigment,
+        ConditionalExpression
     }
 }

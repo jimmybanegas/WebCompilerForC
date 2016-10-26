@@ -16,14 +16,14 @@ namespace Lexer
         public List<char> _octalNumbers;
 
         //This one, the especial is used for the operators which are composed by two operators
-        public List<char> _specialSymbols;
+        public List<string> _specialSymbols;
 
         public ReserverdWords()
         {
             _keywords = new Dictionary<string, TokenType>();
             _operators = new Dictionary<string, TokenType>();
             _separators = new Dictionary<string,TokenType>();
-            _specialSymbols = new List<char>();
+            _specialSymbols = new List<string>();
             _hexLetters = new Dictionary<string, int>();
             _octalNumbers = new List<char>();
 
@@ -59,15 +59,17 @@ namespace Lexer
 
         private void InitializeSpecial()
         {
-            _specialSymbols.Add('<');
-            _specialSymbols.Add('>');
-            _specialSymbols.Add('=');
-            _specialSymbols.Add('&');
-            _specialSymbols.Add('|');
-            _specialSymbols.Add('+');
-            _specialSymbols.Add('-');
-            _specialSymbols.Add('/');
-            _specialSymbols.Add('*');
+            _specialSymbols.Add("<");
+            _specialSymbols.Add(">");
+            _specialSymbols.Add("=");
+            _specialSymbols.Add("&");
+            _specialSymbols.Add("|");
+            _specialSymbols.Add("+");
+            _specialSymbols.Add("-");
+            _specialSymbols.Add("/");
+            _specialSymbols.Add("*");
+            _specialSymbols.Add(">>");
+            _specialSymbols.Add("<<");
         }
 
         private void InitializeSeparators()
@@ -87,12 +89,14 @@ namespace Lexer
 
         private void InitializeOperators()
         {
-            //Arithmetic Operators
+            //Arithmetic Operators ,    //Increment and decrement operators
             _operators.Add("+", TokenType.OpAdd);
             _operators.Add("-", TokenType.OpSubstraction);
             _operators.Add("*", TokenType.OpMultiplication);
             _operators.Add("/", TokenType.OpDivision);
             _operators.Add("%", TokenType.OpModule);
+            _operators.Add("++", TokenType.OpIncrement);
+            _operators.Add("--", TokenType.OpDecrement);
 
             //Relational Operators
             _operators.Add("<", TokenType.OpLessThan);
@@ -109,28 +113,31 @@ namespace Lexer
             _operators.Add("!", TokenType.OpNot);
 
             //Asignament Operators
-            _operators.Add("=", TokenType.OpAssingment);
-            _operators.Add("+=", TokenType.OpAppend);
-            _operators.Add("-=", TokenType.OpUnAappend);
-
-            //Increment and decrement operators
-            _operators.Add("++", TokenType.OpIncrement);
-            _operators.Add("--", TokenType.OpDecrement);
-
-            /* Conditional Operator
-            The operator pair “?” and “:” is known as conditional operator. These pair of operators are ternary operators. 
-            The general syntax of conditional operator is: expression1 ? expression2 : expression3 ; */
+            _operators.Add("=", TokenType.OpSimpleAssingment);
+            _operators.Add("+=", TokenType.OpAddAndAssigment);
+            _operators.Add("-=", TokenType.OpSusbtractAndAssignment);
+            _operators.Add("*=", TokenType.OpMultiplyAndAssignment);
+            _operators.Add("/=", TokenType.OpDivideAssignment);
+            _operators.Add("%=", TokenType.OpModulusAssignment);
+            _operators.Add("<<=", TokenType.OpBitShiftLeftAndAssignment);
+            _operators.Add(">>=", TokenType.OpBitShiftRightAndAssignment);
+            _operators.Add("&=", TokenType.OpBitwiseAndAssignment);
+            _operators.Add("^=", TokenType.OpBitwiseXorAndAssingment);
+            _operators.Add("|=", TokenType.OpBitwiseInclusiveOrAndAssigment);
 
             //Bitwise Operators
             _operators.Add("&", TokenType.OpBitAnd);
             _operators.Add("^", TokenType.OpBitXor);
+            _operators.Add("~", TokenType.OpComplement);
             _operators.Add("<<", TokenType.OpBitShiftLeft);
             _operators.Add(">>", TokenType.OpBitShiftRight);
             _operators.Add("|", TokenType.OpBitOr);
+            _operators.Add("?",TokenType.ConditionalExpression);
 
             //Special for comments
             _operators.Add("//", TokenType.LineComment);
             _operators.Add("/*", TokenType.BlockComment);
+
 
         }
 
