@@ -16,7 +16,7 @@ namespace Lexer
 
         public override string ToString()
         {
-            return "Lexeme: " + Lexeme + " Type: " + TokenType + " Row: "+Row + " Column: "+ Column;
+            return ("\nLexeme: " + Lexeme + " Type: " + TokenType + " Row: "+Row + " Column: "+ Column).Replace(Environment.NewLine, "replacement text");
         }
     }
 }

@@ -105,7 +105,7 @@ namespace Lexer
 
             //Logical Operators
             _operators.Add("&&", TokenType.OpAnd);
-            _operators.Add("||", TokenType.OpOr);
+            _operators.Add("||", TokenType.OpLogicalOr);
             _operators.Add("!", TokenType.OpNot);
 
             //Asignament Operators
@@ -126,6 +126,7 @@ namespace Lexer
             _operators.Add("^", TokenType.OpBitXor);
             _operators.Add("<<", TokenType.OpBitShiftLeft);
             _operators.Add(">>", TokenType.OpBitShiftRight);
+            _operators.Add("|", TokenType.OpBitOr);
 
             //Special for comments
             _operators.Add("//", TokenType.LineComment);

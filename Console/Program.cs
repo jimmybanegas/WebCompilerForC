@@ -40,7 +40,7 @@ namespace ConsoleTest
                   System.Console.WriteLine(currentToken.ToString());
                 //System.Diagnostics.Debug.WriteLine(currentToken.ToString());
               
-               // file.WriteCode(currentToken.ToString());
+                file.WriteCode(currentToken.ToString());
                 currentToken = lex.GetNextToken();
 
                // file.WriteCode(currentToken.Lexeme);

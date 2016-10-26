@@ -24,8 +24,8 @@ namespace ConsoleTest
             string file;
             try
             {
-               // file = System.IO.File.ReadAllText(_defaultPath);
-                file = Regex.Replace(File.ReadAllText(_defaultPath), @"[\r\t]+", "");
+                file = File.ReadAllText(_defaultPath);
+              //  file = Regex.Replace(File.ReadAllText(_defaultPath), @"[\r\t]+", "");
 
             }
             catch (Exception e)

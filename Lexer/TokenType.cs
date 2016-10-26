@@ -82,7 +82,7 @@
         
         //Logical Operators
         OpAnd,
-        OpOr,
+        OpLogicalOr,
         OpNot,
         OpAssingment,
         OpIncrement,

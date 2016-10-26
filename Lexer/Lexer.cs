@@ -139,13 +139,17 @@ namespace Lexer
 
                 lexeme = GetLiteralStringOrChar(lexeme, '"');
 
-                return new Token
+                //Check if the string has escape characters
+                if (!lexeme.Contains(Environment.NewLine))
                 {
-                    TokenType = TokenType.LiteralString,
-                    Lexeme = lexeme,
-                    Column = tokenColumn,
-                    Row = tokenRow
-                };
+                    return new Token
+                    {
+                        TokenType = TokenType.LiteralString,
+                        Lexeme = lexeme,
+                        Column = tokenColumn,
+                        Row = tokenRow
+                    };
+                }
             }
 
             //This one is used for #include and for date format #dd-MM-yyyy#
@@ -245,7 +249,6 @@ namespace Lexer
                     Row = tokenRow
                 };
             }
-    
 
             throw new LexicalException($"Symbol {_currentSymbol.CurrentSymbol} not recognized at Row:{_currentSymbol.Row} Col: {_currentSymbol.Column}");
         }
@@ -336,7 +339,7 @@ namespace Lexer
             }
 
             //Floating point numbers
-            if (Regex.IsMatch(lexeme, @"[\d.]+e[-+]?\d+") || Regex.IsMatch(lexeme, @"[\d.]+E[-+]?\d+"))
+            if (Regex.IsMatch(lexeme, @"^[-]?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]+)?$"))
             {
                 return new Token
                 {
@@ -412,6 +415,8 @@ namespace Lexer
             }
 
             _currentSymbol = _sourceCode.GetNextSymbol();
+
+
             return lexeme;
         }
 
@@ -431,9 +436,13 @@ namespace Lexer
 
             _currentSymbol = _sourceCode.GetNextSymbol();
 
+            if (_currentSymbol.CurrentSymbol == '\r')
+            {
+                return lexeme;
+            }
+
 
             return lexeme;
-
         }
 
         private string ConsumeQuotationMark()
