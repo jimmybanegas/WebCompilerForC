@@ -272,7 +272,8 @@ namespace Lexer
         {
             _currentSymbol = _sourceCode.GetNextSymbol();
 
-            if (_reservedWords._specialSymbols.Contains(_currentSymbol.CurrentSymbol.ToString()))
+            if (_reservedWords._specialSymbols.Contains(_currentSymbol.CurrentSymbol.ToString()) && 
+                !(lexeme.Equals(">") && _currentSymbol.CurrentSymbol=='/'))
             {
                 lexeme += _currentSymbol.CurrentSymbol;
                 _currentSymbol = _sourceCode.GetNextSymbol();
@@ -343,11 +344,19 @@ namespace Lexer
         {
             _currentSymbol = _sourceCode.GetNextSymbol();
 
-            while (char.IsLetterOrDigit(_currentSymbol.CurrentSymbol) || _currentSymbol.CurrentSymbol == '.' 
-                || _currentSymbol.CurrentSymbol == 'e' || _currentSymbol.CurrentSymbol == 'E' || _currentSymbol.CurrentSymbol== '-')
-            {
-                lexeme += _currentSymbol.CurrentSymbol;
-                _currentSymbol = _sourceCode.GetNextSymbol();
+            //case score=(float)countr/countq*100-difftime(finaltime,initialtime)/3;
+            //  if (lexeme.Contains("e") || lexeme.Contains("E"))
+
+            while (char.IsLetterOrDigit(_currentSymbol.CurrentSymbol) || _currentSymbol.CurrentSymbol == '.'
+               || _currentSymbol.CurrentSymbol == 'e' || _currentSymbol.CurrentSymbol == 'E' || _currentSymbol.CurrentSymbol == '-')
+                {
+                    if (!lexeme.Contains("e") && !lexeme.Contains("E") && _currentSymbol.CurrentSymbol == '-')
+                    {
+                        break;
+                    }
+
+                     lexeme += _currentSymbol.CurrentSymbol;
+                    _currentSymbol = _sourceCode.GetNextSymbol();
             }
 
             if (Regex.IsMatch(lexeme, @"^[0-9]*(?:\.[0-9]*)?$") )
