@@ -88,7 +88,8 @@ namespace Lexer
 
                 return GetLiteralNumber(lexeme,tokenColumn,tokenRow);
             }
-          
+            
+
             if (_reservedWords._separators.ContainsKey(_currentSymbol.CurrentSymbol.ToString()))
             {
                 lexeme += _currentSymbol.CurrentSymbol;
@@ -147,32 +148,31 @@ namespace Lexer
 
                 lexeme = GetLiteralStringOrChar(lexeme, '"');
 
+             
                 //Check if the string has escape characters, this is for special strings with a \
                 /*like :   cout << "Line 4 - a is either less than \
                                  or euqal to  b" << endl ;*/
+                //for a multiline string to be accepted, I split the lexeme into separate lines, it's required
+                //for each line except the last to have the character \, if not, it's not a valid multiline string
 
-                if (lexeme.Contains('\\'+Environment.NewLine) || lexeme.Contains(Environment.NewLine))
-                {
-                    return new Token
-                    {
-                        TokenType = TokenType.LiteralString,
-                        Lexeme = lexeme,
-                        Column = tokenColumn,
-                        Row = tokenRow
-                    };
-                }
+                string[] lines = lexeme.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
 
-                //Check if the string has escape characters
-                if (!lexeme.Contains(Environment.NewLine))
+                for (int i = 0; i < lines.Length - 1; i++)
                 {
-                    return new Token
+
+                    if (!lines[i].Contains("\\"))
                     {
-                        TokenType = TokenType.LiteralString,
-                        Lexeme = lexeme,
-                        Column = tokenColumn,
-                        Row = tokenRow
-                    };
+                        throw new LexicalException($"Symbol {_currentSymbol.CurrentSymbol} not recognized at Row:{_currentSymbol.Row} Col: {_currentSymbol.Column}");
+                    }
                 }
+     
+                return new Token
+                {
+                    TokenType = TokenType.LiteralString,
+                    Lexeme = lexeme,
+                    Column = tokenColumn,
+                    Row = tokenRow
+                };
             }
 
             //This one is used for #include and for date format #dd-MM-yyyy#
@@ -289,21 +289,22 @@ namespace Lexer
                 //Special case for comments, we've got to get the line(S) of the comments
                 if (lexeme == "//")
                 {
-                    lexeme = GetLineComment(lexeme);
+                    string str = string.Empty;
+                    GetLineComment(str);
+                    return GetNextToken();
                 }
 
                 //For block comments
                 if (lexeme == "/*")
                 {
-                    lexeme = GetBlockComment(lexeme);
+                    string str = string.Empty;
+                    GetBlockComment(str);
+                    return GetNextToken();
                 }
 
                 //special operators like >>= and <<=
                 if (_reservedWords._specialSymbols.Contains(lexeme.Substring(0, 2)))
                 {
-                  //  lexeme += _currentSymbol.CurrentSymbol;
-                   // _currentSymbol = _sourceCode.GetNextSymbol();
-
                     if (_currentSymbol.CurrentSymbol == '=')
                     {
                         lexeme += _currentSymbol.CurrentSymbol;
@@ -457,7 +458,7 @@ namespace Lexer
             return GetBlockComment(lexeme);
         }
 
-        private string GetLineComment(string lexeme)
+        private void GetLineComment(string lexeme)
         {
             while (_currentSymbol.CurrentSymbol != '\n')
             {
@@ -466,14 +467,11 @@ namespace Lexer
             }
 
             _currentSymbol = _sourceCode.GetNextSymbol();
-
-
-            return lexeme;
         }
 
         private string GetLiteralStringOrChar(string lexeme, char breakSymbol)
         {
-          while (_currentSymbol.CurrentSymbol != breakSymbol)
+            while (_currentSymbol.CurrentSymbol != breakSymbol)
             {
                 lexeme += _currentSymbol.CurrentSymbol;
                 _currentSymbol = _sourceCode.GetNextSymbol();
@@ -491,7 +489,6 @@ namespace Lexer
             {
                 return lexeme;
             }
-
 
             return lexeme;
         }

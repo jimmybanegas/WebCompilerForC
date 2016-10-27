@@ -13,7 +13,7 @@ namespace Lexer
         public Dictionary<string, TokenType> _operators;
         public Dictionary<string, TokenType> _separators;
         public Dictionary<string, int> _hexLetters;
-        public List<char> _octalNumbers;
+       // public List<char> _octalNumbers;
 
         //This one, the especial is used for the operators which are composed by two operators
         public List<string> _specialSymbols;
@@ -24,39 +24,14 @@ namespace Lexer
             _operators = new Dictionary<string, TokenType>();
             _separators = new Dictionary<string,TokenType>();
             _specialSymbols = new List<string>();
-            _hexLetters = new Dictionary<string, int>();
-            _octalNumbers = new List<char>();
 
             InitializeKeywords();
             InitializeOperators();
             InitializeSeparators();
             InitializeSpecial();
-            IntializeHexLetters();
-            InitializeOctalNumbers();
+      
         }
-
-        private void InitializeOctalNumbers()
-        {
-            _octalNumbers.Add('0');
-            _octalNumbers.Add('1');
-            _octalNumbers.Add('2');
-            _octalNumbers.Add('3');
-            _octalNumbers.Add('4');
-            _octalNumbers.Add('5');
-            _octalNumbers.Add('6');
-            _octalNumbers.Add('7');        
-        }
-
-        private void IntializeHexLetters()
-        {
-            _hexLetters.Add("A", 10);
-            _hexLetters.Add("B", 11);
-            _hexLetters.Add("C", 12);
-            _hexLetters.Add("D", 13);
-            _hexLetters.Add("E", 14);
-            _hexLetters.Add("F", 15);
-        }
-
+      
         private void InitializeSpecial()
         {
             _specialSymbols.Add("<");
@@ -74,7 +49,6 @@ namespace Lexer
 
         private void InitializeSeparators()
         {
-           //      
             _separators.Add("(", TokenType.OpenParenthesis);
             _separators.Add(")", TokenType.CloseParenthesis);
             _separators.Add("[", TokenType.OpenSquareBracket);
@@ -133,19 +107,11 @@ namespace Lexer
             _operators.Add(">>", TokenType.OpBitShiftRight);
             _operators.Add("|", TokenType.OpBitOr);
             _operators.Add("?",TokenType.ConditionalExpression);
-
-            //Special for comments
-            _operators.Add("//", TokenType.LineComment);
-            _operators.Add("/*", TokenType.BlockComment);
-
-
         }
 
         private void InitializeKeywords()
         {
-            //_keywords.Add("print", TokenType.RwPrint);
-
-            //C language reserved words
+           //C language reserved words
             _keywords.Add("auto",TokenType.RwAuto);
             _keywords.Add("break", TokenType.RwBreak);
             _keywords.Add("case", TokenType.RwCase);
