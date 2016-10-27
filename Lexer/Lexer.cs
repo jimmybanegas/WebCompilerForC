@@ -116,6 +116,14 @@ namespace Lexer
 
                 _currentSymbol = _sourceCode.GetNextSymbol();
 
+                if (_currentSymbol.CurrentSymbol == '\\')
+                {
+                    lexeme += _currentSymbol.CurrentSymbol;
+                    _currentSymbol = _sourceCode.GetNextSymbol();
+                    lexeme += _currentSymbol.CurrentSymbol;
+                    _currentSymbol = _sourceCode.GetNextSymbol();
+                }
+
                 lexeme = GetLiteralStringOrChar(lexeme, '\'');
 
                 if (lexeme.Length == 1 || lexeme.StartsWith('\\'.ToString()))
@@ -143,7 +151,7 @@ namespace Lexer
                 /*like :   cout << "Line 4 - a is either less than \
                                  or euqal to  b" << endl ;*/
 
-                if (lexeme.Contains('\\'+Environment.NewLine))
+                if (lexeme.Contains('\\'+Environment.NewLine) || lexeme.Contains(Environment.NewLine))
                 {
                     return new Token
                     {

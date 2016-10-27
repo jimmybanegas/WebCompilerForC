@@ -2177,9 +2177,3 @@ void title()
 
 COORD coord = {0, 0};
 
-void gotoxy (int x, int y)
-        {
-        coord.X = x;
-        coord.Y = y; // X and Y coordinates
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-        }
