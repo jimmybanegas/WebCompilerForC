@@ -487,9 +487,21 @@ namespace Lexer
 
             if (_currentSymbol.CurrentSymbol == '\r')
             {
-                return lexeme;
-            }
+                _currentSymbol = _sourceCode.GetNextSymbol();
 
+                while (char.IsWhiteSpace(_currentSymbol.CurrentSymbol))
+                {
+                    _currentSymbol = _sourceCode.GetNextSymbol();
+                }
+
+                if (_currentSymbol.CurrentSymbol == '"')
+                {
+                    _currentSymbol = _sourceCode.GetNextSymbol();
+
+                    return GetLiteralStringOrChar(lexeme, '"');
+                }
+            }
+            
             return lexeme;
         }
 
