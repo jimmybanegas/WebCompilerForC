@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <conio.h>
+#include "studio.h"
+#include "conio.h"
 
 int main()
 {

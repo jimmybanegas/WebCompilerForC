@@ -1,4 +1,6 @@
-﻿using Lexer;
+﻿using System;
+using Lexer;
+using Syntax;
 
 namespace ConsoleTest
 {
@@ -10,30 +12,9 @@ namespace ConsoleTest
            // HandlerFiles file = new HandlerFiles("C:\\Users\\Jimmy Ramos\\Documents\\WebCompilerForC\\code.c");
             HandlerFiles file = new HandlerFiles();
 
-           // System.Console.WriteLine(file._defaultPath);
-
-         //   string cadena = "This\nis\na\ntest\n\nShe said, \"How are you?\n";
-
-        //    System.Console.WriteLine(cadena);
-
-         
-
             var code = file.GetCode();
 
-            /*var code = @"print cont cont1 12 
-                dos tres 4 6 
-                var cuatro 4;;; ;;
-                { ] > && != 
-                int x = 65;
-                bool y = false;
-                string c = ""prueba de cadena"";
-                x=9-12/(3+3)*(2-1)";
-
-            code = Regex.Replace(code, @"[\r\t]+", "");*/
-
-            //System.Console.WriteLine(code);
-
-            var lex = new Lexer.Lexer(new SourceCode(code));
+            /*var lex = new Lexer.Lexer(new SourceCode(code));
 
             var currentToken = lex.GetNextToken();
 
@@ -46,9 +27,16 @@ namespace ConsoleTest
                 currentToken = lex.GetNextToken();
 
                // file.WriteCode(currentToken.Lexeme);
-            }
+            }*/
 
-            System.Console.ReadKey();
+            var lex = new Lexer.Lexer(new SourceCode(code));
+
+            var parser = new Parser(lex);
+
+            parser.Parse();
+
+            Console.ReadKey();
+
         }
     }
 }
