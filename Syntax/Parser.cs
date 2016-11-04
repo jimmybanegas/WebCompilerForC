@@ -10,16 +10,26 @@ namespace Syntax
 {
     public class Parser
     {
-        private readonly Lexer.Lexer _lexer;
+        public readonly Lexer.Lexer _lexer;
 
-        private Token _currentToken;
+        public Token _currentToken;
+        private readonly Arrays _arrays;
+        private readonly LoopsAndConditionals _loopsAndConditionals;
+        private readonly Utilities _utilities;
 
         public Parser(Lexer.Lexer lexer)
         {
             _lexer = lexer;
             _currentToken = lexer.GetNextToken();
+            _arrays = new Arrays(this);
+            _loopsAndConditionals = new LoopsAndConditionals();
+            _utilities = new Utilities(this);
         }
 
+        public Utilities Utilities
+        {
+            get { return _utilities; }
+        }
 
         public void Parse()
         {
@@ -60,133 +70,137 @@ namespace Syntax
         private void ListOfSpecialSentences()
         {
             //Lista_Sentencias->Sentence Lista_Sentencias
-            if (_currentToken.TokenType == TokenType.Identifier)
+            while (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
             {
                 SpecialSentence();
                 ListOfSpecialSentences();
             }
-            //Lista_Sentencia->Epsilon
-            else
-            {
-
-            }
+         
         }
 
         private void SpecialSentence()
         {
-            If();
-            While();
-            Do();
-            ChooseForType();
-            ChooseIdType();
-            Const();
-            Switch();
-            SpecialDeclaration();
-            Break();
-            Continue();
-            Include();
+            //_loopsAndConditionals.If(); --
+            //_loopsAndConditionals.While(); --
+            //_loopsAndConditionals.Do(); --
+            //_loopsAndConditionals.ChooseForType(); --
+            //ChooseIdType();
+            //Const(); -- 
+            //_loopsAndConditionals.Switch(); --
+            //SpecialDeclaration(); --
+            //_loopsAndConditionals.Break(); --
+            //_loopsAndConditionals.Continue(); --
+            //Include(); --
+
+            if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
+                 || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
+                 || Utilities.CompareTokenType(TokenType.RwDouble) || Utilities.CompareTokenType(TokenType.RwBool)
+                 || Utilities.CompareTokenType(TokenType.RwLong))
+            {
+                SpecialDeclaration();
+            }
+            else if (Utilities.CompareTokenType(TokenType.RwIf))
+            {
+                _loopsAndConditionals.If();
+            }
+            else if (Utilities.CompareTokenType(TokenType.RwWhile))
+            {
+                _loopsAndConditionals.While();
+            }
+            else if (Utilities.CompareTokenType(TokenType.RwDo))
+            {
+                _loopsAndConditionals.Do();
+            }
+            else if (Utilities.CompareTokenType(TokenType.RwFor))
+            {
+                _loopsAndConditionals.ChooseForType();
+            }
+            else if (Utilities.CompareTokenType(TokenType.RwSwitch))
+            {
+                _loopsAndConditionals.Switch();
+            }
+            else if (Utilities.CompareTokenType(TokenType.RwBreak))
+            {
+                _loopsAndConditionals.Break();
+            }
+            else if (Utilities.CompareTokenType(TokenType.RwContinue))
+            {
+                _loopsAndConditionals.Continue();
+            }
+            else if (Utilities.CompareTokenType(TokenType.RwConst))
+            {
+                Const();
+            }
+            else if (Utilities.CompareTokenType(TokenType.RwInclude))
+            {
+                Include();
+            }
         }
 
         private void Sentence()
         {
-
-            if (CompareTokenType(TokenType.RwChar) || CompareTokenType(TokenType.RwString)
-                  || CompareTokenType(TokenType.RwInt) || CompareTokenType(TokenType.RwDate)
-                  || CompareTokenType(TokenType.RwDouble) || CompareTokenType(TokenType.RwBool)
-                  || CompareTokenType(TokenType.RwLong) || CompareTokenType(TokenType.RwVoid))
+            if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
+                  || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
+                  || Utilities.CompareTokenType(TokenType.RwDouble) || Utilities.CompareTokenType(TokenType.RwBool)
+                  || Utilities.CompareTokenType(TokenType.RwLong) || Utilities.CompareTokenType(TokenType.RwVoid))
             {
                 Declaration();
             }
-            else if (CompareTokenType(TokenType.RwIf))
+            else if (Utilities.CompareTokenType(TokenType.RwIf))
             {
-                If();
+                _loopsAndConditionals.If();
             }
-            else if (CompareTokenType(TokenType.RwWhile))
+            else if (Utilities.CompareTokenType(TokenType.RwWhile))
             {
-                While();
+                _loopsAndConditionals.While();
             }
-            else if (CompareTokenType(TokenType.RwDo))
+            else if (Utilities.CompareTokenType(TokenType.RwDo))
             {
-                Do();
+                _loopsAndConditionals.Do();
             }
-            else if (CompareTokenType(TokenType.RwFor))
+            else if (Utilities.CompareTokenType(TokenType.RwFor))
             {
-                ChooseForType();
+                _loopsAndConditionals.ChooseForType();
             }
-            else if (CompareTokenType(TokenType.RwSwitch))
+            else if (Utilities.CompareTokenType(TokenType.RwSwitch))
             {
-                Switch();
+                _loopsAndConditionals.Switch();
             }
-            else if (CompareTokenType(TokenType.RwStruct))
+            else if (Utilities.CompareTokenType(TokenType.RwBreak))
+            {
+                _loopsAndConditionals.Break();
+            }
+            else if (Utilities.CompareTokenType(TokenType.RwContinue))
+            {
+                _loopsAndConditionals.Continue();
+            }
+            else if (Utilities.CompareTokenType(TokenType.RwStruct))
             {
                 Struct();
             }
-            else if (CompareTokenType(TokenType.RwConst))
+            else if (Utilities.CompareTokenType(TokenType.RwConst))
             {
                 Const();
             }
-            else if (CompareTokenType(TokenType.RwBreak))
-            {
-                Break();
-            }
-            else if (CompareTokenType(TokenType.RwContinue))
-            {
-                Continue();
-            }
-            else if (CompareTokenType(TokenType.RwInclude))
+            else if (Utilities.CompareTokenType(TokenType.RwInclude))
             {
                 Include();
             }
-               
-            //If();
-            //While();
-            //Do();
-            //ChooseForType();
-            //Switch();
-            //ChooseIdType();
-            //Struct();
-            //Const();
-            //Break();
-            //Continue();
-            //Include();
-        }
-
-        private bool CompareTokenType(TokenType type)
-        {
-            if (_currentToken.TokenType == type)
-                return true;
-            return false;
         }
 
         private void Include()
         {
-            NextToken();
+            Utilities.NextToken();
 
             //Literal strings as a parameter for includes
-            if (CompareTokenType(TokenType.LiteralString))
+            if (Utilities.CompareTokenType(TokenType.LiteralString))
             {
-                NextToken();
+                Utilities.NextToken();
             }
             else
             {
                 throw new Exception("Literal string expected");
             }
-        }
-
-        private void NextToken()
-        {
-            Console.Write(" " + _currentToken.Lexeme + " ");
-            _currentToken = _lexer.GetNextToken();
-        }
-
-        private void Continue()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Break()
-        {
-            throw new NotImplementedException();
         }
 
         private void Const()
@@ -201,39 +215,39 @@ namespace Syntax
 
         private void ChooseIdType()
         {
-            if (CompareTokenType(TokenType.OpBitAnd))
+            if (Utilities.CompareTokenType(TokenType.OpBitAnd))
             {
-               NextToken();
+                Utilities.NextToken();
 
-                if (CompareTokenType(TokenType.Identifier))
+                if (Utilities.CompareTokenType(TokenType.Identifier))
                 {
-                   NextToken();
+                    Utilities.NextToken();
                 }
                 else
                 {
                     throw new Exception("An Identifier was expected");
                 }
             }
-            else if (CompareTokenType(TokenType.OpMultiplication))
+            else if (Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
-               NextToken();
+                Utilities.NextToken();
 
                 IsPointer();
 
-                NextToken();
+                Utilities.NextToken();
 
-                if (CompareTokenType(TokenType.Identifier))
+                if (Utilities.CompareTokenType(TokenType.Identifier))
                 {
-                    NextToken();
+                    Utilities.NextToken();
                 }
                 else
                 {
                     throw new Exception("An Identifier was expected");
                 }
             }
-            else if (CompareTokenType(TokenType.Identifier))
+            else if (Utilities.CompareTokenType(TokenType.Identifier))
             {
-               NextToken();
+                Utilities.NextToken();
             }
             else
             {
@@ -241,58 +255,32 @@ namespace Syntax
             }
         }
 
-        private void Switch()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void ChooseForType()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Do()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void While()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void If()
-        {
-            throw new NotImplementedException();
-        }
-
         private void Declaration()
         {
-          //  _currentToken = _lexer.GetNextToken();
             GeneralDeclaration();
             TypeOfDeclaration();
         }
 
         private void TypeOfDeclaration()
         {
-            if (CompareTokenType(TokenType.OpEqualTo))
+            if (Utilities.CompareTokenType(TokenType.OpEqualTo))
             {
-               NextToken();
+                Utilities.NextToken();
 
                 ValueForId();
                 MultiDeclaration();
             }
-            else if (CompareTokenType(TokenType.OpenSquareBracket))
+            else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
-                IsArrayDeclaration();
+                _arrays.IsArrayDeclaration();
             }
-            else if (CompareTokenType(TokenType.OpenParenthesis))
+            else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
                 IsFunctionDeclaration();
             }
-            else if (CompareTokenType(TokenType.EndOfSentence))
+            else if (Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
-              NextToken();
+                Utilities.NextToken();
             }
             else
             {
@@ -302,28 +290,29 @@ namespace Syntax
 
         private void IsFunctionDeclaration()
         {
-            if (!CompareTokenType(TokenType.OpenParenthesis))
+            if (!Utilities.CompareTokenType(TokenType.OpenParenthesis))
                 throw new Exception("Open parenthesis expected");
 
-            NextToken();
+            Utilities.NextToken();
 
             ParameterList();
 
-            if (!CompareTokenType(TokenType.CloseParenthesis))
+            if (!Utilities.CompareTokenType(TokenType.CloseParenthesis))
                 throw new Exception("Close parenthesis expected");
 
-            NextToken();
+            Utilities.NextToken();
 
-            if (!CompareTokenType(TokenType.OpenCurlyBracket))
-                throw new Exception("Open function body symbol expected");
-
-            ListOfSpecialSentences();
-
-            NextToken();
-
-            if (CompareTokenType(TokenType.CloseCurlyBracket) )
+            if (Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
             {
-                NextToken();
+                Utilities.NextToken();
+                ListOfSpecialSentences();
+            }
+
+            //Utilities.NextToken();
+
+            if (Utilities.CompareTokenType(TokenType.CloseCurlyBracket) )
+            {
+                Utilities.NextToken();
             }
             else
             {
@@ -333,17 +322,17 @@ namespace Syntax
 
         private void ParameterList()
         {
-            if (CompareTokenType(TokenType.RwChar) || CompareTokenType(TokenType.RwString)
-                || CompareTokenType(TokenType.RwInt) || CompareTokenType(TokenType.RwDate)
-                || CompareTokenType(TokenType.RwDouble) || CompareTokenType(TokenType.RwBool)
-                || CompareTokenType(TokenType.RwLong))
+            if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
+                || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
+                || Utilities.CompareTokenType(TokenType.RwDouble) || Utilities.CompareTokenType(TokenType.RwBool)
+                || Utilities.CompareTokenType(TokenType.RwLong))
             {
-                NextToken();
+                Utilities.NextToken();
 
                 ChooseIdType();
 
-                NextToken();
-
+             //   Utilities.NextToken();
+                
                 OptionaListOfParams();
             }
             else
@@ -354,90 +343,48 @@ namespace Syntax
 
         private void OptionaListOfParams()
         {
-            throw new NotImplementedException();
-        }
-
-        private void IsArrayDeclaration()
-        {
-            if (!CompareTokenType(TokenType.OpenSquareBracket))
-                throw new Exception("An openning bracket [ symbol was expected");
-
-            NextToken();
-
-            SizeForArray();
-
-            //NextToken();
-
-            if (!CompareTokenType(TokenType.CloseSquareBracket))
-                throw new Exception("An closing bracket ] symbol was expected");
-
-            NextToken();
-
-            BidArray();
-
-            NextToken();
-
-            OptionalInitOfArray();
-
-           NextToken();
-
-            if (CompareTokenType(TokenType.EndOfSentence))
+            if (Utilities.CompareTokenType(TokenType.Comma))
             {
-                NextToken();
+
+                Utilities.NextToken();
+                if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
+                    || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
+                    || Utilities.CompareTokenType(TokenType.RwDouble) || Utilities.CompareTokenType(TokenType.RwBool)
+                    || Utilities.CompareTokenType(TokenType.RwLong))
+                {
+
+                    Utilities.NextToken();
+
+                    ChooseIdType();
+
+                    OptionaListOfParams();
+                }
+                else
+                {
+                    
+                }
             }
             else
             {
-                throw new Exception("An End of sentence ; symbol was expected");
+                //throw new Exception("A comma was expected");
             }
+         
         }
 
-        private void OptionalInitOfArray()
+        public void ListOfExpressions()
+        {
+            Expresion();
+            OptionalExpression();
+        }
+
+        private void OptionalExpression()
         {
             throw new NotImplementedException();
-        }
-
-        private void BidArray()
-        {
-            if (!CompareTokenType(TokenType.OpenSquareBracket))
-                throw new Exception("An openning bracket [ symbol was expected");
-
-            NextToken();
-
-            SizeForBidArray();
-
-            NextToken();
-
-            if (CompareTokenType(TokenType.CloseSquareBracket))
-            {
-                NextToken();
-            }
-            else
-            {
-                throw new Exception("An closing bracket ] symbol was expected");
-            }
-        }
-
-        private void SizeForBidArray()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SizeForArray()
-        {
-            if (CompareTokenType(TokenType.LiteralNumber) || CompareTokenType(TokenType.LiteralOctal)
-                || CompareTokenType(TokenType.LiteralHexadecimal) || CompareTokenType(TokenType.Identifier))
-            {
-                NextToken();
-            }
-            else
-            {
-                
-            }
         }
 
         private void ValueForId()
         {
-            if (CompareTokenType(TokenType.OpEqualTo))
+            if (Utilities.CompareTokenType(TokenType.OpEqualTo))
             {
                 Expresion();
             }
@@ -451,9 +398,9 @@ namespace Syntax
         {
             OptionalId();
 
-            if (CompareTokenType(TokenType.EndOfSentence))
+            if (Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
-                NextToken();
+                Utilities.NextToken();
             }
             else
             {
@@ -463,7 +410,7 @@ namespace Syntax
 
         private void OptionalId()
         {
-            if (CompareTokenType(TokenType.Comma))
+            if (Utilities.CompareTokenType(TokenType.Comma))
             {
                 ListOfId();
             }
@@ -475,7 +422,7 @@ namespace Syntax
 
         private void ListOfId()
         {
-            if (CompareTokenType(TokenType.Identifier))
+            if (Utilities.CompareTokenType(TokenType.Identifier))
             {
                 OtherIdOrValue();
             }
@@ -493,18 +440,18 @@ namespace Syntax
 
         private void GeneralDeclaration()
         {
-            if (CompareTokenType(TokenType.RwChar) || CompareTokenType(TokenType.RwString)
-                || CompareTokenType(TokenType.RwInt) || CompareTokenType(TokenType.RwDate)
-                || CompareTokenType(TokenType.RwDouble) || CompareTokenType(TokenType.RwBool)
-                || CompareTokenType(TokenType.RwLong) || CompareTokenType(TokenType.RwVoid))
+            if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
+                || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
+                || Utilities.CompareTokenType(TokenType.RwDouble) || Utilities.CompareTokenType(TokenType.RwBool)
+                || Utilities.CompareTokenType(TokenType.RwLong) || Utilities.CompareTokenType(TokenType.RwVoid))
             {
-                NextToken();
+                Utilities.NextToken();
 
                 IsPointer();
 
-                if (CompareTokenType(TokenType.Identifier))
+                if (Utilities.CompareTokenType(TokenType.Identifier))
                 {
-                    NextToken();
+                    Utilities.NextToken();
                 }
             }
             else
@@ -515,11 +462,11 @@ namespace Syntax
 
         private void IsPointer()
         {
-            if (CompareTokenType(TokenType.OpMultiplication))
+            if (Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
-               NextToken();
+                Utilities.NextToken();
             }
-            if (CompareTokenType(TokenType.OpMultiplication))
+            if (Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
                 IsPointer();
             }
@@ -527,7 +474,31 @@ namespace Syntax
 
         private void SpecialDeclaration()
         {
-            throw new NotImplementedException();
+            GeneralDeclaration();
+            TypeOfDeclarationForFunction();
+        }
+
+        private void TypeOfDeclarationForFunction()
+        {
+            if (Utilities.CompareTokenType(TokenType.OpEqualTo))
+            {
+                Utilities.NextToken();
+
+                ValueForId();
+                MultiDeclaration();
+            }
+            else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+            {
+                _arrays.IsArrayDeclaration();
+            }
+            else if (Utilities.CompareTokenType(TokenType.EndOfSentence))
+            {
+                Utilities.NextToken();
+            }
+            else
+            {
+                throw new Exception("An End of sentence ; symbol was expected");
+            }
         }
 
         private void Expresion()
@@ -541,14 +512,14 @@ namespace Syntax
             //+term ExpresionP
             if (_currentToken.TokenType == TokenType.OpAdd)
             {
-                NextToken();
+                Utilities.NextToken();
                 Term();
                 ExpresionP();
             }
             //-term ExpresionP
             else if (_currentToken.TokenType == TokenType.OpSubstraction)
             {
-                NextToken();
+                Utilities.NextToken();
                 Term();
                 ExpresionP();
             }

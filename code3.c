@@ -12,10 +12,9 @@ void record(){
 
 int life;
 
-void Delay(long double){
+void Delay(long car){
     int c;
 }
-
 
 void gotoxy(int x, int y){
 
