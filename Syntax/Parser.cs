@@ -16,6 +16,8 @@ namespace Syntax
         private readonly Arrays _arrays;
         private readonly LoopsAndConditionals _loopsAndConditionals;
         private readonly Utilities _utilities;
+        private readonly Functions _functions;
+        private readonly Expressions _expressions;
 
         public Parser(Lexer.Lexer lexer)
         {
@@ -24,6 +26,8 @@ namespace Syntax
             _arrays = new Arrays(this);
             _loopsAndConditionals = new LoopsAndConditionals();
             _utilities = new Utilities(this);
+            _functions = new Functions(this);
+            _expressions = new Expressions(this);
         }
 
         public Utilities Utilities
@@ -67,7 +71,7 @@ namespace Syntax
             }
         }
 
-        private void ListOfSpecialSentences()
+        public void ListOfSpecialSentences()
         {
             //Lista_Sentencias->Sentence Lista_Sentencias
             while (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
@@ -210,10 +214,67 @@ namespace Syntax
 
         private void Struct()
         {
-            throw new NotImplementedException();
+            Utilities.NextToken();
+
+            if (!Utilities.CompareTokenType(TokenType.Identifier))
+                throw new Exception("Identifier expected"); 
+
+            Utilities.NextToken();
+
+            if (!Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
+                throw new Exception("Open bracket expected");
+
+            Utilities.NextToken();
+
+            MembersList();
         }
 
-        private void ChooseIdType()
+        public void MembersList()
+        {
+            DeclarationOfStruct();
+          //  MembersList();
+        }
+
+        private void DeclarationOfStruct()
+        {
+            GeneralDeclaration();
+
+            if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
+            {
+                Utilities.NextToken();
+                _arrays.ArrayIdentifier();
+
+                OptionalMember();
+            }
+
+         
+
+            //if (!_utilities.CompareTokenType(TokenType.EndOfSentence))
+            //{
+            //    throw new Exception("End of sentence symbol ; expected");
+            //}
+           
+        }
+
+        private void OptionalMember()
+        {
+            _utilities.NextToken();
+          //  while (!_utilities.CompareTokenType(TokenType.CloseCurlyBracket))
+           // {
+            if (!_utilities.CompareTokenType(TokenType.CloseCurlyBracket))
+            {
+                DeclarationOfStruct();
+            }
+            else
+            {
+                
+            }
+               
+          //  }
+           
+        }
+
+        public void ChooseIdType()
         {
             if (Utilities.CompareTokenType(TokenType.OpBitAnd))
             {
@@ -268,7 +329,7 @@ namespace Syntax
                 Utilities.NextToken();
 
                 ValueForId();
-                MultiDeclaration();
+                _functions.MultiDeclaration();
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
@@ -276,7 +337,7 @@ namespace Syntax
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
-                IsFunctionDeclaration();
+                _functions.IsFunctionDeclaration();
             }
             else if (Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
@@ -288,92 +349,9 @@ namespace Syntax
             }
         }
 
-        private void IsFunctionDeclaration()
-        {
-            if (!Utilities.CompareTokenType(TokenType.OpenParenthesis))
-                throw new Exception("Open parenthesis expected");
-
-            Utilities.NextToken();
-
-            ParameterList();
-
-            if (!Utilities.CompareTokenType(TokenType.CloseParenthesis))
-                throw new Exception("Close parenthesis expected");
-
-            Utilities.NextToken();
-
-            if (Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
-            {
-                Utilities.NextToken();
-                ListOfSpecialSentences();
-            }
-
-            //Utilities.NextToken();
-
-            if (Utilities.CompareTokenType(TokenType.CloseCurlyBracket) )
-            {
-                Utilities.NextToken();
-            }
-            else
-            {
-                throw new Exception("Close function body symbol expected");
-            }
-        }
-
-        private void ParameterList()
-        {
-            if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
-                || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
-                || Utilities.CompareTokenType(TokenType.RwDouble) || Utilities.CompareTokenType(TokenType.RwBool)
-                || Utilities.CompareTokenType(TokenType.RwLong))
-            {
-                Utilities.NextToken();
-
-                ChooseIdType();
-
-             //   Utilities.NextToken();
-                
-                OptionaListOfParams();
-            }
-            else
-            {
-                
-            }
-        }
-
-        private void OptionaListOfParams()
-        {
-            if (Utilities.CompareTokenType(TokenType.Comma))
-            {
-
-                Utilities.NextToken();
-                if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
-                    || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
-                    || Utilities.CompareTokenType(TokenType.RwDouble) || Utilities.CompareTokenType(TokenType.RwBool)
-                    || Utilities.CompareTokenType(TokenType.RwLong))
-                {
-
-                    Utilities.NextToken();
-
-                    ChooseIdType();
-
-                    OptionaListOfParams();
-                }
-                else
-                {
-                    
-                }
-            }
-            else
-            {
-                //throw new Exception("A comma was expected");
-            }
-         
-        }
-
         public void ListOfExpressions()
         {
-            Expresion();
+            _expressions.Expresion();
             OptionalExpression();
         }
 
@@ -386,7 +364,7 @@ namespace Syntax
         {
             if (Utilities.CompareTokenType(TokenType.OpEqualTo))
             {
-                Expresion();
+                _expressions.Expresion();
             }
             else
             {
@@ -394,33 +372,7 @@ namespace Syntax
             }
         }
 
-        private void MultiDeclaration()
-        {
-            OptionalId();
-
-            if (Utilities.CompareTokenType(TokenType.EndOfSentence))
-            {
-                Utilities.NextToken();
-            }
-            else
-            {
-                throw new Exception("An End of sentence ; symbol was expected");
-            }
-        }
-
-        private void OptionalId()
-        {
-            if (Utilities.CompareTokenType(TokenType.Comma))
-            {
-                ListOfId();
-            }
-            else
-            {
-                
-            }
-        }
-
-        private void ListOfId()
+        public void ListOfId()
         {
             if (Utilities.CompareTokenType(TokenType.Identifier))
             {
@@ -435,7 +387,7 @@ namespace Syntax
         private void OtherIdOrValue()
         {
             ValueForId();
-            OptionalId();
+            _functions.OptionalId();
         }
 
         private void GeneralDeclaration()
@@ -485,7 +437,7 @@ namespace Syntax
                 Utilities.NextToken();
 
                 ValueForId();
-                MultiDeclaration();
+                _functions.MultiDeclaration();
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
@@ -500,93 +452,5 @@ namespace Syntax
                 throw new Exception("An End of sentence ; symbol was expected");
             }
         }
-
-        private void Expresion()
-        {
-            Term();
-            ExpresionP();
-        }
-
-        private void ExpresionP()
-        {
-            //+term ExpresionP
-            if (_currentToken.TokenType == TokenType.OpAdd)
-            {
-                Utilities.NextToken();
-                Term();
-                ExpresionP();
-            }
-            //-term ExpresionP
-            else if (_currentToken.TokenType == TokenType.OpSubstraction)
-            {
-                Utilities.NextToken();
-                Term();
-                ExpresionP();
-            }
-            // Epsilon
-            else
-            {
-
-            }
-        }
-
-        private void Term()
-        {
-            Factor();
-            TermP();
-        }
-        private void TermP()
-        {
-            //*Factor TermP
-            if (_currentToken.TokenType == TokenType.OpMultiplication)
-            {
-                _currentToken = _lexer.GetNextToken();
-                Factor();
-                TermP();
-            }
-            // / Factor TermP
-            else if (_currentToken.TokenType == TokenType.OpDivision)
-            {
-                _currentToken = _lexer.GetNextToken();
-                Factor();
-                TermP();
-            }
-            // Epsilon
-            else
-            {
-
-            }
-        }
-
-        private void Factor()
-        {
-            if (_currentToken.TokenType == TokenType.Identifier)
-            {
-                _currentToken = _lexer.GetNextToken();
-
-            }
-            else if (_currentToken.TokenType == TokenType.LiteralNumber)
-            {
-                _currentToken = _lexer.GetNextToken();
-
-            }
-            else if (_currentToken.TokenType == TokenType.OpenParenthesis)
-            {
-                _currentToken = _lexer.GetNextToken();
-                Expresion();
-                if (_currentToken.TokenType == TokenType.CloseParenthesis)
-                    _currentToken = _lexer.GetNextToken();
-                else
-                {
-                    throw new Exception("Se esperaba )");
-                }
-            }
-            else
-            {
-                throw new Exception("Se esperaba un Factor");
-            }
-        }
-
-
     }
 }

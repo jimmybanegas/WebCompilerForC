@@ -101,5 +101,15 @@ namespace Syntax
                 
             }
         }
+
+        public void ArrayIdentifier()
+        {
+            if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+                throw new Exception("An openning bracket [ symbol was expected");
+
+            _parser.Utilities.NextToken();
+
+            SizeForArray();
+        }
     }
 }
