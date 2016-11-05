@@ -15,7 +15,7 @@ namespace Syntax
 
         public Token CurrentToken;
         private readonly Arrays _arrays;
-        private readonly LoopsAndConditionals _loopsAndConditionals;
+        public readonly LoopsAndConditionals LoopsAndConditionals;
         private readonly Utilities _utilities;
         public readonly Functions Functions;
         public readonly Expressions Expressions;
@@ -25,7 +25,7 @@ namespace Syntax
             Lexer = lexer;
             CurrentToken = lexer.GetNextToken();
             _arrays = new Arrays(this);
-            _loopsAndConditionals = new LoopsAndConditionals();
+            LoopsAndConditionals = new LoopsAndConditionals(this);
             _utilities = new Utilities(this);
             Functions = new Functions(this);
             Expressions = new Expressions(this);
@@ -49,7 +49,7 @@ namespace Syntax
             ListOfSentences();
         }
 
-        private void ListOfSentences()
+        public void ListOfSentences()
         {
             //Lista_Sentencias->Sentence Lista_Sentencias
             if (Enum.IsDefined(typeof(TokenType), CurrentToken.TokenType))
@@ -106,31 +106,31 @@ namespace Syntax
             }
             else if (Utilities.CompareTokenType(TokenType.RwIf))
             {
-                _loopsAndConditionals.If();
+                LoopsAndConditionals.If();
             }
             else if (Utilities.CompareTokenType(TokenType.RwWhile))
             {
-                _loopsAndConditionals.While();
+                LoopsAndConditionals.While();
             }
             else if (Utilities.CompareTokenType(TokenType.RwDo))
             {
-                _loopsAndConditionals.Do();
+                LoopsAndConditionals.Do();
             }
             else if (Utilities.CompareTokenType(TokenType.RwFor))
             {
-                _loopsAndConditionals.ChooseForType();
+                LoopsAndConditionals.ChooseForType();
             }
             else if (Utilities.CompareTokenType(TokenType.RwSwitch))
             {
-                _loopsAndConditionals.Switch();
+                LoopsAndConditionals.Switch();
             }
             else if (Utilities.CompareTokenType(TokenType.RwBreak))
             {
-                _loopsAndConditionals.Break();
+                LoopsAndConditionals.Break();
             }
             else if (Utilities.CompareTokenType(TokenType.RwContinue))
             {
-                _loopsAndConditionals.Continue();
+                LoopsAndConditionals.Continue();
             }
             else if (Utilities.CompareTokenType(TokenType.RwConst))
             {
@@ -142,7 +142,7 @@ namespace Syntax
             }
         }
 
-        private void Sentence()
+        public void Sentence()
         {
             if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
                   || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
@@ -153,31 +153,31 @@ namespace Syntax
             }
             else if (Utilities.CompareTokenType(TokenType.RwIf))
             {
-                _loopsAndConditionals.If();
+                LoopsAndConditionals.If();
             }
             else if (Utilities.CompareTokenType(TokenType.RwWhile))
             {
-                _loopsAndConditionals.While();
+                LoopsAndConditionals.While();
             }
             else if (Utilities.CompareTokenType(TokenType.RwDo))
             {
-                _loopsAndConditionals.Do();
+                LoopsAndConditionals.Do();
             }
             else if (Utilities.CompareTokenType(TokenType.RwFor))
             {
-                _loopsAndConditionals.ChooseForType();
+                LoopsAndConditionals.ChooseForType();
             }
             else if (Utilities.CompareTokenType(TokenType.RwSwitch))
             {
-                _loopsAndConditionals.Switch();
+                LoopsAndConditionals.Switch();
             }
             else if (Utilities.CompareTokenType(TokenType.RwBreak))
             {
-                _loopsAndConditionals.Break();
+                LoopsAndConditionals.Break();
             }
             else if (Utilities.CompareTokenType(TokenType.RwContinue))
             {
-                _loopsAndConditionals.Continue();
+                LoopsAndConditionals.Continue();
             }
             else if (Utilities.CompareTokenType(TokenType.Identifier))
             {
@@ -195,7 +195,83 @@ namespace Syntax
             {
                 Include();
             }
+            else if (Utilities.CompareTokenType(TokenType.RwEnum))
+            {
+                Enumeration();
+            }
         }
+
+        private void Enumeration()
+        {
+            Utilities.NextToken();
+
+            if (!Utilities.CompareTokenType(TokenType.Identifier))
+                throw new Exception("Identifier was expected");
+
+            Utilities.NextToken();
+
+            if (!Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
+                throw new Exception("Openning bracket was expected");
+
+            Utilities.NextToken();
+
+            if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
+            {
+                EnumeratorList();
+            }
+
+            if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
+                throw new Exception("Closing bracket was expected");
+            Utilities.NextToken();
+
+            if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
+                throw new Exception("End of sentence was expected");
+
+            Utilities.NextToken();
+        }
+
+        private void EnumeratorList()
+        {
+            EnumItem();
+            OptionalEnumItem();
+
+        }
+
+        private void OptionalEnumItem()
+        {
+            if (Utilities.CompareTokenType(TokenType.Comma))
+            {
+                EnumeratorList();
+            }
+        }
+
+        private void EnumItem()
+        {
+            if (!Utilities.CompareTokenType(TokenType.Identifier))
+            {
+                throw new Exception("Identifier was expected");
+            }
+
+            Utilities.NextToken();
+
+            OptionalIndexPosition();
+        }
+
+        private void OptionalIndexPosition()
+        {
+            if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            {
+                if (Utilities.CompareTokenType(TokenType.LiteralNumber))
+                {
+                    Utilities.NextToken();
+                }
+            }
+            else
+            {
+                
+            } 
+        }
+
 
         private void PreId()
         {
@@ -224,7 +300,6 @@ namespace Syntax
             {
                 Functions.CallFunction();
             }
-           
         }
 
         private void Include()
@@ -269,7 +344,7 @@ namespace Syntax
             Expressions.Expression();
         }
 
-        private void DataType()
+        public void DataType()
         {
            if (Utilities.CompareTokenType(TokenType.RwChar))
             {
