@@ -86,7 +86,17 @@ namespace Syntax
 
         private void SizeForBidArray()
         {
-            throw new NotImplementedException();
+            if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber) ||
+                _parser.Utilities.CompareTokenType(TokenType.LiteralOctal)
+                || _parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal) ||
+                _parser.Utilities.CompareTokenType(TokenType.Identifier))
+            {
+                _parser.Utilities.NextToken();
+            }
+            else
+            {
+                throw new Exception("Initialization of array is required");
+            }
         }
 
         private void SizeForArray()

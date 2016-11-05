@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom;
+using System.ComponentModel;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
@@ -16,7 +17,7 @@ namespace Syntax
         private readonly Arrays _arrays;
         private readonly LoopsAndConditionals _loopsAndConditionals;
         private readonly Utilities _utilities;
-        private readonly Functions _functions;
+        public readonly Functions Functions;
         public readonly Expressions Expressions;
 
         public Parser(Lexer.Lexer lexer)
@@ -26,7 +27,7 @@ namespace Syntax
             _arrays = new Arrays(this);
             _loopsAndConditionals = new LoopsAndConditionals();
             _utilities = new Utilities(this);
-            _functions = new Functions(this);
+            Functions = new Functions(this);
             Expressions = new Expressions(this);
         }
 
@@ -214,14 +215,14 @@ namespace Syntax
 
         private void ValueForPreId()
         {
-            if (Utilities.CompareTokenType(TokenType.OpEqualTo))
+            if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
             {
                 Utilities.NextToken();
                 Expressions.Expression();
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
-                _functions.CallFunction();
+                Functions.CallFunction();
             }
            
         }
@@ -243,7 +244,73 @@ namespace Syntax
 
         private void Const()
         {
-            throw new NotImplementedException();
+             Utilities.NextToken();
+
+             DataType();
+
+            if (!Utilities.CompareTokenType(TokenType.Identifier))
+            {
+                throw new Exception("Identifier expected");
+            }
+
+            Utilities.NextToken();
+
+            if (!Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            {
+                throw new Exception("Assignment expected");
+            }
+
+            Expressions.Expression();
+
+            if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
+            {
+                throw new Exception("End Of Sentence expected");
+            }
+            Expressions.Expression();
+        }
+
+        private void DataType()
+        {
+           if (Utilities.CompareTokenType(TokenType.RwChar))
+            {
+                Utilities.NextToken();
+            }
+           else if (Utilities.CompareTokenType(TokenType.RwString))
+           {
+                Utilities.NextToken();
+            }
+           else if(Utilities.CompareTokenType(TokenType.RwInt))
+           {
+                Utilities.NextToken();
+            }
+           else if (Utilities.CompareTokenType(TokenType.RwDate))
+           {
+                Utilities.NextToken();
+            }
+           else if (Utilities.CompareTokenType(TokenType.RwDouble))
+           {
+                Utilities.NextToken();
+            }
+           else if (Utilities.CompareTokenType(TokenType.RwBool))
+           {
+                Utilities.NextToken();
+            }
+           else if (Utilities.CompareTokenType(TokenType.RwLong))
+           {
+                Utilities.NextToken();
+            }
+           else if(Utilities.CompareTokenType(TokenType.RwFloat))
+           {
+                Utilities.NextToken();
+            }
+           else if (Utilities.CompareTokenType(TokenType.RwVoid))
+           {
+               Utilities.NextToken();
+           }
+           else
+           {
+                throw new Exception("A Data Type was expected");
+            }
         }
 
         private void Struct()
@@ -298,11 +365,6 @@ namespace Syntax
             }
         }
 
-        //private void OptionalMember()
-        //{
-        //   DeclarationOfStruct();
-        //}
-
         public void ChooseIdType()
         {
             if (Utilities.CompareTokenType(TokenType.OpBitAnd))
@@ -353,12 +415,12 @@ namespace Syntax
 
         private void TypeOfDeclaration()
         {
-            if (Utilities.CompareTokenType(TokenType.OpEqualTo))
+            if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
             {
                 Utilities.NextToken();
 
                 ValueForId();
-                _functions.MultiDeclaration();
+                Functions.MultiDeclaration();
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
@@ -366,7 +428,7 @@ namespace Syntax
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
-                _functions.IsFunctionDeclaration();
+                Functions.IsFunctionDeclaration();
             }
             else if (Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
@@ -386,12 +448,19 @@ namespace Syntax
 
         private void OptionalExpression()
         {
-            throw new NotImplementedException();
+            if (Utilities.CompareTokenType(TokenType.Comma))
+            {
+                ListOfExpressions();
+            }
+            else
+            {
+                
+            }
         }
 
         private void ValueForId()
         {
-            if (Utilities.CompareTokenType(TokenType.OpEqualTo))
+            if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
             {
                 Expressions.Expression();
             }
@@ -416,7 +485,7 @@ namespace Syntax
         private void OtherIdOrValue()
         {
             ValueForId();
-            _functions.OptionalId();
+            Functions.OptionalId();
         }
 
         private void GeneralDeclaration()
@@ -466,7 +535,7 @@ namespace Syntax
                 Utilities.NextToken();
 
                 ValueForId();
-                _functions.MultiDeclaration();
+                Functions.MultiDeclaration();
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
