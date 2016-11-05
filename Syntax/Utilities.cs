@@ -14,15 +14,15 @@ namespace Syntax
 
         public bool CompareTokenType(TokenType type)
         {
-            if (_parser._currentToken.TokenType == type)
+            if (_parser.CurrentToken.TokenType == type)
                 return true;
             return false;
         }
 
         public void NextToken()
         {
-            Console.Write(" " + _parser._currentToken.Lexeme + " ");
-            _parser._currentToken = _parser._lexer.GetNextToken();
+            Console.Write(" " + _parser.CurrentToken.Lexeme + " ");
+            _parser.CurrentToken = _parser.Lexer.GetNextToken();
         }
     }
 }

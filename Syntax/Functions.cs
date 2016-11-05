@@ -118,5 +118,45 @@ namespace Syntax
                 
             }
         }
+
+        public void CallFunction()
+        {
+            if (!_parser.Utilities.CompareTokenType(TokenType.OpenParenthesis))
+            {
+                throw new Exception("Open parenthesis ( symbol was expected");
+            }
+
+            _parser.Utilities.NextToken();
+
+            if (_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
+            {
+                _parser.Utilities.NextToken();
+            }
+            else
+            {
+                ListOfExpressions();
+            }
+
+        }
+
+        private void ListOfExpressions()
+        {
+            _parser.Expressions.Expression();
+
+            if (_parser.Utilities.CompareTokenType(TokenType.Comma))
+            {
+                OptionalListOfExpressions();
+            }
+            else
+            {
+                _parser.Utilities.NextToken();
+            }
+           
+        }
+
+        private void OptionalListOfExpressions()
+        {
+            ListOfExpressions();
+        }
     }
 }

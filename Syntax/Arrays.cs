@@ -104,12 +104,21 @@ namespace Syntax
 
         public void ArrayIdentifier()
         {
-            if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
-                throw new Exception("An openning bracket [ symbol was expected");
+            /*  if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+                throw new Exception("An openning bracket [ symbol was expected");*/
 
-            _parser.Utilities.NextToken();
+          //  _parser.Utilities.NextToken();
 
             SizeForArray();
+
+            if (!_parser.Utilities.CompareTokenType(TokenType.CloseSquareBracket))
+            {
+                throw new Exception("An closing bracket ] symbol was expected");
+            }
+            else
+            {
+                
+            }
         }
     }
 }

@@ -9,25 +9,26 @@ namespace ConsoleTest
         static void Main(string[] args)
         {
           
-           // HandlerFiles file = new HandlerFiles("C:\\Users\\Jimmy Ramos\\Documents\\WebCompilerForC\\code.c");
+       //     HandlerFiles file = new HandlerFiles("C:\\Users\\Jimmy Ramos\\Documents\\WebCompilerForC\\code.c");
             HandlerFiles file = new HandlerFiles();
 
             var code = file.GetCode();
 
-            /*var lex = new Lexer.Lexer(new SourceCode(code));
+            //var lex = new Lexer.Lexer(new SourceCode(code));
 
-            var currentToken = lex.GetNextToken();
+            //var currentToken = lex.GetNextToken();
 
-            while (currentToken.TokenType != TokenType.EndOfFile)
-            {
-                  System.Console.WriteLine(currentToken.ToString());
-                //System.Diagnostics.Debug.WriteLine(currentToken.ToString());
+            //while (currentToken.TokenType != TokenType.EndOfFile)
+            //{
+            //      System.Console.WriteLine(currentToken.ToString());
+            //    //System.Diagnostics.Debug.WriteLine(currentToken.ToString());
               
-                file.WriteCode(currentToken.ToString());
-                currentToken = lex.GetNextToken();
+            //    file.WriteCode(currentToken.ToString());
+            //    currentToken = lex.GetNextToken();
 
-               // file.WriteCode(currentToken.Lexeme);
-            }*/
+            //   // file.WriteCode(currentToken.Lexeme);
+            //}
+
 
             var lex = new Lexer.Lexer(new SourceCode(code));
 

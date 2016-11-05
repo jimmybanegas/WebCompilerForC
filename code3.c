@@ -15,7 +15,7 @@ int life;
 void Delay(long car){
     int c;
 }
-
+ 
 void gotoxy(int x, int y){
 
 }
@@ -30,20 +30,19 @@ struct coordinate{
     int direction;
 };
  
-typedef struct coordinate coordinate;
  
-coordinate head, bend[500],food,body[30];
+//coordinate head, bend[500],food,body[30];
  
-int main()
-{
+// int main()
+// {
  
     char key;
  
     Print();
  
-    system("cls");
+   // system("cls");
  
-    load();
+    load(key);
  
     length=5;
  
@@ -65,7 +64,7 @@ int main()
  
     return 0;
  
-}
+//}
  
 void Move()
 {

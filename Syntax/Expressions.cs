@@ -12,7 +12,7 @@ namespace Syntax
             _parser = parser;
         }
 
-        public void Expresion()
+        public void Expression()
         {
             Term();
             ExpresionP();
@@ -21,14 +21,14 @@ namespace Syntax
         private void ExpresionP()
         {
             //+term ExpresionP
-            if (_parser._currentToken.TokenType == TokenType.OpAdd)
+            if (_parser.CurrentToken.TokenType == TokenType.OpAdd)
             {
                 _parser.Utilities.NextToken();
                 Term();
                 ExpresionP();
             }
             //-term ExpresionP
-            else if (_parser._currentToken.TokenType == TokenType.OpSubstraction)
+            else if (_parser.CurrentToken.TokenType == TokenType.OpSubstraction)
             {
                 _parser.Utilities.NextToken();
                 Term();
@@ -50,16 +50,16 @@ namespace Syntax
         private void TermP()
         {
             //*Factor TermP
-            if (_parser._currentToken.TokenType == TokenType.OpMultiplication)
+            if (_parser.CurrentToken.TokenType == TokenType.OpMultiplication)
             {
-                _parser._currentToken = _parser._lexer.GetNextToken();
+                _parser.CurrentToken = _parser.Lexer.GetNextToken();
                 Factor();
                 TermP();
             }
             // / Factor TermP
-            else if (_parser._currentToken.TokenType == TokenType.OpDivision)
+            else if (_parser.CurrentToken.TokenType == TokenType.OpDivision)
             {
-                _parser._currentToken = _parser._lexer.GetNextToken();
+                _parser.CurrentToken = _parser.Lexer.GetNextToken();
                 Factor();
                 TermP();
             }
@@ -72,22 +72,22 @@ namespace Syntax
 
         private void Factor()
         {
-            if (_parser._currentToken.TokenType == TokenType.Identifier)
+            if (_parser.CurrentToken.TokenType == TokenType.Identifier)
             {
-                _parser._currentToken = _parser._lexer.GetNextToken();
+                _parser.CurrentToken = _parser.Lexer.GetNextToken();
 
             }
-            else if (_parser._currentToken.TokenType == TokenType.LiteralNumber)
+            else if (_parser.CurrentToken.TokenType == TokenType.LiteralNumber)
             {
-                _parser._currentToken = _parser._lexer.GetNextToken();
+                _parser.CurrentToken = _parser.Lexer.GetNextToken();
 
             }
-            else if (_parser._currentToken.TokenType == TokenType.OpenParenthesis)
+            else if (_parser.CurrentToken.TokenType == TokenType.OpenParenthesis)
             {
-                _parser._currentToken = _parser._lexer.GetNextToken();
-                Expresion();
-                if (_parser._currentToken.TokenType == TokenType.CloseParenthesis)
-                    _parser._currentToken = _parser._lexer.GetNextToken();
+                _parser.CurrentToken = _parser.Lexer.GetNextToken();
+                Expression();
+                if (_parser.CurrentToken.TokenType == TokenType.CloseParenthesis)
+                    _parser.CurrentToken = _parser.Lexer.GetNextToken();
                 else
                 {
                     throw new Exception("Se esperaba )");
