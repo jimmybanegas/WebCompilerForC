@@ -104,6 +104,10 @@ namespace Syntax
             {
                 _parser.Utilities.NextToken();
             }
+            else if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            {
+                _parser.Utilities.NextToken();
+            }
             else
             {
                 throw new Exception("A relational operator was expected");

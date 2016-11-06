@@ -88,7 +88,7 @@ namespace Syntax
             //_loopsAndConditionals.If(); --
             //_loopsAndConditionals.While(); --
             //_loopsAndConditionals.Do(); --
-            //_loopsAndConditionals.ChooseForType(); --
+            //_loopsAndConditionals.ForLoop(); --
             //ChooseIdType();
             //Const(); -- 
             //_loopsAndConditionals.Switch(); --
@@ -118,7 +118,7 @@ namespace Syntax
             }
             else if (Utilities.CompareTokenType(TokenType.RwFor))
             {
-                LoopsAndConditionals.ChooseForType();
+                LoopsAndConditionals.ForLoop();
             }
             else if (Utilities.CompareTokenType(TokenType.RwSwitch))
             {
@@ -166,7 +166,7 @@ namespace Syntax
             }
             else if (Utilities.CompareTokenType(TokenType.RwFor))
             {
-                LoopsAndConditionals.ChooseForType();
+                LoopsAndConditionals.ForLoop();
             }
             else if (Utilities.CompareTokenType(TokenType.RwSwitch))
             {

@@ -136,7 +136,7 @@ namespace Syntax
             }
         }
 
-        public void ChooseForType()
+        public void ForLoop()
         {
             _parser.Utilities.NextToken();
 
