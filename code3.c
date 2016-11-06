@@ -6,7 +6,7 @@ int bend_no;
 
 //int len [] [10] ;
 //int len2 [] = {4};
- int a[][];
+ int a[][2];
  int a[5] ;
 
 char key;
@@ -17,6 +17,8 @@ float  f, salary;
 double d;
 
  int a[5][2];
+
+ enum colors {RED=1, YELLOW, GREEN=6, BLUE };
 
 int d = 3, f = 5;           // definition and initializing d and f. 
 byte z = 22;                // definition and initializes z. 

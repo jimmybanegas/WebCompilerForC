@@ -234,16 +234,18 @@ namespace Syntax
         private void EnumeratorList()
         {
             EnumItem();
-            OptionalEnumItem();
+
+            if (Utilities.CompareTokenType(TokenType.Comma))
+            {
+                OptionalEnumItem();
+            }
 
         }
 
         private void OptionalEnumItem()
         {
-            if (Utilities.CompareTokenType(TokenType.Comma))
-            {
-                EnumeratorList();
-            }
+            Utilities.NextToken();
+            EnumeratorList();
         }
 
         private void EnumItem()
@@ -262,10 +264,10 @@ namespace Syntax
         {
             if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
             {
-                if (Utilities.CompareTokenType(TokenType.LiteralNumber))
-                {
-                    Utilities.NextToken();
-                }
+                Utilities.NextToken();
+                if (!Utilities.CompareTokenType(TokenType.LiteralNumber))
+                    throw new Exception("Literal number was expected");
+                Utilities.NextToken();
             }
             else
             {
