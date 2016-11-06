@@ -212,6 +212,8 @@ namespace Syntax
 
         private void Factor()
         {
+            _parser.Utilities.NextToken();
+
             if (_parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
                 _parser.Utilities.NextToken();

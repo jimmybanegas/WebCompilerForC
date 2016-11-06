@@ -492,7 +492,7 @@ namespace Syntax
         {
             if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
             {
-                Utilities.NextToken();
+              //  Utilities.NextToken();
 
                 ValueForId();
             }

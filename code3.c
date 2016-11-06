@@ -3,10 +3,10 @@
 
 int *length;
 int bend_no;
-int len [10];
+int len [];
 char key;
 
-int  i, j k;
+int  i, j , k;
 char   c;
 float  f, salary;
 double d;

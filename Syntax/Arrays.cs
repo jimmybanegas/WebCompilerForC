@@ -31,7 +31,7 @@ namespace Syntax
                 BidArray();
             }
         
-            if (_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
+            if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
             {
                 OptionalInitOfArray();
             }
@@ -48,6 +48,8 @@ namespace Syntax
 
         private void OptionalInitOfArray()
         {
+            _parser.Utilities.NextToken();
+
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
                 throw new Exception("An openning bracket { symbol was expected");
 
@@ -56,10 +58,6 @@ namespace Syntax
             if (_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
             {
                 _parser.Utilities.NextToken(); 
-            }
-            else
-            {
-                
             }
         }
 
@@ -106,7 +104,7 @@ namespace Syntax
             }
             else
             {
-                
+               
             }
         }
 
