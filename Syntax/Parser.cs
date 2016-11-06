@@ -100,7 +100,7 @@ namespace Syntax
             if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
                  || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
                  || Utilities.CompareTokenType(TokenType.RwDouble) || Utilities.CompareTokenType(TokenType.RwBool)
-                 || Utilities.CompareTokenType(TokenType.RwLong))
+                 || Utilities.CompareTokenType(TokenType.RwLong) || Utilities.CompareTokenType(TokenType.RwFloat))
             {
                 SpecialDeclaration();
             }
@@ -147,7 +147,8 @@ namespace Syntax
             if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
                   || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
                   || Utilities.CompareTokenType(TokenType.RwDouble) || Utilities.CompareTokenType(TokenType.RwBool)
-                  || Utilities.CompareTokenType(TokenType.RwLong) || Utilities.CompareTokenType(TokenType.RwVoid))
+                  || Utilities.CompareTokenType(TokenType.RwLong) || Utilities.CompareTokenType(TokenType.RwVoid)
+                  || Utilities.CompareTokenType(TokenType.RwFloat))
             {
                 Declaration();
             }
@@ -271,7 +272,6 @@ namespace Syntax
                 
             } 
         }
-
 
         private void PreId()
         {
@@ -495,6 +495,9 @@ namespace Syntax
                 Utilities.NextToken();
 
                 ValueForId();
+            }
+            else if (Utilities.CompareTokenType(TokenType.Comma))
+            {
                 Functions.MultiDeclaration();
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
@@ -547,8 +550,11 @@ namespace Syntax
 
         public void ListOfId()
         {
+            Utilities.NextToken();
+
             if (Utilities.CompareTokenType(TokenType.Identifier))
             {
+                Utilities.NextToken();
                 OtherIdOrValue();
             }
             else
@@ -565,35 +571,33 @@ namespace Syntax
 
         private void GeneralDeclaration()
         {
-            if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
-                || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
-                || Utilities.CompareTokenType(TokenType.RwDouble) || Utilities.CompareTokenType(TokenType.RwBool)
-                || Utilities.CompareTokenType(TokenType.RwLong) || Utilities.CompareTokenType(TokenType.RwVoid))
+            DataType();
+
+            //Utilities.NextToken();
+
+            if (Utilities.CompareTokenType(TokenType.OpMultiplication))
+            {
+                IsPointer();
+            }
+
+            if (Utilities.CompareTokenType(TokenType.Identifier))
             {
                 Utilities.NextToken();
-
-                IsPointer();
-
-                if (Utilities.CompareTokenType(TokenType.Identifier))
-                {
-                    Utilities.NextToken();
-                }
-            }
-            else
-            {
-                throw new Exception("A datatyope was expected");
             }
         }
 
         private void IsPointer()
         {
-            if (Utilities.CompareTokenType(TokenType.OpMultiplication))
-            {
-                Utilities.NextToken();
-            }
+            Utilities.NextToken();
+
             if (Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
                 IsPointer();
+              // Utilities.NextToken();
+            }
+            else
+            {
+                
             }
         }
 

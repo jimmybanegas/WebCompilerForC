@@ -72,8 +72,6 @@ namespace Syntax
 
             SizeForBidArray();
 
-            _parser.Utilities.NextToken();
-
             if (_parser.Utilities.CompareTokenType(TokenType.CloseSquareBracket))
             {
                 _parser.Utilities.NextToken();

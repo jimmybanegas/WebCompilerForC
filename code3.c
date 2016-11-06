@@ -6,6 +6,31 @@ int bend_no;
 int len [10];
 char key;
 
+int  i, j k;
+char   c;
+float  f, salary;
+double d;
+
+ int a[5][2];
+
+int d = 3, f = 5;           // definition and initializing d and f. 
+byte z = 22;                // definition and initializes z. 
+char x = 'x';               // the variable x has the value 'x'.
+
+/* function returning the max between two numbers */
+int max(int num1, int num2) {
+
+   /* local variable declaration */
+   int result;
+ 
+   if (num1 == num2)
+      result = num1;
+   else
+      result = num2;
+ 
+   return result; 
+}
+
 void record(){
     int x;
 }
@@ -22,6 +47,7 @@ void gotoxy(int x, int y){
 
 int Scoreonly(){
     int z;
+    char 
 }
  
 struct coordinate{
