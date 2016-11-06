@@ -281,7 +281,8 @@ namespace Lexer
             _currentSymbol = _sourceCode.GetNextSymbol();
 
             if (_reservedWords._specialSymbols.Contains(_currentSymbol.CurrentSymbol.ToString()) && 
-                !(lexeme.Equals(">") && _currentSymbol.CurrentSymbol=='/'))
+                !(lexeme.Equals(">") && _currentSymbol.CurrentSymbol=='/') &&
+                  !(lexeme.Equals("*") && _currentSymbol.CurrentSymbol == '*'))
             {
                 lexeme += _currentSymbol.CurrentSymbol;
                 _currentSymbol = _sourceCode.GetNextSymbol();

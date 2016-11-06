@@ -3,7 +3,12 @@
 
 int *length;
 int bend_no;
-int len [];
+
+//int len [] [10] ;
+//int len2 [] = {4};
+ int a[][];
+ int a[5] ;
+
 char key;
 
 int  i, j , k;

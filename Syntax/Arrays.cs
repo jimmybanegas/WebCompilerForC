@@ -19,7 +19,10 @@ namespace Syntax
 
             _parser.Utilities.NextToken();
 
-            SizeForArray();
+            bool hasSize;
+            bool isUnidimensional = true;
+
+            SizeForArray(out hasSize);
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseSquareBracket))
                 throw new Exception("An closing bracket ] symbol was expected");
@@ -28,7 +31,7 @@ namespace Syntax
 
             if (_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
-                BidArray();
+                BidArray(out isUnidimensional);
             }
         
             if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
@@ -36,14 +39,42 @@ namespace Syntax
                 OptionalInitOfArray();
             }
             
-            if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
+            if ((_parser.Utilities.CompareTokenType(TokenType.EndOfSentence) && hasSize && isUnidimensional))
             {
                 _parser.Utilities.NextToken();
+            }
+            else if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence) && !isUnidimensional)
+            {
+                _parser.Utilities.NextToken();
+            }
+            else if (isUnidimensional && !hasSize)
+            {
+                if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+                {
+                    throw new Exception("An assignment symbol was expected");
+                }
+
+                OptionalInitOfArray();
             }
             else
             {
                 throw new Exception("An End of sentence ; symbol was expected");
             }
+
+            //if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence)  && !isUnidimensional)
+            //{
+            //    _parser.Utilities.NextToken();
+            //}
+            //else
+            //{
+            //    throw new Exception("An End of sentence ; symbol was expected");
+            //}
+
+            //if (!hasSize && isUnidimensional)
+            //{
+            //    OptionalInitOfArray();
+            //}
+
         }
 
         private void OptionalInitOfArray()
@@ -61,7 +92,7 @@ namespace Syntax
             }
         }
 
-        private void BidArray()
+        private void BidArray(out bool isUnidimensional)
         {
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 throw new Exception("An openning bracket [ symbol was expected");
@@ -78,6 +109,8 @@ namespace Syntax
             {
                 throw new Exception("An closing bracket ] symbol was expected");
             }
+
+            isUnidimensional = false;
         }
 
         private void SizeForBidArray()
@@ -95,16 +128,17 @@ namespace Syntax
             }
         }
 
-        private void SizeForArray()
+        private void SizeForArray(out bool hasSize)
         {
             if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber) || _parser.Utilities.CompareTokenType(TokenType.LiteralOctal)
                 || _parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal) || _parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
                 _parser.Utilities.NextToken();
+                hasSize = true;
             }
             else
             {
-               
+                hasSize = false;
             }
         }
 
@@ -124,6 +158,19 @@ namespace Syntax
             else
             {
                 
+            }
+        }
+
+        private void SizeForArray()
+        {
+            if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber) || _parser.Utilities.CompareTokenType(TokenType.LiteralOctal)
+                || _parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal) || _parser.Utilities.CompareTokenType(TokenType.Identifier))
+            {
+                _parser.Utilities.NextToken();
+              
+            }
+            else
+            {
             }
         }
     }
