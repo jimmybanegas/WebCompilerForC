@@ -182,7 +182,7 @@ namespace Syntax
             }
             else if (Utilities.CompareTokenType(TokenType.Identifier))
             {
-                PreId();
+                AssignmentOrFunctionCall();
             }
             else if (Utilities.CompareTokenType(TokenType.RwStruct))
             {
@@ -275,7 +275,7 @@ namespace Syntax
             } 
         }
 
-        private void PreId()
+        private void AssignmentOrFunctionCall()
         {
             Utilities.NextToken();
 
@@ -494,9 +494,19 @@ namespace Syntax
         {
             if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
             {
-              //  Utilities.NextToken();
-
                 ValueForId();
+                if (Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    Utilities.NextToken();
+                }
+                else if (Utilities.CompareTokenType(TokenType.Comma))
+                {
+                    Functions.MultiDeclaration();
+                }
+                else
+                {
+                    throw new Exception("An End of sentence ; symbol was expected");
+                }
             }
             else if (Utilities.CompareTokenType(TokenType.Comma))
             {
