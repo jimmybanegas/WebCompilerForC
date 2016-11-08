@@ -83,7 +83,7 @@ namespace Syntax
          
         }
 
-        private void SpecialSentence()
+        public void SpecialSentence()
         {
             //_loopsAndConditionals.If(); --
             //_loopsAndConditionals.While(); --

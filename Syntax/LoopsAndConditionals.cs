@@ -286,8 +286,11 @@ namespace Syntax
             {
                 throw new Exception("Opening parenthesis was expected");
             }
+            _parser.Utilities.NextToken();
 
             _parser.Expressions.Expression();
+
+            _parser.Utilities.NextToken();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
             {
@@ -315,18 +318,22 @@ namespace Syntax
 
         private void BlockForIf()
         {
-           _parser.Sentence();
-
             if (_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
             {
                 _parser.ListOfSentences();
+                //_parser.ListOfSpecialSentences();
+
+                if (!_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
+                {
+                    throw new Exception("Close curly bracket");
+                }
+
+                _parser.Utilities.NextToken();
             }
-
-            _parser.Utilities.NextToken();
-
-            if (!_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
+            else
             {
-                throw new Exception("Close curly bracket");
+                 _parser.Sentence();
+                //_parser.SpecialSentence();
             }
 
             _parser.Utilities.NextToken();
