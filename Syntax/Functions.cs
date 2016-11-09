@@ -32,8 +32,6 @@ namespace Syntax
                 _parser.ListOfSpecialSentences();
             }
 
-            //Utilities.NextToken();
-
             if (_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket) )
             {
                 _parser.Utilities.NextToken();
@@ -54,8 +52,6 @@ namespace Syntax
                 _parser.Utilities.NextToken();
 
                 _parser.ChooseIdType();
-
-                //   Utilities.NextToken();
                 
                 OptionaListOfParams();
             }
@@ -95,8 +91,6 @@ namespace Syntax
 
         public void MultiDeclaration()
         {
-            //_parser.Utilities.NextToken();
-
             OptionalId();
 
             if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))

@@ -230,7 +230,8 @@ namespace Syntax
 
             _parser.Utilities.NextToken();
 
-            _parser.ListOfSpecialSentences();
+            //_parser.ListOfSpecialSentences();
+            _parser.ListOfSentences();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
             {
@@ -345,7 +346,8 @@ namespace Syntax
                 _parser.Utilities.NextToken();
 
                 //Considerar hacer un sentences solo para los ciclos, porque son distintos
-                _parser.ListOfSpecialSentences();
+                //_parser.ListOfSpecialSentences();
+                _parser.ListOfSentences();
 
                 if (!_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
                 {

@@ -1,8 +1,40 @@
 #include "stdio.h"
 
+int  i, j , k;
+
+int a =2;
+
 int mult (int x, int y)
 {
   return x * y;
+}
+
+int main () {
+
+   /* local variable definition */
+   int a = 100;
+ 
+   /* check the boolean condition */
+   if( a == 10 ) {
+      /* if condition is true then print the following */
+      printf("Value of a is 10\n" );
+   }
+   else if( a == 20 ) {
+      /* if else if condition is true */
+      printf("Value of a is 20\n" );
+   }
+   else if( a == 30 ) {
+      /* if else if condition is true  */
+      printf("Value of a is 30\n" );
+   }
+   else {
+      /* if none of the conditions is true */
+      printf("None of the values is matching\n" );
+   }
+   
+   printf("Exact value of a is: %d\n", a );
+ 
+   return 0;
 }
 
 void swap(int a, int b)
@@ -141,7 +173,21 @@ for (string item : someList) {
 
 }
  
+//  for ( i = 0; i < test.length; i++) {
+//     int intValue = test[i];
+//     // do some work here on intValue
+// }
 //coordinate head, bend[500],food,body[30];
+
+// for (i = 0; i < test; i++) {
+//     int intValue = test[i];
+//     // do some work here on intValue
+// }
+
+for (i = 0; i < test; i) {
+    int intValue = test[i];
+    // do some work here on intValue
+}
  
  int main()
  {

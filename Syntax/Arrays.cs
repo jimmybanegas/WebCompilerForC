@@ -61,20 +61,6 @@ namespace Syntax
                 throw new Exception("An End of sentence ; symbol was expected");
             }
 
-            //if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence)  && !isUnidimensional)
-            //{
-            //    _parser.Utilities.NextToken();
-            //}
-            //else
-            //{
-            //    throw new Exception("An End of sentence ; symbol was expected");
-            //}
-
-            //if (!hasSize && isUnidimensional)
-            //{
-            //    OptionalInitOfArray();
-            //}
-
         }
 
         private void OptionalInitOfArray()
@@ -144,11 +130,6 @@ namespace Syntax
 
         public void ArrayIdentifier()
         {
-            /*  if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
-                throw new Exception("An openning bracket [ symbol was expected");*/
-
-          //  _parser.Utilities.NextToken();
-
             SizeForArray();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseSquareBracket))

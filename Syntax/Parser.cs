@@ -51,6 +51,12 @@ namespace Syntax
 
         public void ListOfSentences()
         {
+
+            if (Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
+            {
+                return;
+            }
+            
             //Lista_Sentencias->Sentence Lista_Sentencias
             if (Enum.IsDefined(typeof(TokenType), CurrentToken.TokenType))
            /* if (_currentToken.TokenType == TokenType.Identifier || _currentToken.TokenType == TokenType.RwInclude 
@@ -136,6 +142,19 @@ namespace Syntax
             else if (Utilities.CompareTokenType(TokenType.RwReturn))
             {
                 ReturnStatement();
+            }
+            else
+            {
+                try
+                {
+
+                }
+                catch (Exception)
+                {
+
+                    throw new Exception("Not a valid sentence");
+                }
+
             }
         }
 
@@ -629,11 +648,24 @@ namespace Syntax
 
         private void TypeOfDeclarationForFunction()
         {
-            if (Utilities.CompareTokenType(TokenType.OpEqualTo))
+            if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
             {
-                Utilities.NextToken();
-
                 ValueForId();
+                if (Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    Utilities.NextToken();
+                }
+                else if (Utilities.CompareTokenType(TokenType.Comma))
+                {
+                    Functions.MultiDeclaration();
+                }
+                else
+                {
+                    throw new Exception("An End of sentence ; symbol was expected");
+                }
+            }
+            else if (Utilities.CompareTokenType(TokenType.Comma))
+            {
                 Functions.MultiDeclaration();
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))

@@ -53,7 +53,6 @@ namespace Syntax
             {
               
             }
-        
         }
 
         private void RelationalOperators()
@@ -159,7 +158,6 @@ namespace Syntax
             {
                 
             }
-           
         }
 
         private void AdditiveOperrators()
@@ -198,8 +196,6 @@ namespace Syntax
             {
                 
             }
-
-           
         }
 
         private void MultiplicativeOperators()
@@ -232,12 +228,22 @@ namespace Syntax
             {
                 UnaryOperators();
                 Factor();
+              //  PostfixUnary();
             }
             else
             {
                 Factor();
             }
         
+        }
+
+        private void PostfixUnary()
+        {
+            if (_parser.Utilities.CompareTokenType(TokenType.OpDecrement)
+                ||_parser.Utilities.CompareTokenType(TokenType.OpDecrement))
+            {
+                _parser.Utilities.NextToken();
+            }
         }
 
         private void UnaryOperators()
@@ -274,8 +280,6 @@ namespace Syntax
 
         private void Factor()
         {
-           // _parser.Utilities.NextToken();
-
             if (_parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
                 _parser.Utilities.NextToken();
@@ -340,7 +344,6 @@ namespace Syntax
                 IndexOrArrawAccess();
 
                 ArrowOrPointer();
-
             }
         }
 
@@ -357,58 +360,6 @@ namespace Syntax
             else
             {
                 throw new Exception("A pointer access symbol was expected");
-            }
-        }
-
-        private void ExpresionP()
-        {
-            //+term ExpresionP
-            if (_parser.CurrentToken.TokenType == TokenType.OpAdd)
-            {
-                _parser.Utilities.NextToken();
-                Term();
-                ExpresionP();
-            }
-            //-term ExpresionP
-            else if (_parser.CurrentToken.TokenType == TokenType.OpSubstraction)
-            {
-                _parser.Utilities.NextToken();
-                Term();
-                ExpresionP();
-            }
-            // Epsilon
-            else
-            {
-
-            }
-        }
-
-        private void Term()
-        {
-            Factor();
-            TermP();
-        }
-
-        private void TermP()
-        {
-            //*Factor TermP
-            if (_parser.CurrentToken.TokenType == TokenType.OpMultiplication)
-            {
-                _parser.CurrentToken = _parser.Lexer.GetNextToken();
-                Factor();
-                TermP();
-            }
-            // / Factor TermP
-            else if (_parser.CurrentToken.TokenType == TokenType.OpDivision)
-            {
-                _parser.CurrentToken = _parser.Lexer.GetNextToken();
-                Factor();
-                TermP();
-            }
-            // Epsilon
-            else
-            {
-
             }
         }
     }
