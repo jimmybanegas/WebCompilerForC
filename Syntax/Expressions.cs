@@ -300,12 +300,12 @@ namespace Syntax
                     _parser.Utilities.NextToken();
                 else
                 {
-                    throw new Exception("Se esperaba )");
+                    throw new Exception("Closing parenthesis expected )");
                 }
             }
             else
             {
-                throw new Exception("Se esperaba un Factor");
+                throw new Exception("Factor was expected");
             }
         }
 

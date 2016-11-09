@@ -190,32 +190,35 @@ namespace Syntax
 
                 BlockForLoop();
             }
-
-            _parser.Expressions.Expression();
-
-            if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
+            else
             {
-                throw new Exception("Separator ; was expected");
+                _parser.Expressions.Expression();
+
+                if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    throw new Exception("Separator ; was expected");
+                }
+                _parser.Utilities.NextToken();
+
+                _parser.Expressions.Expression();
+
+                if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    throw new Exception("Separator ; was expected");
+                }
+
+                _parser.Utilities.NextToken();
+
+                _parser.Expressions.Expression();
+
+                if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
+                {
+                    throw new Exception("Closing parenthesis was expected");
+                }
+
+                BlockForLoop();
             }
-            _parser.Utilities.NextToken();
-
-            _parser.Expressions.Expression();
-
-            if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
-            {
-                throw new Exception("Separator ; was expected");
-            }
-
-            _parser.Utilities.NextToken();
-
-            _parser.Expressions.Expression();
-
-            if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
-            {
-                throw new Exception("Closing parenthesis was expected");
-            }
-
-            BlockForLoop();
+         
         }
       
         private void BlockForLoop()

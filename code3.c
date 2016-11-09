@@ -56,6 +56,19 @@ int main () {
    return 0;
 }
 
+if(boolean_expression ) {
+   /* Executes when the boolean expression 1 is true */
+}
+else if( boolean_expression ) {
+   /* Executes when the boolean expression 2 is true */
+}
+else if( boolean_expression ) {
+   /* Executes when the boolean expression 3 is true */
+}
+else  {
+   /* executes when the none of the above condition is true */
+}
+
 int *length;
 int bend_no;
 
@@ -118,6 +131,15 @@ struct coordinate{
     int direction;
 };
  
+for (string item : someList) {
+    char key;
+ 
+    Print();
+ 
+   // system("cls");
+    loaduno(key);
+
+}
  
 //coordinate head, bend[500],food,body[30];
  
