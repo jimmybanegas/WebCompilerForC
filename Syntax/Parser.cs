@@ -85,17 +85,6 @@ namespace Syntax
 
         public void SpecialSentence()
         {
-            //_loopsAndConditionals.If(); --
-            //_loopsAndConditionals.While(); --
-            //_loopsAndConditionals.Do(); --
-            //_loopsAndConditionals.ForLoop(); --
-            //ChooseIdType();
-            //Const(); -- 
-            //_loopsAndConditionals.Switch(); --
-            //SpecialDeclaration(); --
-            //_loopsAndConditionals.Break(); --
-            //_loopsAndConditionals.Continue(); --
-            //Include(); --
 
             if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
                  || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
@@ -132,6 +121,10 @@ namespace Syntax
             {
                 LoopsAndConditionals.Continue();
             }
+            else if (Utilities.CompareTokenType(TokenType.Identifier))
+            {
+                AssignmentOrFunctionCall();
+            }
             else if (Utilities.CompareTokenType(TokenType.RwConst))
             {
                 Const();
@@ -140,6 +133,24 @@ namespace Syntax
             {
                 Include();
             }
+            else if (Utilities.CompareTokenType(TokenType.RwReturn))
+            {
+                ReturnStatement();
+            }
+        }
+
+        private void ReturnStatement()
+        {
+            Utilities.NextToken();
+
+            Expressions.Expression();
+
+            if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
+            {
+                throw new Exception("End of sentence expected");
+            }
+
+            Utilities.NextToken();
         }
 
         public void Sentence()
@@ -301,6 +312,7 @@ namespace Syntax
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
                 Functions.CallFunction();
+               // Utilities.NextToken();
             }
         }
 
@@ -552,6 +564,7 @@ namespace Syntax
         {
             if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
             {
+                Utilities.NextToken();
                 Expressions.Expression();
             }
             else

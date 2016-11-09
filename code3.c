@@ -55,7 +55,6 @@ void gotoxy(int x, int y){
 
 int Scoreonly(){
     int z;
-    char 
 }
  
 struct coordinate{
@@ -67,16 +66,17 @@ struct coordinate{
  
 //coordinate head, bend[500],food,body[30];
  
-// int main()
-// {
+ int main()
+ {
  
     char key;
  
     Print();
  
    // system("cls");
- 
-    load(key);
+    loaduno(key);
+
+    load(key,x,y);
  
     length=5;
  
@@ -98,7 +98,7 @@ struct coordinate{
  
     return 0;
  
-//}
+}
  
 void Move()
 {

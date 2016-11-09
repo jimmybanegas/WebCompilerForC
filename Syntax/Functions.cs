@@ -147,6 +147,7 @@ namespace Syntax
 
             if (_parser.Utilities.CompareTokenType(TokenType.Comma))
             {
+                _parser.Utilities.NextToken();
                 OptionalListOfExpressions();
             }
             else

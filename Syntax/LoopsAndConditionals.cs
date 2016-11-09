@@ -290,7 +290,7 @@ namespace Syntax
 
             _parser.Expressions.Expression();
 
-            _parser.Utilities.NextToken();
+           // _parser.Utilities.NextToken();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
             {
@@ -298,6 +298,8 @@ namespace Syntax
             }
 
             BlockForIf();
+
+            //_parser.Utilities.NextToken();
 
             Else();
 
@@ -318,6 +320,8 @@ namespace Syntax
 
         private void BlockForIf()
         {
+            _parser.Utilities.NextToken();
+
             if (_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
             {
                 _parser.ListOfSentences();
@@ -333,10 +337,9 @@ namespace Syntax
             else
             {
                  _parser.Sentence();
-                //_parser.SpecialSentence();
+               // _parser.Utilities.NextToken();
             }
-
-            _parser.Utilities.NextToken();
+           
         }
     }
 }

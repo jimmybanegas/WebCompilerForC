@@ -274,7 +274,7 @@ namespace Syntax
 
         private void Factor()
         {
-            _parser.Utilities.NextToken();
+           // _parser.Utilities.NextToken();
 
             if (_parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
@@ -320,7 +320,7 @@ namespace Syntax
             //}
            // else
             //{
-                _parser.Utilities.NextToken();
+               // _parser.Utilities.NextToken();
             //}
           
           
