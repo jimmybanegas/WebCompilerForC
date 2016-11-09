@@ -86,7 +86,7 @@
         OpAnd,
         OpLogicalOr,
         OpNot,
-        OpSimpleAssingment,
+        OpSimpleAssignment,
         OpMultiplyAndAssignment,
 
         //Bitwise Operators

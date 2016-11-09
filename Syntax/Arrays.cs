@@ -34,7 +34,7 @@ namespace Syntax
                 BidArray(out isUnidimensional);
             }
         
-            if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment) && !isUnidimensional)
+            if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment) && !isUnidimensional)
             {
                 OptionalInitOfArray();
             }
@@ -47,9 +47,9 @@ namespace Syntax
             {
                 _parser.Utilities.NextToken();
             }
-            else if (isUnidimensional && _parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            else if (isUnidimensional && _parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
-                if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+                if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
                 {
                     throw new Exception("An assignment symbol was expected");
                 }
@@ -58,16 +58,16 @@ namespace Syntax
             }
             else if (isUnidimensional && !hasSize)
             {
-                if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+                if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
                 {
                     throw new Exception("An assignment symbol was expected");
                 }
 
                 OptionalInitOfArray();
             }
-            //else if (isUnidimensional && _parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            //else if (isUnidimensional && _parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             //{
-            //    if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            //    if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             //    {
             //        throw new Exception("An assignment symbol was expected");
             //    }

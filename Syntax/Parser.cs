@@ -307,7 +307,7 @@ namespace Syntax
 
         private void OptionalIndexPosition()
         {
-            if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 Utilities.NextToken();
                 if (!Utilities.CompareTokenType(TokenType.LiteralNumber))
@@ -338,7 +338,7 @@ namespace Syntax
 
         private void ValueForPreId()
         {
-            if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 Utilities.NextToken();
                 Expressions.Expression();
@@ -377,10 +377,12 @@ namespace Syntax
 
             Utilities.NextToken();
 
-            if (!Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            if (!Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 throw new Exception("Assignment expected");
             }
+
+            Utilities.NextToken();
 
             Expressions.Expression();
 
@@ -388,7 +390,7 @@ namespace Syntax
             {
                 throw new Exception("End Of Sentence expected");
             }
-            Expressions.Expression();
+            Utilities.NextToken();
         }
 
         public void DataType()
@@ -515,7 +517,7 @@ namespace Syntax
 
         private void TypeOfDeclaration()
         {
-            if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 ValueForId();
                 if (Utilities.CompareTokenType(TokenType.EndOfSentence))
@@ -578,7 +580,7 @@ namespace Syntax
 
         private void ValueForId()
         {
-            if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 Utilities.NextToken();
                 Expressions.Expression();
@@ -650,7 +652,7 @@ namespace Syntax
 
         private void TypeOfDeclarationForFunction()
         {
-            if (Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 ValueForId();
                 if (Utilities.CompareTokenType(TokenType.EndOfSentence))

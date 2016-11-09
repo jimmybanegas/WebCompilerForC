@@ -43,7 +43,7 @@ namespace Syntax
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseAndAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseXorAndAssingment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseInclusiveOrAndAssigment)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+                ||_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 RelationalOperators();
                 ExpressionAddition();
@@ -75,7 +75,7 @@ namespace Syntax
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseAndAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseXorAndAssingment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseInclusiveOrAndAssigment)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+                ||_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 _parser.Utilities.NextToken();
             }

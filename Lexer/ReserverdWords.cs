@@ -87,7 +87,7 @@ namespace Lexer
             _operators.Add("!", TokenType.OpNot);
 
             //Asignament Operators
-            _operators.Add("=", TokenType.OpSimpleAssingment);
+            _operators.Add("=", TokenType.OpSimpleAssignment);
             _operators.Add("+=", TokenType.OpAddAndAssigment);
             _operators.Add("-=", TokenType.OpSusbtractAndAssignment);
             _operators.Add("*=", TokenType.OpMultiplyAndAssignment);
