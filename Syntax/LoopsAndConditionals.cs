@@ -36,7 +36,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("End od sentence expected");
+                throw new Exception("End oF sentence expected");
             }
         }
 
@@ -48,7 +48,7 @@ namespace Syntax
             {
                 throw new Exception("Openning parenthesis expected");
             }
-
+            _parser.Utilities.NextToken();
             _parser.Expressions.Expression();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
@@ -62,6 +62,8 @@ namespace Syntax
             {
                 throw new Exception("Openning bracket expected");
             }
+
+            _parser.Utilities.NextToken();
 
             ListOfCase();
 
@@ -82,7 +84,7 @@ namespace Syntax
 
                 ListOfCase();
             }
-            else if (_parser.Utilities.CompareTokenType(TokenType.RwDefault))
+           /* else */if (_parser.Utilities.CompareTokenType(TokenType.RwDefault))
             {
                 DefaultCase();
             }
@@ -99,16 +101,9 @@ namespace Syntax
             if (!_parser.Utilities.CompareTokenType(TokenType.Colon))
                 throw new Exception("Colon symbol expected");
 
-            _parser.ListOfSpecialSentences();
+            _parser.Utilities.NextToken();
 
-            if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
-            {
-                _parser.Utilities.NextToken();
-            }
-            else
-            {
-                throw new Exception("End of sentence expected");
-            }
+            _parser.ListOfSpecialSentences();
         }
 
         private void Case()
@@ -124,16 +119,15 @@ namespace Syntax
 
             _parser.ListOfSpecialSentences();
 
-            Break();
-
-            if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
+            if (_parser.Utilities.CompareTokenType(TokenType.RwBreak))
             {
-                _parser.Utilities.NextToken();
+                Break();
             }
             else
             {
-                throw new Exception("End of sentence expected");
+                
             }
+           
         }
 
         public void ForLoop()
@@ -243,7 +237,6 @@ namespace Syntax
 
         public void Do()
         {
-            _parser.Utilities.NextToken();
 
             BlockForLoop();
 
@@ -269,10 +262,11 @@ namespace Syntax
                 throw new Exception("Closing parenthesis was expected");
             }
 
+            _parser.Utilities.NextToken();
 
-            if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
+            if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
-                throw new Exception("Closing parenthesis was expected");
+                throw new Exception("Closing sentence was expected");
             }
 
             _parser.Utilities.NextToken();
@@ -286,6 +280,7 @@ namespace Syntax
             {
                 throw new Exception("Opening parenthesis was expected");
             }
+            _parser.Utilities.NextToken();
 
             _parser.Expressions.Expression();
 
@@ -294,11 +289,7 @@ namespace Syntax
                 throw new Exception("Closing parenthesis was expected");
             }
 
-
             BlockForLoop();
-
-            _parser.Utilities.NextToken();
-
         }
 
         public void If()

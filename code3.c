@@ -103,9 +103,11 @@ else  {
 
 int *length;
 int bend_no;
+int a[5] ;
+//int myArray[10] = { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
 
-//int len [] [10] ;
-//int len2 [] = {4};
+ int len [] [10] ;
+ //int len2 [] = {4};
  int a[][2];
  int a[5] ;
 
@@ -170,23 +172,214 @@ for (string item : someList) {
  
    // system("cls");
     loaduno(key);
-
 }
- 
-//  for ( i = 0; i < test.length; i++) {
-//     int intValue = test[i];
-//     // do some work here on intValue
-// }
-//coordinate head, bend[500],food,body[30];
 
-// for (i = 0; i < test; i++) {
-//     int intValue = test[i];
-//     // do some work here on intValue
-// }
+int main () {
+
+   /* local variable definition */
+   int a = 10;
+
+   /* while loop execution */
+   while( a < 20 ) {
+      printf("value of a: %d\n", a);
+      //a++;
+       int tmp;
+   }
+ 
+   return 0;
+}
+
+int main () {
+
+   /* local variable definition */
+   int a = 10;
+
+   /* do loop execution */
+   do {
+      printf("value of a: %d\n", a);
+      a = a + 1;
+   }while( a < 20 );
+ 
+   return 0;
+}
+
+
+int main()
+{
+  int x;
+
+  x = 0;
+  do {
+    /* "Hello, world!" is printed at least one time
+      even though the condition is false */
+      printf( "Hello, world!\n" );
+  } while ( x != 0 );
+  getchar();
+}
+
+int main () {
+
+   /* local variable definition */
+   char grade = 'B';
+
+   switch(grade) {
+      case 'A' :
+         printf("Excellent!\n" );
+         break;
+      case 'B' :
+      case 'C' :
+         printf("Well done\n" );
+         break;
+      case 'D' :
+         printf("You passed\n" );
+         break;
+      case 'F' :
+         printf("Better try again\n" );
+          char grade = 'B';
+         break;
+      default :
+         printf("Invalid grade\n" );
+   }
+   
+   printf("Your grade is  %c\n", grade );
+ 
+   return 0;
+}
+
+while (true) 
+{
+    take_turn(player1);
+    take_turn(player2);
+}
+
+take_turn(uno,dos,tres);
+
+while(true)
+{
+    if (someone_has_won() || someone_wants_to_quit() == TRUE)
+    {break;}
+    take_turn(player1);
+    if (someone_has_won() || someone_wants_to_quit() == TRUE)
+    {break;}
+    take_turn(player2);
+}
+
+a= suma();
+b=suma(x,y);
+
+
+int main() {
+ 
+   int rad;
+   float PI = 3.14, area, ci;
+ 
+   printf("\nEnter radius of circle: ");
+   scanf("%d", &rad);
+ 
+   area = PI * rad * rad;
+   printf("\nArea of circle : %f ", area);
+ 
+   ci = 2 * PI * rad;
+   printf("\nCircumference : %f ", ci);
+ 
+   return (0);
+}
+
+int main () {
+
+   /* local variable definition */
+   int a = 100;
+   int b = 200;
+ 
+   /* check the boolean condition */
+   if( a == 100 ) {
+   
+      /* if condition is true then check the following */
+      if( b == 200 ) {
+         /* if condition is true then print the following */
+         printf("Value of a is 100 and b is 200\n" );
+      }
+   }
+   
+   printf("Exact value of a is : %d\n", a );
+   printf("Exact value of b is : %d\n", b );
+ 
+   return 0;
+}
+
+int main () {
+
+   /* local variable definition */
+   int a = 100;
+   int b = 200;
+ 
+   switch(a) {
+   
+      case 100: 
+         printf("This is part of outer switch\n", a );
+         switch(b) {
+            case 200:
+               printf("This is part of inner switch\n", a );
+         }
+   }
+   
+   printf("Exact value of a is : %d\n", a );
+   printf("Exact value of b is : %d\n", b );
+ 
+   return 0;
+}
+
+//Por probar, todos estos casos para abajo no funcionan
+
+for (player = 1; someone_has_won == FALSE; player++)
+    {
+        if (player > total_number_of_players)
+        {player = 1;}
+        if (is_bankrupt(player))
+        {continue;}
+        take_turn(player);
+    }
 
 for (i = 0; i < test; i) {
     int intValue = test[i];
     // do some work here on intValue
+}
+
+ for ( i = 0; i < test.length; i++) {
+    int intValue = test[i];
+    // do some work here on intValue
+}
+coordinate head, bend[500],food,body[30];
+
+for (i = 0; i < test; i++) {
+    int intValue = test[i];
+    // do some work here on intValue
+}
+
+
+int main()
+{
+    int i;
+    int j = 10;
+
+    for( i = 0; i <= j; i ++ )
+    {
+       if( i == 5 )
+       {
+          continue;
+       }
+       printf("Hello %d\n", i );
+    }
+} 
+
+
+void swap(int *a, int *b)
+{
+    int tmp;
+    tmp = *a;
+    *a = *b;
+    *b = tmp;
+    printf("\n values after swap a = %d \nand b = %d", *a, *b);
 }
  
  int main()

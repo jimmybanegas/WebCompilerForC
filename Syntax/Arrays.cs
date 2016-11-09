@@ -34,7 +34,7 @@ namespace Syntax
                 BidArray(out isUnidimensional);
             }
         
-            if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment) && !isUnidimensional)
             {
                 OptionalInitOfArray();
             }
@@ -47,6 +47,15 @@ namespace Syntax
             {
                 _parser.Utilities.NextToken();
             }
+            else if (isUnidimensional && _parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            {
+                if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+                {
+                    throw new Exception("An assignment symbol was expected");
+                }
+
+                OptionalInitOfArray();
+            }
             else if (isUnidimensional && !hasSize)
             {
                 if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
@@ -56,6 +65,15 @@ namespace Syntax
 
                 OptionalInitOfArray();
             }
+            //else if (isUnidimensional && _parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            //{
+            //    if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssingment))
+            //    {
+            //        throw new Exception("An assignment symbol was expected");
+            //    }
+
+            //    OptionalInitOfArray();
+            //}
             else
             {
                 throw new Exception("An End of sentence ; symbol was expected");
@@ -69,6 +87,8 @@ namespace Syntax
 
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
                 throw new Exception("An openning bracket { symbol was expected");
+
+            _parser.Utilities.NextToken();
 
             _parser.ListOfExpressions();
 

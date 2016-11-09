@@ -1,10 +1,4 @@
 ﻿using System;
-using System.CodeDom;
-using System.ComponentModel;
-using System.Net;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
 using Lexer;
 
 namespace Syntax
@@ -81,7 +75,9 @@ namespace Syntax
         public void ListOfSpecialSentences()
         {
             //Lista_Sentencias->Sentence Lista_Sentencias
-            while (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
+            while (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket)
+                && !Utilities.CompareTokenType(TokenType.RwBreak)
+                && !Utilities.CompareTokenType(TokenType.RwCase))
             {
                 SpecialSentence();
                 ListOfSpecialSentences();
@@ -350,7 +346,6 @@ namespace Syntax
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
                 Functions.CallFunction();
-               // Utilities.NextToken();
             }
         }
 
@@ -399,7 +394,7 @@ namespace Syntax
         public void DataType()
         {
            if (Utilities.CompareTokenType(TokenType.RwChar) 
-                || Utilities.CompareTokenType(TokenType.RwString)
+                ||Utilities.CompareTokenType(TokenType.RwString)
                 ||Utilities.CompareTokenType(TokenType.RwInt)
                 ||Utilities.CompareTokenType(TokenType.RwDate)
                 ||Utilities.CompareTokenType(TokenType.RwDouble)
@@ -487,9 +482,11 @@ namespace Syntax
             {
                 Utilities.NextToken();
 
-                IsPointer();
-
-                Utilities.NextToken();
+                if (Utilities.CompareTokenType(TokenType.OpMultiplication))
+                {
+                    IsPointer();
+                    Utilities.NextToken();
+                }
 
                 if (Utilities.CompareTokenType(TokenType.Identifier))
                 {
@@ -559,13 +556,18 @@ namespace Syntax
         public void ListOfExpressions()
         {
             Expressions.Expression();
-            OptionalExpression();
+
+            if (Utilities.CompareTokenType(TokenType.Comma))
+            {
+                OptionalExpression();
+            }
         }
 
         private void OptionalExpression()
         {
             if (Utilities.CompareTokenType(TokenType.Comma))
             {
+                Utilities.NextToken();
                 ListOfExpressions();
             }
             else
