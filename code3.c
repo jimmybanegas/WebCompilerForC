@@ -1,5 +1,60 @@
 #include "stdio.h"
 
+int mult (int x, int y)
+{
+  return x * y;
+}
+
+void swap(int a, int b)
+{ 
+    int tmp;
+    tmp = a;
+    a = b;
+    b = tmp;
+    printf(" \nvalues after swap m = %d\n and n = %d", a, b);
+}
+ 
+int max(int num1, int num2) {
+
+   /* local variable declaration */
+   int result;
+ 
+   if (num1 == num2)
+      result = num1;
+   else
+      result = num2;
+ 
+   return result; 
+}
+
+
+   /* check the boolean condition */
+   if( a < 20 ) {
+      /* if condition is true then print the following */
+      printf("a is less than 20\n" );
+   }
+   else {
+      /* if condition is false then print the following */
+      printf("a is not less than 20\n" );
+   }
+
+ for( a = 10; a < 20; a = a + 1 ){
+      //printf("value of a: %d\n", a);
+      result = num1;
+ }
+ 
+
+int main () {
+
+   int a;
+	
+   /* for loop execution */
+   for( a = 10; a < 20; a = a + 1 ){
+      printf("value of a: %d\n", a);
+   }
+ 
+   return 0;
+}
 
 int *length;
 int bend_no;

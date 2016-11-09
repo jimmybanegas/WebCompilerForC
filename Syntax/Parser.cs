@@ -211,6 +211,25 @@ namespace Syntax
             {
                 Enumeration();
             }
+            //Return no debería estar aquí porque no es una sentence
+            else if (Utilities.CompareTokenType(TokenType.RwReturn))
+            {
+                ReturnStatement();
+            }
+            else
+            {
+                try
+                {
+
+                }
+                catch (Exception)
+                {
+
+                    throw new Exception("Not a valid sentence");
+                }
+               
+            }
+
         }
 
         private void Enumeration()
@@ -360,39 +379,15 @@ namespace Syntax
 
         public void DataType()
         {
-           if (Utilities.CompareTokenType(TokenType.RwChar))
-            {
-                Utilities.NextToken();
-            }
-           else if (Utilities.CompareTokenType(TokenType.RwString))
-           {
-                Utilities.NextToken();
-            }
-           else if(Utilities.CompareTokenType(TokenType.RwInt))
-           {
-                Utilities.NextToken();
-            }
-           else if (Utilities.CompareTokenType(TokenType.RwDate))
-           {
-                Utilities.NextToken();
-            }
-           else if (Utilities.CompareTokenType(TokenType.RwDouble))
-           {
-                Utilities.NextToken();
-            }
-           else if (Utilities.CompareTokenType(TokenType.RwBool))
-           {
-                Utilities.NextToken();
-            }
-           else if (Utilities.CompareTokenType(TokenType.RwLong))
-           {
-                Utilities.NextToken();
-            }
-           else if(Utilities.CompareTokenType(TokenType.RwFloat))
-           {
-                Utilities.NextToken();
-            }
-           else if (Utilities.CompareTokenType(TokenType.RwVoid))
+           if (Utilities.CompareTokenType(TokenType.RwChar) 
+                || Utilities.CompareTokenType(TokenType.RwString)
+                ||Utilities.CompareTokenType(TokenType.RwInt)
+                ||Utilities.CompareTokenType(TokenType.RwDate)
+                ||Utilities.CompareTokenType(TokenType.RwDouble)
+                ||Utilities.CompareTokenType(TokenType.RwBool)
+                ||Utilities.CompareTokenType(TokenType.RwLong)
+                ||Utilities.CompareTokenType(TokenType.RwFloat)
+                ||Utilities.CompareTokenType(TokenType.RwVoid))
            {
                Utilities.NextToken();
            }

@@ -287,7 +287,8 @@ namespace Syntax
                 ||_parser.Utilities.CompareTokenType(TokenType.LiteralDate)
                 ||_parser.Utilities.CompareTokenType(TokenType.LiteralFloat)
                 ||_parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal)
-                ||_parser.Utilities.CompareTokenType(TokenType.LiteralOctal))
+                ||_parser.Utilities.CompareTokenType(TokenType.LiteralOctal)
+                ||_parser.Utilities.CompareTokenType(TokenType.LiteralString))
             {
                 _parser.Utilities.NextToken();
             }
