@@ -45,6 +45,10 @@ namespace Syntax
 
         public void ListOfSentences()
         {
+            if (Utilities.CompareTokenType(TokenType.EndOfFile))
+            {
+                return;
+            }
 
             if (Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
             {
@@ -53,12 +57,6 @@ namespace Syntax
             
             //Lista_Sentencias->Sentence Lista_Sentencias
             if (Enum.IsDefined(typeof(TokenType), CurrentToken.TokenType))
-           /* if (_currentToken.TokenType == TokenType.Identifier || _currentToken.TokenType == TokenType.RwInclude 
-                || _currentToken.TokenType == TokenType.RwIf || _currentToken.TokenType == TokenType.RwWhile
-                || _currentToken.TokenType == TokenType.RwDo || _currentToken.TokenType == TokenType.RwFor 
-                || _currentToken.TokenType == TokenType.RwSwitch || _currentToken.TokenType == TokenType.RwStruct 
-                || _currentToken.TokenType == TokenType.RwConst || _currentToken.TokenType== TokenType.RwBreak
-                || _currentToken.TokenType == TokenType.RwContinue)*/
             {
                 Console.WriteLine();
 
@@ -87,6 +85,10 @@ namespace Syntax
 
         public void SpecialSentence()
         {
+            if (Utilities.CompareTokenType(TokenType.EndOfFile))
+            {
+                return;
+            }
 
             if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
                  || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
@@ -179,6 +181,7 @@ namespace Syntax
 
         public void Sentence()
         {
+          
             if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
                   || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
                   || Utilities.CompareTokenType(TokenType.RwDouble) || Utilities.CompareTokenType(TokenType.RwBool)
@@ -401,13 +404,6 @@ namespace Syntax
                   || Utilities.CompareTokenType(TokenType.OpDecrement))
                 {
                     Utilities.NextToken();
-
-                    //if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
-                    //{
-                    //    throw new Exception("End of sentence ; expected");
-                    //}
-
-                    //Utilities.NextToken();
                 }
             }
 
@@ -688,7 +684,7 @@ namespace Syntax
             }
         }
 
-        private void OptionalExpression()
+        public void OptionalExpression()
         {
             if (Utilities.CompareTokenType(TokenType.Comma))
             {
@@ -725,8 +721,17 @@ namespace Syntax
                 {
                     IsPointer();
                 }
-               
+
                 Utilities.NextToken();
+
+                if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+                {
+                    //Functions.MultiDeclaration();
+                    Arrays.IsArrayDeclaration();
+                    //return;
+                    //Utilities.NextToken();
+                }
+
                 OtherIdOrValue();
             }
             else

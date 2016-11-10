@@ -65,15 +65,17 @@ namespace Syntax
 
                 OptionalInitOfArray();
             }
-            //else if (isUnidimensional && _parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
-            //{
-            //    if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
-            //    {
-            //        throw new Exception("An assignment symbol was expected");
-            //    }
+            else if (_parser.Utilities.CompareTokenType(TokenType.Comma))
+            {
+                 _parser.OptionalExpression();
 
-            //    OptionalInitOfArray();
-            //}
+                if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    throw new Exception("An End of sentence ; symbol was expected");
+                }
+
+                _parser.Utilities.NextToken();
+            }
             else
             {
                 throw new Exception("An End of sentence ; symbol was expected");
@@ -84,18 +86,19 @@ namespace Syntax
         private void OptionalInitOfArray()
         {
             _parser.Utilities.NextToken();
-
-            if (!_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
-                throw new Exception("An openning bracket { symbol was expected");
-
-            _parser.Utilities.NextToken();
-
-            _parser.ListOfExpressions();
-
-            if (_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
+            if (_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
             {
-                _parser.Utilities.NextToken(); 
+                _parser.Utilities.NextToken();
+                _parser.ListOfExpressions();
+                if (_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
+                   _parser.Utilities.NextToken();
             }
+
+            if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
+            {
+                throw new Exception("End of sentence was expected");
+            }
+            _parser.Utilities.NextToken();
         }
 
         public void BidArray(out bool isUnidimensional)
