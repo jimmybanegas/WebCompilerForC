@@ -81,7 +81,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("A relational operator was expected");
+                throw new Exception("A relational operator was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
         }
 
@@ -115,7 +115,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("An additive operator was expected here");
+                throw new Exception("An additive operator was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
         }
 
@@ -151,7 +151,7 @@ namespace Syntax
             }
             else
             {
-                throw  new Exception("A multiplicative operator was expected");
+                throw  new Exception("A multiplicative operator was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
         }
 
@@ -190,7 +190,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("An unary operator was expected");
+                throw new Exception("An unary operator was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
         }
 
@@ -229,12 +229,12 @@ namespace Syntax
                     _parser.Utilities.NextToken();
                 else
                 {
-                    throw new Exception("Closing parenthesis expected )");
+                    throw new Exception("Closing parenthesis expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
                 }
             }
             else
             {
-                throw new Exception("Factor was expected");
+                throw new Exception("Factor was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
         }
 
@@ -258,7 +258,7 @@ namespace Syntax
 
                 if (!_parser.Utilities.CompareTokenType(TokenType.CloseSquareBracket))
                 {
-                    throw new Exception("Closing bracket expected )");
+                    throw new Exception("Closing bracket expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
                 }
 
                 _parser.Utilities.NextToken();
@@ -296,7 +296,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("A pointer access symbol was expected");
+                throw new Exception("A pointer access symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
         }
     }

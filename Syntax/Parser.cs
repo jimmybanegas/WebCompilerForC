@@ -35,7 +35,7 @@ namespace Syntax
             Ccode();
 
             if (CurrentToken.TokenType != TokenType.EndOfFile)
-                throw new Exception("End of file expected");
+                throw new Exception("End of file expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
         }
 
         private void Ccode()
@@ -173,7 +173,7 @@ namespace Syntax
 
             if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
-                throw new Exception("End of sentence expected");
+                throw new Exception("End of sentence expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
 
             Utilities.NextToken();
@@ -299,12 +299,12 @@ namespace Syntax
             Utilities.NextToken();
 
             if (!Utilities.CompareTokenType(TokenType.Identifier))
-                throw new Exception("Identifier was expected");
+                throw new Exception("Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
             Utilities.NextToken();
 
             if (!Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
-                throw new Exception("Openning bracket was expected");
+                throw new Exception("Openning bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
             Utilities.NextToken();
 
@@ -314,11 +314,11 @@ namespace Syntax
             }
 
             if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
-                throw new Exception("Closing bracket was expected");
+                throw new Exception("Closing bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             Utilities.NextToken();
 
             if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
-                throw new Exception("End of sentence was expected");
+                throw new Exception("End of sentence was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
             Utilities.NextToken();
         }
@@ -344,7 +344,7 @@ namespace Syntax
         {
             if (!Utilities.CompareTokenType(TokenType.Identifier))
             {
-                throw new Exception("Identifier was expected");
+                throw new Exception("Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
 
             Utilities.NextToken();
@@ -358,7 +358,7 @@ namespace Syntax
             {
                 Utilities.NextToken();
                 if (!Utilities.CompareTokenType(TokenType.LiteralNumber))
-                    throw new Exception("Literal number was expected");
+                    throw new Exception("Literal number was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 Utilities.NextToken();
             }
             else
@@ -384,7 +384,7 @@ namespace Syntax
 
                 if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
-                    throw new Exception("End of sentence ; expected");
+                    throw new Exception("End of sentence ; expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
             }
 
@@ -395,7 +395,7 @@ namespace Syntax
 
                 if (!Utilities.CompareTokenType(TokenType.Identifier))
                 {
-                    throw new Exception("Identifier expected");
+                    throw new Exception("Identifier expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
 
                 Utilities.NextToken();
@@ -479,7 +479,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("Literal string expected");
+                throw new Exception("Literal string expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
         }
 
@@ -491,14 +491,14 @@ namespace Syntax
 
             if (!Utilities.CompareTokenType(TokenType.Identifier))
             {
-                throw new Exception("Identifier expected");
+                throw new Exception("Identifier expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
 
             Utilities.NextToken();
 
             if (!Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
-                throw new Exception("Assignment expected");
+                throw new Exception("Assignment expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
 
             Utilities.NextToken();
@@ -507,7 +507,7 @@ namespace Syntax
 
             if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
-                throw new Exception("End Of Sentence expected");
+                throw new Exception("End Of Sentence expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
             Utilities.NextToken();
         }
@@ -528,7 +528,7 @@ namespace Syntax
            }
            else
            {
-                throw new Exception("A Data Type was expected");
+                throw new Exception("A Data Type was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
         }
 
@@ -537,12 +537,12 @@ namespace Syntax
             Utilities.NextToken();
 
             if (!Utilities.CompareTokenType(TokenType.Identifier))
-                throw new Exception("Identifier was expected"); 
+                throw new Exception("Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
             Utilities.NextToken();
 
             if (!Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
-                throw new Exception("Openning bracket was expected");
+                throw new Exception("Openning bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
             Utilities.NextToken();
 
@@ -552,11 +552,11 @@ namespace Syntax
             }
 
             if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
-                throw new Exception("Closing bracket was expected");
+                throw new Exception("Closing bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             Utilities.NextToken();
 
             if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
-                throw new Exception("End of sentence was expected");
+                throw new Exception("End of sentence was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
             Utilities.NextToken();
         }
@@ -579,7 +579,7 @@ namespace Syntax
                 }
                 else
                 {
-                    throw new Exception("End of sentence symbol ; expected");
+                    throw new Exception("End of sentence symbol ; expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
             }
         }
@@ -596,7 +596,7 @@ namespace Syntax
                 }
                 else
                 {
-                    throw new Exception("An Identifier was expected");
+                    throw new Exception("An Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
             }
             else if (Utilities.CompareTokenType(TokenType.OpMultiplication))
@@ -615,7 +615,7 @@ namespace Syntax
                 }
                 else
                 {
-                    throw new Exception("An Identifier was expected");
+                    throw new Exception("An Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
             }
             else if (Utilities.CompareTokenType(TokenType.Identifier))
@@ -649,7 +649,7 @@ namespace Syntax
                 }
                 else
                 {
-                    throw new Exception("An End of sentence ; symbol was expected");
+                    throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
             }
             else if (Utilities.CompareTokenType(TokenType.Comma))
@@ -670,7 +670,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("An End of sentence ; symbol was expected");
+                throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
         }
 
@@ -726,17 +726,14 @@ namespace Syntax
 
                 if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 {
-                    //Functions.MultiDeclaration();
                     Arrays.IsArrayDeclaration();
-                    //return;
-                    //Utilities.NextToken();
                 }
 
                 OtherIdOrValue();
             }
             else
             {
-                throw new Exception("An Identifier was expected");
+                throw new Exception("An Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
         }
 
@@ -796,7 +793,7 @@ namespace Syntax
                 }
                 else
                 {
-                    throw new Exception("An End of sentence ; symbol was expected");
+                    throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
             }
             else if (Utilities.CompareTokenType(TokenType.Comma))
@@ -813,7 +810,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("An End of sentence ; symbol was expected");
+                throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
         }
     }

@@ -78,7 +78,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("An End of sentence ; symbol was expected");
+                throw new Exception("An End of sentence ; symbol was expected at row: "+_parser.CurrentToken.Row+" , column: "+_parser.CurrentToken.Column);
             }
 
         }
@@ -96,7 +96,7 @@ namespace Syntax
 
             if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
-                throw new Exception("End of sentence was expected");
+                throw new Exception("End of sentence was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
             _parser.Utilities.NextToken();
         }
@@ -104,7 +104,7 @@ namespace Syntax
         public void BidArray(out bool isUnidimensional)
         {
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
-                throw new Exception("An openning bracket [ symbol was expected");
+                throw new Exception("An openning bracket [ symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
 
             _parser.Utilities.NextToken();
 
@@ -116,7 +116,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("An closing bracket ] symbol was expected");
+                throw new Exception("An closing bracket ] symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
 
             isUnidimensional = false;
@@ -142,7 +142,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("Initialization of array is required");
+                throw new Exception("Initialization of array is required at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
         }
 
@@ -166,7 +166,7 @@ namespace Syntax
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseSquareBracket))
             {
-                throw new Exception("An closing bracket ] symbol was expected");
+                throw new Exception("An closing bracket ] symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
             else
             {
@@ -182,7 +182,6 @@ namespace Syntax
                 || _parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
                 _parser.Utilities.NextToken();
-              
             }
             else
             {

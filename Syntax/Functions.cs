@@ -15,14 +15,14 @@ namespace Syntax
         public void IsFunctionDeclaration()
         {
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenParenthesis))
-                throw new Exception("Open parenthesis expected");
+                throw new Exception("Open parenthesis expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
 
             _parser.Utilities.NextToken();
 
             ParameterList();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
-                throw new Exception("Close parenthesis expected");
+                throw new Exception("Close parenthesis expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
 
             _parser.Utilities.NextToken();
 
@@ -38,7 +38,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("Close function body symbol expected");
+                throw new Exception("Close function body symbol expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
         }
 
@@ -109,7 +109,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("An End of sentence ; symbol was expected");
+                throw new Exception("An End of sentence ; symbol was expectedat row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
         }
 
@@ -129,7 +129,7 @@ namespace Syntax
         {
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
-                throw new Exception("Open parenthesis ( symbol was expected");
+                throw new Exception("Open parenthesis ( symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
 
             _parser.Utilities.NextToken();
