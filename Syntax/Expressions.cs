@@ -199,6 +199,13 @@ namespace Syntax
             if (_parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
                 _parser.Utilities.NextToken();
+
+                if (_parser.Utilities.CompareTokenType(TokenType.OpIncrement)
+                    ||_parser.Utilities.CompareTokenType(TokenType.OpDecrement))
+                {
+                    _parser.Utilities.NextToken();
+                }
+
                 FactorFunctionOrArray();
             }
             else if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber) ||

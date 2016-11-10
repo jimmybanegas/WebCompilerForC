@@ -50,7 +50,9 @@ namespace Syntax
                 || _parser.Utilities.CompareTokenType(TokenType.RwDate)
                 || _parser.Utilities.CompareTokenType(TokenType.RwDouble) 
                 || _parser.Utilities.CompareTokenType(TokenType.RwBool)
-                || _parser.Utilities.CompareTokenType(TokenType.RwLong))
+                || _parser.Utilities.CompareTokenType(TokenType.RwLong)
+                ||_parser.Utilities.CompareTokenType(TokenType.RwFloat)
+                ||_parser.Utilities.CompareTokenType(TokenType.RwVoid))
             {
                 _parser.Utilities.NextToken();
 
@@ -75,7 +77,9 @@ namespace Syntax
                     || _parser.Utilities.CompareTokenType(TokenType.RwDate)
                     || _parser.Utilities.CompareTokenType(TokenType.RwDouble) 
                     || _parser.Utilities.CompareTokenType(TokenType.RwBool)
-                    || _parser.Utilities.CompareTokenType(TokenType.RwLong))
+                    || _parser.Utilities.CompareTokenType(TokenType.RwLong)
+                    ||_parser.Utilities.CompareTokenType(TokenType.RwFloat)
+                    ||_parser.Utilities.CompareTokenType(TokenType.RwVoid))
                 {
                     _parser.Utilities.NextToken();
 

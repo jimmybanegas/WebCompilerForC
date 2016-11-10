@@ -126,7 +126,16 @@ namespace Syntax
                 || _parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal) 
                 ||_parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
-                _parser.Utilities.NextToken();
+                //Para casos como  sum += arr[i++];   
+                if (_parser.Utilities.CompareTokenType(TokenType.Identifier)    )
+                {
+                    _parser.Expressions.Expression();
+                }
+                else
+                {
+                    _parser.Utilities.NextToken();
+                }
+              
             }
             else
             {

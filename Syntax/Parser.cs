@@ -124,7 +124,8 @@ namespace Syntax
                 LoopsAndConditionals.Continue();
             }
             else if (Utilities.CompareTokenType(TokenType.Identifier)
-                || Utilities.CompareTokenType(TokenType.OpMultiplication))
+                || Utilities.CompareTokenType(TokenType.OpMultiplication) 
+                || Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
@@ -215,16 +216,46 @@ namespace Syntax
                 LoopsAndConditionals.Continue();
             }
             else if (Utilities.CompareTokenType(TokenType.Identifier)
-                || Utilities.CompareTokenType(TokenType.OpMultiplication))
+                || Utilities.CompareTokenType(TokenType.OpMultiplication)
+                || Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
+                if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
+                {
+                    Utilities.NextToken();
+                    if (Utilities.CompareTokenType(TokenType.OpMultiplication))
+                    {
+                        IsPointer();
+                    }
+
+                    if (!Utilities.CompareTokenType(TokenType.Identifier))
+                    {
+                        throw new Exception("Identifier expected");
+                    }
+
+                    Utilities.NextToken();
+
+                    if (!Utilities.CompareTokenType(TokenType.CloseParenthesis))
+                    {
+                        throw new Exception("Closing parenthesis");
+                    }
+                    
+                    AssignmentOrFunctionCall();
+                }
+
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
                     IsPointer();
                 }
                 AssignmentOrFunctionCall();
             }
-            else if (Utilities.CompareTokenType(TokenType.RwStruct))
+            else if (Utilities.CompareTokenType(TokenType.RwStruct)
+                ||Utilities.CompareTokenType(TokenType.RwTypedef))
             {
+                if (Utilities.CompareTokenType(TokenType.RwTypedef))
+                {
+                    Utilities.NextToken();
+                }
+
                 Struct();
             }
             else if (Utilities.CompareTokenType(TokenType.RwConst))
@@ -337,6 +368,23 @@ namespace Syntax
         {
             Utilities.NextToken();
 
+            if (Utilities.CompareTokenType(TokenType.OpIncrement)
+                   || Utilities.CompareTokenType(TokenType.OpDecrement))
+            {
+                Utilities.NextToken();
+
+                if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
+                {
+                    Utilities.NextToken();
+                    Expressions.Expression();
+                }
+
+                if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    throw new Exception("End of sentence ; expected");
+                }
+            }
+
             if (Utilities.CompareTokenType(TokenType.OpPointerStructs) 
                 || Utilities.CompareTokenType(TokenType.Dot))
             {
@@ -349,12 +397,43 @@ namespace Syntax
 
                 Utilities.NextToken();
 
+                if (Utilities.CompareTokenType(TokenType.OpIncrement)
+                  || Utilities.CompareTokenType(TokenType.OpDecrement))
+                {
+                    Utilities.NextToken();
+
+                    //if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
+                    //{
+                    //    throw new Exception("End of sentence ; expected");
+                    //}
+
+                    //Utilities.NextToken();
+                }
             }
 
             if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
                 bool x;
                 Arrays.BidArray(out x);
+
+                if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+                {
+                    Arrays.BidArray(out x);
+                }
+
+                // body[i].x=0;
+                    if (Utilities.CompareTokenType(TokenType.OpPointerStructs)
+                    || Utilities.CompareTokenType(TokenType.Dot))
+                {
+                    Expressions.ArrowOrPointer();
+
+                    if (!Utilities.CompareTokenType(TokenType.Identifier))
+                    {
+                        throw new Exception("Identifier expected");
+                    }
+
+                    Utilities.NextToken();
+                }
             }
 
             ValueForPreId();
