@@ -44,9 +44,12 @@ namespace Syntax
 
         private void ParameterList()
         {
-            if (_parser.Utilities.CompareTokenType(TokenType.RwChar) || _parser.Utilities.CompareTokenType(TokenType.RwString)
-                || _parser.Utilities.CompareTokenType(TokenType.RwInt) || _parser.Utilities.CompareTokenType(TokenType.RwDate)
-                || _parser.Utilities.CompareTokenType(TokenType.RwDouble) || _parser.Utilities.CompareTokenType(TokenType.RwBool)
+            if (_parser.Utilities.CompareTokenType(TokenType.RwChar) 
+                || _parser.Utilities.CompareTokenType(TokenType.RwString)
+                || _parser.Utilities.CompareTokenType(TokenType.RwInt) 
+                || _parser.Utilities.CompareTokenType(TokenType.RwDate)
+                || _parser.Utilities.CompareTokenType(TokenType.RwDouble) 
+                || _parser.Utilities.CompareTokenType(TokenType.RwBool)
                 || _parser.Utilities.CompareTokenType(TokenType.RwLong))
             {
                 _parser.Utilities.NextToken();
@@ -66,9 +69,12 @@ namespace Syntax
             if (_parser.Utilities.CompareTokenType(TokenType.Comma))
             {
                 _parser.Utilities.NextToken();
-                if (_parser.Utilities.CompareTokenType(TokenType.RwChar) || _parser.Utilities.CompareTokenType(TokenType.RwString)
-                    || _parser.Utilities.CompareTokenType(TokenType.RwInt) || _parser.Utilities.CompareTokenType(TokenType.RwDate)
-                    || _parser.Utilities.CompareTokenType(TokenType.RwDouble) || _parser.Utilities.CompareTokenType(TokenType.RwBool)
+                if (_parser.Utilities.CompareTokenType(TokenType.RwChar) 
+                    || _parser.Utilities.CompareTokenType(TokenType.RwString)
+                    || _parser.Utilities.CompareTokenType(TokenType.RwInt) 
+                    || _parser.Utilities.CompareTokenType(TokenType.RwDate)
+                    || _parser.Utilities.CompareTokenType(TokenType.RwDouble) 
+                    || _parser.Utilities.CompareTokenType(TokenType.RwBool)
                     || _parser.Utilities.CompareTokenType(TokenType.RwLong))
                 {
                     _parser.Utilities.NextToken();
@@ -137,6 +143,11 @@ namespace Syntax
 
         private void ListOfExpressions()
         {
+            if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
+            {
+                _parser.IsPointer();
+            }
+
             _parser.Expressions.Expression();
 
             if (_parser.Utilities.CompareTokenType(TokenType.Comma))

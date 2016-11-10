@@ -121,10 +121,10 @@ namespace Syntax
 
         public void SizeForBidArray()
         {
-            if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber) ||
-                _parser.Utilities.CompareTokenType(TokenType.LiteralOctal)
-                || _parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal) ||
-                _parser.Utilities.CompareTokenType(TokenType.Identifier))
+            if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber) 
+                ||_parser.Utilities.CompareTokenType(TokenType.LiteralOctal)
+                || _parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal) 
+                ||_parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
                 _parser.Utilities.NextToken();
             }
@@ -164,8 +164,10 @@ namespace Syntax
 
         private void SizeForArray()
         {
-            if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber) || _parser.Utilities.CompareTokenType(TokenType.LiteralOctal)
-                || _parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal) || _parser.Utilities.CompareTokenType(TokenType.Identifier))
+            if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber)
+                || _parser.Utilities.CompareTokenType(TokenType.LiteralOctal)
+                || _parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal) 
+                || _parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
                 _parser.Utilities.NextToken();
               

@@ -41,6 +41,8 @@ namespace ConsoleTest
 
             var parser = new Parser(lex);
 
+           
+
             parser.Parse();
 
             Console.ReadKey();

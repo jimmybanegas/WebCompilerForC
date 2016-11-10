@@ -164,7 +164,8 @@ namespace Syntax
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitOr)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpNot)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpComplement)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpBitXor))
+                ||_parser.Utilities.CompareTokenType(TokenType.OpBitXor)
+                ||_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
                 UnaryOperators();
             }
@@ -182,7 +183,8 @@ namespace Syntax
                || _parser.Utilities.CompareTokenType(TokenType.OpBitOr)
                || _parser.Utilities.CompareTokenType(TokenType.OpNot)
                || _parser.Utilities.CompareTokenType(TokenType.OpComplement)
-               || _parser.Utilities.CompareTokenType(TokenType.OpBitXor))
+               || _parser.Utilities.CompareTokenType(TokenType.OpBitXor)
+               || _parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
                 _parser.Utilities.NextToken();
             }

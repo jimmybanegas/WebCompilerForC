@@ -1,4 +1,45 @@
 
+int main() {
+
+   int a = 21;
+   int c ;
+
+   c =  a;
+   printf("Line 1 - =  Operator Example, Value of c = %d\n", c );
+
+   c +=  a;
+   printf("Line 2 - += Operator Example, Value of c = %d\n", c );
+
+   c -=  a;
+   printf("Line 3 - -= Operator Example, Value of c = %d\n", c );
+
+   c *=  a;
+   printf("Line 4 - *= Operator Example, Value of c = %d\n", c );
+
+   c /=  a;
+   printf("Line 5 - /= Operator Example, Value of c = %d\n", c );
+
+   c  = 200;
+   c %=  a;
+   printf("Line 6 - %= Operator Example, Value of c = %d\n", c );
+
+   //c <<=  2;
+   printf("Line 7 - <<= Operator Example, Value of c = %d\n", c );
+
+   c >>=  2;
+   printf("Line 8 - >>= Operator Example, Value of c = %d\n", c );
+
+   c &=  2;
+   printf("Line 9 - &= Operator Example, Value of c = %d\n", c );
+
+   c ^=  2;
+   printf("Line 10 - ^= Operator Example, Value of c = %d\n", c );
+
+   c |=  2;
+   printf("Line 11 - |= Operator Example, Value of c = %d\n", c );
+
+}
+
 void swap(int *a, int *b)
 {
     int tmp;
@@ -8,6 +49,32 @@ void swap(int *a, int *b)
     printf("\n values after swap a = %d \nand b = %d", *a, *b);
 }
  
+int main()
+{
+    int num = 45 , *ptr , **ptr2ptr ;
+    ptr     = &num;
+    ptr2ptr = &ptr;
+
+    printf("%d",**ptr2ptr);
+
+    return(0);
+}
+
+void main() {   
+    int*    x;  // Allocate the pointers x and y
+    int*    y;  // (but not the pointees)
+    
+    //x = malloc(sizeof(int));    // Allocate an int pointee,
+                                // and set x to point to it
+    
+    *x = 42;    // Dereference x to store 42 in its pointee
+    
+    *y = 13;    // CRASH -- y does not have a pointee yet
+    
+    y = x;      // Pointer assignment sets y to point to x's pointee
+    
+    *y = 13;    // Dereference y to store 13 in its (shared) pointee
+}
 
 /*************************************************************************
          Por probar, todos estos casos para abajo no funcionan

@@ -237,7 +237,6 @@ namespace Syntax
 
         public void Do()
         {
-
             BlockForLoop();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.RwWhile))

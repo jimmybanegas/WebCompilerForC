@@ -123,8 +123,13 @@ namespace Syntax
             {
                 LoopsAndConditionals.Continue();
             }
-            else if (Utilities.CompareTokenType(TokenType.Identifier))
+            else if (Utilities.CompareTokenType(TokenType.Identifier)
+                || Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
+                if (Utilities.CompareTokenType(TokenType.OpMultiplication))
+                {
+                    IsPointer();
+                }
                 AssignmentOrFunctionCall();
             }
             else if (Utilities.CompareTokenType(TokenType.RwConst))
@@ -158,7 +163,10 @@ namespace Syntax
         {
             Utilities.NextToken();
 
-            Expressions.Expression();
+            if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
+            {
+                Expressions.Expression();
+            }
 
             if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
@@ -206,8 +214,13 @@ namespace Syntax
             {
                 LoopsAndConditionals.Continue();
             }
-            else if (Utilities.CompareTokenType(TokenType.Identifier))
+            else if (Utilities.CompareTokenType(TokenType.Identifier)
+                || Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
+                if (Utilities.CompareTokenType(TokenType.OpMultiplication))
+                {
+                    IsPointer();
+                }
                 AssignmentOrFunctionCall();
             }
             else if (Utilities.CompareTokenType(TokenType.RwStruct))
@@ -373,7 +386,6 @@ namespace Syntax
             {
                 Utilities.NextToken();
                 Expressions.Expression();
-
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
@@ -627,8 +639,14 @@ namespace Syntax
         {
             Utilities.NextToken();
 
-            if (Utilities.CompareTokenType(TokenType.Identifier))
+            if (Utilities.CompareTokenType(TokenType.Identifier) 
+                || Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
+                if (Utilities.CompareTokenType(TokenType.OpMultiplication))
+                {
+                    IsPointer();
+                }
+               
                 Utilities.NextToken();
                 OtherIdOrValue();
             }
@@ -648,8 +666,6 @@ namespace Syntax
         {
             DataType();
 
-            //Utilities.NextToken();
-
             if (Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
                 IsPointer();
@@ -661,14 +677,13 @@ namespace Syntax
             }
         }
 
-        private void IsPointer()
+        public void IsPointer()
         {
             Utilities.NextToken();
 
             if (Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
                 IsPointer();
-              // Utilities.NextToken();
             }
             else
             {
