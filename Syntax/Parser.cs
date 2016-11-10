@@ -8,7 +8,7 @@ namespace Syntax
         public readonly Lexer.Lexer Lexer;
 
         public Token CurrentToken;
-        private readonly Arrays _arrays;
+        public readonly Arrays Arrays;
         public readonly LoopsAndConditionals LoopsAndConditionals;
         private readonly Utilities _utilities;
         public readonly Functions Functions;
@@ -18,7 +18,7 @@ namespace Syntax
         {
             Lexer = lexer;
             CurrentToken = lexer.GetNextToken();
-            _arrays = new Arrays(this);
+            Arrays = new Arrays(this);
             LoopsAndConditionals = new LoopsAndConditionals(this);
             _utilities = new Utilities(this);
             Functions = new Functions(this);
@@ -324,6 +324,26 @@ namespace Syntax
         {
             Utilities.NextToken();
 
+            if (Utilities.CompareTokenType(TokenType.OpPointerStructs) 
+                || Utilities.CompareTokenType(TokenType.Dot))
+            {
+                Expressions.ArrowOrPointer();
+
+                if (!Utilities.CompareTokenType(TokenType.Identifier))
+                {
+                    throw new Exception("Identifier expected");
+                }
+
+                Utilities.NextToken();
+
+            }
+
+            if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+            {
+                bool x;
+                Arrays.BidArray(out x);
+            }
+
             ValueForPreId();
 
             if (Utilities.CompareTokenType(TokenType.EndOfSentence))
@@ -332,16 +352,28 @@ namespace Syntax
             }
             else
             {
+
                 throw new Exception("End of sentence symbol ; expected");
             }
         }
 
         private void ValueForPreId()
         {
-            if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
+            if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment)
+                ||Utilities.CompareTokenType(TokenType.OpAddAndAssignment)
+                ||Utilities.CompareTokenType(TokenType.OpSusbtractAndAssignment)
+                ||Utilities.CompareTokenType(TokenType.OpMultiplyAndAssignment)
+                ||Utilities.CompareTokenType(TokenType.OpDivideAssignment)
+                ||Utilities.CompareTokenType(TokenType.OpModulusAssignment)
+                ||Utilities.CompareTokenType(TokenType.OpBitShiftLeftAndAssignment)
+                ||Utilities.CompareTokenType(TokenType.OpBitShiftRightAndAssignment)
+                ||Utilities.CompareTokenType(TokenType.OpBitwiseAndAssignment)
+                ||Utilities.CompareTokenType(TokenType.OpBitwiseXorAndAssignment)
+                ||Utilities.CompareTokenType(TokenType.OpBitwiseInclusiveOrAndAssignment))
             {
                 Utilities.NextToken();
                 Expressions.Expression();
+
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
@@ -451,7 +483,7 @@ namespace Syntax
                 if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 {
                     Utilities.NextToken();
-                    _arrays.ArrayIdentifier();
+                    Arrays.ArrayIdentifier();
                 }
                 else if (Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
@@ -539,7 +571,7 @@ namespace Syntax
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
-                _arrays.IsArrayDeclaration();
+                Arrays.IsArrayDeclaration();
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
@@ -674,7 +706,7 @@ namespace Syntax
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
-                _arrays.IsArrayDeclaration();
+                Arrays.IsArrayDeclaration();
             }
             else if (Utilities.CompareTokenType(TokenType.EndOfSentence))
             {

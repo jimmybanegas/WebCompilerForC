@@ -88,7 +88,7 @@ namespace Lexer
 
             //Asignament Operators
             _operators.Add("=", TokenType.OpSimpleAssignment);
-            _operators.Add("+=", TokenType.OpAddAndAssigment);
+            _operators.Add("+=", TokenType.OpAddAndAssignment);
             _operators.Add("-=", TokenType.OpSusbtractAndAssignment);
             _operators.Add("*=", TokenType.OpMultiplyAndAssignment);
             _operators.Add("/=", TokenType.OpDivideAssignment);
@@ -96,8 +96,8 @@ namespace Lexer
             _operators.Add("<<=", TokenType.OpBitShiftLeftAndAssignment);
             _operators.Add(">>=", TokenType.OpBitShiftRightAndAssignment);
             _operators.Add("&=", TokenType.OpBitwiseAndAssignment);
-            _operators.Add("^=", TokenType.OpBitwiseXorAndAssingment);
-            _operators.Add("|=", TokenType.OpBitwiseInclusiveOrAndAssigment);
+            _operators.Add("^=", TokenType.OpBitwiseXorAndAssignment);
+            _operators.Add("|=", TokenType.OpBitwiseInclusiveOrAndAssignment);
 
             //Bitwise Operators
             _operators.Add("&", TokenType.OpBitAnd);

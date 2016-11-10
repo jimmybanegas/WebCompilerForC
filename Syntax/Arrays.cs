@@ -98,7 +98,7 @@ namespace Syntax
             }
         }
 
-        private void BidArray(out bool isUnidimensional)
+        public void BidArray(out bool isUnidimensional)
         {
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 throw new Exception("An openning bracket [ symbol was expected");
@@ -119,7 +119,7 @@ namespace Syntax
             isUnidimensional = false;
         }
 
-        private void SizeForBidArray()
+        public void SizeForBidArray()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber) ||
                 _parser.Utilities.CompareTokenType(TokenType.LiteralOctal)

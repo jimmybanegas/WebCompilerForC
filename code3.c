@@ -1,6 +1,37 @@
+
 #include "stdio.h"
+const char x = 'x';      
+c <<=  2;
+
+//a++;
 
 int  i, j , k;
+
+x = a * b - c ;
+y = b / c * a ;
+z = a - b / c + d; 
+
+head.x=25;
+ 
+head->y=20;
+ 
+head.direction=RIGHT;
+
+bool x= !true;
+
+int main () 
+{ 
+        float a, b, c, x, y, z; 
+        a = 9; 
+        b = 12; 
+        c = 3; 
+        x = a - b / 3 + c * 2 - 1; 
+        y = a - b / (3 + c) * (2 - 1); 
+        z = a - ( b / (3 + c) * 2) - 1; 
+        printf ("x = %fn",x); 
+        printf ("y = %fn",y); 
+        printf ("z = %fn",z); 
+} 
 
 int a =2;
 
@@ -125,7 +156,7 @@ double d;
 //const int a =2;
 int a =2;
 int d = 3, f = 5;           // definition and initializing d and f. 
-char x = 'x';               // the variable x has the value 'x'.
+const char x = 'x';               // the variable x has the value 'x'.
 
 /* function returning the max between two numbers */
 int max(int num1, int num2) {
@@ -343,9 +374,42 @@ int main() {
    return 0;
 }
 
-/*************************************************************************
-         Por probar, todos estos casos para abajo no funcionan
-***********************************************************************/
+int main () {
+
+   int n[ 10 ]; /* n is an array of 10 integers */
+   int i,j;
+ 
+   /* initialize elements of array n to 0 */         
+   for ( i = 0; i < 10; i ) {
+      n[ i ] = i + 100; /* set element at location i to i + 100 */
+   }
+   
+   /* output each array element's value */
+   for (j = 0; j < 10; j) {
+      printf("Element[%d] = %d\n", j, n[j] );
+   }
+ 
+   return 0;
+}
+
+
+int main () {
+
+   int n[ 10 ]; /* n is an array of 10 integers */
+   int i,j;
+ 
+   /* initialize elements of array n to 0 */         
+   for ( i = 0; i < 10; i ) {
+      n[ i ] = i + 100; /* set element at location i to i + 100 */
+   }
+   
+   /* output each array element's value */
+   for (j = 0; j < 10; j) {
+      printf("Element[%d] = %d\n", j, head.hoja );
+   }
+ 
+   return 0;
+}
 
 int main() {
 
@@ -371,7 +435,7 @@ int main() {
    c %=  a;
    printf("Line 6 - %= Operator Example, Value of c = %d\n", c );
 
-   c <<=  2;
+   //c <<=  2;
    printf("Line 7 - <<= Operator Example, Value of c = %d\n", c );
 
    c >>=  2;
@@ -388,6 +452,9 @@ int main() {
 
 }
 
+/*************************************************************************
+         Por probar, todos estos casos para abajo no funcionan
+***********************************************************************/
 
 for (player = 1; someone_has_won == FALSE; player++)
     {

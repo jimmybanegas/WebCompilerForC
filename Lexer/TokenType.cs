@@ -98,7 +98,7 @@
         OpComplement,
 
         //Other operators
-        OpAddAndAssigment,
+        OpAddAndAssignment,
         OpSusbtractAndAssignment,
         LiteralHexadecimal,
         LiteralOctal,
@@ -110,8 +110,8 @@
         OpBitShiftLeftAndAssignment,
         OpBitShiftRightAndAssignment,
         OpBitwiseAndAssignment,
-        OpBitwiseXorAndAssingment,
-        OpBitwiseInclusiveOrAndAssigment,
+        OpBitwiseXorAndAssignment,
+        OpBitwiseInclusiveOrAndAssignment,
         ConditionalExpression
     }
 }

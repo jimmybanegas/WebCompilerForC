@@ -35,14 +35,14 @@ namespace Syntax
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitShiftLeft)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpEqualTo)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpNotEqualTo)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpAddAndAssigment)
+                ||_parser.Utilities.CompareTokenType(TokenType.OpAddAndAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpSusbtractAndAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpMultiplyAndAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpDivideAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpModulusAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseAndAssignment)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseXorAndAssingment)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseInclusiveOrAndAssigment)
+                ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseXorAndAssignment)
+                ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseInclusiveOrAndAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 RelationalOperators();
@@ -67,14 +67,14 @@ namespace Syntax
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitShiftLeft)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpEqualTo)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpNotEqualTo)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpAddAndAssigment)
+                ||_parser.Utilities.CompareTokenType(TokenType.OpAddAndAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpSusbtractAndAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpMultiplyAndAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpDivideAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpModulusAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseAndAssignment)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseXorAndAssingment)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseInclusiveOrAndAssigment)
+                ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseXorAndAssignment)
+                ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseInclusiveOrAndAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 _parser.Utilities.NextToken();
@@ -161,36 +161,28 @@ namespace Syntax
                 ||_parser.Utilities.CompareTokenType(TokenType.OpIncrement)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpDecrement)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitAnd)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpBitOr))
+                ||_parser.Utilities.CompareTokenType(TokenType.OpBitOr)
+                ||_parser.Utilities.CompareTokenType(TokenType.OpNot)
+                ||_parser.Utilities.CompareTokenType(TokenType.OpComplement)
+                ||_parser.Utilities.CompareTokenType(TokenType.OpBitXor))
             {
                 UnaryOperators();
-                Factor();
-              //  PostfixUnary();
             }
-            else
-            {
-                Factor();
-            }
-        
-        }
+     
+            Factor();
 
-        private void PostfixUnary()
-        {
-            if (_parser.Utilities.CompareTokenType(TokenType.OpDecrement)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpDecrement))
-            {
-                _parser.Utilities.NextToken();
-            }
         }
 
         private void UnaryOperators()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpComplement)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpIncrement)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpDecrement)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpBitAnd)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpBitOr)
-                ||_parser.Utilities.CompareTokenType(TokenType.OpBitXor))
+               || _parser.Utilities.CompareTokenType(TokenType.OpIncrement)
+               || _parser.Utilities.CompareTokenType(TokenType.OpDecrement)
+               || _parser.Utilities.CompareTokenType(TokenType.OpBitAnd)
+               || _parser.Utilities.CompareTokenType(TokenType.OpBitOr)
+               || _parser.Utilities.CompareTokenType(TokenType.OpNot)
+               || _parser.Utilities.CompareTokenType(TokenType.OpComplement)
+               || _parser.Utilities.CompareTokenType(TokenType.OpBitXor))
             {
                 _parser.Utilities.NextToken();
             }
@@ -243,35 +235,47 @@ namespace Syntax
             {
                 _parser.Functions.CallFunction();
             }
-           // else if (_parser.Utilities.CompareTokenType(TokenType.)
-           // {
-                IndexOrArrawAccess();
-            //}
-           // else
-            //{
-               // _parser.Utilities.NextToken();
-            //}
-          
-          
+
+            IndexOrArrowAccess();
         }
 
-        private void IndexOrArrawAccess()
+        private void IndexOrArrowAccess()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
                 _parser.Utilities.NextToken();
 
-                Expression();
+               _parser.Arrays.SizeForBidArray();
+
+                if (!_parser.Utilities.CompareTokenType(TokenType.CloseSquareBracket))
+                {
+                    throw new Exception("Closing bracket expected )");
+                }
 
                 _parser.Utilities.NextToken();
 
-                IndexOrArrawAccess();
+                IndexOrArrowAccess();
 
+            }else if(_parser.Utilities.CompareTokenType(TokenType.OpPointerStructs)
+                    ||_parser.Utilities.CompareTokenType(TokenType.Dot))
+            {
                 ArrowOrPointer();
+
+                if (!_parser.Utilities.CompareTokenType(TokenType.Identifier))
+                {
+                    throw new Exception("Identifier expected )");
+                }
+                _parser.Utilities.NextToken();
+
+                IndexOrArrowAccess();
+            }
+            else
+            {
+                
             }
         }
 
-        private void ArrowOrPointer()
+        public void ArrowOrPointer()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpPointerStructs))
             {

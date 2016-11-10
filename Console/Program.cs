@@ -14,19 +14,26 @@ namespace ConsoleTest
 
             var code = file.GetCode();
 
-            //var lex = new Lexer.Lexer(new SourceCode(code));
+          //  var lex = new Lexer.Lexer(new SourceCode(code));
 
             //var currentToken = lex.GetNextToken();
 
             //while (currentToken.TokenType != TokenType.EndOfFile)
             //{
-            //      System.Console.WriteLine(currentToken.ToString());
+            //    System.Console.WriteLine(currentToken.ToString());
             //    //System.Diagnostics.Debug.WriteLine(currentToken.ToString());
-              
+
             //    file.WriteCode(currentToken.ToString());
+
+            //    //if (currentToken.TokenType == TokenType.OpBitShiftLeftAndAssignment
+            //    //    || currentToken.TokenType == TokenType.OpBitShiftRightAndAssignment)
+            //    //{
+            //    //    lex.GetNextToken();
+            //    //}
+
             //    currentToken = lex.GetNextToken();
 
-            //   // file.WriteCode(currentToken.Lexeme);
+            //    // file.WriteCode(currentToken.Lexeme);
             //}
 
 

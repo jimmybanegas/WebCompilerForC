@@ -309,6 +309,12 @@ namespace Lexer
                     if (_currentSymbol.CurrentSymbol == '=')
                     {
                         lexeme += _currentSymbol.CurrentSymbol;
+
+                        if (lexeme == ">>=" || lexeme== "<<=")
+                        {
+                            _currentSymbol = _sourceCode.GetNextSymbol();
+                        }
+
                         return new Token
                         {
                             TokenType = _reservedWords._operators[lexeme.Substring(0, 3)],
@@ -318,6 +324,8 @@ namespace Lexer
                         };
                     }
                 }
+
+              
 
                 return new Token
                 {
