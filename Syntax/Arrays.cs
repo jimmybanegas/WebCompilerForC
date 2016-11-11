@@ -69,23 +69,11 @@ namespace Syntax
             else if (_parser.Utilities.CompareTokenType(TokenType.Comma))
             {
                 _parser.Functions.OptionaListOfParams();
-
-                //if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
-                //{
-                //    throw new Exception("An End of sentence ; symbol was expected");
-                //}
-
-              //  _parser.Utilities.NextToken();
             }
-            //Cuando el arregglo va de parametro en la declaración de una función
-            else if (_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
-            {
-                //_parser.Utilities.NextToken();
-            }
-            else
-            {
-                throw new Exception("An End of sentence ; symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
-            }
+            //else
+            //{
+            //    throw new Exception("An End of sentence ; symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
+            //}
 
         }
 

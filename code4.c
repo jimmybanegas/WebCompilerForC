@@ -10,7 +10,7 @@ void displayscore()
  {
  char name[20];
  float s;
- FILE *f;
+ //FILE *f;
  system("cls");
  f=fopen("score.txt","r");
  fscanf(f,"%s%f",&name,&s);
