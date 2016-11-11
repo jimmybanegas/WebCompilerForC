@@ -1,10 +1,3 @@
-#include<stdio.h>
-#include<conio.h>
-#include <windows.h>
-#include<ctype.h>
-#include<stdlib.h>
-#include<time.h>
-#include<dos.h>
 
 void displayscore()
  {
@@ -38,7 +31,7 @@ void writescore(float score, char plnm[20])
  {
  float sc;
  char nm[20];
- FILE *f;
+ //FILE *f;
  system("cls");
  f=fopen("score.txt","r");
  fscanf(f,"%s%f",&nm,&sc);
@@ -58,10 +51,10 @@ int main()
      float score;
      char choice;
      char playername[20];
-     time_t initialtime,finaltime;
+     //time_t initialtime,finaltime;
      system("cls");
      //randomize();
-     mainhome:
+    // mainhome:
      system("cls");
      puts("\n\t\t WELCOME TO I.Q. TEST PROGRAM\n\n") ;
      puts("\n\t\t-------------------------------");
@@ -70,42 +63,11 @@ int main()
      puts("\n\t\t Enter 'H' for help            ");
      puts("\n\t\t Enter 'Q' to quit             ");
      printf("\n\t\t-------------------------------\n\n\t\t  ");
-     choice=toupper(getch());
-     if (choice=='V')
- {
- displayscore();
- goto mainhome;
- }
-     else if (choice=='Q')
- exit(1);
-     else if (choice=='H')
- {
  help();
  getch();
- goto mainhome;
- }
-    else if(choice=='S'){
-     system("cls");
 
-     printf("\n\n\n\t\t\tEnter your name...");
-     printf("\n\t\t\t(only one word)\n\n\t\t\t");
-     gets(playername);
-
-     home:
-     system("cls");
-     initialtime=time(NULL);
-     countq=countr=0;
-     i=1;
-     start:
-     srand ( time(NULL) );
-     r=rand()%23+1;
-     nq[i]=r;
-     for (w=0;w<i;w++)
- if (nq[w]==r) goto start;
-
-     switch(r)
-  {
-  case 1:
+switch(r){
+    case 1:
   printf("\n\nWhat is the maximum no. of asymptotes of the curve x^4+2x+6=0?");
   printf("\n\nA.4\tB.3\n\nC.none\tD.infinite\n\n");
   countq++;
@@ -322,13 +284,13 @@ int main()
   else
          {printf("\n\nWrong!!! The correct answer is D.France");break;}
 
-
+}
+ 
 
   }
  i++;
- if (i<=5) goto start;
  finaltime=time(NULL);
- score=(float)countr/countq*100-difftime(finaltime,initialtime)/3;
+ //score=(float)countr/countq*100-difftime(finaltime,initialtime)/3;
  if (score<0) score=0;
  printf("\n\n\nYour Score: %.2f",score);
  if (score==100) printf("\n\nEXCELLENT!!! KEEP IT UP");
@@ -337,19 +299,6 @@ int main()
  else if (score>=40 && score<60) printf("\n\nSATISFACTORY RESULT, BUT THIS MUCH IS MUCH SUFFICIENT.");
  else printf("\n\nYOU ARE VERY POOR IN G.K.,WORK HARD");
  puts("\n\nNEXT PLAY?(Y/N)");
- if (toupper(getch())=='Y')
-  goto home;
- else
-  {
-  writescore(score,playername);
-  goto mainhome;
-  }
- }
-     else
- {
- printf("\n\n\t\t  Enter the right key\n\n\t\t  ");
- Sleep(700);
- goto mainhome;
- }
+ 
  return 0;
 }
