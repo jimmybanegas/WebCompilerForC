@@ -29,8 +29,6 @@ int main()
 
 
    while(1)
-
-
         {
 
                 printf("\n\n\t\tMAIN MENU:");
@@ -96,29 +94,22 @@ int main()
                             printf("\n\n\t\tTHANK YOU FOR USING THE SOFTWARE BY:\n\n\tBIJAY PURI\n\n\tBHANU POUDEL\n\n\tNRIPASH AYER...");
 
                             getch();
-
-
                     }
 
                 system("cls");
 
         }
 
-            return 0;
+    return 0;
 
 }
 
 void addrecord( )
-
 {
 
                 system("cls");
 
-                //FILE *fp ;
-
-                //char another = 'Y' ,time[10];
-
-                struct record e ;
+                //struct record e ;
 
                 char filename[15];
 
@@ -176,7 +167,7 @@ void addrecord( )
 
                 rewind(fp);
 
-                while(fread(&e,sizeof(e),1,fp)==1)
+                while(fread(&e,sizeofe,1,fp)==1)
 
                 {
 
@@ -222,7 +213,7 @@ void addrecord( )
 
                         gets(e.note);
 
-                        fwrite ( &e, sizeof ( e ), 1, fp ) ;
+                        fwrite ( &e, ( e ), 1, fp ) ;
 
                         printf("\nYOUR RECORD IS ADDED...\n");
 
@@ -246,15 +237,14 @@ void addrecord( )
     }
 
 
-void viewrecord( )
 
-{
+void record(){
 
         //FILE *fpte ;
 
         system("cls");
 
-        struct record customer ;
+      //  struct record customer ;
 
         char time[6],choice,filename[14];
 
@@ -323,7 +313,7 @@ void viewrecord( )
 
                             printf("\nTHE WHOLE RECORD FOR %s IS:",filename);
 
-                         while ( fread ( &customer, sizeof ( customer ), 1, fpte ) == 1 )
+                         while ( fread ( &customer,  ( customer ), 1, fpte ) == 1 )
 
                          {
 
@@ -354,7 +344,7 @@ void viewrecord( )
 
                             gets(time);
 
-                            while ( fread ( &customer, sizeof ( customer ), 1, fpte ) == 1 )
+                            while ( fread ( &customer,  ( customer ), 1, fpte ) == 1 )
 
 
                             {
@@ -395,7 +385,9 @@ void viewrecord( )
 
             scanf("%c",&choice);
 
-        }while(choice=='Y'||choice=='y');
+        }
+        
+        while(choice=='Y'||choice=='y');
 
             fclose ( fpte ) ;
 
@@ -404,14 +396,13 @@ void viewrecord( )
 }
 
 void editrecord()
-
 {
 
         system("cls");
 
         //FILE *fpte ;
 
-        struct record customer ;
+       // struct record customer ;
 
         char time[6],choice,filename[14];
 
@@ -463,7 +454,7 @@ void editrecord()
 
                             }
 
-                    while ( fread ( &customer, sizeof ( customer ), 1, fpte ) == 1 )
+                    while ( fread ( &customer,  ( customer ), 1, fpte ) == 1 )
 
                     {
 
@@ -604,13 +595,13 @@ void editrecord()
 
                                 }while(num<1||num>8);
 
-                            fseek(fpte,-sizeof(customer),SEEK_CUR);
+                            fseek(fpte,(customer),SEEK_CUR);
 
-                            fwrite(&customer,sizeof(customer),1,fpte);
+                            fwrite(&customer,(customer),1,fpte);
 
-                            fseek(fpte,-sizeof(customer),SEEK_CUR);
+                            fseek(fpte,(customer),SEEK_CUR);
 
-                            fread(&customer,sizeof(customer),1,fpte);
+                            fread(&customer,(customer),1,fpte);
 
                             choice=5;
 
@@ -691,10 +682,9 @@ void editrecord()
 }
 
 int password()
-
 {
 
-        char pass[15]={0},check[15]={0},ch;
+        //char pass[15]={0},check[15]={0},ch;
 
         //FILE *fpp;
 
@@ -819,14 +809,13 @@ int password()
 }
 
 void editpassword()
-
 {
 
     system("cls");
 
     printf("\n");
 
-    char pass[15]={0},confirm[15]={0},ch;
+   // char pass[15]={0},confirm[15]={0},ch;
 
     int choice,i,check;
 
@@ -873,7 +862,6 @@ void editpassword()
     }
 
     do
-
     {
 
         if(check==0)
@@ -1038,9 +1026,9 @@ void deleterecord( )
 
                 //FILE *fp,*fptr ;
 
-                struct record file ;
+                //struct record file ;
 
-                char filename[15],another = 'Y' ,time[10];;
+                char filename[15],another = 'Y' ,time[10];
 
                 int choice,check;
 
@@ -1164,7 +1152,7 @@ void deleterecord( )
 
                             gets(time);
 
-                            while(fread(&file,sizeof(file),1,fp)==1)
+                            while(fread(&file,(file),1,fp)==1)
 
                             {
 
@@ -1188,7 +1176,7 @@ void deleterecord( )
                             break;
 
 
-                    default:
+                            default:
 
                             printf("\n\tYOU ENTERED WRONG CHOICE");
 

@@ -1,54 +1,13 @@
 
-#include <stdio.h>//For standard I/O Operation
-#include <stdlib.h>//To use functions like system(); system("dos command"); - this performs the dos command given. Eg. system("del abc.txt"); - This command deletes the file abc.txt from current location of project
-#include <windows.h> //Used in making gotoxy(int, int) function
-#include <conio.h> //For getch(); getche() type of functions
-#include <time.h> //To get system date and time
-#include <math.h> //To calculate mathematical problems, used esp. in interest calculation
 
+char otr_date[13],ttime[10]; // These are global variables to store system otr_date and time
 
-//I've divided our user defined functions into two parts: Minor Functions (which are used frequently to support execution of core porgram) and Major Functions (which are a part of core program).  Minor function definition from Line 12-25. Major function definitions from Line 27-40.
+char *fp,*fp1,*tfp; // char pointers
 
-void gotoxy(int x,int y);//To move the cursor to x column and y row of output screen
-void _password(char buffer[]);// To input password from user so that asterik (*) is displayed for each character entered. Similar to gets(string); function
-void rectangle(int x,int y,int l,int b);// To make a rectangle starting from (x,y) with length l and breadth b
-void cls(int x1,int y1,int x2, int y2); // To clear only certain portion of screen starting from (x1,y1) to (x2,y2). Notice this function has been used in date entry. When date is not in dd/mm/yyyy format, the wrong value is cleared on the screen
-void increase(char i_id[]); // To increase ID by unit value. Eg. U001 ---> U002 and AC00099 ---> AC00100. Since i_id is an array, it is passed by reference. So the input value and changed value is obtained from  same variable i_id[]
-void date_input(char date[]); // To convert date in format dd/mm/yyyy (The format in which user is asked to enter date) to mm/dd/yyyy (The format in which date is stored in data file)
-void date_output(char date[]); //To convert date in format mm/dd/yy to dd MMM, yyyy. Eg. 01/01/11 is changed to 01 Jan, 2011
-void currency(char cur[], float n); // To convert a floating number n into currency format in Hindu Arabic Number system. Eg. on execution of the statement currency(cur,123456.789); the value of cur will be "1,23,456.78"
-void num2word(double n,char word[]);// To convert a floating (double) number n into word according to Hindu Arabic Number System
-void _one(int n, char one[]); // This function is a part of function num2word(). Simple function that stores "One " for 1, "Two " for 2, ... upto 19 in string varaible one[].
-void _ten(int n,char ten[]); // This function is a part of function num2word(). Simple function that stores "Ten " for 10, "Twenty " for 20, ... upto 90 in string varaible ten[].
-int date_check(char date[]);//Function to check if date is in format dd/mm/yyyy or not. Returns 0 if the format is not valid and 1 for valid format.
-void title();//Clears the screen and displays Program title, Current User and Current date on top of Screen
-void welcome();// Displays welcome screen that you see as soon as program is executed
-
-void admin();// Main program for ADMIN portion to manage user
-void add_user();// To add a new user
-void del_user();// To delete an existing user
-void edit_user();// To edit user name and/or password of existing user
-void view_log();// To view log history of user
-
-void staff();//Main program for STAFF portion to manage accounts
-void uptodate();// This function updates every account by calculating interest and stores the updated value. This function runs every time the program is executed.
-void add_ac();// To create a new account
-void deposit(); // To deposit cash in A/C
-void withdraw(); // To withdraw cash from A/C
-void fund_transfer();// To transfer cash from one account to another
-void ac_info();// To view informations about the A/C and account holder
-void transaction();// To view all the trasactions of an A/C
-
-
-
-char date[13],ttime[10]; // These are global variables to store system date and time
-
-FILE *fp,*fp1,*tfp; // File pointers
-
-struct//Structure for storing User information
+struct user//Structure for storing User information
     {
         char uid[4];
-        char name[30], password[30];
+        char name[30] ,password[30];
 
     } user;
 
@@ -56,7 +15,7 @@ struct account//Structure for storing account information
     {
         char ac_no[8];
         char fname[30], lname[30];
-        char u_date[15];
+        char u_otr_date[15];
         char dob[12];
         char sex;
         char address[50],contact[20];
@@ -66,15 +25,15 @@ struct account//Structure for storing account information
 
 struct trans//Structure for storing transaction information
     {
-        char ac_no[8],ac_t[25],_date[15],_ttime[10],usr[30];
+        char ac_no[8],ac_t[25],_otr_date[15],_ttime[10],usr[30];
         float amt;
     };
 
-typedef struct//Structure for storing user log information
+typedef struct dos//Structure for storing user log information
 {
     char id[4];
     char name[30];
-    char date[15]; //Log in date
+    char otr_date[15]; //Log in otr_date
     char stime[10];// Log in time
     char etime[10];// Log out or exit time
 }user_log;
@@ -191,7 +150,7 @@ void staff()
 
 
 //Main Menu begins//
-    uptodate(); // To update interests
+    uptootr_date(); // To upotr_date interests
     do
     {
         title();
@@ -253,7 +212,7 @@ void staff()
             //if user wants to log out all user log information are stored in LOG.DAT and the function staff() called again i.e. log in screen begins again
             _strtime(etime);
             fp=fopen("LOG.DAT","a");
-            fprintf(fp,"%s %s %s %s\n",user.uid,date,stime,etime);
+            fprintf(fp,"%s %s %s %s\n",user.uid,otr_date,stime,etime);
             fclose(fp);
             staff();
         }
@@ -273,7 +232,7 @@ void staff()
 
             _strtime(etime);
             fp=fopen("LOG.DAT","a");
-            fprintf(fp,"%s %s %s %s\n",user.uid,date,stime,etime);
+            fprintf(fp,"%s %s %s %s\n",user.uid,otr_date,stime,etime);
             fclose(fp);
             exit(0);
         }
@@ -308,7 +267,7 @@ void add_ac()
      if(fp==NULL) strcpy(ac.ac_no,"AC00001");//if "ACCOUNT.DAT" does not exist i.e. there are no records at all then A/C no. is taken AC00001 for 1st rec
      else //otherwise a/c no of last record is accessed and increased by unit value which becomes the new a/c no.
      {
-        while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF);//note the while statement is terminated without any statement inside it. This helps in geting the last rec. of the data file
+        while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF);//note the while statement is terminated without any statement inside it. This helps in geting the last rec. of the data char
         increase(ac.ac_no);
      }
 
@@ -324,19 +283,19 @@ void add_ac()
      {
         gotoxy(10,15); printf("DOB (dd/mm/yyyy) :    "); scanf(" %s",ac.dob);
         temp1=(ac.dob[6]-48)*1000+(ac.dob[7]-48)*100+(ac.dob[8]-48)*10+(ac.dob[9]-48);
-        temp2=2000+(date[6]-48)*10+(date[7]-48);
-        if(date_check(ac.dob)==0||temp1>temp2)//checks if dob format is correct, on invalid format screen is partially cleared, beep tone is produced and asked to re-enter date
+        temp2=2000+(otr_date[6]-48)*10+(otr_date[7]-48);
+        if(otr_date_check(ac.dob)==0||temp1>temp2)//checks if dob format is correct, on invalid format screen is partially cleared, beep tone is produced and asked to re-enter otr_date
         {
             printf("\a");
             cls(10,15,60,15);
 
         }
-     }while(date_check(ac.dob)==0||temp1>temp2);//asks date unless format is correct
+     }while(otr_date_check(ac.dob)==0||temp1>temp2);//asks otr_date unless format is correct
 
-     _strdate(date);
-     date_input(ac.dob);//to change dd/mm/yyyy format to mm/dd/yy format to store in file
+     _strotr_date(otr_date);
+     otr_date_input(ac.dob);//to change dd/mm/yyyy format to mm/dd/yy format to store in char
      gotoxy(10,17); printf("Address          :    "); scanf(" %[^\n]s",ac.address);
-     for(i=0;i<strlen(ac.address);i++)//User may enter a space key for address (eg. New Baneswor). bt on reading formatted data from file space is taken as terminating char (eg. "New" and "Baneswor" are taken as separate variables. To remove this error, spaces entered by user is replace by '+'. Now "New+Baneswor is single string
+     for(i=0;i<strlen(ac.address);i++)//User may enter a space key for address (eg. New Baneswor). bt on reading formatted data from char space is taken as terminating char (eg. "New" and "Baneswor" are taken as separate variables. To remove this error, spaces entered by user is replace by '+'. Now "New+Baneswor is single string
         if (ac.address[i]==32) ac.address[i]='+';
         int err;
     do
@@ -374,10 +333,10 @@ void add_ac()
 
      } while(flag==1);//for repeated asking of a/c type unless user enters correct input
 
-     date_output(date);
-     gotoxy(10,15); printf("Account Opened Date            :   %s",date);
-     _strdate(date);
-     strcpy(ac.u_date,date);//copies current date to last updated date
+     otr_date_output(otr_date);
+     gotoxy(10,15); printf("Account Opened otr_date            :   %s",otr_date);
+     _strotr_date(otr_date);
+     strcpy(ac.u_otr_date,otr_date);//copies current otr_date to last upotr_dated otr_date
      gotoxy(10,17); printf("Interest rate                  :   %.2f%c per annum", irate,37);
      do
      {
@@ -403,7 +362,7 @@ void add_ac()
     if (ac.ac_type=='S'||ac.ac_type=='s') printf("Saving Account");
     if (ac.ac_type=='C'||ac.ac_type=='c') printf("Current Saving");
 
-    gotoxy(43,13); printf("Current Date    : %s",date);
+    gotoxy(43,13); printf("Current otr_date    : %s",otr_date);
     gotoxy(43,15); printf("Interest rate   : %.2f%c per annum", irate,37);
     currency(curr,ac.c_bal);
     gotoxy(43,17); printf("Opening Balance : %s",curr);
@@ -417,8 +376,8 @@ void add_ac()
         fp=fopen("ACCOUNT.DAT","a");
         fp1=fopen("TRANSACTION.DAT","a");
         _strtime(ttime);
-        fprintf(fp1,"%s %s %s %s %.2f %s\n",ac.ac_no,"A/C+Opened",date,ttime,ac.c_bal,user.name);
-        fprintf(fp,"%s %s %s %s %s %s %c %s %c %.2f %.2f %.2f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,ac.sex,ac.u_date,ac.ac_type,ac.c_bal,ac.interest,ac.t_bal);
+        fprintf(fp1,"%s %s %s %s %.2f %s\n",ac.ac_no,"A/C+Opened",otr_date,ttime,ac.c_bal,user.name);
+        fprintf(fp,"%s %s %s %s %s %s %c %s %c %.2f %.2f %.2f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,ac.sex,ac.u_otr_date,ac.ac_type,ac.c_bal,ac.interest,ac.t_bal);
         fclose(fp);
         fclose(fp1);
         title();
@@ -430,39 +389,39 @@ void add_ac()
 
 }
 
-void uptodate()
+void uptootr_date()
 {
     struct account ac;
     int i,no_of_yr,no_of_month,no_of_days,n1,n2;
     float r;
     fp=fopen("ACCOUNT.DAT","r");
 
-    if (fp!=NULL)//performs every thing only when file exists i.e. only wen pointer is not null
+    if (fp!=NULL)//performs every thing only when char exists i.e. only wen pointer is not null
     {
         fp1=fopen("TEMP.DAT","w");
         i=0;
-        while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+        while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
         {
-        //extracting no of days, months and yr of system date
-        no_of_yr=(date[6]-48)*10+(date[7]-48);
-        no_of_month=(date[0]-48)*10+(date[1]-48);
-        no_of_days=(date[3]-48)*10+(date[4]-48);
+        //extracting no of days, months and yr of system otr_date
+        no_of_yr=(otr_date[6]-48)*10+(otr_date[7]-48);
+        no_of_month=(otr_date[0]-48)*10+(otr_date[1]-48);
+        no_of_days=(otr_date[3]-48)*10+(otr_date[4]-48);
 
         n1=no_of_yr*365+no_of_month*30+no_of_days;//n1 is no. of days elasped
 
-        //extracting no of days, months and yr of date stored in ACCOUNT.DAT
-        no_of_yr=(ac.u_date[6]-48)*10+(ac.u_date[7]-48);
-        no_of_month=(ac.u_date[0]-48)*10+(ac.u_date[1]-48);
-        no_of_days=(ac.u_date[3]-48)*10+(ac.u_date[4]-48);
-        n2=no_of_yr*365+no_of_month*30+no_of_days;//n2 is no. of days elasped on last updated date
+        //extracting no of days, months and yr of otr_date stored in ACCOUNT.DAT
+        no_of_yr=(ac.u_otr_date[6]-48)*10+(ac.u_otr_date[7]-48);
+        no_of_month=(ac.u_otr_date[0]-48)*10+(ac.u_otr_date[1]-48);
+        no_of_days=(ac.u_otr_date[3]-48)*10+(ac.u_otr_date[4]-48);
+        n2=no_of_yr*365+no_of_month*30+no_of_days;//n2 is no. of days elasped on last upotr_dated otr_date
 
         if (ac.ac_type=='S'||ac.ac_type=='s') r=8.0/365; else r=4.0/365;
 
         ac.t_bal=ac.c_bal*pow((1+r/100),n1-n2);//calculation of compound interest
         ac.interest+=ac.t_bal-ac.c_bal;//calculation and addition of interest
         ac.t_bal=ac.c_bal+ac.interest;//calculation of total balance
-        strcpy(ac.u_date,date);
-        fprintf(fp1,"%s %s %s %s %s %s %c %s %c %.2f %.2f %.2f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,ac.sex,ac.u_date,ac.ac_type,ac.c_bal,ac.interest,ac.t_bal);
+        strcpy(ac.u_otr_date,otr_date);
+        fprintf(fp1,"%s %s %s %s %s %s %c %s %c %.2f %.2f %.2f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,ac.sex,ac.u_otr_date,ac.ac_type,ac.c_bal,ac.interest,ac.t_bal);
 
         }
         fclose(fp);
@@ -485,12 +444,12 @@ void deposit()
     gotoxy(5,10); printf("Deposit to A/C number            : "); scanf("%s",acn);
     strcpy(acn,strupr(acn)); //changing a/c no. to uppercase
     fp=fopen("ACCOUNT.DAT","r");
-    while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
-        if(strcmp(acn,ac.ac_no)==0) { c++; strcpy(nam,ac.fname); strcat(nam," "); strcat(nam,ac.lname); } //variable c counts if the given a/c no exist in data file or not. also if available, the full name is extracted
+    while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+        if(strcmp(acn,ac.ac_no)==0) { c++; strcpy(nam,ac.fname); strcat(nam," "); strcat(nam,ac.lname); } //variable c counts if the given a/c no exist in data char or not. also if available, the full name is extracted
 
     fclose(fp);
 
-    if(c==0)//c=0 means no given a/c no. in data file
+    if(c==0)//c=0 means no given a/c no. in data char
     {
         title();
         gotoxy(20,12); printf("Given A/C number does not exits!");
@@ -517,11 +476,11 @@ void deposit()
     {
         fp=fopen("ACCOUNT.DAT","r");
         fp1=fopen("TEMP.DAT","a");
-        while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+        while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
         {
             if (strcmp(ac.ac_no,acn)==0) ac.c_bal+=amt;//balance is increased
             ac.t_bal=ac.c_bal+ac.interest;
-            fprintf(fp1,"%s %s %s %s %s %s %c %s %c %.2f %.2f %.2f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,ac.sex,ac.u_date,ac.ac_type,ac.c_bal,ac.interest,ac.t_bal);
+            fprintf(fp1,"%s %s %s %s %s %s %c %s %c %.2f %.2f %.2f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,ac.sex,ac.u_otr_date,ac.ac_type,ac.c_bal,ac.interest,ac.t_bal);
         }
         fclose(fp1);
         fclose(fp);
@@ -530,7 +489,7 @@ void deposit()
 
         fp=fopen("TRANSACTION.DAT","a");//transaction is added
         _strtime(ttime);
-        fprintf(fp,"%s %s %s %s %.2f %s\n",acn,"Cash+Deposited",date,ttime,amt,user.name);
+        fprintf(fp,"%s %s %s %s %.2f %s\n",acn,"Cash+Deposited",otr_date,ttime,amt,user.name);
         fclose(fp);
         title();
         gotoxy(20,12);printf("Transaction completed successfully!");
@@ -554,7 +513,7 @@ void withdraw()//exactly similar to deposit. only difference is amount is subtra
     gotoxy(5,10); printf("Withdraw from A/C number          : "); scanf("%s",acn);
     strcpy(acn,strupr(acn));
     fp=fopen("ACCOUNT.DAT","r");
-    while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+    while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
         if(strcmp(acn,ac.ac_no)==0) { c++; strcpy(nam,ac.fname); strcat(nam," "); strcat(nam,ac.lname); }
     fclose(fp);
 
@@ -574,7 +533,7 @@ void withdraw()//exactly similar to deposit. only difference is amount is subtra
     fp=fopen("ACCOUNT.DAT","r");
 
             c=0;
-            while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+            while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
             {
 
                 if (strcmp(ac.ac_no,acn)==0&&ac.t_bal<amt)// when given amount is higher than bank balance
@@ -609,13 +568,13 @@ void withdraw()//exactly similar to deposit. only difference is amount is subtra
                 fp=fopen("ACCOUNT.DAT","r");
                 fp1=fopen("TEMP.DAT","w");
                 c=0;
-                while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+                while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
                 {
                     if (strcmp(ac.ac_no,acn)==0) ac.c_bal-=amt;
                     if (ac.c_bal<0) { ac.interest+=ac.c_bal; ac.c_bal=0; }
                     ac.t_bal=ac.c_bal+ac.interest;
 
-                    fprintf(fp1,"%s %s %s %s %s %s %c %s %c %.2f %.2f %.2f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,ac.sex,ac.u_date,ac.ac_type,ac.c_bal,ac.interest,ac.t_bal);
+                    fprintf(fp1,"%s %s %s %s %s %s %c %s %c %.2f %.2f %.2f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,ac.sex,ac.u_otr_date,ac.ac_type,ac.c_bal,ac.interest,ac.t_bal);
                 }
             fclose(fp1);
             fclose(fp);
@@ -628,7 +587,7 @@ void withdraw()//exactly similar to deposit. only difference is amount is subtra
 
         fp=fopen("TRANSACTION.DAT","a");
         _strtime(ttime);
-        fprintf(fp,"%s %s %s %s %.2f %s\n",acn,"Cash+Withdrawn",date,ttime,amt,user.name);
+        fprintf(fp,"%s %s %s %s %.2f %s\n",acn,"Cash+Withdrawn",otr_date,ttime,amt,user.name);
         fclose(fp);
         title();
         gotoxy(20,12);printf("Transaction completed successfully!");
@@ -659,7 +618,7 @@ void fund_transfer()
         strcpy(f_acn,strupr(f_acn));
         fp=fopen("ACCOUNT.DAT","r");
         c=0;
-        while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+        while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
             if(strcmp(f_acn,ac.ac_no)==0) { c++; strcpy(fnam,ac.fname); strcat(fnam," "); strcat(fnam,ac.lname); }
         fclose(fp);
 
@@ -677,7 +636,7 @@ void fund_transfer()
         strcpy(t_acn,strupr(t_acn));
         fp=fopen("ACCOUNT.DAT","r");
         c=0;
-        while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+        while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
         if(strcmp(t_acn,ac.ac_no)==0) { c++; strcpy(tnam,ac.fname); strcat(tnam," "); strcat(tnam,ac.lname); }
         fclose(fp);
 
@@ -699,7 +658,7 @@ void fund_transfer()
             fp=fopen("ACCOUNT.DAT","r");
 
             c=0;
-            while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+            while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
             {
                 if (strcmp(ac.ac_no,f_acn)==0)
                 {
@@ -737,13 +696,13 @@ void fund_transfer()
                 fp=fopen("ACCOUNT.DAT","r");
                 fp1=fopen("TEMP.DAT","w");
                 c=0;
-                while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+                while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
                 {
                     if (strcmp(ac.ac_no,f_acn)==0) ac.c_bal-=amt;
                     if (ac.c_bal<0) { ac.interest+=ac.c_bal; ac.c_bal=0; }
                     ac.t_bal=ac.c_bal+ac.interest;
 
-                    fprintf(fp1,"%s %s %s %s %s %s %c %s %c %.2f %.2f %.2f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,ac.sex,ac.u_date,ac.ac_type,ac.c_bal,ac.interest,ac.t_bal);
+                    fprintf(fp1,"%s %s %s %s %s %s %c %s %c %.2f %.2f %.2f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,ac.sex,ac.u_otr_date,ac.ac_type,ac.c_bal,ac.interest,ac.t_bal);
                 }
             fclose(fp1);
             fclose(fp);
@@ -753,12 +712,12 @@ void fund_transfer()
             fp=fopen("ACCOUNT.DAT","r");
             fp1=fopen("TEMP.DAT","w");
             c=0;
-            while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+            while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
             {
                 if (strcmp(ac.ac_no,t_acn)==0) ac.c_bal+=amt;
                 ac.t_bal=ac.c_bal+ac.interest;
 
-                fprintf(fp1,"%s %s %s %s %s %s %c %s %c %.2f %.2f %.2f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,ac.sex,ac.u_date,ac.ac_type,ac.c_bal,ac.interest,ac.t_bal);
+                fprintf(fp1,"%s %s %s %s %s %s %c %s %c %.2f %.2f %.2f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,ac.sex,ac.u_otr_date,ac.ac_type,ac.c_bal,ac.interest,ac.t_bal);
             }
             fclose(fp1);
             fclose(fp);
@@ -770,10 +729,10 @@ void fund_transfer()
             _strtime(ttime);
             strcpy(rem,"Transfered+to+");
             strcat(rem,t_acn);
-            fprintf(fp,"%s %s %s %s %.2f %s\n",f_acn,rem,date,ttime,amt,user.name);
+            fprintf(fp,"%s %s %s %s %.2f %s\n",f_acn,rem,otr_date,ttime,amt,user.name);
             strcpy(rem,"Received+from+");
             strcat(rem,f_acn);
-            fprintf(fp,"%s %s %s %s %.2f %s\n",t_acn,rem,date,ttime,amt,user.name);
+            fprintf(fp,"%s %s %s %s %.2f %s\n",t_acn,rem,otr_date,ttime,amt,user.name);
             fclose(fp);
             title();
             gotoxy(20,12);printf("Transaction completed successfully!");
@@ -800,7 +759,7 @@ void ac_info()
     int i;
 
     char buffer[30]={0},curr[35],curr1[35],curr2[35];
-    struct account ac,srh;//structure variable srh stores the matched data from data file
+    struct account ac,srh;//structure variable srh stores the matched data from data char
     float irate;
     char c,acn[8];
 
@@ -823,7 +782,7 @@ void ac_info()
         fp=fopen("ACCOUNT.DAT","r");
         cnt = 0;
 
-           		while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+           		while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
            		{
            		    if (strcmp(acn,ac.ac_no)==0) { srh=ac; cnt++; }// if a/c no matches, srh stores all values of ac
            		}
@@ -918,7 +877,7 @@ void ac_info()
 
 fp=fopen("ACCOUNT.DAT","r");
 
-           		while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+           		while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
            		{
            		    cnt=0;
            		    for(i=0;i<strlen(buffer);i++)
@@ -1037,7 +996,7 @@ void transaction()
     strcpy(acn,strupr(acn));
     fp=fopen("ACCOUNT.DAT","r");
     c=0;
-    while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
+    while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF)
     if(strcmp(acn,ac.ac_no)==0)
     {
         c++;
@@ -1060,21 +1019,21 @@ void transaction()
 
         fp=fopen("TRANSACTION.DAT","r");
         i=0;
-        while(fscanf(fp,"%s %s %s %s %f %s\n",t.ac_no,t.ac_t,t._date,t._ttime,&t.amt,t.usr)!=EOF)
+        while(fscanf(fp,"%s %s %s %s %f %s\n",t.ac_no,t.ac_t,t._otr_date,t._ttime,&t.amt,t.usr)!=EOF)
                 if(strcmp(acn,t.ac_no)==0) selected[i++]=t;
         l=i;
         fclose(fp);
 
         strcpy(selected[l].ac_no,t.ac_no);
         strcpy(selected[l].ac_t,"Interest");
-        strcpy(selected[l]._date,date);
+        strcpy(selected[l]._otr_date,otr_date);
         _strtime(ttime);
         strcpy(selected[l]._ttime,ttime);
         selected[l].amt=sac.interest;
         l++;
         strcpy(selected[l].ac_no,t.ac_no);
         strcpy(selected[l].ac_t,"Closing balance");
-        strcpy(selected[l]._date,date);
+        strcpy(selected[l]._otr_date,otr_date);
         _strtime(ttime);
         strcpy(selected[l]._ttime,ttime);
         selected[l].amt=sac.c_bal+sac.interest;
@@ -1087,7 +1046,7 @@ void transaction()
 
         gotoxy(2,6);puts("SN");
         gotoxy(6,6);puts("     Details");
-        gotoxy(28,6); puts("Date");
+        gotoxy(28,6); puts("otr_date");
         gotoxy(44,6); puts("Time");
         gotoxy(50,6);puts("   Dr. (NRs.)");
         gotoxy(65,6);puts("   Cr. (NRs.)");
@@ -1113,8 +1072,8 @@ void transaction()
         gotoxy(2,8+j); printf("%d.",i+1);
         for(x=0;x<strlen(selected[i].ac_t);x++) if(selected[i].ac_t[x]=='+') selected[i].ac_t[x]=32;
         gotoxy(6,8+j); puts(selected[i].ac_t);
-        if (c==0) date_output(selected[i]._date);
-        gotoxy(28,8+j); puts(selected[i]._date);
+        if (c==0) otr_date_output(selected[i]._otr_date);
+        gotoxy(28,8+j); puts(selected[i]._otr_date);
         selected[i]._ttime[5]='\0';
         gotoxy(44,8+j); printf("%s",selected[i]._ttime);
         if(selected[i].ac_t[0]=='T')
@@ -1310,7 +1269,7 @@ void add_user()
             err1=0;
             gotoxy(25,8);printf("User Name        : ");
             scanf("%s",user.name);
-            fp=fopen("USER.DAT","r");//opens the datafile USER.DAT to check if the user name already exits or not
+            fp=fopen("USER.DAT","r");//opens the datachar USER.DAT to check if the user name already exits or not
 
 
         c=0;
@@ -1318,7 +1277,7 @@ void add_user()
                 {
                     strcpy(nam,strupr(nam));
                     strcpy(user.name,strupr(user.name));
-                    if(strcmp(nam,user.name)==0) c++;//if given username and the username of datafile matches, c is increased by 1
+                    if(strcmp(nam,user.name)==0) c++;//if given username and the username of datachar matches, c is increased by 1
                 }
 
                 fclose(fp);
@@ -1349,7 +1308,7 @@ void add_user()
             }
         }while(err1!=0);
 
-        fp=fopen("USER.DAT","r");//data file again opened to read the last user id
+        fp=fopen("USER.DAT","r");//data char again opened to read the last user id
 
         char id[4];
 
@@ -1364,10 +1323,10 @@ void add_user()
         }
         fclose(fp);
 
-        fp=fopen("USER.DAT","a");//data file open to append (add) record
+        fp=fopen("USER.DAT","a");//data char open to append (add) record
 
 
-        fprintf(fp,"%s %s %s\n",user.uid,user.name,user.password); //record written in datafile
+        fprintf(fp,"%s %s %s\n",user.uid,user.name,user.password); //record written in datachar
         fclose(fp);
 
         title();
@@ -1389,7 +1348,7 @@ void del_user()
             _password(passwrd);
             strcpy(user.password,passwrd);
 
-        fp=fopen("USER.DAT","r");//opening datafile to read in order to check if the given user name and password combination exists
+        fp=fopen("USER.DAT","r");//opening datachar to read in order to check if the given user name and password combination exists
          while(fscanf(fp,"%s %s %s\n",user.uid,nam,pass)!=EOF)
          {
              strcpy(nam,strupr(nam));
@@ -1414,7 +1373,7 @@ void del_user()
             if(ch=='Y'||ch=='y')
             {
                 fp=fopen("USER.DAT","r");
-                tfp=fopen("temp.dat","a");//creating a temporary datafile where all the contents of USER.DAT is copied except the one entered by user to delete. Note that @line 292 and 293 we have first deleted our old datafile USER.DAT and renamed the duplicate copy temp.dat into USER.DAT. This concept has been used to delete and edit records of data file
+                tfp=fopen("temp.dat","a");//creating a temporary datachar where all the contents of USER.DAT is copied except the one entered by user to delete. Note that @line 292 and 293 we have first deleted our old datachar USER.DAT and renamed the duplicate copy temp.dat into USER.DAT. This concept has been used to delete and edit records of data char
                 while(fscanf(fp,"%s %s %s\n",user.uid,nam,pass)!=EOF)
                 {
                     strcpy(nam,strupr(nam));
@@ -1430,13 +1389,13 @@ void del_user()
                 system("ren temp.dat USER.DAT");
 
                 fp=fopen("LOG.DAT","r");
-                tfp=fopen("temp.dat","w");//creating a temporary datafile where all the contents of USER.DAT is copied except the one entered by user to delete. Note that @line 292 and 293 we have first deleted our old datafile USER.DAT and renamed the duplicate copy temp.dat into USER.DAT. This concept has been used to delete and edit records of data file
-                while(fscanf(fp,"%s %s %s %s",log.id,log.date,log.stime,log.etime)!=EOF)
+                tfp=fopen("temp.dat","w");//creating a temporary datachar where all the contents of USER.DAT is copied except the one entered by user to delete. Note that @line 292 and 293 we have first deleted our old datachar USER.DAT and renamed the duplicate copy temp.dat into USER.DAT. This concept has been used to delete and edit records of data char
+                while(fscanf(fp,"%s %s %s %s",log.id,log.otr_date,log.stime,log.etime)!=EOF)
                 {
                     strupr(log.id);
                     strupr(id);
                     if(strcmp(log.id,id)!=0)
-                        fprintf(tfp,"%s %s %s %s\n",log.id,log.date,log.stime,log.etime);
+                        fprintf(tfp,"%s %s %s %s\n",log.id,log.otr_date,log.stime,log.etime);
                 }
                 fclose(fp);
                 fclose(tfp);
@@ -1558,9 +1517,9 @@ void view_log()
 
 do {
         i=0;c=0;n=0;cnt=0;
-        tfp=fopen("LOG.DAT","r");//note that 2 datafiles LOG.DAT and USER.DAT are opened to store necessary informations in structure variable log[] all informations are availeble on LOG.DAT but to access user name we have to open USER.DAT also. After storing necessary information in structure variable log, there is no need to further open these datafiles
+        tfp=fopen("LOG.DAT","r");//note that 2 datachars LOG.DAT and USER.DAT are opened to store necessary informations in structure variable log[] all informations are availeble on LOG.DAT but to access user name we have to open USER.DAT also. After storing necessary information in structure variable log, there is no need to further open these datachars
 
-        while(fscanf(tfp,"%s %s %s %s\n",log[i].id,log[i].date,log[i].stime,log[i].etime)!=EOF)
+        while(fscanf(tfp,"%s %s %s %s\n",log[i].id,log[i].otr_date,log[i].stime,log[i].etime)!=EOF)
         {
 
             fp=fopen("USER.DAT","r");
@@ -1580,7 +1539,7 @@ do {
 
     title();
     gotoxy(30,8);printf("1. View by USER NAME");
-    gotoxy(30,10);printf("2. View by DATE");
+    gotoxy(30,10);printf("2. View by otr_date");
     gotoxy(30,12);printf("3. View ALL User history");
     gotoxy(30,14);printf("4. Return to main menu");
     gotoxy(1,15); for(i=0;i<78;i++) printf("_");
@@ -1604,14 +1563,14 @@ do {
 
             do
             {
-            gotoxy(30,10); printf("Enter Date (dd/mm/yyyy) : "); scanf(" %s",nam);
+            gotoxy(30,10); printf("Enter otr_date (dd/mm/yyyy) : "); scanf(" %s",nam);
 
-            if(date_check(nam)==0) { cls(30,10,70,10); printf("\a");}
-            }while(date_check(nam)==0);
+            if(otr_date_check(nam)==0) { cls(30,10,70,10); printf("\a");}
+            }while(otr_date_check(nam)==0);
 
-            date_input(nam);
+            otr_date_input(nam);
             for(i=0,j=0;i<l;i++)
-                  if(strcmp(log[i].date,nam)==0) selected[j++]=log[i];
+                  if(strcmp(log[i].otr_date,nam)==0) selected[j++]=log[i];
             l1=j;
         break;
         case 3:
@@ -1665,7 +1624,7 @@ do {
             {
             gotoxy(15,21); printf("Press SPACE BAR to view more data");
             }
-        gotoxy(5,8); printf("SN\t User Name\tDate\t\tStart time\tEnd Time");
+        gotoxy(5,8); printf("SN\t User Name\totr_date\t\tStart time\tEnd Time");
         gotoxy(4,9); for(i=0;i<70;i++) printf("%c",196);
         if(cnt!=0)
             {
@@ -1683,12 +1642,12 @@ do {
         gotoxy(5,10+j);printf("%d.",i+1);
         selected[i].stime[5]='\0';
         selected[i].etime[5]='\0';
-        if (strlen(selected[i].date)<10)
+        if (strlen(selected[i].otr_date)<10)
         {
-        date_output(selected[i].date);
+        otr_date_output(selected[i].otr_date);
 
         }
-        gotoxy(9,10+j); printf("%s\t\t%s\t%s\t\t%s",selected[i].name,selected[i].date,selected[i].stime,selected[i].etime);
+        gotoxy(9,10+j); printf("%s\t\t%s\t%s\t\t%s",selected[i].name,selected[i].otr_date,selected[i].stime,selected[i].etime);
         if(i>=n+9) { n=n+10; break;}
         }
         ch=getche();
@@ -1731,83 +1690,83 @@ void welcome()
 }
 
 
-void date_input(char date[]) // dd/mm/yyyy ----> mm/dd/yy
+void otr_date_input(char otr_date[]) // dd/mm/yyyy ----> mm/dd/yy
 {
     char temp[15];
 
-    temp[3]=date[0];
-    temp[4]=date[1];
-    temp[0]=date[3];
-    temp[1]=date[4];
-    temp[6]=date[8];
-    temp[7]=date[9];
+    temp[3]=otr_date[0];
+    temp[4]=otr_date[1];
+    temp[0]=otr_date[3];
+    temp[1]=otr_date[4];
+    temp[6]=otr_date[8];
+    temp[7]=otr_date[9];
     temp[8]='\0';
     temp[2]=temp[5]='/';
 
-    strcpy(date,temp);
+    strcpy(otr_date,temp);
 }
 
 
-void date_output(char date[]) //mm/dd/yy ---> dd MMM, yyyy
+void otr_date_output(char otr_date[]) //mm/dd/yy ---> dd MMM, yyyy
 {
     struct
     {
         int dd;
         char mm[4];
         int yyyy;
-    }_date;
+    }_otr_date;
 
     char temp[15];
     int mm,c,i;
-    _date.dd=(date[3]-48)*10+(date[4]-48);
+    _otr_date.dd=(otr_date[3]-48)*10+(otr_date[4]-48);
 
-    mm=(date[0]-48)*10+(date[1]-48);
-    _date.yyyy=2000+(date[6]-48)*10+(date[7]-48);
+    mm=(otr_date[0]-48)*10+(otr_date[1]-48);
+    _otr_date.yyyy=2000+(otr_date[6]-48)*10+(otr_date[7]-48);
 switch(mm)
     {
-        case 1: strcpy(_date.mm,"Jan"); break;
-        case 2: strcpy(_date.mm,"Feb"); break;
-        case 3: strcpy(_date.mm,"Mar"); break;
-        case 4: strcpy(_date.mm,"Apr"); break;
-        case 5: strcpy(_date.mm,"May"); break;
-        case 6: strcpy(_date.mm,"Jun"); break;
-        case 7: strcpy(_date.mm,"Jul"); break;
-        case 8: strcpy(_date.mm,"Aug"); break;
-        case 9: strcpy(_date.mm,"Sep"); break;
-        case 10: strcpy(_date.mm,"Oct"); break;
-        case 11: strcpy(_date.mm,"Nov"); break;
-        case 12: strcpy(_date.mm,"Dec"); break;
+        case 1: strcpy(_otr_date.mm,"Jan"); break;
+        case 2: strcpy(_otr_date.mm,"Feb"); break;
+        case 3: strcpy(_otr_date.mm,"Mar"); break;
+        case 4: strcpy(_otr_date.mm,"Apr"); break;
+        case 5: strcpy(_otr_date.mm,"May"); break;
+        case 6: strcpy(_otr_date.mm,"Jun"); break;
+        case 7: strcpy(_otr_date.mm,"Jul"); break;
+        case 8: strcpy(_otr_date.mm,"Aug"); break;
+        case 9: strcpy(_otr_date.mm,"Sep"); break;
+        case 10: strcpy(_otr_date.mm,"Oct"); break;
+        case 11: strcpy(_otr_date.mm,"Nov"); break;
+        case 12: strcpy(_otr_date.mm,"Dec"); break;
     }
 
-    temp[0]=(int)(_date.dd/10)+48;
-    temp[1]=(int)(_date.dd%10)+48;
+    temp[0]=(int)(_otr_date.dd/10)+48;
+    temp[1]=(int)(_otr_date.dd%10)+48;
     temp[2]=32;
     temp[3]='\0';
-    strcat(temp,_date.mm);
+    strcat(temp,_otr_date.mm);
     temp[6]=',';
     c=0;
     temp[7]=32;
     for(i=3;i>=0;i--)
     {
-        temp[8+c]=(int)(_date.yyyy/pow(10,i))+48;
+        temp[8+c]=(int)(_otr_date.yyyy/pow(10,i))+48;
         c++;
-        _date.yyyy%=(int)pow(10,i);
+        _otr_date.yyyy%=(int)pow(10,i);
     }
     temp[12]='\0';
-    strcpy(date,temp);
+    strcpy(otr_date,temp);
     }
 
 
-int date_check(char _date[]) //_date[] is in format dd/mm/yyyy
+int otr_date_check(char _otr_date[]) //_otr_date[] is in format dd/mm/yyyy
 {
     int err=0,mm,dd,yyyy;
-    if(strlen(_date)!=10) err++;
-    if(_date[2]!='/'||_date[5]!='/') err++;
-    mm=(_date[3]-48)*10+(_date[4]-48);
+    if(strlen(_otr_date)!=10) err++;
+    if(_otr_date[2]!='/'||_otr_date[5]!='/') err++;
+    mm=(_otr_date[3]-48)*10+(_otr_date[4]-48);
     if (mm>12) err++;
-    dd=(_date[0]-48)*10+(_date[1]-48);
+    dd=(_otr_date[0]-48)*10+(_otr_date[1]-48);
 
-    yyyy=(_date[6]-48)*1000+(_date[7]-48)*100+(_date[8]-48)*10+(_date[9]-48);
+    yyyy=(_otr_date[6]-48)*1000+(_otr_date[7]-48)*100+(_otr_date[8]-48)*10+(_otr_date[9]-48);
 
     switch(mm)
     {
@@ -2076,12 +2035,12 @@ void increase(char i_id[])
 
 }
 
-int num_of_rec(char file[],int n)
+int num_of_rec(char char[],int n)
 {
-    FILE *fptr;
+    char *fptr;
     char dat[200];
     long int c=0;
-    fptr=fopen(file,"r");
+    fptr=fopen(char,"r");
     while(fscanf(fptr,"%s",dat)!=EOF) c++;
     fclose(fptr);
     return c/n;
@@ -2164,11 +2123,11 @@ void title()
     if (strcmp(user.name,"Admin")==0) gbl_flag=1;
     if (gbl_flag) printf("Current User : Admin");
     else printf("Current User : %s",user.name);
-    printf("\t\t\t\tDate : ");
-    _strdate(date);
-    date_output(date);
-    printf("%s",date);
-    _strdate(date);
+    printf("\t\t\t\totr_date : ");
+    _strotr_date(otr_date);
+    otr_date_output(otr_date);
+    printf("%s",otr_date);
+    _strotr_date(otr_date);
     gotoxy(1,5);
       for(i=0;i<78;i++) printf("%c",196);
 

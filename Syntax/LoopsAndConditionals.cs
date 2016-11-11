@@ -48,6 +48,7 @@ namespace Syntax
             {
                 throw new Exception("Openning parenthesis expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
+
             _parser.Utilities.NextToken();
             _parser.Expressions.Expression();
 
@@ -84,7 +85,7 @@ namespace Syntax
 
                 ListOfCase();
             }
-           /* else */if (_parser.Utilities.CompareTokenType(TokenType.RwDefault))
+            else if (_parser.Utilities.CompareTokenType(TokenType.RwDefault))
             {
                 DefaultCase();
             }
@@ -94,7 +95,7 @@ namespace Syntax
             }
         }
 
-        private void DefaultCase()
+        public void DefaultCase()
         {
             _parser.Utilities.NextToken();
 
@@ -104,6 +105,11 @@ namespace Syntax
             _parser.Utilities.NextToken();
 
             _parser.ListOfSpecialSentences();
+
+            if (_parser.Utilities.CompareTokenType(TokenType.RwBreak))
+            {
+                Break();
+            }
         }
 
         private void Case()
@@ -118,7 +124,7 @@ namespace Syntax
             _parser.Utilities.NextToken();
 
             _parser.ListOfSpecialSentences();
-
+            
             if (_parser.Utilities.CompareTokenType(TokenType.RwBreak))
             {
                 Break();

@@ -6,7 +6,7 @@ namespace ConsoleTest
 {
     class HandlerFiles
     {
-        public readonly string _defaultPath = Directory.GetParent(@"..\..\..\").FullName + @"\code8.c";
+        public readonly string _defaultPath = Directory.GetParent(@"..\..\..\").FullName + @"\code9.c";
         public readonly string _defaultPathLexer = Directory.GetParent(@"..\..\..\").FullName + @"\lexer.c";
 
 

@@ -102,7 +102,7 @@ namespace Syntax
         public void MultiDeclaration()
         {
             OptionalId();
-
+           
             if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
                 _parser.Utilities.NextToken();
@@ -111,6 +111,7 @@ namespace Syntax
             {
                 throw new Exception("An End of sentence ; symbol was expectedat row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
+         
         }
 
         public void OptionalId()

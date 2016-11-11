@@ -1,22 +1,29 @@
-#include<stdio.h>
-#include<conio.h>
-#include<stdlib.h>
-#include <windows.h>
+int main()
+{
+    int num[2][2], i, j;
+    printf("Enter 4 numbers:\n");
+    for (i = 0; i < 2; ++i)
+        for (j = 0; j < 2; ++j)
+            scanf("%d", &num[i][j]);
+    // passing multi-dimensional array to displayNumbers function
+    displayNumbers(num);
+    return 0;
+}
 
-
+void displayNumbers(int num[2][2])
+{
+    // Instead of the above line,
+    // void displayNumbers(int num[][2]) is also valid
+    int i, j;
+    printf("Displaying:\n");
+    for (i = 0; i < 2; ++i)
+        for (j = 0; j < 2; ++j)
+            printf("%d\n", num[i][j]);
+}
 
 int board[10] = {2,2,2,2,2,2,2,2,2,2};
 int turn = 1,flag = 0;
 int player,comp;
-
-void menu();
-void go(int n);
-void start_game();
-void check_draw();
-void draw_board();
-void player_first();
-void put_X_O(char ch,int pos);
- COORD coord={0,0}; // this is global variable
                                     //center of axis is set to the top left cornor of the screen
 void gotoxy(int x,int y)
 {
@@ -59,7 +66,9 @@ void menu()
    start_game();
    break;
   case 3:
-   exit(1);
+   comp = 1;
+   //exit(1);
+   //break;
   default:
    menu();
  }

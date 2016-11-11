@@ -63,9 +63,10 @@ namespace Syntax
             {
                 return;
             }
-            
+
             //Lista_Sentencias->Sentence Lista_Sentencias
-            if (Enum.IsDefined(typeof(TokenType), CurrentToken.TokenType))
+            // if (Enum.IsDefined(typeof(TokenType), CurrentToken.TokenType))
+            if (!Utilities.CompareTokenType(TokenType.EndOfFile))
             {
                 Console.WriteLine();
 
@@ -135,6 +136,10 @@ namespace Syntax
             {
                 LoopsAndConditionals.Break();
             }
+            else if (Utilities.CompareTokenType(TokenType.RwDefault))
+            {
+                LoopsAndConditionals.DefaultCase();
+            }
             else if (Utilities.CompareTokenType(TokenType.RwContinue))
             {
                 LoopsAndConditionals.Continue();
@@ -161,6 +166,11 @@ namespace Syntax
             {
                 ReturnStatement();
             }
+            else if (Utilities.CompareTokenType(TokenType.RwStruct)
+                || Utilities.CompareTokenType(TokenType.RwTypedef))
+            {
+                throw new Exception("Not a valid sentence at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+            }
             else
             {
                 try
@@ -170,7 +180,7 @@ namespace Syntax
                 catch (Exception)
                 {
 
-                    throw new Exception("Not a valid sentence");
+                    throw new Exception("Not a valid sentence at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
 
             }
@@ -231,10 +241,17 @@ namespace Syntax
             else if (Utilities.CompareTokenType(TokenType.RwBreak))
             {
                 LoopsAndConditionals.Break();
+              //  throw new Exception("Not a valid sentence at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+            }
+            else if (Utilities.CompareTokenType(TokenType.RwDefault))
+            {
+                LoopsAndConditionals.DefaultCase();
+                //throw new Exception("Not a valid sentence at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
             else if (Utilities.CompareTokenType(TokenType.RwContinue))
             {
                 LoopsAndConditionals.Continue();
+                //throw new Exception("Not a valid sentence at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
             else if (Utilities.CompareTokenType(TokenType.Identifier)
                 || Utilities.CompareTokenType(TokenType.OpMultiplication)
@@ -250,14 +267,14 @@ namespace Syntax
 
                     if (!Utilities.CompareTokenType(TokenType.Identifier))
                     {
-                        throw new Exception("Identifier expected");
+                        throw new Exception("Identifier expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                     }
 
                     Utilities.NextToken();
 
                     if (!Utilities.CompareTokenType(TokenType.CloseParenthesis))
                     {
-                        throw new Exception("Closing parenthesis");
+                        throw new Exception("Closing parenthesis required at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                     }
                     
                     AssignmentOrFunctionCall();
@@ -305,7 +322,7 @@ namespace Syntax
                 catch (Exception)
                 {
 
-                    throw new Exception("Not a valid sentence");
+                    throw new Exception("Not a valid sentence at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
                
             }
@@ -603,7 +620,7 @@ namespace Syntax
 
                 if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
                 {
-                    DeclarationOfStruct();
+                    DeclarationOfStruct(false);
                 }
 
                 if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
@@ -642,11 +659,27 @@ namespace Syntax
                 Utilities.NextToken();
         }
 
-        private void DeclarationOfStruct()
+        private void DeclarationOfStruct(bool isMultideclaration)
         {
             if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
             {
-                GeneralDeclaration();
+                if (!isMultideclaration)
+                {
+                    GeneralDeclaration();
+                }
+                else
+                {
+                    if (Utilities.CompareTokenType(TokenType.OpMultiplication))
+                    {
+                        IsPointer();
+                    }
+
+                    if (!Utilities.CompareTokenType(TokenType.Identifier))
+                    {
+                        throw new Exception("Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                    }
+                    Utilities.NextToken();
+                }
 
                 if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 {
@@ -657,10 +690,16 @@ namespace Syntax
                         throw new Exception("Closing bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                     Utilities.NextToken();
                 }
-                if (Utilities.CompareTokenType(TokenType.EndOfSentence))
+
+                if (Utilities.CompareTokenType(TokenType.Comma))
                 {
                     Utilities.NextToken();
-                    DeclarationOfStruct();
+                    DeclarationOfStruct(true);
+                }
+                else if (Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    Utilities.NextToken();
+                    DeclarationOfStruct(false);
                 }
                 else
                 {

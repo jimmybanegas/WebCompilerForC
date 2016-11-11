@@ -136,7 +136,7 @@ namespace Lexer
             _keywords.Add("return", TokenType.RwReturn);
             _keywords.Add("signed", TokenType.RwSigned);
             _keywords.Add("static", TokenType.RwStatic);
-            _keywords.Add("sizeof", TokenType.RwSizeOf);
+           // _keywords.Add("sizeof", TokenType.RwSizeOf);
             _keywords.Add("short", TokenType.RwShort);
             _keywords.Add("struct", TokenType.RwStruct);
             _keywords.Add("switch",TokenType.RwSwitch);
