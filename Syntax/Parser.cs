@@ -549,29 +549,88 @@ namespace Syntax
 
             Utilities.NextToken();
 
-            if (!Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
-                throw new Exception("Openning bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
-
-            Utilities.NextToken();
-
-            if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
-            {
-                DeclarationOfStruct();
-            }
-
-            if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
-                throw new Exception("Closing bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
-            Utilities.NextToken();
-
-            if (Utilities.CompareTokenType(TokenType.Identifier))
-            {
-                Utilities.NextToken();
-            }
+            StructDeclarationOrInitialization();
 
             if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
                 throw new Exception("End of sentence was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
             Utilities.NextToken();
+        }
+
+        private void StructDeclarationOrInitialization()
+        {
+            if (Utilities.CompareTokenType(TokenType.Identifier) || Utilities.CompareTokenType(TokenType.OpMultiplication))
+            {
+                if (Utilities.CompareTokenType(TokenType.OpMultiplication))
+                {
+                    IsPointer();
+                }
+                Utilities.NextToken();
+
+                //Posible inicializacion de los valores, así como se inicializa un arreglo
+                //struct point my_point = { 3, 7 };
+                //struct point *p = &my_point;
+                if (Utilities.CompareTokenType(TokenType.Comma))
+                {
+                    Functions.OptionalId();
+                }
+
+                if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
+                {
+                    InitializationForStruct();
+                }
+
+                if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    throw new Exception("Openning bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                }
+            }
+            else
+            {
+                if (!Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
+                    throw new Exception("Openning bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+
+                Utilities.NextToken();
+
+                if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
+                {
+                    DeclarationOfStruct();
+                }
+
+                if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
+                    throw new Exception("Closing bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                Utilities.NextToken();
+
+                if (Utilities.CompareTokenType(TokenType.Identifier))
+                {
+                    Utilities.NextToken();
+                }
+            }
+          
+        }
+
+        private void InitializationForStruct()
+        {
+            Utilities.NextToken();
+            if (Utilities.CompareTokenType(TokenType.OpBitAnd))
+            {
+                ChooseIdType();
+            }
+            else if (Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
+            {
+                InitElementsOfStruct();
+            }
+        }
+
+        private void InitElementsOfStruct()
+        {
+            if (!Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
+                throw new Exception("Openning bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+
+            Utilities.NextToken();
+            ListOfExpressions();
+            if (Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
+                Utilities.NextToken();
         }
 
         private void DeclarationOfStruct()

@@ -149,7 +149,7 @@ namespace Syntax
 
         }
 
-        private void OptionalInitOfArray()
+        public void OptionalInitOfArray()
         {
             _parser.Utilities.NextToken();
             if (_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))

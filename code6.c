@@ -1,27 +1,5 @@
-#include<stdio.h>
-
-#include<stdlib.h>
-
-#include<conio.h>
-
-#include<string.h>
-
-
-int password();
-
-void addrecord();
-
-void viewrecord();
-
-void editrecord();
-
-void editpassword();
-
-void deleterecord();
-
 
 struct record
-
 {
 
     char time[6];
@@ -119,18 +97,6 @@ int main()
 
                             getch();
 
-                            exit(0);
-
-
-                            default:
-
-                            printf("\nYOU ENTERED WRONG CHOICE..");
-
-                            printf("\nPRESS ANY KEY TO TRY AGAIN");
-
-                            getch();
-
-                            break;
 
                     }
 
@@ -148,9 +114,9 @@ void addrecord( )
 
                 system("cls");
 
-                FILE *fp ;
+                //FILE *fp ;
 
-                char another = 'Y' ,time[10];
+                //char another = 'Y' ,time[10];
 
                 struct record e ;
 
@@ -284,7 +250,7 @@ void viewrecord( )
 
 {
 
-        FILE *fpte ;
+        //FILE *fpte ;
 
         system("cls");
 
@@ -443,7 +409,7 @@ void editrecord()
 
         system("cls");
 
-        FILE *fpte ;
+        //FILE *fpte ;
 
         struct record customer ;
 
@@ -730,7 +696,7 @@ int password()
 
         char pass[15]={0},check[15]={0},ch;
 
-        FILE *fpp;
+        //FILE *fpp;
 
         int i=0,j;
 
@@ -864,7 +830,7 @@ void editpassword()
 
     int choice,i,check;
 
-    FILE *fp;
+   // FILE *fp;
 
     fp=fopen("SE","rb");
 
@@ -1070,7 +1036,7 @@ void deleterecord( )
 
                 system("cls");
 
-                FILE *fp,*fptr ;
+                //FILE *fp,*fptr ;
 
                 struct record file ;
 
