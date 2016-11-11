@@ -5,7 +5,7 @@ namespace Syntax
 {
     public class Arrays
     {
-        private Parser _parser;
+        private readonly Parser _parser;
 
         public Arrays(Parser parser)
         {
@@ -33,12 +33,6 @@ namespace Syntax
             {
                 BidArray(out isUnidimensional);
             }
-
-            if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment) && !isUnidimensional)
-            {
-                OptionalInitOfArray();
-            }
-
             if ((_parser.Utilities.CompareTokenType(TokenType.EndOfSentence) && hasSize && isUnidimensional))
             {
                 _parser.Utilities.NextToken();
@@ -47,37 +41,14 @@ namespace Syntax
             {
                 _parser.Utilities.NextToken();
             }
-            else if (isUnidimensional && _parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
-            {
-                if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
-                {
-                    throw new Exception("An assignment symbol was expected");
-                }
-
-                OptionalInitOfArray();
-            }
-            else if (isUnidimensional && !hasSize)
-            {
-                if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
-                {
-                    throw new Exception("An assignment symbol was expected");
-                }
-
-                OptionalInitOfArray();
-            }
             //Cuando hay una multideclaracion de variables que lleva arreglos en ese conjunto
             else if (_parser.Utilities.CompareTokenType(TokenType.Comma))
             {
                 _parser.Functions.OptionaListOfParams();
             }
-            //else
-            //{
-            //    throw new Exception("An End of sentence ; symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
-            //}
-
         }
 
-        public void IsArrayDeclaration()
+        public void IsArrayDeclaration(bool isInMultiDeclaration)
         {
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 throw new Exception("An openning bracket [ symbol was expected");
@@ -101,7 +72,7 @@ namespace Syntax
         
             if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment) && !isUnidimensional)
             {
-                OptionalInitOfArray();
+                OptionalInitOfArray(isInMultiDeclaration);
             }
             
             if ((_parser.Utilities.CompareTokenType(TokenType.EndOfSentence) && hasSize && isUnidimensional))
@@ -119,7 +90,7 @@ namespace Syntax
                     throw new Exception("An assignment symbol was expected");
                 }
 
-                OptionalInitOfArray();
+                OptionalInitOfArray(isInMultiDeclaration);
             }
             else if (isUnidimensional && !hasSize)
             {
@@ -128,7 +99,7 @@ namespace Syntax
                     throw new Exception("An assignment symbol was expected");
                 }
 
-                OptionalInitOfArray();
+                OptionalInitOfArray(isInMultiDeclaration);
             }
             //Cuando hay una multideclaracion de variables que lleva arreglos en ese conjunto
             else if (_parser.Utilities.CompareTokenType(TokenType.Comma))
@@ -144,12 +115,12 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("An End of sentence ; symbol was expected at row: "+_parser.CurrentToken.Row+" , column: "+_parser.CurrentToken.Column);
+                throw new Exception("An End of sentence ; symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);       
             }
 
         }
 
-        public void OptionalInitOfArray()
+        public void OptionalInitOfArray(bool isInMultiDeclaration)
         {
             _parser.Utilities.NextToken();
             if (_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
@@ -160,11 +131,14 @@ namespace Syntax
                    _parser.Utilities.NextToken();
             }
 
-            if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
+            if (!isInMultiDeclaration)
             {
-                throw new Exception("End of sentence was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
+                if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    throw new Exception("End of sentence was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
+                }
+                _parser.Utilities.NextToken();
             }
-            _parser.Utilities.NextToken();
         }
 
         public void BidArray(out bool isUnidimensional)
@@ -214,8 +188,10 @@ namespace Syntax
 
         private void SizeForArray(out bool hasSize)
         {
-            if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber) || _parser.Utilities.CompareTokenType(TokenType.LiteralOctal)
-                || _parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal) || _parser.Utilities.CompareTokenType(TokenType.Identifier))
+            if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber) 
+                || _parser.Utilities.CompareTokenType(TokenType.LiteralOctal)
+                || _parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal) 
+                || _parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
                 _parser.Utilities.NextToken();
                 hasSize = true;

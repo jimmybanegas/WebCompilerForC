@@ -182,7 +182,8 @@ namespace Syntax
                     throw new Exception("Closin parenthesis was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
                 }
 
-                BlockForLoop();
+                //BlockForLoop();
+                BlockForIf();
             }
             else
             {
@@ -210,7 +211,8 @@ namespace Syntax
                     throw new Exception("Closing parenthesis was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
                 }
 
-                BlockForLoop();
+               // BlockForLoop();
+               BlockForIf();
             }
          
         }
@@ -237,7 +239,8 @@ namespace Syntax
 
         public void Do()
         {
-            BlockForLoop();
+            //BlockForLoop();
+            BlockForIf();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.RwWhile))
             {
@@ -288,7 +291,8 @@ namespace Syntax
                 throw new Exception("Closing parenthesis was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
 
-            BlockForLoop();
+            //BlockForLoop();
+            BlockForIf();
         }
 
         public void If()

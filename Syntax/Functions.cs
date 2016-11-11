@@ -5,7 +5,7 @@ namespace Syntax
 {
     public class Functions
     {
-        private Parser _parser;
+        private readonly Parser _parser;
 
         public Functions(Parser parser)
         {

@@ -1,12 +1,51 @@
-#include<stdio.h>
 
-#include<conio.h>
+// a[b]
+// *a
+// &a
+// a->b
+// a.b
+// a->*b
+// a.*b
 
-#include<ctype.h>
+if(a->*b ==  a.*b)
+    avg = average(age); /* Only name of array is passed as argument. */
+    printf("Average age=%.2f", avg);
 
-#include<windows.h>
+float avg, age[] = { 23.4, 55, 22.6, 3, 40.5, 18 };
+avg = average(age); /* Only name of array is passed as argument. */
+printf("Average age=%.2f", avg);
+return 0;
 
-#include<stdlib.h>
+float average(float age[])
+{
+    int i;
+    float avg, sum = 0;
+    for (i = 0; i < 6; ++i) {
+        sum += age[i];
+    }
+    avg = (sum / 6);
+    return avg;
+}
+
+void display(int age)
+{
+    printf("%d", age);
+}
+
+int main()
+{
+    int ageArray[] = { 2, 3, 4 };
+    display(ageArray[2]); //Passing array element ageArray[2] only.
+    return 0;
+}
+
+void arraytest(int a[])
+{
+    // changed the array a
+    a[0]=a[0]+a[1];
+    a[1]=a[0]-a[1];
+    a[0]=a[0]-a[1];
+}
 
 struct subscriber
 
@@ -20,17 +59,6 @@ float amount;
 
 }s;
 
-void addrecords();
-
-void listrecords();
-
-void modifyrecords();
-
-void deleterecords();
-
-void searchrecords();
-
-void payment();
 
 char get;
 
@@ -140,7 +168,7 @@ void addrecords()
 
 {
 
-  FILE *f;
+  //FILE *f;
 
   char test;
 
@@ -180,7 +208,7 @@ void addrecords()
 
     scanf("%f",&s.amount);
 
-    fwrite(&s,sizeof(s),1,f);
+    fwrite(&s,s,1,f);
 
     fflush(stdin);
 
@@ -206,7 +234,7 @@ void listrecords()
 
 {
 
-  FILE *f;
+  //FILE *f;
 
   int i;
 
@@ -218,11 +246,11 @@ void listrecords()
 
   printf("Phone Number\t\tUser Name\t\t\tAmount\n");
 
-  for(i=0;i<79;i++)
-
+  for(i=0;i<79;i++){
     printf("-");
+  }
 
-  while(fread(&s,sizeof(s),1,f)==1)
+  while(fread(&s,s,1,f)==1)
 
   {
 
@@ -233,8 +261,10 @@ void listrecords()
   printf("\n");
 
   for(i=0;i<79;i++)
-
+{
     printf("-");
+}
+
 
 
 fclose(f);
@@ -247,7 +277,7 @@ void deleterecords()
 
 {
 
-  FILE *f,*t;
+  //FILE *f,*t;
 
   int i=1;
 
@@ -269,7 +299,7 @@ void deleterecords()
 
   scanf("%[^\n]",phonenumber);
 
-  while(fread(&s,sizeof(s),1,f)==1)
+  while(fread(&s,s,1,f)==1)
 
   {
 
@@ -284,7 +314,7 @@ void deleterecords()
 
     else
 
-      fwrite(&s,sizeof(s),1,t);
+      fwrite(&s,s,1,t);
 
   }
 
@@ -328,7 +358,7 @@ void searchrecords()
 
 {
 
-  FILE *f;
+  //FILE *f;
 
   char phonenumber[20];
 
@@ -348,12 +378,10 @@ void searchrecords()
 
   scanf("%s", phonenumber);
 
-  while(fread(&s,sizeof(s),1,f)==1)
-
+  while(fread(&s,s,1,f)==1)
   {
 
     if(strcmp(s.phonenumber,phonenumber)==0)
-
     {  system("cls");
 
       printf(" Record Found ");
@@ -379,18 +407,15 @@ void searchrecords()
   getch();
 
   fclose(f);
-
-{
-
 }
 
-void modifyrecords()
+void modifyrecords(){
 
-  FILE *f;
+  //FILE *f;
 
   char phonenumber[20];
 
-  long int size=sizeof(s);
+  int size=s;
 
   if((f=fopen("c:/file.ojs","rb+"))==NULL)
 
@@ -404,7 +429,7 @@ void modifyrecords()
 
   fflush(stdin);
 
-  while(fread(&s,sizeof(s),1,f)==1)
+  while(fread(&s,s,1,f)==1)
 
   {
 
@@ -428,9 +453,9 @@ void modifyrecords()
 
       scanf("%f",&s.amount);
 
-      fseek(f,-size,SEEK_CUR);
+      fseek(f,size,SEEK_CUR);
 
-      fwrite(&s,sizeof(s),1,f);
+      fwrite(&s,s,1,f);
 
       break;
 
@@ -446,11 +471,11 @@ void payment()
 
 {
 
-  FILE *f;
+  //FILE *f;
 
   char phonenumber[20];
 
-  long int size=sizeof(s);
+  int size=s;
 
   float amt;
 
@@ -468,7 +493,7 @@ void payment()
 
   fflush(stdin);
 
-  while(fread(&s,sizeof(s),1,f)==1)
+  while(fread(&s,s,1,f)==1)
 
   {
 
@@ -498,11 +523,11 @@ void payment()
 
       s.amount=s.amount-amt;
 
-      fseek(f,-size,SEEK_CUR);
+      fseek(f,size,SEEK_CUR);
 
-  getch();
+      getch();
 
-      fwrite(&s,sizeof(s),1,f);
+      fwrite(&s,S,1,f);
 
       break;
 
@@ -517,3 +542,9 @@ void payment()
   fclose(f);
 
 }
+
+ for(i=0;i<79;i++)
+
+        printf("-");
+
+      printf("\n\nEnter amount of payment :");

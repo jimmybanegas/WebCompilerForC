@@ -276,6 +276,11 @@ namespace Syntax
             {
                 ArrowOrPointer();
 
+                if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
+                {
+                    _parser.IsPointer();
+                }
+
                 if (!_parser.Utilities.CompareTokenType(TokenType.Identifier))
                 {
                     throw new Exception("Identifier expected )");

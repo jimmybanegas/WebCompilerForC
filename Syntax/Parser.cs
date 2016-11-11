@@ -10,9 +10,9 @@ namespace Syntax
         public Token CurrentToken;
         public readonly Arrays Arrays;
         public readonly LoopsAndConditionals LoopsAndConditionals;
-        private readonly Utilities _utilities;
         public readonly Functions Functions;
         public readonly Expressions Expressions;
+        private readonly Utilities _utilities;
 
         public Parser(Lexer.Lexer lexer)
         {
@@ -20,9 +20,10 @@ namespace Syntax
             CurrentToken = lexer.GetNextToken();
             Arrays = new Arrays(this);
             LoopsAndConditionals = new LoopsAndConditionals(this);
-            _utilities = new Utilities(this);
             Functions = new Functions(this);
             Expressions = new Expressions(this);
+
+            _utilities = new Utilities(this);
         }
 
         public Utilities Utilities
@@ -32,10 +33,18 @@ namespace Syntax
 
         public void Parse()
         {
-            Ccode();
+            //try
+            //{
+                Ccode();
 
-            if (CurrentToken.TokenType != TokenType.EndOfFile)
-                throw new Exception("End of file expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                if (CurrentToken.TokenType != TokenType.EndOfFile)
+                    throw new Exception("End of file expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+            //}
+            //catch (Exception e)
+            //{
+            //   Console.WriteLine( "\n" +e.Message);
+            //}
+          
         }
 
         private void Ccode()
@@ -739,7 +748,8 @@ namespace Syntax
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
-                Arrays.IsArrayDeclaration();
+                bool isInMultideclaration = false;
+                Arrays.IsArrayDeclaration(isInMultideclaration);
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
@@ -807,7 +817,9 @@ namespace Syntax
 
                 if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 {
-                    Arrays.IsArrayDeclaration();
+                    bool isInMultiDeclaration = true;
+
+                    Arrays.IsArrayDeclaration(isInMultiDeclaration);
                 }
 
                 OtherIdOrValue();
@@ -883,7 +895,9 @@ namespace Syntax
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
-                Arrays.IsArrayDeclaration();
+                bool isInMultideclaration = false;
+
+                Arrays.IsArrayDeclaration(isInMultideclaration);
             }
             else if (Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
