@@ -12,6 +12,83 @@ namespace Syntax
             _parser = parser;
         }
 
+        public void ArrayForFunctionsParameter()
+        {
+            if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+                throw new Exception("An openning bracket [ symbol was expected");
+
+            _parser.Utilities.NextToken();
+
+            bool hasSize;
+            bool isUnidimensional = true;
+
+            SizeForArray(out hasSize);
+
+            if (!_parser.Utilities.CompareTokenType(TokenType.CloseSquareBracket))
+                throw new Exception("An closing bracket ] symbol was expected");
+
+            _parser.Utilities.NextToken();
+
+            if (_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+            {
+                BidArray(out isUnidimensional);
+            }
+
+            if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment) && !isUnidimensional)
+            {
+                OptionalInitOfArray();
+            }
+
+            if ((_parser.Utilities.CompareTokenType(TokenType.EndOfSentence) && hasSize && isUnidimensional))
+            {
+                _parser.Utilities.NextToken();
+            }
+            else if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence) && !isUnidimensional)
+            {
+                _parser.Utilities.NextToken();
+            }
+            else if (isUnidimensional && _parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
+            {
+                if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
+                {
+                    throw new Exception("An assignment symbol was expected");
+                }
+
+                OptionalInitOfArray();
+            }
+            else if (isUnidimensional && !hasSize)
+            {
+                if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
+                {
+                    throw new Exception("An assignment symbol was expected");
+                }
+
+                OptionalInitOfArray();
+            }
+            //Cuando hay una multideclaracion de variables que lleva arreglos en ese conjunto
+            else if (_parser.Utilities.CompareTokenType(TokenType.Comma))
+            {
+                _parser.Functions.OptionaListOfParams();
+
+                //if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
+                //{
+                //    throw new Exception("An End of sentence ; symbol was expected");
+                //}
+
+              //  _parser.Utilities.NextToken();
+            }
+            //Cuando el arregglo va de parametro en la declaración de una función
+            else if (_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
+            {
+                //_parser.Utilities.NextToken();
+            }
+            else
+            {
+                throw new Exception("An End of sentence ; symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
+            }
+
+        }
+
         public void IsArrayDeclaration()
         {
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
@@ -65,6 +142,7 @@ namespace Syntax
 
                 OptionalInitOfArray();
             }
+            //Cuando hay una multideclaracion de variables que lleva arreglos en ese conjunto
             else if (_parser.Utilities.CompareTokenType(TokenType.Comma))
             {
                  _parser.OptionalExpression();

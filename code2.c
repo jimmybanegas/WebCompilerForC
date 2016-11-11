@@ -1,4 +1,33 @@
-#include "studio.h"
+int navigate(char arr[3][3], int box, int player, int key)
+{
+   switch(key)
+   {
+     case UPARROW    : if( (box!=1) || (box!=2) || (box!=3) )
+		               { box-=3; if(box<1) box = 1; gotobox(box); }
+	                   break;
+
+     case DOWNARROW  : if( (box!=7) || (box!=8) || (box!=9) )
+		               { box+=3; if(box>9) box = 9; gotobox(box); }
+		               break;
+
+     case LEFTARROW  : if( (box!=1) || (box!=4) || (box!=7) )
+		               { box--;  if(box<1) box = 1; gotobox(box); }
+		               break;
+
+     case RIGHTARROW : if( (box!=3) || (box!=6) || (box!=9) )
+		               { box++; if(box>9) box = 9; gotobox(box); }
+		               break;
+
+     case ENTER      : if(player == 0)
+			            putintobox(arr,'O',box);
+		               else if(player == 1)
+			            putintobox(arr,'X',box);
+		               break;
+    }//end of switch(key)
+
+ return box;
+}
+
 #include "conio.h"
 
 int main()
@@ -26,42 +55,38 @@ int main()
            switch(ch)
            {
              case UPARROW : box = navigate(a[3][3], box, player, UPARROW);
-             .
-             .
-             .
            }
        }
        if(quit) break;
        //check if the player wins
        win = checkforwin(a);
     
-     }while(!win)
+     }while(!win);
  
     if(win)
-    { .
-      .
+    { 
+    
     }
  
     else if(quit)
-    {    .
-         .
+    {    
+         
     }
  
  return 0;
 }
 
-#include <stdio.h>
-
 int main()
 {
-    FILE *fh;
+   // FILE *fh;
     int  ch;
      
     fh = fopen("ascii.txt","r");
  
-    for(i=0;i<256;i++)
-     fprint(fh,"\n%d - %c",i,i);
- 
+    for(i=0;i<256;i++){
+      fprint(fh,"\n%d - %c",i,i); 
+    }
+   
     fclose(fh);
     return 0;
 }
@@ -106,32 +131,3 @@ int checkforwin(char arr[3][3])
 }
 
 //Function to handle the navigation
-int navigate(char arr[3][3], int box, int player, int key)
-{
-   switch(key)
-   {
-     case UPARROW    : if( (box!=1) || (box!=2) || (box!=3) )
-		               { box-=3; if(box<1) box = 1; gotobox(box); }
-	                   break;
-
-     case DOWNARROW  : if( (box!=7) || (box!=8) || (box!=9) )
-		               { box+=3; if(box>9) box = 9; gotobox(box); }
-		               break;
-
-     case LEFTARROW  : if( (box!=1) || (box!=4) || (box!=7) )
-		               { box--;  if(box<1) box = 1; gotobox(box); }
-		               break;
-
-     case RIGHTARROW : if( (box!=3) || (box!=6) || (box!=9) )
-		               { box++; if(box>9) box = 9; gotobox(box); }
-		               break;
-
-     case ENTER      : if(player == 0)
-			            putintobox(arr,'O',box);
-		               else if(player == 1)
-			            putintobox(arr,'X',box);
-		               break;
-    }//end of switch(key)
-
- return box;
-}

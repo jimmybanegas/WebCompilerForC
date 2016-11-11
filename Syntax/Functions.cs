@@ -51,8 +51,8 @@ namespace Syntax
                 || _parser.Utilities.CompareTokenType(TokenType.RwDouble) 
                 || _parser.Utilities.CompareTokenType(TokenType.RwBool)
                 || _parser.Utilities.CompareTokenType(TokenType.RwLong)
-                ||_parser.Utilities.CompareTokenType(TokenType.RwFloat)
-                ||_parser.Utilities.CompareTokenType(TokenType.RwVoid))
+                || _parser.Utilities.CompareTokenType(TokenType.RwFloat)
+                || _parser.Utilities.CompareTokenType(TokenType.RwVoid))
             {
                 _parser.Utilities.NextToken();
 
@@ -66,7 +66,7 @@ namespace Syntax
             }
         }
 
-        private void OptionaListOfParams()
+        public void OptionaListOfParams()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.Comma))
             {

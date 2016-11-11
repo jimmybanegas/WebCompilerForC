@@ -621,6 +621,11 @@ namespace Syntax
             else if (Utilities.CompareTokenType(TokenType.Identifier))
             {
                 Utilities.NextToken();
+
+                if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+                {
+                    Arrays.ArrayForFunctionsParameter();
+                }
             }
             else
             {
