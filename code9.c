@@ -1,4 +1,15 @@
+ 
+ selected[i].ac_t[x]=32;
 
+ char pass[15]={0},check[15]={0},ch;
+
+   char uname[30], pass[30],passwrd[30]={0},id[10],nam[30];
+    int c=0,cnt=0;
+    char ex,stime[9],etime[9];
+
+char *fp,*fp1,*tfp; // char pointers
+
+char uname[30], pass[30],passwrd[30]={0},id[10],nam[30];
 
 char otr_date[13],ttime[10]; // These are global variables to store system otr_date and time
 
@@ -258,7 +269,7 @@ void staff()
 
 void add_ac()
 {
-     struct account ac;//structure variable ac created
+    // struct account ac;//structure variable ac created
      char acn[8],curr[35],ch;
      int i;
      float irate;
@@ -267,7 +278,8 @@ void add_ac()
      if(fp==NULL) strcpy(ac.ac_no,"AC00001");//if "ACCOUNT.DAT" does not exist i.e. there are no records at all then A/C no. is taken AC00001 for 1st rec
      else //otherwise a/c no of last record is accessed and increased by unit value which becomes the new a/c no.
      {
-        while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF);//note the while statement is terminated without any statement inside it. This helps in geting the last rec. of the data char
+        while(fscanf(fp,"%s %s %s %s %s %s %c %s %c %f %f %f\n",ac.ac_no,ac.fname,ac.lname,ac.dob,ac.address,ac.contact,&ac.sex,ac.u_otr_date,&ac.ac_type,&ac.c_bal,&ac.interest,&ac.t_bal)!=EOF2){
+        }//note the while statement is terminated without any statement inside it. This helps in geting the last rec. of the data char
         increase(ac.ac_no);
      }
 
@@ -391,7 +403,7 @@ void add_ac()
 
 void uptootr_date()
 {
-    struct account ac;
+    //struct account ac;
     int i,no_of_yr,no_of_month,no_of_days,n1,n2;
     float r;
     fp=fopen("ACCOUNT.DAT","r");
@@ -436,7 +448,7 @@ void uptootr_date()
 void deposit()
 {
     title();
-    struct account ac;
+   // struct account ac;
     char acn[10],curr[35],ch,csh[80],temp[80],nam[35];
     int c=0;
     float amt;
@@ -464,7 +476,7 @@ void deposit()
     currency(curr,amt);
     gotoxy(3,12); printf("%s to be deposited in A/C number : %s [ %s ]",curr,acn,nam);
 
-    num2word((double)amt,csh);
+    //num2word((double)amt,csh);
                 strcpy(temp,"[In words : ");
                 strcat(temp,csh);
                 strcat(temp,"]");
@@ -505,7 +517,7 @@ void deposit()
 void withdraw()//exactly similar to deposit. only difference is amount is subtracted.
 {
     title();
-    struct account ac;
+    //struct account ac;
     char acn[10],ch,curr[35],csh[80],temp[80], nam[50];
     int c=0;
     float amt;
@@ -554,7 +566,7 @@ void withdraw()//exactly similar to deposit. only difference is amount is subtra
     gotoxy(30,10); printf("Confirm Transaction");
     currency(curr,amt);
     gotoxy(3,12); printf("%s to be Withdrawn from A/C number : %s [%s]",curr,acn,nam);
-    num2word((double)amt,csh);
+    //num2word((double)amt,csh);
                 strcpy(temp,"[In words : ");
                 strcat(temp,csh);
                 strcat(temp,"]");
@@ -607,7 +619,7 @@ void withdraw()//exactly similar to deposit. only difference is amount is subtra
 void fund_transfer()
 {
     char f_acn[8],t_acn[8],ch,curr[35],rem[25],csh[80]={0},temp[80]={0},fnam[35],tnam[35];
-    struct account ac;
+   // struct account ac;
     float amt;
     int c=0;
 
@@ -680,7 +692,7 @@ void fund_transfer()
                 gotoxy(30,8); printf("Confirm Transaction");
                 currency(curr,amt);
                 gotoxy(25,10); printf("%s to be Transfered",curr);
-                num2word((double)amt,csh);
+             //   num2word((double)amt,csh);
                 strcpy(temp,"[In words : ");
                 strcat(temp,csh);
                 strcat(temp,"]");
@@ -759,7 +771,7 @@ void ac_info()
     int i;
 
     char buffer[30]={0},curr[35],curr1[35],curr2[35];
-    struct account ac,srh;//structure variable srh stores the matched data from data char
+   // struct account ac,srh;//structure variable srh stores the matched data from data char
     float irate;
     char c,acn[8];
 
@@ -986,10 +998,10 @@ void transaction()
     int nr;
     nr=num_of_rec("TRANSACTION.DAT",6);
 
-    struct trans t, *selected;
-    selected=(struct trans *)malloc(sizeof(struct trans)*nr);
+   // struct trans t, *selected;
+  //  selected=(struct trans *)malloc(sizeof(struct trans)*nr);
 
-    struct account ac,sac;
+    //struct account ac,sac;
 
     title();
     gotoxy(8,8); printf("A/C number         : "); scanf("%s",acn);
@@ -1055,10 +1067,10 @@ void transaction()
         if(n>l) {n=0; pg=1;}
         i=n;
 
-        gotoxy(2,22); printf("Page : %d out of %d",pg,(int)l/10+1);
-        if (l>9)
-            if (pg!=(int)l/10+1) { gotoxy(25,22); printf("Press SPACE BAR to view next page");}
-            else { gotoxy(25,22); printf("Press SPACE BAR to view first page");}
+       // gotoxy(2,22); printf("Page : %d out of %d",pg,(int)l/10+1);
+        // if (l>9)
+        //     if (pg!=(int)l/10+1) { gotoxy(25,22); printf("Press SPACE BAR to view next page");}
+        //     else { gotoxy(25,22); printf("Press SPACE BAR to view first page");}
         gotoxy(2,20); printf("A/C holder : %s %s",sac.fname,sac.lname);
         currency(camt,sac.t_bal);
         strcpy(temp,"Bank Balance : ");
@@ -1315,7 +1327,8 @@ void add_user()
         if (fp==NULL)  strcpy(user.uid,"U01");//if USER.DAT does not exists userid is set to first i.e. U01
         else
         {
-                while(fscanf(fp,"%s %s %s\n",user.uid,nam,pass)!=EOF);//last user id is read
+                while(fscanf(fp,"%s %s %s\n",user.uid,nam,pass)!=EOF){
+                }//last user id is read
                 increase(user.uid);//userid is incread by 1. eg. U09-->U10. note that increase() is our user defined function
 
 
@@ -1339,7 +1352,7 @@ void del_user()
 {
     char nam[30], pass[30],ch,id[5],passwrd[30]={0};
     int c=0;
-    user_log log;
+   // user_log log;
        title();
 
             gotoxy(25,8);printf("User Name  : ");
@@ -1506,11 +1519,11 @@ void view_log()
 {
     int nr;
     nr=num_of_rec("LOG.DAT",4);
-    user_log *log,*selected,*temp;
+   // user_log *log,*selected,*temp;
 
-    log=(user_log *)malloc(sizeof(user_log)*nr);
-    selected=(user_log *)malloc(sizeof(user_log)*nr);
-    temp=(user_log *)malloc(sizeof(user_log)*nr);
+    //log=(user_log *)malloc(sizeof(user_log)*nr);
+    //selected=(user_log *)malloc(sizeof(user_log)*nr);
+    //temp=(user_log *)malloc(sizeof(user_log)*nr);
 
     int i=0,l,j,c=0,n=0,l1,cnt=0;
     char uid[4],nam[30],pass[30],key,ch;
@@ -1569,8 +1582,8 @@ do {
             }while(otr_date_check(nam)==0);
 
             otr_date_input(nam);
-            for(i=0,j=0;i<l;i++)
-                  if(strcmp(log[i].otr_date,nam)==0) selected[j++]=log[i];
+            // for(i=0;j=0;i<l;i++)
+            //       if(strcmp(log[i].otr_date,nam)==0) selected[j++]=log[i];
             l1=j;
         break;
         case 3:
@@ -1607,7 +1620,7 @@ do {
     if(c==0)
     {
 
-        for(i=0,j=l1-1;i<l1;i++,j--)
+        for(i=0;i<l1;j--)
             temp[i]=selected[j];
         for(i=0;i<l1;i++)
             selected[i]=temp[i];
@@ -1637,7 +1650,7 @@ do {
 
         if(n>l1) n=0;
 
-        for(i=n,j=0;i<l1;i++,j++)
+        for(i=n;i<l1;i++)
         {
         gotoxy(5,10+j);printf("%d.",i+1);
         selected[i].stime[5]='\0';
@@ -1709,12 +1722,12 @@ void otr_date_input(char otr_date[]) // dd/mm/yyyy ----> mm/dd/yy
 
 void otr_date_output(char otr_date[]) //mm/dd/yy ---> dd MMM, yyyy
 {
-    struct
-    {
-        int dd;
-        char mm[4];
-        int yyyy;
-    }_otr_date;
+    // struct
+    // {
+    //     int dd;
+    //     char mm[4];
+    //     int yyyy;
+    // }_otr_date;
 
     char temp[15];
     int mm,c,i;
@@ -1738,8 +1751,8 @@ switch(mm)
         case 12: strcpy(_otr_date.mm,"Dec"); break;
     }
 
-    temp[0]=(int)(_otr_date.dd/10)+48;
-    temp[1]=(int)(_otr_date.dd%10)+48;
+    //temp[0]=(int)(_otr_date.dd/10)+48;
+    //temp[1]=(int)(_otr_date.dd%10)+48;
     temp[2]=32;
     temp[3]='\0';
     strcat(temp,_otr_date.mm);
@@ -1748,9 +1761,9 @@ switch(mm)
     temp[7]=32;
     for(i=3;i>=0;i--)
     {
-        temp[8+c]=(int)(_otr_date.yyyy/pow(10,i))+48;
+        //temp[8+c]=(int)(_otr_date.yyyy/pow(10,i))+48;
         c++;
-        _otr_date.yyyy%=(int)pow(10,i);
+        //_otr_date.yyyy%=(int)pow(10,i);
     }
     temp[12]='\0';
     strcpy(otr_date,temp);
@@ -1799,10 +1812,10 @@ int otr_date_check(char _otr_date[]) //_otr_date[] is in format dd/mm/yyyy
 
 void num2word(double n,char word[])
 {
-    long int num;
+    int num;
     int a[6],i;
 
-    num=(int)n;
+    //num=(int)n;
 
     a[5]=num%1000;
     num=num/1000;
@@ -1959,7 +1972,7 @@ void currency(char cur[], float n)
 
     int num,i,x,c;
     char temp[30];
-    num=(int)n;
+    //num=(int)n;
     int a[6];
     a[5]=num%1000;
     num=num/1000;
@@ -1996,7 +2009,7 @@ void currency(char cur[], float n)
         }
 
         cur[c++]='.';
-        num=(n-(int)n)*100;
+        //num=(n-(int)n)*100;
         cur[c++]=num/10+48;
         cur[c++]=num%10+48;
         cur[c]='\0';
@@ -2035,12 +2048,12 @@ void increase(char i_id[])
 
 }
 
-int num_of_rec(char char[],int n)
+int num_of_rec(char chara[],int n)
 {
     char *fptr;
     char dat[200];
-    long int c=0;
-    fptr=fopen(char,"r");
+    int c=0;
+    fptr=fopen(chara,"r");
     while(fscanf(fptr,"%s",dat)!=EOF) c++;
     fclose(fptr);
     return c/n;
@@ -2134,5 +2147,5 @@ void title()
 }
 
 
-COORD coord = {0, 0};
+//COORD coord = {0, 0};
 

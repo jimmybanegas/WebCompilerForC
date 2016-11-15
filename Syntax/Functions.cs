@@ -103,14 +103,14 @@ namespace Syntax
         {
             OptionalId();
            
-            if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
-            {
-                _parser.Utilities.NextToken();
-            }
-            else
-            {
-                throw new Exception("An End of sentence ; symbol was expectedat row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
-            }
+            //if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
+            //{
+            //    _parser.Utilities.NextToken();
+            //}
+            //else
+            //{
+            //    throw new Exception("An End of sentence ; symbol was expectedat row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
+            //}
          
         }
 

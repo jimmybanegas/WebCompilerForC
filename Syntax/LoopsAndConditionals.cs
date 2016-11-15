@@ -358,7 +358,15 @@ namespace Syntax
             }
             else
             {
-                 _parser.Sentence();
+                if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    _parser.Sentence();
+                  
+                }
+                else
+                {
+                    throw new Exception("Unexpected token at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
+                }
             }
            
         }

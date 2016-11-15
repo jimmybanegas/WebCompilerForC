@@ -423,49 +423,57 @@ namespace Syntax
                 }
             }
 
-            if (Utilities.CompareTokenType(TokenType.OpPointerStructs) 
-                || Utilities.CompareTokenType(TokenType.Dot))
-            {
-                Expressions.ArrowOrPointer();
+            Expressions.IndexOrArrowAccess();
 
-                if (!Utilities.CompareTokenType(TokenType.Identifier))
-                {
-                    throw new Exception("Identifier expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
-                }
-
-                Utilities.NextToken();
-
-                if (Utilities.CompareTokenType(TokenType.OpIncrement)
+            if (Utilities.CompareTokenType(TokenType.OpIncrement)
                   || Utilities.CompareTokenType(TokenType.OpDecrement))
-                {
-                    Utilities.NextToken();
-                }
-            }
-
-            if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
-                bool x;
-                Arrays.BidArray(out x);
-
-                if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
-                {
-                    Arrays.BidArray(out x);
-                }
-
-                // body[i].x=0;
-                    if (Utilities.CompareTokenType(TokenType.OpPointerStructs)
-                    || Utilities.CompareTokenType(TokenType.Dot))
-                {
-                    Expressions.ArrowOrPointer();
-
-                    if (!Utilities.CompareTokenType(TokenType.Identifier))
-                    {
-                        throw new Exception("Identifier expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
-                    }
-
-                    Utilities.NextToken();
-                }
+                Utilities.NextToken();
             }
+
+            //if (Utilities.CompareTokenType(TokenType.OpPointerStructs) 
+            //    || Utilities.CompareTokenType(TokenType.Dot))
+            //{
+            //    Expressions.ArrowOrPointer();
+
+            //    if (!Utilities.CompareTokenType(TokenType.Identifier))
+            //    {
+            //        throw new Exception("Identifier expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+            //    }
+
+            //    Utilities.NextToken();
+
+            //    if (Utilities.CompareTokenType(TokenType.OpIncrement)
+            //      || Utilities.CompareTokenType(TokenType.OpDecrement))
+            //    {
+            //        Utilities.NextToken();
+            //    }
+            //}
+
+            //if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+            //{
+            //    bool x;
+            //    Arrays.BidArray(out x);
+
+            //    if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+            //    {
+            //        Arrays.BidArray(out x);
+            //    }
+
+            //    // body[i].x=0;
+            //        if (Utilities.CompareTokenType(TokenType.OpPointerStructs)
+            //        || Utilities.CompareTokenType(TokenType.Dot))
+            //    {
+            //        Expressions.ArrowOrPointer();
+
+            //        if (!Utilities.CompareTokenType(TokenType.Identifier))
+            //        {
+            //            throw new Exception("Identifier expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+            //        }
+
+            //        Utilities.NextToken();
+            //    }
+            //}
 
             ValueForPreId();
 
@@ -753,7 +761,7 @@ namespace Syntax
             }
             else
             {
-                throw new Exception("An Identifier was expected");
+                throw new Exception("An Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
         }
 
@@ -763,11 +771,12 @@ namespace Syntax
             TypeOfDeclaration();
         }
 
-        private void TypeOfDeclaration()
+        public void TypeOfDeclaration()
         {
             if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 ValueForId();
+
                 if (Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
                     Utilities.NextToken();
@@ -775,6 +784,15 @@ namespace Syntax
                 else if (Utilities.CompareTokenType(TokenType.Comma))
                 {
                     Functions.MultiDeclaration();
+
+                    if (Utilities.CompareTokenType(TokenType.EndOfSentence))
+                    {
+                        Utilities.NextToken();
+                    }
+                    else
+                    {
+                        throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                    }
                 }
                 else
                 {
@@ -784,16 +802,40 @@ namespace Syntax
             else if (Utilities.CompareTokenType(TokenType.Comma))
             {
                 Functions.MultiDeclaration();
+
+                if (Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    Utilities.NextToken();
+                }
+                else
+                {
+                    throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                }
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
                 bool isInMultideclaration = false;
                 Arrays.IsArrayDeclaration(isInMultideclaration);
+                //Arrays.ArrayMultiDeclaration(isInMultideclaration);
+
+                if (Utilities.CompareTokenType(TokenType.Comma))
+                    Functions.MultiDeclaration(); 
+
+                if (Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    Utilities.NextToken();
+                }
+                else
+                {
+                    throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                }
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
                 Functions.IsFunctionDeclaration();
-            }
+              //  Utilities.NextToken();
+              //  return;
+            } 
             else if (Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
                 Utilities.NextToken();
@@ -802,6 +844,10 @@ namespace Syntax
             {
                 throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
+            //else
+            //{
+                
+            //}
         }
 
         public void ListOfExpressions()
@@ -832,7 +878,12 @@ namespace Syntax
             if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 Utilities.NextToken();
-                Expressions.Expression();
+
+                //if (Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
+                //{
+                //    Arrays.InitOfArray(true);
+                //}else
+                 Expressions.Expression(); 
             }
             else
             {
@@ -858,7 +909,8 @@ namespace Syntax
                 {
                     bool isInMultiDeclaration = true;
 
-                    Arrays.IsArrayDeclaration(isInMultiDeclaration);
+                   Arrays.IsArrayDeclaration(isInMultiDeclaration);
+                  //Arrays.ArrayMultiDeclaration(isInMultiDeclaration);
                 }
 
                 OtherIdOrValue();
@@ -922,6 +974,15 @@ namespace Syntax
                 else if (Utilities.CompareTokenType(TokenType.Comma))
                 {
                     Functions.MultiDeclaration();
+
+                    if (Utilities.CompareTokenType(TokenType.EndOfSentence))
+                    {
+                        Utilities.NextToken();
+                    }
+                    else
+                    {
+                        throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                    }
                 }
                 else
                 {
@@ -931,12 +992,33 @@ namespace Syntax
             else if (Utilities.CompareTokenType(TokenType.Comma))
             {
                 Functions.MultiDeclaration();
+
+                if (Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    Utilities.NextToken();
+                }
+                else
+                {
+                    throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                }
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
-                bool isInMultideclaration = false;
+                bool isInMultideclaration = true;
 
                 Arrays.IsArrayDeclaration(isInMultideclaration);
+
+                if (Utilities.CompareTokenType(TokenType.Comma))
+                    Functions.MultiDeclaration();
+
+                if (Utilities.CompareTokenType(TokenType.EndOfSentence))
+                {
+                    Utilities.NextToken();
+                }
+                else
+                {
+                    throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                }
             }
             else if (Utilities.CompareTokenType(TokenType.EndOfSentence))
             {

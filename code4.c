@@ -301,4 +301,3 @@ switch(r){
  puts("\n\nNEXT PLAY?(Y/N)");
  
  return 0;
-}

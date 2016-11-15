@@ -254,7 +254,7 @@ namespace Syntax
             IndexOrArrowAccess();
         }
 
-        private void IndexOrArrowAccess()
+        public void IndexOrArrowAccess()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
