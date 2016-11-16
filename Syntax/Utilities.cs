@@ -14,6 +14,13 @@ namespace Syntax
 
         public bool CompareTokenType(TokenType type)
         {
+            while (_parser.CurrentToken.TokenType == TokenType.HTMLContent ||
+                _parser.CurrentToken.TokenType == TokenType.CloseCCode)
+            {
+                Console.Write(" " + _parser.CurrentToken.Lexeme + " ");
+                _parser.CurrentToken = _parser.Lexer.GetNextToken();
+            }
+
             if (_parser.CurrentToken.TokenType == type)
                 return true;
             return false;

@@ -72,6 +72,7 @@ namespace Lexer
                     Row = tokenRow,
                     Column = tokenColumn
                 };
+                // return GetNextToken();
             }
 
             while (char.IsWhiteSpace(CurrentSymbol.CurrentSymbol) )
@@ -343,6 +344,7 @@ namespace Lexer
                    // CMode = false;
                     HtmlMode = true;
                     CurrentSymbol = SourceCode.GetNextSymbol();
+                    //return GetNextToken();
                     return new Token
                     {
                         TokenType = ReservedWords._operators[lexeme.Substring(0, 2)],
@@ -350,7 +352,6 @@ namespace Lexer
                         Column = tokenColumn,
                         Row = tokenRow
                     };
-
                 }
 
                 //Special case for comments, we've got to get the line(S) of the comments

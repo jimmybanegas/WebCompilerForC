@@ -11,9 +11,11 @@
 <%  
   string micadena = "gola";
   int x = 0;
-  for(x=0; x<1; x++)
-  {
+
+  for(x=0; x<1; x++)  
 %>
+
+<% { %>
 
 <div>
   <% print(i); %>
