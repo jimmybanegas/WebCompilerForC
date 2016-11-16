@@ -95,6 +95,11 @@ namespace Syntax
 
         public void SpecialSentence()
         {
+            if (Utilities.CompareTokenType(TokenType.HTMLContent) || Utilities.CompareTokenType(TokenType.CloseCCode))
+            {
+                Utilities.NextToken();
+            }
+
             if (Utilities.CompareTokenType(TokenType.EndOfFile))
             {
                 return;
@@ -206,6 +211,11 @@ namespace Syntax
         public void Sentence()
         {
           
+            if (Utilities.CompareTokenType(TokenType.HTMLContent) || Utilities.CompareTokenType(TokenType.CloseCCode))
+            {
+                Utilities.NextToken();
+            }
+
             if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
                   || Utilities.CompareTokenType(TokenType.RwInt) || Utilities.CompareTokenType(TokenType.RwDate)
                   || Utilities.CompareTokenType(TokenType.RwDouble) || Utilities.CompareTokenType(TokenType.RwBool)
@@ -758,6 +768,23 @@ namespace Syntax
                 {
                     Arrays.ArrayForFunctionsParameter();
                 }
+
+                if (Utilities.CompareTokenType(TokenType.OpMultiplication))
+                {
+                    //Structs as parameters for function
+                    IsPointer();
+                   // Utilities.NextToken();
+
+                    //if (Utilities.CompareTokenType(TokenType.Identifier))
+                    //{
+                    //    Utilities.NextToken();
+                    //}
+                }
+                if (Utilities.CompareTokenType(TokenType.Identifier))
+                {
+                    //Structs as parameters for function
+                    Utilities.NextToken();
+                }
             }
             else
             {
@@ -881,7 +908,7 @@ namespace Syntax
 
                 //if (Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
                 //{
-                //    Arrays.InitOfArray(true);
+                //    Arrays.OptionalInitOfArray(true);
                 //}else
                  Expressions.Expression(); 
             }

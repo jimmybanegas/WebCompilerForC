@@ -81,6 +81,10 @@ namespace Lexer
             _operators.Add("!=", TokenType.OpNotEqualTo);
             _operators.Add("->", TokenType.OpPointerStructs);
 
+            //special for html
+            //_operators.Add("<%", TokenType.OpenCCode);
+            _operators.Add("%>", TokenType.CloseCCode);
+
             //Logical Operators
             _operators.Add("&&", TokenType.OpAnd);
             _operators.Add("||", TokenType.OpLogicalOr);

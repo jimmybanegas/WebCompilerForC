@@ -11,6 +11,7 @@
         LiteralChar,
         LineComment,
         BlockComment,
+        HTMLContent,
         
         //Keywords
         RwAuto, //Rw stands for reserved word
@@ -112,6 +113,8 @@
         OpBitwiseAndAssignment,
         OpBitwiseXorAndAssignment,
         OpBitwiseInclusiveOrAndAssignment,
-        ConditionalExpression
+        ConditionalExpression,
+        OpenCCode,
+        CloseCCode
     }
 }

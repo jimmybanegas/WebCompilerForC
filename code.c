@@ -1,3 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
+
+<%  
+  string micadena = "gola";
+  
+  if (d3->inch >= 12) {     /* if inch is greater or equal to 12, converting it to feet. */
+         d3->inch -= 12;
+         //++d3->feet;
+   }  
+
+   int main(){
+   int* pc;
+   int c;
+   c=22;
+   printf("Address of c:%u\n",&c);
+   printf("Value of c:%d\n\n",c);
+   pc= &c;
+   printf("Address of pointer pc:%u\n",pc);
+   printf("Content of pointer pc:%d\n\n",*pc);
+   c=11;
+   printf("Address of pointer pc:%u\n",pc);
+   printf("Content of pointer pc:%d\n\n",*pc);
+   *pc=2;
+   printf("Address of c:%u\n",&c);
+   printf("Value of c:%d\n\n",c);
+   return 0;
+}
+
+
+void add(struct distance d1,struct distance d2, struct distance *d3) 
+{
+     //Adding distances d1 and d2 and storing it in d3
+     d3->feet = d1.feet + d2.feet; 
+     d3->inch = d1.inch + d2.inch;
+
+     if (d3->inch >= 12) {     /* if inch is greater or equal to 12, converting it to feet. */
+         d3->inch -= 12;
+         //++d3->feet;
+    }
+}
+
+void display(struct student stu){
+  printf("Output\nName: %s",stu.name);
+  printf("\nRoll: %d",stu.roll);
+}
+
+ bool x = a>b;
+
+ c = a % b;
+ b=  (-1) * 3 + (-5)%3;
+
+ date mifecha = #20-02-1993#;
+
+  int  *ip = &var;
+
+  int a = -4;
+    int b = -3;
+
 
 #include "stdio.h"
 const char x = 'x';      
@@ -410,3 +476,8 @@ int main () {
  
    return 0;
 }
+
+%>
+
+</body>
+</html>

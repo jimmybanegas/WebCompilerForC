@@ -6,15 +6,20 @@ namespace Lexer
 {
     public class Lexer
     {
-        private SourceCode _sourceCode { get; }
-        public Symbol _currentSymbol { get; set; }
-        public ReserverdWords _reservedWords { get; set; }      
+        private SourceCode SourceCode { get; }
+        public Symbol CurrentSymbol { get; set; }
+        public ReserverdWords ReservedWords { get; set; }  
+      //  private bool CMode { get; set; }  
+        private bool HtmlMode { get; set; }
         
         public Lexer(SourceCode sourceCode)
         {
-            _sourceCode = sourceCode;
-            _reservedWords = new ReserverdWords();
-            _currentSymbol = _sourceCode.GetNextSymbol();           
+            SourceCode = sourceCode;
+            ReservedWords = new ReserverdWords();
+            CurrentSymbol = SourceCode.GetNextSymbol();
+
+            HtmlMode = true;
+           // CMode = false;
         }
 
         public Token GetNextToken()
@@ -23,12 +28,58 @@ namespace Lexer
             var tokenRow = 0;
             var tokenColumn = 0;
 
-            while (char.IsWhiteSpace(_currentSymbol.CurrentSymbol))
+            if (HtmlMode)
             {
-                _currentSymbol = _sourceCode.GetNextSymbol();
+               do
+                {
+                    if (CurrentSymbol.CurrentSymbol == '<')
+                    {
+                        lexeme += CurrentSymbol.CurrentSymbol;
+                        tokenColumn = CurrentSymbol.Column;
+                        tokenRow = CurrentSymbol.Row;
+
+                        CurrentSymbol = SourceCode.GetNextSymbol();
+
+                        if (CurrentSymbol.CurrentSymbol == '%')
+                        {
+                            lexeme += CurrentSymbol.CurrentSymbol;
+                            tokenColumn = CurrentSymbol.Column;
+                            tokenRow = CurrentSymbol.Row;
+                            // CMode = true;
+                            HtmlMode = false;
+                            CurrentSymbol = SourceCode.GetNextSymbol();
+                        }
+                    }
+                    else
+                    {
+                        lexeme += CurrentSymbol.CurrentSymbol;
+                        tokenColumn = CurrentSymbol.Column;
+                        tokenRow = CurrentSymbol.Row;
+                        CurrentSymbol = SourceCode.GetNextSymbol();
+
+                        if (CurrentSymbol.CurrentSymbol == '\0')
+                        {
+                            HtmlMode = false;
+                        }
+                    }
+
+                }while(HtmlMode);
+
+                return new Token
+                {
+                    TokenType = TokenType.HTMLContent,
+                    Lexeme = lexeme,
+                    Row = tokenRow,
+                    Column = tokenColumn
+                };
             }
 
-            if (_currentSymbol.CurrentSymbol == '\0')
+            while (char.IsWhiteSpace(CurrentSymbol.CurrentSymbol) )
+            {
+                CurrentSymbol = SourceCode.GetNextSymbol();
+            }
+              
+            if (CurrentSymbol.CurrentSymbol == '\0')
             {
                 return new Token
                 {
@@ -38,31 +89,31 @@ namespace Lexer
                 };
             }
 
-            if (char.IsLetter(_currentSymbol.CurrentSymbol) || _currentSymbol.CurrentSymbol == '_')
+            if (char.IsLetter(CurrentSymbol.CurrentSymbol) || CurrentSymbol.CurrentSymbol == '_')
             {
-                lexeme += _currentSymbol.CurrentSymbol;
-                tokenColumn = _currentSymbol.Column;
-                tokenRow = _currentSymbol.Row;
-          
-                return GetIdentifier(lexeme,tokenColumn,tokenRow);
+                lexeme += CurrentSymbol.CurrentSymbol;
+                tokenColumn = CurrentSymbol.Column;
+                tokenRow = CurrentSymbol.Row;
+
+                return GetIdentifier(lexeme, tokenColumn, tokenRow);
             }
 
             //For octal and hexadecimal literals
-            if(char.IsDigit(_currentSymbol.CurrentSymbol) && (_currentSymbol.CurrentSymbol) == '0')
+            if (char.IsDigit(CurrentSymbol.CurrentSymbol) && (CurrentSymbol.CurrentSymbol) == '0')
             {
-                lexeme += _currentSymbol.CurrentSymbol;
-                tokenColumn = _currentSymbol.Column;
-                tokenRow = _currentSymbol.Row;
+                lexeme += CurrentSymbol.CurrentSymbol;
+                tokenColumn = CurrentSymbol.Column;
+                tokenRow = CurrentSymbol.Row;
 
-                _currentSymbol = _sourceCode.GetNextSymbol();
+                CurrentSymbol = SourceCode.GetNextSymbol();
 
-                if (_currentSymbol.CurrentSymbol == 'x')
+                if (CurrentSymbol.CurrentSymbol == 'x')
                 {
-                    lexeme += _currentSymbol.CurrentSymbol;
+                    lexeme += CurrentSymbol.CurrentSymbol;
                     return GetLiteralHexadecimal(lexeme, tokenColumn, tokenRow);
                 }
 
-                if (!char.IsDigit(_currentSymbol.CurrentSymbol))
+                if (!char.IsDigit(CurrentSymbol.CurrentSymbol))
                 {
                     //this applies for a single zero
                     if (lexeme.Length == 1 && lexeme == "0")
@@ -76,53 +127,53 @@ namespace Lexer
                         };
                     }
                 }
-                lexeme += _currentSymbol.CurrentSymbol;
+                lexeme += CurrentSymbol.CurrentSymbol;
                 return GetLiteralOctal(lexeme, tokenColumn, tokenRow);
             }
 
-            if (char.IsDigit(_currentSymbol.CurrentSymbol))
+            if (char.IsDigit(CurrentSymbol.CurrentSymbol))
             {
-                lexeme += _currentSymbol.CurrentSymbol;
-                tokenColumn = _currentSymbol.Column;
-                tokenRow = _currentSymbol.Row;
+                lexeme += CurrentSymbol.CurrentSymbol;
+                tokenColumn = CurrentSymbol.Column;
+                tokenRow = CurrentSymbol.Row;
 
-                return GetLiteralNumber(lexeme,tokenColumn,tokenRow);
+                return GetLiteralNumber(lexeme, tokenColumn, tokenRow);
             }
-            
 
-            if (_reservedWords._separators.ContainsKey(_currentSymbol.CurrentSymbol.ToString()))
+
+            if (ReservedWords._separators.ContainsKey(CurrentSymbol.CurrentSymbol.ToString()))
             {
-                lexeme += _currentSymbol.CurrentSymbol;
-                tokenColumn = _currentSymbol.Column;
-                tokenRow = _currentSymbol.Row;
+                lexeme += CurrentSymbol.CurrentSymbol;
+                tokenColumn = CurrentSymbol.Column;
+                tokenRow = CurrentSymbol.Row;
 
                 return GetSeparator(lexeme, tokenColumn, tokenRow);
             }
 
-            if (_reservedWords._operators.ContainsKey(_currentSymbol.CurrentSymbol.ToString()))
+            if (ReservedWords._operators.ContainsKey(CurrentSymbol.CurrentSymbol.ToString()))
             {
-                lexeme += _currentSymbol.CurrentSymbol;
-                tokenColumn = _currentSymbol.Column;
-                tokenRow = _currentSymbol.Row;
-                
+                lexeme += CurrentSymbol.CurrentSymbol;
+                tokenColumn = CurrentSymbol.Column;
+                tokenRow = CurrentSymbol.Row;
+
                 return GetOperator(lexeme, tokenColumn, tokenRow);
             }
 
             //Get Literals char
-            if (_currentSymbol.CurrentSymbol == '\'')
+            if (CurrentSymbol.CurrentSymbol == '\'')
             {
-                tokenColumn = _currentSymbol.Column;
-                tokenRow = _currentSymbol.Row;
+                tokenColumn = CurrentSymbol.Column;
+                tokenRow = CurrentSymbol.Row;
                 //lexeme += _currentSymbol.CurrentSymbol;
 
-                _currentSymbol = _sourceCode.GetNextSymbol();
+                CurrentSymbol = SourceCode.GetNextSymbol();
 
-                if (_currentSymbol.CurrentSymbol == '\\')
+                if (CurrentSymbol.CurrentSymbol == '\\')
                 {
-                    lexeme += _currentSymbol.CurrentSymbol;
-                    _currentSymbol = _sourceCode.GetNextSymbol();
-                    lexeme += _currentSymbol.CurrentSymbol;
-                    _currentSymbol = _sourceCode.GetNextSymbol();
+                    lexeme += CurrentSymbol.CurrentSymbol;
+                    CurrentSymbol = SourceCode.GetNextSymbol();
+                    lexeme += CurrentSymbol.CurrentSymbol;
+                    CurrentSymbol = SourceCode.GetNextSymbol();
                 }
 
                 lexeme = GetLiteralStringOrChar(lexeme, '\'');
@@ -140,18 +191,18 @@ namespace Lexer
             }
 
             //Literals string
-            if (_currentSymbol.CurrentSymbol == '"' )
+            if (CurrentSymbol.CurrentSymbol == '"')
             {
-                tokenColumn = _currentSymbol.Column;
-                tokenRow = _currentSymbol.Row;
-                _currentSymbol = _sourceCode.GetNextSymbol();
+                tokenColumn = CurrentSymbol.Column;
+                tokenRow = CurrentSymbol.Row;
+                CurrentSymbol = SourceCode.GetNextSymbol();
 
                 lexeme = GetLiteralStringOrChar(lexeme, '"');
 
-             
+
                 //Check if the string has escape characters, this is for special strings with a \
                 /*like :   cout << "Line 4 - a is either less than \
-                                 or euqal to  b" << endl ;*/
+                                     or euqal to  b" << endl ;*/
                 //for a multiline string to be accepted, I split the lexeme into separate lines, it's required
                 //for each line except the last to have the character \, if not, it's not a valid multiline string
 
@@ -162,10 +213,10 @@ namespace Lexer
 
                     if (!lines[i].Contains("\\"))
                     {
-                        throw new LexicalException($"Symbol {_currentSymbol.CurrentSymbol} not recognized at Row:{_currentSymbol.Row} Col: {_currentSymbol.Column}");
+                        throw new LexicalException($"Symbol {CurrentSymbol.CurrentSymbol} not recognized at Row:{CurrentSymbol.Row} Col: {CurrentSymbol.Column}");
                     }
                 }
-     
+
                 return new Token
                 {
                     TokenType = TokenType.LiteralString,
@@ -176,35 +227,35 @@ namespace Lexer
             }
 
             //This one is used for #include and for date format #dd-MM-yyyy#
-            if (_currentSymbol.CurrentSymbol == '#')
+            if (CurrentSymbol.CurrentSymbol == '#')
             {
-                lexeme += _currentSymbol.CurrentSymbol;
+                lexeme += CurrentSymbol.CurrentSymbol;
 
-                _currentSymbol = _sourceCode.GetNextSymbol();
+                CurrentSymbol = SourceCode.GetNextSymbol();
 
                 //Fisrt option applies for #include, its a reserved word
-                if (char.IsLetter(_currentSymbol.CurrentSymbol) )
+                if (char.IsLetter(CurrentSymbol.CurrentSymbol))
                 {
-                    lexeme += _currentSymbol.CurrentSymbol;
-                    tokenColumn = _currentSymbol.Column;
-                    tokenRow = _currentSymbol.Row;
+                    lexeme += CurrentSymbol.CurrentSymbol;
+                    tokenColumn = CurrentSymbol.Column;
+                    tokenRow = CurrentSymbol.Row;
 
                     return GetIdentifier(lexeme, tokenColumn, tokenRow);
                 }
 
                 //For dates
-                if (char.IsDigit(_currentSymbol.CurrentSymbol))
+                if (char.IsDigit(CurrentSymbol.CurrentSymbol))
                 {
-                    tokenColumn = _currentSymbol.Column;
-                    tokenRow = _currentSymbol.Row;
+                    tokenColumn = CurrentSymbol.Column;
+                    tokenRow = CurrentSymbol.Row;
                     lexeme = string.Empty;
 
-                    lexeme = GetLiteralStringOrChar(lexeme,'#');
+                    lexeme = GetLiteralStringOrChar(lexeme, '#');
                 }
 
                 DateTime dt;
 
-                bool isValid = DateTime.TryParseExact(lexeme.Replace('#',' '),"dd-MM-yyyy",CultureInfo.InvariantCulture,
+                bool isValid = DateTime.TryParseExact(lexeme.Replace('#', ' '), "dd-MM-yyyy", CultureInfo.InvariantCulture,
                     DateTimeStyles.None,
                     out dt);
 
@@ -217,23 +268,23 @@ namespace Lexer
                         Column = tokenColumn,
                         Row = tokenRow
                     };
-                }            
+                }
             }
 
-            throw new LexicalException($"Symbol {_currentSymbol.CurrentSymbol} not recognized at Row:{_currentSymbol.Row} Col: {_currentSymbol.Column}");
+            throw new LexicalException($"Symbol {CurrentSymbol.CurrentSymbol} not recognized at Row:{CurrentSymbol.Row} Col: {CurrentSymbol.Column}");
         }
 
         private Token GetLiteralOctal(string lexeme, int tokenColumn, int tokenRow)
         {
-            _currentSymbol = _sourceCode.GetNextSymbol();
+            CurrentSymbol = SourceCode.GetNextSymbol();
 
-            if (!char.IsLetter(_currentSymbol.CurrentSymbol))
+            if (!char.IsLetter(CurrentSymbol.CurrentSymbol))
             {
                 //Octal numbers
-                while (char.IsDigit(_currentSymbol.CurrentSymbol))
+                while (char.IsDigit(CurrentSymbol.CurrentSymbol))
                 {
-                    lexeme += _currentSymbol.CurrentSymbol;
-                    _currentSymbol = _sourceCode.GetNextSymbol();
+                    lexeme += CurrentSymbol.CurrentSymbol;
+                    CurrentSymbol = SourceCode.GetNextSymbol();
                 }
 
                 if (Regex.IsMatch(lexeme, "^[0-7]+$"))
@@ -248,18 +299,18 @@ namespace Lexer
                 }
             }
 
-            throw new LexicalException($"Symbol {_currentSymbol.CurrentSymbol} not recognized at Row:{_currentSymbol.Row} Col: {_currentSymbol.Column}");
+            throw new LexicalException($"Symbol {CurrentSymbol.CurrentSymbol} not recognized at Row:{CurrentSymbol.Row} Col: {CurrentSymbol.Column}");
         }
 
         private Token GetLiteralHexadecimal(string lexeme, int tokenColumn, int tokenRow)
         {
-            _currentSymbol = _sourceCode.GetNextSymbol();
+            CurrentSymbol = SourceCode.GetNextSymbol();
 
            //Hexadecimal literal
-            while (char.IsLetterOrDigit(_currentSymbol.CurrentSymbol))
+            while (char.IsLetterOrDigit(CurrentSymbol.CurrentSymbol))
             {
-                lexeme += _currentSymbol.CurrentSymbol;
-                _currentSymbol = _sourceCode.GetNextSymbol();
+                lexeme += CurrentSymbol.CurrentSymbol;
+                CurrentSymbol = SourceCode.GetNextSymbol();
             }
 
             if (Regex.IsMatch(lexeme, @"\A\b(0[xX])?[0-9a-fA-F]+\b\Z"))
@@ -273,19 +324,34 @@ namespace Lexer
                 };
             }
 
-            throw new LexicalException($"Symbol {_currentSymbol.CurrentSymbol} not recognized at Row:{_currentSymbol.Row} Col: {_currentSymbol.Column}");
+            throw new LexicalException($"Symbol {CurrentSymbol.CurrentSymbol} not recognized at Row:{CurrentSymbol.Row} Col: {CurrentSymbol.Column}");
         }
 
         private Token GetOperator(string lexeme, int tokenColumn, int tokenRow)
         {
-            _currentSymbol = _sourceCode.GetNextSymbol();
+            CurrentSymbol = SourceCode.GetNextSymbol();
 
-            if (_reservedWords._specialSymbols.Contains(_currentSymbol.CurrentSymbol.ToString()) && 
-                !(lexeme.Equals(">") && _currentSymbol.CurrentSymbol=='/') &&
-                  !(lexeme.Equals("*") && _currentSymbol.CurrentSymbol == '*'))
+            if (ReservedWords._specialSymbols.Contains(CurrentSymbol.CurrentSymbol.ToString()) && 
+                !(lexeme.Equals(">") && CurrentSymbol.CurrentSymbol=='/') &&
+                  !(lexeme.Equals("*") && CurrentSymbol.CurrentSymbol == '*'))
             {
-                lexeme += _currentSymbol.CurrentSymbol;
-                _currentSymbol = _sourceCode.GetNextSymbol();
+                lexeme += CurrentSymbol.CurrentSymbol;
+                CurrentSymbol = SourceCode.GetNextSymbol();
+
+                if (lexeme == "%>")
+                {
+                   // CMode = false;
+                    HtmlMode = true;
+                    CurrentSymbol = SourceCode.GetNextSymbol();
+                    return new Token
+                    {
+                        TokenType = ReservedWords._operators[lexeme.Substring(0, 2)],
+                        Lexeme = lexeme,
+                        Column = tokenColumn,
+                        Row = tokenRow
+                    };
+
+                }
 
                 //Special case for comments, we've got to get the line(S) of the comments
                 if (lexeme == "//")
@@ -304,20 +370,20 @@ namespace Lexer
                 }
 
                 //special operators like >>= and <<=
-                if (_reservedWords._specialSymbols.Contains(lexeme.Substring(0, 2)))
+                if (ReservedWords._specialSymbols.Contains(lexeme.Substring(0, 2)))
                 {
-                    if (_currentSymbol.CurrentSymbol == '=')
+                    if (CurrentSymbol.CurrentSymbol == '=')
                     {
-                        lexeme += _currentSymbol.CurrentSymbol;
+                        lexeme += CurrentSymbol.CurrentSymbol;
 
                         if (lexeme == ">>=" || lexeme== "<<=")
                         {
-                            _currentSymbol = _sourceCode.GetNextSymbol();
+                            CurrentSymbol = SourceCode.GetNextSymbol();
                         }
 
                         return new Token
                         {
-                            TokenType = _reservedWords._operators[lexeme.Substring(0, 3)],
+                            TokenType = ReservedWords._operators[lexeme.Substring(0, 3)],
                             Lexeme = lexeme,
                             Column = tokenColumn,
                             Row = tokenRow
@@ -325,11 +391,9 @@ namespace Lexer
                     }
                 }
 
-              
-
                 return new Token
                 {
-                    TokenType = _reservedWords._operators[lexeme.Substring(0,2)],
+                    TokenType = ReservedWords._operators[lexeme.Substring(0,2)],
                     Lexeme = lexeme,
                     Column = tokenColumn,
                     Row = tokenRow
@@ -338,7 +402,7 @@ namespace Lexer
 
             return new Token
             {
-                TokenType = _reservedWords._operators[lexeme],
+                TokenType = ReservedWords._operators[lexeme],
                 Lexeme = lexeme,
                 Column = tokenColumn,
                 Row = tokenRow
@@ -347,11 +411,11 @@ namespace Lexer
         
         private Token GetSeparator(string lexeme, int tokenColumn, int tokenRow)
         {
-            _currentSymbol = _sourceCode.GetNextSymbol();
+            CurrentSymbol = SourceCode.GetNextSymbol();
 
             return new Token
             {
-                TokenType = _reservedWords._separators[lexeme],
+                TokenType = ReservedWords._separators[lexeme],
                 Lexeme = lexeme,
                 Column = tokenColumn,
                 Row = tokenRow
@@ -360,21 +424,21 @@ namespace Lexer
 
         private Token GetLiteralNumber(string lexeme,int tokenColumn, int tokenRow)
         {
-            _currentSymbol = _sourceCode.GetNextSymbol();
+            CurrentSymbol = SourceCode.GetNextSymbol();
 
             //case score=(float)countr/countq*100-difftime(finaltime,initialtime)/3;
             //  if (lexeme.Contains("e") || lexeme.Contains("E"))
 
-            while (char.IsLetterOrDigit(_currentSymbol.CurrentSymbol) || _currentSymbol.CurrentSymbol == '.'
-               || _currentSymbol.CurrentSymbol == 'e' || _currentSymbol.CurrentSymbol == 'E' || _currentSymbol.CurrentSymbol == '-')
+            while (char.IsLetterOrDigit(CurrentSymbol.CurrentSymbol) || CurrentSymbol.CurrentSymbol == '.'
+               || CurrentSymbol.CurrentSymbol == 'e' || CurrentSymbol.CurrentSymbol == 'E' || CurrentSymbol.CurrentSymbol == '-')
                 {
-                    if (!lexeme.Contains("e") && !lexeme.Contains("E") && _currentSymbol.CurrentSymbol == '-')
+                    if (!lexeme.Contains("e") && !lexeme.Contains("E") && CurrentSymbol.CurrentSymbol == '-')
                     {
                         break;
                     }
 
-                     lexeme += _currentSymbol.CurrentSymbol;
-                    _currentSymbol = _sourceCode.GetNextSymbol();
+                     lexeme += CurrentSymbol.CurrentSymbol;
+                    CurrentSymbol = SourceCode.GetNextSymbol();
             }
 
             if (Regex.IsMatch(lexeme, @"^[0-9]*(?:\.[0-9]*)?$") )
@@ -411,23 +475,23 @@ namespace Lexer
                 };
             }
 
-            throw new LexicalException($"Symbol {_currentSymbol.CurrentSymbol} not recognized at Row:{_currentSymbol.Row} Col: {_currentSymbol.Column}");
+            throw new LexicalException($"Symbol {CurrentSymbol.CurrentSymbol} not recognized at Row:{CurrentSymbol.Row} Col: {CurrentSymbol.Column}");
         }
 
         private Token GetIdentifier(string lexeme,int tokenColumn, int tokenRow)
         {
-            _currentSymbol = _sourceCode.GetNextSymbol();
+            CurrentSymbol = SourceCode.GetNextSymbol();
 
-            while (char.IsLetterOrDigit(_currentSymbol.CurrentSymbol) || _currentSymbol.CurrentSymbol == '_')
+            while (char.IsLetterOrDigit(CurrentSymbol.CurrentSymbol) || CurrentSymbol.CurrentSymbol == '_')
             {
-                lexeme += _currentSymbol.CurrentSymbol;
-                _currentSymbol = _sourceCode.GetNextSymbol();
+                lexeme += CurrentSymbol.CurrentSymbol;
+                CurrentSymbol = SourceCode.GetNextSymbol();
             }
 
-            if(_reservedWords._keywords.ContainsKey(lexeme)){
+            if(ReservedWords._keywords.ContainsKey(lexeme)){
                 return new Token
                 {
-                    TokenType = _reservedWords._keywords[lexeme],
+                    TokenType = ReservedWords._keywords[lexeme],
                     Lexeme = lexeme,
                     Column = tokenColumn,
                     Row = tokenRow
@@ -445,22 +509,22 @@ namespace Lexer
 
         private string GetBlockComment(string lexeme)
         {
-            while (_currentSymbol.CurrentSymbol != '*')
+            while (CurrentSymbol.CurrentSymbol != '*')
             {
-                lexeme += _currentSymbol.CurrentSymbol;
-                _currentSymbol = _sourceCode.GetNextSymbol();
+                lexeme += CurrentSymbol.CurrentSymbol;
+                CurrentSymbol = SourceCode.GetNextSymbol();
             }
 
             //Adding the * to the lexeme string
-            lexeme += _currentSymbol.CurrentSymbol;
+            lexeme += CurrentSymbol.CurrentSymbol;
 
             //Get the char right after the *, to check if it's a / so we can close the comment
-            _currentSymbol = _sourceCode.GetNextSymbol();
+            CurrentSymbol = SourceCode.GetNextSymbol();
 
-            if (_currentSymbol.CurrentSymbol == '/')
+            if (CurrentSymbol.CurrentSymbol == '/')
             {
-                lexeme += _currentSymbol.CurrentSymbol;
-                _currentSymbol = _sourceCode.GetNextSymbol();
+                lexeme += CurrentSymbol.CurrentSymbol;
+                CurrentSymbol = SourceCode.GetNextSymbol();
                 return lexeme;
             }
 
@@ -469,43 +533,43 @@ namespace Lexer
 
         private void GetLineComment(string lexeme)
         {
-            while (_currentSymbol.CurrentSymbol != '\n')
+            while (CurrentSymbol.CurrentSymbol != '\n')
             {
-                lexeme += _currentSymbol.CurrentSymbol;
-                _currentSymbol = _sourceCode.GetNextSymbol();
+                lexeme += CurrentSymbol.CurrentSymbol;
+                CurrentSymbol = SourceCode.GetNextSymbol();
             }
 
-            _currentSymbol = _sourceCode.GetNextSymbol();
+            CurrentSymbol = SourceCode.GetNextSymbol();
         }
 
         private string GetLiteralStringOrChar(string lexeme, char breakSymbol)
         {
-            while (_currentSymbol.CurrentSymbol != breakSymbol)
+            while (CurrentSymbol.CurrentSymbol != breakSymbol)
             {
-                lexeme += _currentSymbol.CurrentSymbol;
-                _currentSymbol = _sourceCode.GetNextSymbol();
+                lexeme += CurrentSymbol.CurrentSymbol;
+                CurrentSymbol = SourceCode.GetNextSymbol();
 
-                if (_currentSymbol.CurrentSymbol == '\\')
+                if (CurrentSymbol.CurrentSymbol == '\\')
                 {
-                    lexeme += _currentSymbol.CurrentSymbol;
+                    lexeme += CurrentSymbol.CurrentSymbol;
                     lexeme += ConsumeQuotationMark();
                 }
             }
 
-            _currentSymbol = _sourceCode.GetNextSymbol();
+            CurrentSymbol = SourceCode.GetNextSymbol();
 
-            if (_currentSymbol.CurrentSymbol == '\r')
+            if (CurrentSymbol.CurrentSymbol == '\r')
             {
-                _currentSymbol = _sourceCode.GetNextSymbol();
+                CurrentSymbol = SourceCode.GetNextSymbol();
 
-                while (char.IsWhiteSpace(_currentSymbol.CurrentSymbol))
+                while (char.IsWhiteSpace(CurrentSymbol.CurrentSymbol))
                 {
-                    _currentSymbol = _sourceCode.GetNextSymbol();
+                    CurrentSymbol = SourceCode.GetNextSymbol();
                 }
 
-                if (_currentSymbol.CurrentSymbol == '"')
+                if (CurrentSymbol.CurrentSymbol == '"')
                 {
-                    _currentSymbol = _sourceCode.GetNextSymbol();
+                    CurrentSymbol = SourceCode.GetNextSymbol();
 
                     return GetLiteralStringOrChar(lexeme, '"');
                 }
@@ -517,20 +581,20 @@ namespace Lexer
         private string ConsumeQuotationMark()
         {
             string lex = string.Empty;
-            _currentSymbol = _sourceCode.GetNextSymbol();
+            CurrentSymbol = SourceCode.GetNextSymbol();
 
-            if (_currentSymbol.CurrentSymbol == '"')
+            if (CurrentSymbol.CurrentSymbol == '"')
             {
-                lex += _currentSymbol.CurrentSymbol;
-                _currentSymbol = _sourceCode.GetNextSymbol();
+                lex += CurrentSymbol.CurrentSymbol;
+                CurrentSymbol = SourceCode.GetNextSymbol();
             }
             else
             {
-                if (_currentSymbol.CurrentSymbol == '\\')
+                if (CurrentSymbol.CurrentSymbol == '\\')
                 {
-                    _currentSymbol = _sourceCode.GetNextSymbol();
-                    lex += _currentSymbol.CurrentSymbol;
-                    _currentSymbol = _sourceCode.GetNextSymbol();
+                    CurrentSymbol = SourceCode.GetNextSymbol();
+                    lex += CurrentSymbol.CurrentSymbol;
+                    CurrentSymbol = SourceCode.GetNextSymbol();
                 }
             }
 

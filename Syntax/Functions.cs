@@ -6,7 +6,6 @@ namespace Syntax
     public class Functions
     {
         private readonly Parser _parser;
-
         public Functions(Parser parser)
         {
             _parser = parser;
@@ -52,7 +51,8 @@ namespace Syntax
                 || _parser.Utilities.CompareTokenType(TokenType.RwBool)
                 || _parser.Utilities.CompareTokenType(TokenType.RwLong)
                 || _parser.Utilities.CompareTokenType(TokenType.RwFloat)
-                || _parser.Utilities.CompareTokenType(TokenType.RwVoid))
+                || _parser.Utilities.CompareTokenType(TokenType.RwVoid)
+                || _parser.Utilities.CompareTokenType(TokenType.RwStruct))//Structs as parameter of function
             {
                 _parser.Utilities.NextToken();
 
@@ -78,8 +78,9 @@ namespace Syntax
                     || _parser.Utilities.CompareTokenType(TokenType.RwDouble) 
                     || _parser.Utilities.CompareTokenType(TokenType.RwBool)
                     || _parser.Utilities.CompareTokenType(TokenType.RwLong)
-                    ||_parser.Utilities.CompareTokenType(TokenType.RwFloat)
-                    ||_parser.Utilities.CompareTokenType(TokenType.RwVoid))
+                    || _parser.Utilities.CompareTokenType(TokenType.RwFloat)
+                    || _parser.Utilities.CompareTokenType(TokenType.RwVoid)
+                    || _parser.Utilities.CompareTokenType(TokenType.RwStruct))
                 {
                     _parser.Utilities.NextToken();
 

@@ -189,7 +189,7 @@ namespace Syntax
                 }
 
                 //BlockForLoop();
-                BlockForIf();
+                BlockForLoops();
             }
             else
             {
@@ -218,35 +218,15 @@ namespace Syntax
                 }
 
                // BlockForLoop();
-               BlockForIf();
+               BlockForLoops();
             }
          
-        }
-      
-        private void BlockForLoop()
-        {
-            _parser.Utilities.NextToken();
-
-            if (!_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
-                throw new Exception("Openning curly bracket expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
-
-            _parser.Utilities.NextToken();
-
-            //_parser.ListOfSpecialSentences();
-            _parser.ListOfSentences();
-
-            if (!_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
-            {
-                throw new Exception("Close curly bracket expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
-            }
-
-            _parser.Utilities.NextToken();
         }
 
         public void Do()
         {
             //BlockForLoop();
-            BlockForIf();
+            BlockForLoops();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.RwWhile))
             {
@@ -298,7 +278,7 @@ namespace Syntax
             }
 
             //BlockForLoop();
-            BlockForIf();
+            BlockForLoops();
         }
 
         public void If()
@@ -319,7 +299,7 @@ namespace Syntax
                 throw new Exception("Closign parenthesis was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
 
-            BlockForIf();
+            BlockForLoops();
 
             Else();
         }
@@ -328,7 +308,7 @@ namespace Syntax
         {
             if (_parser.Utilities.CompareTokenType(TokenType.RwElse))
             {
-                BlockForIf();
+                BlockForLoops();
             }
             else
             {
@@ -337,7 +317,7 @@ namespace Syntax
 
         }
 
-        private void BlockForIf()
+        private void BlockForLoops()
         {
             _parser.Utilities.NextToken();
 
