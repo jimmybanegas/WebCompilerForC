@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "Console\Cons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntax", "Syntax\Syntax.csproj", "{93BB5F0E-0954-41AF-8C66-912C71F48ED1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{22769529-89F5-40AE-9F9D-FC2E96C7C2B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{93BB5F0E-0954-41AF-8C66-912C71F48ED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93BB5F0E-0954-41AF-8C66-912C71F48ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93BB5F0E-0954-41AF-8C66-912C71F48ED1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22769529-89F5-40AE-9F9D-FC2E96C7C2B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22769529-89F5-40AE-9F9D-FC2E96C7C2B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22769529-89F5-40AE-9F9D-FC2E96C7C2B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22769529-89F5-40AE-9F9D-FC2E96C7C2B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,16 +1,15 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Web;
 
-namespace ConsoleTest
+namespace Server
 {
-    class HandlerFiles
+    public class HandlerFiles
     {
-        public readonly string _defaultPath = Directory.GetParent(@"..\..\..\").FullName + @"\html.c";
-        public readonly string _defaultPathLexer = Directory.GetParent(@"..\..\..\").FullName + @"\lexer.c";
-
-      
-
+        string _defaultPath = System.Web.Hosting.HostingEnvironment.MapPath("~/bin/html.c");
+        //   public readonly string _defaultPathLexer = Directory.GetParent(@"..\..\..\").FullName + @"\lexer.c";
+        
+    
         public HandlerFiles()
         {
 
@@ -27,7 +26,7 @@ namespace ConsoleTest
             try
             {
                 file = File.ReadAllText(_defaultPath);
-              //  file = Regex.Replace(File.ReadAllText(_defaultPath), @"[\r\t]+", "");
+                //  file = Regex.Replace(File.ReadAllText(_defaultPath), @"[\r\t]+", "");
 
             }
             catch (Exception e)
@@ -44,7 +43,7 @@ namespace ConsoleTest
         {
             try
             {
-                File.AppendAllText(_defaultPathLexer, code);
+               // File.AppendAllText(_defaultPathLexer, code);
             }
             catch (Exception e)
             {

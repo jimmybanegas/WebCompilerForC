@@ -44,8 +44,55 @@
     <Compile Include="Expressions.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="LoopsAndConditionals.cs" />
+    <Compile Include="Nodes\DataTypes\BoolNode.cs" />
+    <Compile Include="Nodes\DataTypes\CharNode.cs" />
+    <Compile Include="Nodes\Operators\AddAndAssignmentOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\AndOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\BitAndOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\BitwiseAndAssignmentOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\BitwiseInclusiveOrAndAssignmentOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\BitwiseOrOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\BitwiseXorAndAssignmentOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\BitXorOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\ComplementOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\ConditionalOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\ShiftLeftAndAssignmentOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\DivisionAndAssignmentOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\LessThanOrEqualToOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\LogicalOrOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\ModuleAndAssignmentOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\MultiplicationAndAssignmentOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\ShiftLeftOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\ShiftRightAndAssignmentOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\ShiftRightOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\SimpleAssignmentOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\SubstractAndAssignmentOperatorNode.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tree\AccesorNode.cs" />
+    <Compile Include="Nodes\Operators\AdditionOperatorNode.cs" />
+    <Compile Include="Tree\BaseType.cs" />
+    <Compile Include="Nodes\BinaryOperatorNode.cs" />
+    <Compile Include="Nodes\DataTypes\DateNode.cs" />
+    <Compile Include="Nodes\DataTypes\DecimalNode.cs" />
+    <Compile Include="Nodes\DataTypes\BinaryNode.cs" />
+    <Compile Include="Nodes\Operators\DivisionOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\EqualToOperatorNode.cs" />
+    <Compile Include="Tree\ExpressionNode.cs" />
+    <Compile Include="Nodes\DataTypes\HexadecimalNode.cs" />
+    <Compile Include="Nodes\DataTypes\FloatNode.cs" />
+    <Compile Include="Nodes\Operators\GreaterThanOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\GreaterOrEqualOperatorNode.cs" />
+    <Compile Include="Tree\IdentifierNode.cs" />
+    <Compile Include="Nodes\DataTypes\StringNode.cs" />
+    <Compile Include="Nodes\Operators\MultiplicationOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\SubstractionOperatorNode.cs" />
+    <Compile Include="Nodes\DataTypes\IntegerNode.cs" />
+    <Compile Include="Nodes\Operators\LessOrEqualOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\LessThanOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\NotEqualToOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\NotOperatorNode.cs" />
+    <Compile Include="Tree\Syntactic.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +101,7 @@
       <Name>Lexer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
