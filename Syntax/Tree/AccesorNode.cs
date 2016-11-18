@@ -1,4 +1,6 @@
-﻿namespace Syntax.Tree
+﻿using Syntax.Tree.Nodes.BaseNodes;
+
+namespace Syntax.Tree
 {
     public abstract class AccesorNode
     {
