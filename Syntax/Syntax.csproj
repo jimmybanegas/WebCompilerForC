@@ -44,9 +44,16 @@
     <Compile Include="Expressions.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="LoopsAndConditionals.cs" />
-    <Compile Include="Tree\Nodes\BaseNodes\SentenceNode.cs" />
+    <Compile Include="Tree\Nodes\BaseNodes\StatementNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\BoolNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\CharNode.cs" />
+    <Compile Include="Tree\Nodes\LoopsAndConditions\CaseStatement.cs" />
+    <Compile Include="Tree\Nodes\LoopsAndConditions\DoWhileNode.cs" />
+    <Compile Include="Tree\Nodes\LoopsAndConditions\ForEachNode.cs" />
+    <Compile Include="Tree\Nodes\LoopsAndConditions\ForNode.cs" />
+    <Compile Include="Tree\Nodes\LoopsAndConditions\IfNode.cs" />
+    <Compile Include="Tree\Nodes\LoopsAndConditions\SwitchNode.cs" />
+    <Compile Include="Tree\Nodes\LoopsAndConditions\WhileNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\AddAndAssignmentOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\AdditionOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\AndOperatorNode.cs" />
@@ -109,7 +116,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Tree\Nodes\LoopsAndConditions\" />
+    <Folder Include="Tree\Nodes\Arrays\" />
+    <Folder Include="Tree\Nodes\Declarations\" />
+    <Folder Include="Tree\Nodes\Functions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
