@@ -5,6 +5,7 @@ namespace Syntax.Tree.Nodes.DataTypes
 {
     class CharNode : ExpressionNode
     {
+        public string Value { get; set; }
         public override BaseType ValidateSemantic()
         {
             throw new NotImplementedException();
@@ -12,7 +13,7 @@ namespace Syntax.Tree.Nodes.DataTypes
 
         public override string GenerateCode()
         {
-            throw new NotImplementedException();
+            return Value;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Hosting;
 using Lexer;
 using Syntax;
+using Syntax.Parser;
 
 namespace Server
 {

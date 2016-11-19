@@ -4,8 +4,7 @@ namespace Syntax.Tree.Nodes.DataTypes
 {
     public class IntegerNode : ExpressionNode
     {
-
-        public float Value { get; set; }
+        public string Value { get; set; }
         public override BaseType ValidateSemantic()
         {
             //return TypesTable.Instance.GetType("integer");

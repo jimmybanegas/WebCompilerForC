@@ -4,7 +4,7 @@ namespace Syntax.Tree.Nodes.DataTypes
 {
     public class DateNode : ExpressionNode
     {
-        public double Value { get; set; }
+        public string Value { get; set; }
 
         public override BaseType ValidateSemantic()
         {

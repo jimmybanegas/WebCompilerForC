@@ -40,10 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arrays.cs" />
-    <Compile Include="Expressions.cs" />
-    <Compile Include="Functions.cs" />
-    <Compile Include="LoopsAndConditionals.cs" />
+    <Compile Include="Parser\Arrays.cs" />
+    <Compile Include="Parser\Expressions.cs" />
+    <Compile Include="Parser\Functions.cs" />
+    <Compile Include="Parser\LoopsAndConditionals.cs" />
+    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Parser\Utilities.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\StatementNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\BoolNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\CharNode.cs" />
@@ -91,7 +93,6 @@
     <Compile Include="Tree\Nodes\Operators\Unary\PreIncrementOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Unary\NegativeOperatorNode.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\UnaryOperator.cs" />
-    <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tree\AccesorNode.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\BaseType.cs" />
@@ -107,7 +108,6 @@
     <Compile Include="Tree\Nodes\DataTypes\IntegerNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Unary\NotOperatorNode.cs" />
     <Compile Include="Tree\Syntactic.cs" />
-    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lexer\Lexer.csproj">

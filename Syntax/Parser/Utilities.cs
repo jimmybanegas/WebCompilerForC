@@ -1,7 +1,7 @@
 using System;
 using Lexer;
 
-namespace Syntax
+namespace Syntax.Parser
 {
     public class Utilities
     {

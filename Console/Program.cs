@@ -1,6 +1,6 @@
 ﻿using System;
 using Lexer;
-using Syntax;
+using Syntax.Parser;
 
 namespace ConsoleTest
 {
