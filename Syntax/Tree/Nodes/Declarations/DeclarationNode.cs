@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Syntax.Tree.Nodes.BaseNodes;
 
-namespace Syntax.Tree.Nodes.LoopsAndConditions
+namespace Syntax.Tree.Nodes.Declarations
 {
-    public class SwitchNode : StatementNode
+    public class DeclarationNode : TypeOfDeclaration
     {
-        public ExpressionNode Expression;
-        public List<CaseStatement> CaseStatements;
-        public override void ValidateSemantic()
+        public IdentifierNode TypeOfIdentifier;
+        public List<TypeOfDeclaration> ListOfIdentifiers;
+
+        public override BaseType ValidateSemantic()
         {
             throw new NotImplementedException();
         }

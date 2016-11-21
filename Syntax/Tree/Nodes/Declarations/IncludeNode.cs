@@ -5,12 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Syntax.Tree.Nodes.BaseNodes;
 
-namespace Syntax.Tree.Nodes.LoopsAndConditions
+namespace Syntax.Tree.Nodes.Declarations
 {
-    public class SwitchNode : StatementNode
+    public class IncludeNode : StatementNode
     {
-        public ExpressionNode Expression;
-        public List<CaseStatement> CaseStatements;
         public override void ValidateSemantic()
         {
             throw new NotImplementedException();

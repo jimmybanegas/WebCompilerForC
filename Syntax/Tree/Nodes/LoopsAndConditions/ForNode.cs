@@ -4,7 +4,7 @@ using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Tree.Nodes.LoopsAndConditions
 {
-    public class ForNode : StatementNode
+    public class ForNode : ForLoopNode
     {
         public ExpressionNode FirstCondition;
         public ExpressionNode SecondCondition;

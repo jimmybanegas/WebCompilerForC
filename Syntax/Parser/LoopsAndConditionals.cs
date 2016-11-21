@@ -1,5 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Lexer;
+using Syntax.Tree;
+using Syntax.Tree.Nodes.BaseNodes;
+using Syntax.Tree.Nodes.LoopsAndConditions;
 
 namespace Syntax.Parser
 {
@@ -40,7 +44,7 @@ namespace Syntax.Parser
             }
         }
 
-        public void Switch()
+        public SwitchNode Switch()
         {
             _parser.Utilities.NextToken();
 
@@ -50,7 +54,7 @@ namespace Syntax.Parser
             }
 
             _parser.Utilities.NextToken();
-            _parser.Expressions.Expression();
+            var expression = _parser.Expressions.Expression();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
             {
@@ -66,7 +70,7 @@ namespace Syntax.Parser
 
             _parser.Utilities.NextToken();
 
-            ListOfCase();
+            List<CaseStatement> caseList = ListOfCase();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
             {
@@ -75,27 +79,40 @@ namespace Syntax.Parser
 
             _parser.Utilities.NextToken();
 
+            return new SwitchNode
+            {
+                CaseStatements = caseList, Expression = expression
+            };
+
         }
 
-        private void ListOfCase()
+        private List<CaseStatement> ListOfCase()
         {
+            List<CaseStatement> list = null;
+
             if (_parser.Utilities.CompareTokenType(TokenType.RwCase))
             {
-                Case();
+                var caseStatement = Case();
 
-                ListOfCase();
+                list.Add(caseStatement);
+
+                list = ListOfCase();
             }
             else if (_parser.Utilities.CompareTokenType(TokenType.RwDefault))
             {
-                DefaultCase();
+                var defaultCase = DefaultCase();
+
+                list.Add(defaultCase);
             }
             else
             {
                 
             }
+
+            return list;
         }
 
-        public void DefaultCase()
+        public CaseStatement DefaultCase()
         {
             _parser.Utilities.NextToken();
 
@@ -104,26 +121,29 @@ namespace Syntax.Parser
 
             _parser.Utilities.NextToken();
 
-            _parser.ListOfSpecialSentences();
+            var sentences = _parser.ListOfSpecialSentences();
 
             if (_parser.Utilities.CompareTokenType(TokenType.RwBreak))
             {
                 Break();
             }
+
+            return new CaseStatement {Sentences = sentences};
+
         }
 
-        private void Case()
+        private CaseStatement Case()
         {
            _parser.Utilities.NextToken();
 
-            _parser.Expressions.Expression();
+            var expression = _parser.Expressions.Expression();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.Colon))
                 throw new Exception("Colon symbol expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
 
             _parser.Utilities.NextToken();
 
-            _parser.ListOfSpecialSentences();
+            var sentences = _parser.ListOfSpecialSentences();
             
             if (_parser.Utilities.CompareTokenType(TokenType.RwBreak))
             {
@@ -133,20 +153,25 @@ namespace Syntax.Parser
             {
                 
             }
-           
+
+            return new CaseStatement
+            {
+                Expression = expression, Sentences = sentences
+            };
+
         }
 
-        public void ForLoop()
+        public ForLoopNode ForLoop()
         {
             _parser.Utilities.NextToken();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenParenthesis))
                 throw new Exception("Openning parenthesis expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
 
-            ForOrForEach();
+            return ForOrForEach();
         }
 
-        private void ForOrForEach()
+        private ForLoopNode ForOrForEach()
         {
             _parser.Utilities.NextToken();
 
@@ -160,12 +185,16 @@ namespace Syntax.Parser
                 || _parser.Utilities.CompareTokenType(TokenType.RwFloat)
                 || _parser.Utilities.CompareTokenType(TokenType.RwVoid))
             {
+                var dataType = new IdentifierNode {Accesors = null, Value = _parser.CurrentToken.Lexeme};
+
                 _parser.Utilities.NextToken();
 
                 if (!_parser.Utilities.CompareTokenType(TokenType.Identifier))
                 {
                     throw new Exception("Identifier was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
                 }
+
+                var itemIdentifier = new IdentifierNode { Accesors = null, Value = _parser.CurrentToken.Lexeme };
 
                 _parser.Utilities.NextToken();
 
@@ -189,11 +218,17 @@ namespace Syntax.Parser
                 }
 
                 //BlockForLoop();
-                BlockForLoops();
+                var sentences = BlockForLoops();
+
+                return new ForEachNode
+                {
+                    DataType = dataType, Item = itemIdentifier, Sentences = sentences
+                };
+
             }
             else
             {
-                _parser.Expressions.Expression();
+                var firstExpression = _parser.Expressions.Expression();
 
                 if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
@@ -201,7 +236,7 @@ namespace Syntax.Parser
                 }
                 _parser.Utilities.NextToken();
 
-                _parser.Expressions.Expression();
+                var secondExpression = _parser.Expressions.Expression();
 
                 if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
@@ -210,7 +245,7 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
 
-                _parser.Expressions.Expression();
+                var thirdExpression = _parser.Expressions.Expression();
 
                 if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
                 {
@@ -218,15 +253,22 @@ namespace Syntax.Parser
                 }
 
                // BlockForLoop();
-               BlockForLoops();
+               var sentences = BlockForLoops();
+
+                return new ForNode
+                {
+                    FirstCondition = firstExpression,
+                    SecondCondition = secondExpression,
+                    ThirdCondition = thirdExpression,
+                    Sentences = sentences
+                };
             }
-         
         }
 
-        public void Do()
+        public DoWhileNode Do()
         {
             //BlockForLoop();
-            BlockForLoops();
+            var sentences = BlockForLoops();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.RwWhile))
             {
@@ -242,7 +284,7 @@ namespace Syntax.Parser
 
             _parser.Utilities.NextToken();
 
-            _parser.Expressions.Expression();
+            var expression = _parser.Expressions.Expression();
 
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
@@ -258,9 +300,15 @@ namespace Syntax.Parser
             }
 
             _parser.Utilities.NextToken();
+
+            return new DoWhileNode
+            {
+                Sentences = sentences, WhileCondition = expression
+            };
+
         }
 
-        public void While()
+        public WhileNode While()
         {
             _parser.Utilities.NextToken();
 
@@ -270,19 +318,27 @@ namespace Syntax.Parser
             }
             _parser.Utilities.NextToken();
 
-            _parser.Expressions.Expression();
+            var expression = _parser.Expressions.Expression();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
             {
                 throw new Exception("Closing parenthesis was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
 
-            //BlockForLoop();
-            BlockForLoops();
+           var sentences = BlockForLoops();
+
+            return new WhileNode
+            {
+                Sentences = sentences, WhileCondition = expression
+            };
         }
 
-        public void If()
+        public IfNode If()
         {
+
+            var trueBlock = new List<StatementNode>();
+            var falseBlock = new List<StatementNode>();
+
             _parser.Utilities.NextToken();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenParenthesis))
@@ -292,33 +348,44 @@ namespace Syntax.Parser
 
             _parser.Utilities.NextToken();
 
-            _parser.Expressions.Expression();
+            var expression = _parser.Expressions.Expression();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
             {
                 throw new Exception("Closign parenthesis was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
 
-            BlockForLoops();
+            var trueB = BlockForLoops();
+            trueBlock.AddRange(trueB);
 
-            Else();
+            var falseB = Else();
+            falseBlock.AddRange(falseB);
+
+            return new IfNode
+            {
+                FalseBlock = falseBlock, IfCondition = expression, TrueBlock = trueBlock
+            };
         }
 
-        private void Else()
+        private List<StatementNode> Else()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.RwElse))
             {
-                BlockForLoops();
+               var sentences = BlockForLoops();
+
+               return sentences;
             }
             else
             {
-                
+                return new List<StatementNode>();
             }
 
         }
 
-        private void BlockForLoops()
+        private List<StatementNode> BlockForLoops()
         {
+            List<StatementNode> list = new List<StatementNode>();
+
             _parser.Utilities.NextToken();
 
             if (_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
@@ -327,7 +394,9 @@ namespace Syntax.Parser
 
                 //Considerar hacer un sentences solo para los ciclos, porque son distintos
                 //_parser.ListOfSpecialSentences();
-                _parser.ListOfSentences();
+                var sentences = _parser.ListOfSentences();
+
+                list.AddRange(sentences);
 
                 if (!_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
                 {
@@ -340,15 +409,16 @@ namespace Syntax.Parser
             {
                 if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
-                    _parser.Sentence();
-                  
+                    var sentence = _parser.Sentence();
+                    list.Add(sentence);
                 }
                 else
                 {
                     throw new Exception("Unexpected token at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
                 }
             }
-           
+
+            return list;
         }
     }
 }

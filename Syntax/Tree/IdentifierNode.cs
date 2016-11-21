@@ -7,12 +7,12 @@ using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Tree
 {
-    public class IdentifierNode : ExpressionNode
+    public class IdentifierNode : TypeOfDeclaration
     {
-        public string Value { get; set; }
-        public List<AccesorNode> Accesors = new List<AccesorNode>();
+        public string Value { get; set; } 
+        public List<AccessorNode> Accesors = new List<AccessorNode>();
 
-        public override BaseType ValidateSemantic()
+        public override void ValidateSemantic()
         {
             throw new NotImplementedException();
         }

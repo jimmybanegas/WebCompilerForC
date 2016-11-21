@@ -8,7 +8,6 @@ namespace Syntax.Tree.Nodes.LoopsAndConditions
     {
         public ExpressionNode WhileCondition;
         public List<StatementNode> Sentences;
-
         public override void ValidateSemantic()
         {
             throw new NotImplementedException();

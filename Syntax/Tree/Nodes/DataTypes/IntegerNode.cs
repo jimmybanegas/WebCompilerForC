@@ -2,9 +2,9 @@ using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Tree.Nodes.DataTypes
 {
-    public class IntegerNode : ExpressionNode
+    public class IntegerNode : LiteralWithOptionalUnaryOpNode
     {
-        public string Value { get; set; }
+        public int Value { get; set; }
         public override BaseType ValidateSemantic()
         {
             //return TypesTable.Instance.GetType("integer");

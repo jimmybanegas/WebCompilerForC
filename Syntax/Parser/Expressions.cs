@@ -1,5 +1,6 @@
 using System;
 using Lexer;
+using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Parser
 {
@@ -12,18 +13,20 @@ namespace Syntax.Parser
             _parser = parser;
         }
 
-        public void Expression()
+        public ExpressionNode Expression()
         {
-            RelationalExpression();
+            return RelationalExpression();
         }
 
-        private void RelationalExpression()
+        private ExpressionNode RelationalExpression()       
         {
-            ExpressionAddition();
-            RelationalExpressionPrime();
+            var expression = ExpressionAddition();
+            var relational = RelationalExpressionPrime();
+
+            return relational;
         }
 
-        private void RelationalExpressionPrime()
+        private ExpressionNode RelationalExpressionPrime()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpLessThan)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpLessThanOrEqualTo)
@@ -50,11 +53,11 @@ namespace Syntax.Parser
             {
                 RelationalOperators();
                 ExpressionAddition();
-                RelationalExpressionPrime();
+                return RelationalExpressionPrime();
             }
             else
             {
-              
+                return null;
             }
         }
 
@@ -91,24 +94,26 @@ namespace Syntax.Parser
             }
         }
 
-        private void ExpressionAddition()
+        private ExpressionNode ExpressionAddition()
         {
-            ExpressionMultiplication();
-            ExpressionAdditionPrime();
+            var multiplication = ExpressionMultiplication();
+            var addition = ExpressionAdditionPrime();
+
+            return addition;
         }
 
-        private void ExpressionAdditionPrime()
+        private ExpressionNode ExpressionAdditionPrime()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpAdd)
                 || _parser.Utilities.CompareTokenType(TokenType.OpSubstraction))
             {
                 AdditiveOperrators();
                 ExpressionMultiplication();
-                ExpressionAdditionPrime();
+                return ExpressionAdditionPrime();
             }
             else
             {
-                
+                return null;
             }
         }
 
@@ -125,13 +130,15 @@ namespace Syntax.Parser
             }
         }
 
-        private void ExpressionMultiplication()
+        private ExpressionNode ExpressionMultiplication()
         {
-            ExpressionUnary();
-            ExpressionMultiplicationPrime();
+            var unary = ExpressionUnary();
+            var multiplication = ExpressionMultiplicationPrime();
+
+            return multiplication;
         }
 
-        private void ExpressionMultiplicationPrime()
+        private ExpressionNode ExpressionMultiplicationPrime()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpDivision)
                 || _parser.Utilities.CompareTokenType(TokenType.OpMultiplication)
@@ -139,11 +146,11 @@ namespace Syntax.Parser
             {
                 MultiplicativeOperators();
                 ExpressionUnary();
-                ExpressionMultiplicationPrime();
+                return ExpressionMultiplicationPrime();
             }
             else
             {
-                
+                return null;
             }
         }
 
@@ -161,7 +168,7 @@ namespace Syntax.Parser
             }
         }
 
-        private void ExpressionUnary()
+        private ExpressionNode ExpressionUnary()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpComplement)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpIncrement)
@@ -177,7 +184,7 @@ namespace Syntax.Parser
                 UnaryOperators();
             }
      
-            Factor();
+            return Factor();
 
         }
 
@@ -202,7 +209,7 @@ namespace Syntax.Parser
             }
         }
 
-        private void Factor()
+        private ExpressionNode Factor()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
@@ -214,7 +221,7 @@ namespace Syntax.Parser
                     _parser.Utilities.NextToken();
                 }
 
-                FactorFunctionOrArray();
+               return  FactorFunctionOrArray();
             }
             else if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber) ||
                 _parser.Utilities.CompareTokenType(TokenType.LiteralDecimal)
@@ -244,6 +251,8 @@ namespace Syntax.Parser
             {
                 throw new Exception("Factor was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
+
+            return null;
         }
 
         private void FactorFunctionOrArray()

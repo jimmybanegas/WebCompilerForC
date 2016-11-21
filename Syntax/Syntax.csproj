@@ -49,6 +49,14 @@
     <Compile Include="Tree\Nodes\BaseNodes\StatementNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\BoolNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\CharNode.cs" />
+    <Compile Include="Tree\Nodes\DataTypes\ConstantNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\AssignationNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\DeclarationNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\EnumerationNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\FunctionNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\IncludeNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\ParameterOfDeclaration.cs" />
+    <Compile Include="Tree\Nodes\Declarations\StructNode.cs" />
     <Compile Include="Tree\Nodes\LoopsAndConditions\CaseStatement.cs" />
     <Compile Include="Tree\Nodes\LoopsAndConditions\DoWhileNode.cs" />
     <Compile Include="Tree\Nodes\LoopsAndConditions\ForEachNode.cs" />
@@ -117,7 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tree\Nodes\Arrays\" />
-    <Folder Include="Tree\Nodes\Declarations\" />
     <Folder Include="Tree\Nodes\Functions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

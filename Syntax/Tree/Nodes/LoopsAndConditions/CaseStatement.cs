@@ -5,8 +5,8 @@ namespace Syntax.Tree.Nodes.LoopsAndConditions
 {
     public class CaseStatement : StatementNode
     {
-        public ExpressionNode Expressions { get; set; }
-        public List<StatementNode> Senetences { get; set; }
+        public ExpressionNode Expression { get; set; }
+        public List<StatementNode> Sentences { get; set; }
         public override void ValidateSemantic()
         {
             throw new System.NotImplementedException();

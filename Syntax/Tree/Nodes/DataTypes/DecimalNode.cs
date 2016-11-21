@@ -3,9 +3,9 @@ using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Tree.Nodes.DataTypes
 {
-    public class DecimalNode : ExpressionNode
+    public class DecimalNode : LiteralWithOptionalUnaryOpNode
     {
-        public string Value { get; set; }
+        public decimal Value { get; set; }
 
         public override BaseType ValidateSemantic()
         {

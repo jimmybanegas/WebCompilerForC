@@ -2,7 +2,7 @@
 
 namespace Syntax.Tree
 {
-    public abstract class AccesorNode
+    public abstract class AccessorNode
     {
         public abstract BaseType Validate(BaseType type);
         public abstract string GeneratedCodeAttribute();

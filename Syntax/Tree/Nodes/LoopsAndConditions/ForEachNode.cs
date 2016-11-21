@@ -3,11 +3,13 @@ using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Tree.Nodes.LoopsAndConditions
 {
-    public class ForEachNode : StatementNode
+    public class ForEachNode : ForLoopNode
     {
-        public ExpressionNode FirstCondition;
-        public ExpressionNode SecondCondition;
-        public ExpressionNode ThirdCondition;
+        //Declaration
+        public IdentifierNode DataType;
+        public IdentifierNode Item;
+        public IdentifierNode List;
+
         public List<StatementNode> Sentences;
 
         public override void ValidateSemantic()

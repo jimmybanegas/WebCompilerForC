@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Tree.Nodes.DataTypes
 {
-    class BoolNode : ExpressionNode
+    public class OctalNode : ExpressionNode
     {
         public string Value { get; set; }
         public override BaseType ValidateSemantic()
@@ -13,7 +17,7 @@ namespace Syntax.Tree.Nodes.DataTypes
 
         public override string GenerateCode()
         {
-            return Value;
+            throw new NotImplementedException();
         }
     }
 }
