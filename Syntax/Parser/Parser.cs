@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lexer;
+using Syntax.Tree;
 using Syntax.Tree.Nodes.BaseNodes;
+using Syntax.Tree.Nodes.DataTypes;
+using Syntax.Tree.Nodes.Declarations;
 
 namespace Syntax.Parser
 {
@@ -52,12 +55,12 @@ namespace Syntax.Parser
         {
             if (Utilities.CompareTokenType(TokenType.EndOfFile))
             {
-                return null;
+                return new List<StatementNode>(); 
             }
 
             if (Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
             {
-                return null;
+                return new List<StatementNode>();
             }
 
             //Lista_Sentencias->Sentence Lista_Sentencias
@@ -69,7 +72,7 @@ namespace Syntax.Parser
                 var statement = Sentence();
                 var statementList = ListOfSentences();
 
-               // statementList.Insert(0, statement);
+                statementList.Insert(0, statement);
                 return statementList;
 
             }
@@ -87,10 +90,13 @@ namespace Syntax.Parser
                 && !Utilities.CompareTokenType(TokenType.RwBreak)
                 && !Utilities.CompareTokenType(TokenType.RwCase))
             {
-                SpecialSentence();
-                ListOfSpecialSentences();
+                var statement = SpecialSentence();
+                var statementList = ListOfSpecialSentences();
+                statementList.Insert(0, statement);
+                return statementList;
             }
-         
+
+            return new List<StatementNode>();
         }
 
         public StatementNode SpecialSentence()
@@ -102,7 +108,7 @@ namespace Syntax.Parser
 
             if (Utilities.CompareTokenType(TokenType.EndOfFile))
             {
-                return;
+                //return;
             }
 
             if (Utilities.CompareTokenType(TokenType.RwChar) || Utilities.CompareTokenType(TokenType.RwString)
@@ -119,35 +125,35 @@ namespace Syntax.Parser
             }
             else if (Utilities.CompareTokenType(TokenType.RwIf))
             {
-                LoopsAndConditionals.If();
+                return LoopsAndConditionals.If();
             }
             else if (Utilities.CompareTokenType(TokenType.RwWhile))
             {
-                LoopsAndConditionals.While();
+                return LoopsAndConditionals.While();
             }
             else if (Utilities.CompareTokenType(TokenType.RwDo))
             {
-                LoopsAndConditionals.Do();
+                return LoopsAndConditionals.Do();
             }
             else if (Utilities.CompareTokenType(TokenType.RwFor))
             {
-                LoopsAndConditionals.ForLoop();
+                return LoopsAndConditionals.ForLoop();
             }
             else if (Utilities.CompareTokenType(TokenType.RwSwitch))
             {
-                LoopsAndConditionals.Switch();
+                return LoopsAndConditionals.Switch();
             }
             else if (Utilities.CompareTokenType(TokenType.RwBreak))
             {
-                LoopsAndConditionals.Break();
+                return LoopsAndConditionals.Break();
             }
             else if (Utilities.CompareTokenType(TokenType.RwDefault))
             {
-                LoopsAndConditionals.DefaultCase();
+                return LoopsAndConditionals.DefaultCase();
             }
             else if (Utilities.CompareTokenType(TokenType.RwContinue))
             {
-                LoopsAndConditionals.Continue();
+                return LoopsAndConditionals.Continue();
             }
             else if (Utilities.CompareTokenType(TokenType.Identifier)
                 || Utilities.CompareTokenType(TokenType.OpMultiplication) 
@@ -161,15 +167,15 @@ namespace Syntax.Parser
             }
             else if (Utilities.CompareTokenType(TokenType.RwConst))
             {
-                Const();
+                return Const();
             }
             else if (Utilities.CompareTokenType(TokenType.RwInclude))
             {
-                Include();
+                return Include();
             }
             else if (Utilities.CompareTokenType(TokenType.RwReturn))
             {
-                ReturnStatement();
+                return ReturnStatement();
             }
             else if (Utilities.CompareTokenType(TokenType.RwStruct)
                 || Utilities.CompareTokenType(TokenType.RwTypedef))
@@ -189,15 +195,18 @@ namespace Syntax.Parser
                 }
 
             }
+            return null;
         }
 
-        private void ReturnStatement()
+        private StatementNode ReturnStatement()
         {
+            var returnStatement = new ReturnStatementNode();
+
             Utilities.NextToken();
 
             if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
-                Expressions.Expression();
+               returnStatement.ReturnExpression = Expressions.Expression();
             }
 
             if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
@@ -206,6 +215,8 @@ namespace Syntax.Parser
             }
 
             Utilities.NextToken();
+
+            return returnStatement;
         }
 
         public StatementNode Sentence()
@@ -226,7 +237,7 @@ namespace Syntax.Parser
                 {
                     Utilities.NextToken();
                 }
-                return Declaration();
+                Declaration();
             }
             else if (Utilities.CompareTokenType(TokenType.RwIf))
             {
@@ -287,14 +298,14 @@ namespace Syntax.Parser
                         throw new Exception("Closing parenthesis required at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                     }
                     
-                    return AssignmentOrFunctionCall();
+                     AssignmentOrFunctionCall();
                 }
 
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
                     IsPointer();
                 }
-                return AssignmentOrFunctionCall();
+                 AssignmentOrFunctionCall();
             }
             else if (Utilities.CompareTokenType(TokenType.RwStruct)
                 ||Utilities.CompareTokenType(TokenType.RwTypedef))
@@ -316,7 +327,7 @@ namespace Syntax.Parser
             }
             else if (Utilities.CompareTokenType(TokenType.RwEnum))
             {
-                Enumeration();
+                return Enumeration();
             }
             //Return no debería estar aquí porque no es una sentence
             else if (Utilities.CompareTokenType(TokenType.RwReturn))
@@ -338,11 +349,12 @@ namespace Syntax.Parser
             }
 
             return null;
-
         }
 
-        private void Enumeration()
+        private StatementNode Enumeration()
         {
+            var enumerationNode = new EnumerationNode();
+
             Utilities.NextToken();
 
             if (!Utilities.CompareTokenType(TokenType.Identifier))
@@ -357,7 +369,8 @@ namespace Syntax.Parser
 
             if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
             {
-                EnumeratorList();
+                List<StatementNode> items = new List<StatementNode>();
+                enumerationNode.EnumItems = EnumeratorList(items);
             }
 
             if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
@@ -368,50 +381,71 @@ namespace Syntax.Parser
                 throw new Exception("End of sentence was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
             Utilities.NextToken();
+
+            return enumerationNode;
         }
 
-        private void EnumeratorList()
+        private List<StatementNode> EnumeratorList(List<StatementNode> items)
         {
-            EnumItem();
+            var item = EnumItem();
+            items.Add(item);
 
             if (Utilities.CompareTokenType(TokenType.Comma))
             {
-                OptionalEnumItem();
+                OptionalEnumItem(items);
             }
 
+            return items;
         }
 
-        private void OptionalEnumItem()
+        private void OptionalEnumItem(List<StatementNode> items)
         {
             Utilities.NextToken();
-            EnumeratorList();
+            EnumeratorList(items);
         }
 
-        private void EnumItem()
+        private StatementNode EnumItem()
         {
             if (!Utilities.CompareTokenType(TokenType.Identifier))
             {
                 throw new Exception("Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
+            var value = CurrentToken.Lexeme;
+
+            var name = new IdentifierNode {Accessors = null, Value = value};
 
             Utilities.NextToken();
 
-            OptionalIndexPosition();
+            var position = OptionalIndexPosition();
+
+            return new EnumItemNode
+            {
+                ItemName = name, OptionalPosition = position
+            };
         }
 
-        private void OptionalIndexPosition()
+        private IntegerNode OptionalIndexPosition()
         {
+            var integerNode = new IntegerNode();
+
             if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 Utilities.NextToken();
                 if (!Utilities.CompareTokenType(TokenType.LiteralNumber))
                     throw new Exception("Literal number was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+
+                integerNode.Value = int.Parse(CurrentToken.Lexeme);
+
                 Utilities.NextToken();
+
+                return integerNode;
             }
             else
             {
                 
-            } 
+            }
+
+            return new IntegerNode();
         }
 
         private void AssignmentOrFunctionCall()
@@ -522,31 +556,45 @@ namespace Syntax.Parser
             }
         }
 
-        private void Include()
-        {
+        private StatementNode Include()
+        {   
+            string reference;
             Utilities.NextToken();
 
             //Literal strings as a parameter for includes
             if (Utilities.CompareTokenType(TokenType.LiteralString))
             {
+                reference = CurrentToken.Lexeme;
                 Utilities.NextToken();
             }
             else
             {
                 throw new Exception("Literal string expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
+
+            return new IncludeNode {ReferencedClass = reference};
         }
 
-        private void Const()
+        private StatementNode Const()
         {
-             Utilities.NextToken();
+            Utilities.NextToken();
 
-             DataType();
+            StatementNode dataType = DataType();
+
+            var typeNode = new IdentifierNode
+            {
+                Accessors = new List<AccessorNode>(), Value = ((IdentifierNode)dataType).Value
+            };
+
 
             if (!Utilities.CompareTokenType(TokenType.Identifier))
             {
                 throw new Exception("Identifier expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
+
+            var name = CurrentToken.Lexeme;
+
+            var nameNode = new IdentifierNode {Accessors = new List<AccessorNode>(), Value = name};
 
             Utilities.NextToken();
 
@@ -557,37 +605,49 @@ namespace Syntax.Parser
 
             Utilities.NextToken();
 
-            Expressions.Expression();
+            var expression = Expressions.Expression();
 
             if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
                 throw new Exception("End Of Sentence expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
             Utilities.NextToken();
+
+            return new ConstantNode {ConstName = nameNode, ExpressionConst = expression, TypeOfConst = typeNode };
         }
 
-        public void DataType()
+        public StatementNode DataType()
         {
-           if (Utilities.CompareTokenType(TokenType.RwChar) 
-                ||Utilities.CompareTokenType(TokenType.RwString)
-                ||Utilities.CompareTokenType(TokenType.RwInt)
-                ||Utilities.CompareTokenType(TokenType.RwDate)
-                ||Utilities.CompareTokenType(TokenType.RwDouble)
-                ||Utilities.CompareTokenType(TokenType.RwBool)
-                ||Utilities.CompareTokenType(TokenType.RwLong)
-                ||Utilities.CompareTokenType(TokenType.RwFloat)
-                ||Utilities.CompareTokenType(TokenType.RwVoid))
-           {
-               Utilities.NextToken();
-           }
-           else
-           {
+            //if (Utilities.CompareTokenType(TokenType.RwChar))
+            //{
+            //    Utilities.NextToken();
+            //    return new IdentifierNode {Accessors = new List<AccessorNode>(), Value = CurrentToken.Lexeme} ;
+            //}
+            if (Utilities.CompareTokenType(TokenType.RwChar)
+                 || Utilities.CompareTokenType(TokenType.RwString)
+                 || Utilities.CompareTokenType(TokenType.RwInt)
+                 || Utilities.CompareTokenType(TokenType.RwDate)
+                 || Utilities.CompareTokenType(TokenType.RwDouble)
+                 || Utilities.CompareTokenType(TokenType.RwBool)
+                 || Utilities.CompareTokenType(TokenType.RwLong)
+                 || Utilities.CompareTokenType(TokenType.RwFloat)
+                 || Utilities.CompareTokenType(TokenType.RwVoid))
+            {
+                var type = CurrentToken.Lexeme;
+
+                Utilities.NextToken();
+                return new IdentifierNode { Accessors = new List<AccessorNode>(), Value = type};
+            }
+            else
+            {
                 throw new Exception("A Data Type was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
         }
 
-        private void Struct()
+        private StatementNode Struct()
         {
+            var structItem = new StructNode(); 
+
             Utilities.NextToken();
 
             if (!Utilities.CompareTokenType(TokenType.Identifier))
@@ -601,6 +661,8 @@ namespace Syntax.Parser
                 throw new Exception("End of sentence was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
             Utilities.NextToken();
+
+            return structItem;
         }
 
         private void StructDeclarationOrInitialization()
@@ -674,7 +736,8 @@ namespace Syntax.Parser
                 throw new Exception("Openning bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
             Utilities.NextToken();
-            ListOfExpressions();
+            List<ExpressionNode> list = new List<ExpressionNode>();
+            ListOfExpressions(list);
             if (Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
                 Utilities.NextToken();
         }
@@ -873,28 +936,25 @@ namespace Syntax.Parser
             {
                 throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
-            //else
-            //{
-                
-            //}
         }
 
-        public void ListOfExpressions()
+        public void ListOfExpressions(List<ExpressionNode> list)
         {
-            Expressions.Expression();
+            var expression = Expressions.Expression();
+            list.Add(expression);
 
             if (Utilities.CompareTokenType(TokenType.Comma))
             {
-                OptionalExpression();
+                OptionalExpression(list);
             }
         }
 
-        public void OptionalExpression()
+        public void OptionalExpression(List<ExpressionNode> list)
         {
             if (Utilities.CompareTokenType(TokenType.Comma))
             {
                 Utilities.NextToken();
-                ListOfExpressions();
+                ListOfExpressions(list);
             }
             else
             {

@@ -5,15 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Syntax.Tree.Nodes.BaseNodes;
 
-namespace Syntax.Tree.Nodes.Declarations
+namespace Syntax.Tree
 {
-    public class EnumerationNode : StatementNode
+    public class ExpressionUnaryNode : ExpressionNode
     {
-        public IdentifierNode Name;
-        //public List<TypeOfDeclaration> EnumItems;
-        public List<StatementNode> EnumItems;
-
-        public override void ValidateSemantic()
+        public UnaryOperator UnaryOperator;
+        public ExpressionNode Factor;
+        public override BaseType ValidateSemantic()
         {
             throw new NotImplementedException();
         }

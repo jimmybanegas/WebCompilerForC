@@ -7,12 +7,8 @@ using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Tree.Nodes.Declarations
 {
-    public class EnumerationNode : StatementNode
+    public class ContinueNode : StatementNode
     {
-        public IdentifierNode Name;
-        //public List<TypeOfDeclaration> EnumItems;
-        public List<StatementNode> EnumItems;
-
         public override void ValidateSemantic()
         {
             throw new NotImplementedException();

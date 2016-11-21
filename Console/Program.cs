@@ -42,11 +42,14 @@ namespace ConsoleTest
 
                 var parser = new Parser(lex);
 
+               var root = parser.Parse();
 
+                foreach (var statementNode in root)
+                {
+                    Console.WriteLine(statementNode);
+                }
 
-                parser.Parse();
-
-                Console.ReadKey();
+              Console.ReadKey();
             //}
             //catch (Exception e)
             //{

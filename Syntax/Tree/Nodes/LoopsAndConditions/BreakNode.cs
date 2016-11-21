@@ -5,13 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Syntax.Tree.Nodes.BaseNodes;
 
-namespace Syntax.Tree.Nodes.Declarations
+namespace Syntax.Tree.Nodes.LoopsAndConditions
 {
-    public class EnumerationNode : StatementNode
+    public class BreakNode : StatementNode
     {
-        public IdentifierNode Name;
-        //public List<TypeOfDeclaration> EnumItems;
-        public List<StatementNode> EnumItems;
 
         public override void ValidateSemantic()
         {

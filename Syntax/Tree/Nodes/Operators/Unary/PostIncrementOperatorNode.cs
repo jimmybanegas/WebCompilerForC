@@ -12,7 +12,7 @@ namespace Syntax.Tree.Nodes.Operators.Unary
 
         public override string GenerateCode()
         {
-            return  Operand.GenerateCode() + "++" ;
+            return  "++" ;
         }
     }
 }

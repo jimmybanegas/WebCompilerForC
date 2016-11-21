@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Syntax.Tree.Nodes.BaseNodes;
 
-namespace Syntax.Tree.Nodes.Acessors
+namespace Syntax.Tree.Nodes.Operators.Unary
 {
-    public class PropertyAccessorNode : AccessorNode
+    public class ReferenceOperatorNode : UnaryOperator
     {
-        public IdentifierNode IdentifierNode { get; set; }
         public override BaseType ValidateSemantic()
         {
             throw new NotImplementedException();
@@ -13,7 +16,7 @@ namespace Syntax.Tree.Nodes.Acessors
 
         public override string GenerateCode()
         {
-            return "." + IdentifierNode.Value;
+            return "*" + Operand.GenerateCode();
         }
     }
 }

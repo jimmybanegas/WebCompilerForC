@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Syntax.Tree.Nodes.BaseNodes;
 
-namespace Syntax.Tree.Nodes.DataTypes
+namespace Syntax.Tree.Nodes.Operators.Binary
 {
-    public class ConstantNode : ExpressionNode
+    public class BitwiseAndOperatorNode : BinaryOperatorNode
     {
         public override BaseType ValidateSemantic()
         {
@@ -16,7 +16,7 @@ namespace Syntax.Tree.Nodes.DataTypes
 
         public override string GenerateCode()
         {
-            throw new NotImplementedException();
+            return LeftOperand.GenerateCode() + "&" + RightOperand.GenerateCode();
         }
     }
 }

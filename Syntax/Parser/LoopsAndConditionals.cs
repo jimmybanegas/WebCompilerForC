@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Lexer;
 using Syntax.Tree;
 using Syntax.Tree.Nodes.BaseNodes;
+using Syntax.Tree.Nodes.Declarations;
 using Syntax.Tree.Nodes.LoopsAndConditions;
 
 namespace Syntax.Parser
@@ -16,7 +17,7 @@ namespace Syntax.Parser
             _parser = parser;
         }
 
-        public void Continue()
+        public StatementNode Continue()
         {
             _parser.Utilities.NextToken();
 
@@ -26,11 +27,13 @@ namespace Syntax.Parser
             }
             else
             {
-                throw new Exception("End od sentence expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
+                throw new Exception("End of sentence expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
+
+            return new ContinueNode();
         }
 
-        public void Break()
+        public StatementNode Break()
         {
             _parser.Utilities.NextToken();
 
@@ -40,8 +43,10 @@ namespace Syntax.Parser
             }
             else
             {
-                throw new Exception("End oF sentence expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
+                throw new Exception("End of sentence expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
+
+            return new BreakNode();
         }
 
         public SwitchNode Switch()
@@ -70,7 +75,8 @@ namespace Syntax.Parser
 
             _parser.Utilities.NextToken();
 
-            List<CaseStatement> caseList = ListOfCase();
+            List<CaseStatement> list = new List<CaseStatement>();
+            List<CaseStatement> caseList = ListOfCase(list);
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
             {
@@ -86,9 +92,9 @@ namespace Syntax.Parser
 
         }
 
-        private List<CaseStatement> ListOfCase()
+        private List<CaseStatement> ListOfCase(List<CaseStatement> list)
         {
-            List<CaseStatement> list = null;
+            //List<CaseStatement> list = new List<CaseStatement>();
 
             if (_parser.Utilities.CompareTokenType(TokenType.RwCase))
             {
@@ -96,7 +102,7 @@ namespace Syntax.Parser
 
                 list.Add(caseStatement);
 
-                list = ListOfCase();
+                list = ListOfCase(list);
             }
             else if (_parser.Utilities.CompareTokenType(TokenType.RwDefault))
             {
@@ -147,13 +153,15 @@ namespace Syntax.Parser
             
             if (_parser.Utilities.CompareTokenType(TokenType.RwBreak))
             {
-                Break();
+                var breakSentence = Break();
+                sentences.Add(breakSentence);
             }
             else
             {
                 
             }
 
+           
             return new CaseStatement
             {
                 Expression = expression, Sentences = sentences
@@ -185,7 +193,7 @@ namespace Syntax.Parser
                 || _parser.Utilities.CompareTokenType(TokenType.RwFloat)
                 || _parser.Utilities.CompareTokenType(TokenType.RwVoid))
             {
-                var dataType = new IdentifierNode {Accesors = null, Value = _parser.CurrentToken.Lexeme};
+                var dataType = new IdentifierNode {Accessors = null, Value = _parser.CurrentToken.Lexeme};
 
                 _parser.Utilities.NextToken();
 
@@ -194,7 +202,7 @@ namespace Syntax.Parser
                     throw new Exception("Identifier was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
                 }
 
-                var itemIdentifier = new IdentifierNode { Accesors = null, Value = _parser.CurrentToken.Lexeme };
+                var itemIdentifier = new IdentifierNode { Accessors = null, Value = _parser.CurrentToken.Lexeme };
 
                 _parser.Utilities.NextToken();
 
@@ -396,7 +404,10 @@ namespace Syntax.Parser
                 //_parser.ListOfSpecialSentences();
                 var sentences = _parser.ListOfSentences();
 
-                list.AddRange(sentences);
+                if (sentences != null)
+                {
+                    list.AddRange(sentences);
+                }
 
                 if (!_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
                 {

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Lexer;
+using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Parser
 {
@@ -127,8 +129,10 @@ namespace Syntax.Parser
             }
         }
 
-        public void CallFunction()
+        public List<ExpressionNode> CallFunction()
         {
+            List<ExpressionNode> listOfExpressions = new List<ExpressionNode>();
+
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
                 throw new Exception("Open parenthesis ( symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
@@ -142,35 +146,42 @@ namespace Syntax.Parser
             }
             else
             {
-                ListOfExpressions();
+                return ListOfExpressions(listOfExpressions);
             }
+
+            return listOfExpressions;
 
         }
 
-        private void ListOfExpressions()
+        private List<ExpressionNode> ListOfExpressions(List<ExpressionNode> listOfExpressions)
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
                 _parser.IsPointer();
             }
 
-            _parser.Expressions.Expression();
+            var expression = _parser.Expressions.Expression();
+
+            listOfExpressions.Add(expression);
 
             if (_parser.Utilities.CompareTokenType(TokenType.Comma))
             {
                 _parser.Utilities.NextToken();
-                OptionalListOfExpressions();
+                var optionalExpressions = OptionalListOfExpressions(listOfExpressions);
+
+                listOfExpressions.AddRange(optionalExpressions);
             }
             else
             {
                 _parser.Utilities.NextToken();
             }
-           
+
+            return listOfExpressions;
         }
 
-        private void OptionalListOfExpressions()
+        private List<ExpressionNode> OptionalListOfExpressions(List<ExpressionNode> listOfExpressions)
         {
-            ListOfExpressions();
+            return ListOfExpressions(listOfExpressions);
         }
     }
 }

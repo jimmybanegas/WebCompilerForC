@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Syntax.Tree.Nodes.BaseNodes;
+using Syntax.Tree.Nodes.DataTypes;
 
 namespace Syntax.Tree.Nodes.Declarations
 {
-    public class EnumerationNode : StatementNode
+    public class EnumItemNode : StatementNode
     {
-        public IdentifierNode Name;
-        //public List<TypeOfDeclaration> EnumItems;
-        public List<StatementNode> EnumItems;
+        public IdentifierNode ItemName;
 
+        public IntegerNode OptionalPosition;
         public override void ValidateSemantic()
         {
             throw new NotImplementedException();

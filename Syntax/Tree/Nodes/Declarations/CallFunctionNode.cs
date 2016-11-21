@@ -7,13 +7,11 @@ using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Tree.Nodes.Declarations
 {
-    public class EnumerationNode : StatementNode
+    public class CallFunctionNode : ExpressionNode
     {
-        public IdentifierNode Name;
-        //public List<TypeOfDeclaration> EnumItems;
-        public List<StatementNode> EnumItems;
-
-        public override void ValidateSemantic()
+        public string Name;
+        public List<ExpressionNode> ListOfExpressions;
+        public override BaseType ValidateSemantic()
         {
             throw new NotImplementedException();
         }

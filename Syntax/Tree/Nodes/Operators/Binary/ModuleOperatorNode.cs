@@ -5,13 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Syntax.Tree.Nodes.BaseNodes;
 
-namespace Syntax.Tree
+namespace Syntax.Tree.Nodes.Operators.Binary
 {
-    public class IdentifierExpression : ExpressionNode
+    public class ModuleOperatorNode : BinaryOperatorNode
     {
-        public string Value { get; set; }
-        public UnaryOperator IncrementOrdecrement { get; set; }
-        public List<AccessorNode> Accessors = new List<AccessorNode>();
         public override BaseType ValidateSemantic()
         {
             throw new NotImplementedException();
@@ -19,7 +16,7 @@ namespace Syntax.Tree
 
         public override string GenerateCode()
         {
-            throw new NotImplementedException();
+            return LeftOperand.GenerateCode() + "%" + RightOperand.GenerateCode();
         }
     }
 }

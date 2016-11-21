@@ -9,6 +9,7 @@ namespace Syntax.Tree.Nodes.Declarations
 {
     public class IncludeNode : StatementNode
     {
+        public string ReferencedClass;
         public override void ValidateSemantic()
         {
             throw new NotImplementedException();

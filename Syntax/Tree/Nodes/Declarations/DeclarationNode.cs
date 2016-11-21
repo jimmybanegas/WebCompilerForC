@@ -12,7 +12,8 @@ namespace Syntax.Tree.Nodes.Declarations
         public IdentifierNode TypeOfIdentifier;
         public List<TypeOfDeclaration> ListOfIdentifiers;
 
-        public override BaseType ValidateSemantic()
+
+        public override void ValidateSemantic()
         {
             throw new NotImplementedException();
         }

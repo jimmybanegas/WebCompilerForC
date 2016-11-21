@@ -46,17 +46,32 @@
     <Compile Include="Parser\LoopsAndConditionals.cs" />
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Parser\Utilities.cs" />
+    <Compile Include="Tree\ExpressionBinaryNode.cs" />
+    <Compile Include="Tree\ExpressionUnaryNode.cs" />
+    <Compile Include="Tree\IdentifierExpression.cs" />
+    <Compile Include="Tree\Nodes\BaseNodes\ForLoopNode.cs" />
+    <Compile Include="Tree\Nodes\BaseNodes\TypeOfDeclaration.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\StatementNode.cs" />
-    <Compile Include="Tree\Nodes\DataTypes\BoolNode.cs" />
+    <Compile Include="Tree\Nodes\DataTypes\BooleanNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\CharNode.cs" />
-    <Compile Include="Tree\Nodes\DataTypes\ConstantNode.cs" />
+    <Compile Include="Tree\Nodes\Acessors\ArrayAccessorNode.cs" />
+    <Compile Include="Tree\Nodes\DataTypes\LiteralWithOptionalUnaryOpNode.cs" />
+    <Compile Include="Tree\Nodes\DataTypes\OctalNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\AssignationNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\CallFunctionNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\ConstantNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\ContinueNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\DeclarationNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\EnumerationNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\EnumItemNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\FunctionNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\IncludeNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\ParameterOfDeclaration.cs" />
+    <Compile Include="Tree\Nodes\Acessors\PointerAccessorNode.cs" />
+    <Compile Include="Tree\Nodes\Acessors\PropertyAccessorNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\ReturnStatementNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\StructNode.cs" />
+    <Compile Include="Tree\Nodes\LoopsAndConditions\BreakNode.cs" />
     <Compile Include="Tree\Nodes\LoopsAndConditions\CaseStatement.cs" />
     <Compile Include="Tree\Nodes\LoopsAndConditions\DoWhileNode.cs" />
     <Compile Include="Tree\Nodes\LoopsAndConditions\ForEachNode.cs" />
@@ -68,6 +83,7 @@
     <Compile Include="Tree\Nodes\Operators\Binary\AdditionOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\AndOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\BitwiseAndAssignmentOperatorNode.cs" />
+    <Compile Include="Tree\Nodes\Operators\Binary\BitwiseAndOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\BitwiseInclusiveOrAndAssignmentOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\BitwiseOrOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\BitwiseXorAndAssignmentOperatorNode.cs" />
@@ -83,6 +99,7 @@
     <Compile Include="Tree\Nodes\Operators\Binary\LessThanOrEqualToOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\LogicalOrOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\ModuleAndAssignmentOperatorNode.cs" />
+    <Compile Include="Tree\Nodes\Operators\Binary\ModuleOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\MultiplicationAndAssignmentOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\MultiplicationOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\NotEqualToOperatorNode.cs" />
@@ -94,6 +111,8 @@
     <Compile Include="Tree\Nodes\Operators\Binary\SubstractAndAssignmentOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\SubstractionOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Unary\BitAndOperatorNode.cs" />
+    <Compile Include="Tree\Nodes\Operators\Unary\BitOrOperatorNode.cs" />
+    <Compile Include="Tree\Nodes\Operators\Unary\BitXorOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Unary\ComplementOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Unary\PostDecrementOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Unary\PostIncrementOperatorNode.cs" />
@@ -102,7 +121,7 @@
     <Compile Include="Tree\Nodes\Operators\Unary\NegativeOperatorNode.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\UnaryOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tree\AccesorNode.cs" />
+    <Compile Include="Tree\AccessorNode.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\BaseType.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\BinaryOperatorNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\DateNode.cs" />
@@ -115,6 +134,7 @@
     <Compile Include="Tree\Nodes\DataTypes\StringNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\IntegerNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Unary\NotOperatorNode.cs" />
+    <Compile Include="Tree\Nodes\Operators\Unary\ReferenceOperatorNode.cs" />
     <Compile Include="Tree\Syntactic.cs" />
   </ItemGroup>
   <ItemGroup>

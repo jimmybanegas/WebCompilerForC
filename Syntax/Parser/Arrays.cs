@@ -1,5 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Lexer;
+using Syntax.Tree;
+using Syntax.Tree.Nodes.Acessors;
+using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Parser
 {
@@ -50,74 +54,6 @@ namespace Syntax.Parser
 
         public void IsArrayDeclaration(bool isInMultiDeclaration)
         {
-            //if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
-            //    throw new Exception("An openning bracket [ symbol was expected");
-
-            //_parser.Utilities.NextToken();
-
-            //bool hasSize;
-            //bool isUnidimensional = true;
-
-            //SizeForArray(out hasSize);
-
-            //if (!_parser.Utilities.CompareTokenType(TokenType.CloseSquareBracket))
-            //    throw new Exception("An closing bracket ] symbol was expected");
-
-            //_parser.Utilities.NextToken();
-
-            //if (_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
-            //{
-            //    BidArray(out isUnidimensional);
-            //}
-
-            //if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment) && !isUnidimensional)
-            //{
-            //    OptionalInitOfArray(isInMultiDeclaration);
-            //}
-
-            //if ((_parser.Utilities.CompareTokenType(TokenType.EndOfSentence) && hasSize && isUnidimensional))
-            //{
-            //    _parser.Utilities.NextToken();
-            //}
-            //else if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence) && !isUnidimensional)
-            //{
-            //    _parser.Utilities.NextToken();
-            //}
-            //else if (isUnidimensional && _parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
-            //{
-            //    if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
-            //    {
-            //        throw new Exception("An assignment symbol was expected");
-            //    }
-
-            //    OptionalInitOfArray(isInMultiDeclaration);
-            //}
-            //else if (isUnidimensional && !hasSize)
-            //{
-            //    if (!_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
-            //    {
-            //        throw new Exception("An assignment symbol was expected");
-            //    }
-
-            //    OptionalInitOfArray(isInMultiDeclaration);
-            //}
-            ////Cuando hay una multideclaracion de variables que lleva arreglos en ese conjunto
-            //else if (_parser.Utilities.CompareTokenType(TokenType.Comma))
-            //{
-            //    _parser.OptionalExpression();
-
-            //    if (!_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
-            //    {
-            //        throw new Exception("An End of sentence ; symbol was expected");
-            //    }
-
-            //    _parser.Utilities.NextToken();
-            //}
-            //else
-            //{
-            //    throw new Exception("An End of sentence ; symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);       
-            //}
-
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 throw new Exception("An openning bracket [ symbol was expected");
 
@@ -143,9 +79,7 @@ namespace Syntax.Parser
           
             if (_parser.Utilities.CompareTokenType(TokenType.Comma))
             {
-                // _parser.TypeOfDeclaration();
-                //_parser.Utilities.NextToken();
-                _parser.Functions.OptionalId();
+               _parser.Functions.OptionalId();
             }
 
             if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
@@ -157,14 +91,6 @@ namespace Syntax.Parser
             {
 
             }
-            //if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
-            //{
-            //    _parser.Utilities.NextToken();
-            //}
-            //else
-            //{
-            //    throw new Exception("An End of sentence ; symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
-            //}
         }
 
         public void OptionalInitOfArray(bool isInMultiDeclaration)
@@ -173,7 +99,9 @@ namespace Syntax.Parser
             if (_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
             {
                 _parser.Utilities.NextToken();
-                _parser.ListOfExpressions();
+
+                List<ExpressionNode> list = new List<ExpressionNode>();
+                _parser.ListOfExpressions(list);
                 if (_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
                     _parser.Utilities.NextToken();
             }
@@ -209,7 +137,7 @@ namespace Syntax.Parser
             isUnidimensional = false;
         }
 
-        public void SizeForBidArray()
+        public AccessorNode SizeForBidArray()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber) 
                 ||_parser.Utilities.CompareTokenType(TokenType.LiteralOctal)
@@ -219,7 +147,12 @@ namespace Syntax.Parser
                 //Para casos como  sum += arr[i++];   
                 if (_parser.Utilities.CompareTokenType(TokenType.Identifier)    )
                 {
-                    _parser.Expressions.Expression();
+                   var expression = _parser.Expressions.Expression();
+
+                    return new ArrayAccessorNode
+                    {
+                        IndexExpression = expression
+                    };
                 }
                 else
                 {
@@ -231,6 +164,8 @@ namespace Syntax.Parser
             {
                 throw new Exception("Initialization of array is required at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
+
+            return new ArrayAccessorNode();
         }
 
         private void SizeForArray(out bool hasSize)

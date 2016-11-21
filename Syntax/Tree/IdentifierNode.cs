@@ -10,7 +10,7 @@ namespace Syntax.Tree
     public class IdentifierNode : TypeOfDeclaration
     {
         public string Value { get; set; } 
-        public List<AccessorNode> Accesors = new List<AccessorNode>();
+        public List<AccessorNode> Accessors = new List<AccessorNode>();
 
         public override void ValidateSemantic()
         {
@@ -19,13 +19,13 @@ namespace Syntax.Tree
 
         public override string GenerateCode()
         {
-            if (Accesors.Count == 0)
+            if (Accessors.Count == 0)
                 return $"{Value}";
 
             string accesors = "";
-            foreach (var accesorNode in Accesors)
+            foreach (var accesorNode in Accessors)
             {
-                accesors = accesors + accesorNode.GeneratedCodeAttribute();
+                accesors = accesors + accesorNode.GenerateCode();
 
 
             }
