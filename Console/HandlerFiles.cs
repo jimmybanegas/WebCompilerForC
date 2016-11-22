@@ -33,7 +33,7 @@ namespace ConsoleTest
             catch (Exception e)
 
             {
-                System.Console.Write(" No se ha encontrado el archivo");
+                Console.Write(" No se ha encontrado el archivo");
                 return "";
             }
             return file;

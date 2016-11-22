@@ -12,7 +12,7 @@
 
 //*a; 
 
-a++;
+a[i].edad = a+b;
 
 ++a;
 
@@ -58,7 +58,7 @@ float KrazyFunction( int *parm1, int p1size, int bb )
 
 
  while( a.edad < 20 ) {
-      printf("value of a: %d\n", a);
+      printf("value of a: %d\n", *a);
       a++;
       const char x = 'x';  
        for (ix=0; ix<p1size; ix++) {

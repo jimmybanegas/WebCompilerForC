@@ -1,6 +1,6 @@
 ﻿using Syntax.Tree.Nodes.BaseNodes;
 
-namespace Syntax.Tree
+namespace Syntax.Tree.Nodes.Acessors
 {
     public abstract class AccessorNode : ExpressionNode
     {

@@ -6,6 +6,7 @@ using Syntax.Tree.Nodes.Acessors;
 using Syntax.Tree.Nodes.BaseNodes;
 using Syntax.Tree.Nodes.DataTypes;
 using Syntax.Tree.Nodes.Declarations;
+using Syntax.Tree.Nodes.Functions;
 using Syntax.Tree.Nodes.Operators.Unary;
 
 namespace Syntax.Parser
@@ -633,15 +634,16 @@ namespace Syntax.Parser
 
             identifier.Accessors.AddRange(accessors);
             identifier.Value = ((IdentifierExpression) id).Value;
-          //  Utilities.NextToken();
-
+       
             if (Utilities.CompareTokenType(TokenType.OpIncrement)
                   || Utilities.CompareTokenType(TokenType.OpDecrement))
             {
                 Utilities.NextToken();
             }
 
-            var expressionList = ValueForPreId();
+            bool isFunctionCall;
+
+            var expressionList = ValueForPreId(out isFunctionCall);
 
             if (Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
@@ -652,10 +654,24 @@ namespace Syntax.Parser
                 throw new Exception("End of sentence symbol ; expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
 
+
+            if (isFunctionCall)
+            {
+                return new FunctionCallNode {Name = identifier, Parameters = expressionList};
+               // return new CallFunctionNode {Name = identifier.Value, ListOfExpressions = expressionList};
+            }
+
+            if (expressionList.Count>0)
+            {
+                identifier.Assignation.RightValue = expressionList[0];
+            }
+           
             return identifier;
+
+
         }
 
-        private List<ExpressionNode> ValueForPreId()
+        private List<ExpressionNode> ValueForPreId(out bool isFunctioncall)
         {
             if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment)
                 ||Utilities.CompareTokenType(TokenType.OpAddAndAssignment)
@@ -675,13 +691,17 @@ namespace Syntax.Parser
 
                 List<ExpressionNode> expressionList = new List<ExpressionNode>();
                 expressionList.Add(expression);
+                isFunctioncall = false;
                 return expressionList;
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
+              //  List<ExpressionNode> listOfExpressions = new List<ExpressionNode>(); 
+                isFunctioncall = true;
                 return Functions.CallFunction();
             }
 
+            isFunctioncall = false;
             return new List<ExpressionNode>();
         }
 

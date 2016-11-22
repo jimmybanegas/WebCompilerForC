@@ -6,6 +6,7 @@ using Syntax.Tree.Nodes.Acessors;
 using Syntax.Tree.Nodes.BaseNodes;
 using Syntax.Tree.Nodes.DataTypes;
 using Syntax.Tree.Nodes.Declarations;
+using Syntax.Tree.Nodes.Functions;
 using Syntax.Tree.Nodes.Operators.Binary;
 using Syntax.Tree.Nodes.Operators.Unary;
 using BitXorOperatorNode = Syntax.Tree.Nodes.Operators.Unary.BitXorOperatorNode;

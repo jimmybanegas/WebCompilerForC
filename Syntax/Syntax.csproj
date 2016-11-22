@@ -59,13 +59,13 @@
     <Compile Include="Tree\Nodes\DataTypes\LiteralWithOptionalUnaryOpNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\OctalNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\AssignationNode.cs" />
-    <Compile Include="Tree\Nodes\Declarations\CallFunctionNode.cs" />
+    <Compile Include="Tree\Nodes\Functions\CallFunctionNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\ConstantNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\ContinueNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\DeclarationNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\EnumerationNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\EnumItemNode.cs" />
-    <Compile Include="Tree\Nodes\Declarations\FunctionNode.cs" />
+    <Compile Include="Tree\Nodes\Functions\FunctionCallNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\GeneralDeclarationNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\IncludeNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\ParameterOfDeclaration.cs" />
@@ -125,7 +125,7 @@
     <Compile Include="Tree\Nodes\Operators\Unary\NegativeOperatorNode.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\UnaryOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tree\AccessorNode.cs" />
+    <Compile Include="Tree\Nodes\Acessors\AccessorNode.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\BaseType.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\BinaryOperatorNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\DateNode.cs" />
@@ -139,7 +139,6 @@
     <Compile Include="Tree\Nodes\DataTypes\IntegerNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Unary\NotOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Unary\ReferenceOperatorNode.cs" />
-    <Compile Include="Tree\Syntactic.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lexer\Lexer.csproj">
@@ -149,7 +148,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tree\Nodes\Arrays\" />
-    <Folder Include="Tree\Nodes\Functions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
