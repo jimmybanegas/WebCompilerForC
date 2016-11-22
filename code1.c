@@ -10,6 +10,34 @@
 
 <%  
 
+struct user//Structure for storing User information
+    {
+        char uid[4];
+        char name[30] ,password[30][a];
+
+    } user;
+
+struct potNumber{
+    //int x = 1;
+    int x ;
+    int array[20];
+    char theName[10][20];
+};
+
+struct account {
+   int account_number;
+   char *first_name;
+   char *last_name;
+   float balance;
+};
+
+struct Books {
+   char  title[50];
+   char  author[50];
+   char  subject[100];
+   int   book_id;
+} book;  
+
 float KrazyFunction( int *parm1, int p1size, int bb )
  {
    int ix; //declaring an integer variable//
@@ -30,13 +58,6 @@ float KrazyFunction( int *parm1, int p1size, int bb )
           return parm1[ix].num2;
       }   
    }
-
-
-struct potNumber{
-    int x ;
-    int array[20];
-    char theName[10][20];
-};
 
 #include "stdio.h"
 

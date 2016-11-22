@@ -10,7 +10,7 @@ namespace Syntax.Tree.Nodes.Declarations
     public  class StructNode : StatementNode
     {
         public IdentifierExpression Name;
-        public List<StatementNode> ListOStatement;
+        public List<StructItemNode> ListOfItems;
         public override void ValidateSemantic()
         {
             throw new NotImplementedException();

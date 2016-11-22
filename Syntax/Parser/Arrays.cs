@@ -4,6 +4,7 @@ using Lexer;
 using Syntax.Tree;
 using Syntax.Tree.Nodes.Acessors;
 using Syntax.Tree.Nodes.BaseNodes;
+using Syntax.Tree.Nodes.DataTypes;
 
 namespace Syntax.Parser
 {
@@ -184,9 +185,9 @@ namespace Syntax.Parser
             }
         }
 
-        public void ArrayIdentifier()
+        public AccessorNode ArrayIdentifier()
         {
-            SizeForArray();
+            var size = SizeForArray();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseSquareBracket))
             {
@@ -196,19 +197,46 @@ namespace Syntax.Parser
             {
                 
             }
+            return size;
         }
 
-        private void SizeForArray()
+        private AccessorNode SizeForArray()
         {
+            //    if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber))
+            //    {
+            //        _parser.Utilities.NextToken();
+            //       // return  new IntegerNode { Value = Convert.ToInt32(_parser.CurrentToken.Lexeme) };
+            //       //return new ArrayAccessorNode { IndexExpression =  }
+            //    }
+            //    if (_parser.Utilities.CompareTokenType(TokenType.LiteralOctal))
+            //    {
+            //        _parser.Utilities.NextToken();
+            //        //return new OctalNode() { Value = _parser.CurrentToken.Lexeme };
+            //    }
+            //    if (_parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal))
+            //    {
+            //        _parser.Utilities.NextToken();
+            //       // return new HexadecimalNode { Value = _parser.CurrentToken.Lexeme };
+            //    }
+            //    if (_parser.Utilities.CompareTokenType(TokenType.Identifier))
+            //    {
+            //        _parser.Utilities.NextToken();
+            //        //return new IdentifierExpression { Value = _parser.CurrentToken.Lexeme };
+      //    }
             if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber)
                 || _parser.Utilities.CompareTokenType(TokenType.LiteralOctal)
                 || _parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal) 
                 || _parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
-                _parser.Utilities.NextToken();
+
+                var expression = _parser.Expressions.Expression();
+                //_parser.Utilities.NextToken();
+
+                return new ArrayAccessorNode {IndexExpression = expression};
             }
             else
             {
+                return null;
             }
         }
     }

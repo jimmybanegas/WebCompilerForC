@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Syntax.Tree.Nodes.Acessors;
 using Syntax.Tree.Nodes.BaseNodes;
+using Syntax.Tree.Nodes.Declarations;
 
-namespace Syntax.Tree.Nodes.Declarations
+namespace Syntax.Tree.Nodes.DataTypes
 {
-    public  class StructItemNode : StatementNode
+    public class ConstantNode : StatementNode
     {
-        public GeneralDeclarationNode ItemDeclaration;
+        public IdentifierNode ConstName;
+        public List<PointerNode> PointersList;
+        public IdentifierNode TypeOfConst;
+        //public ExpressionNode ExpressionConst;
         public AssignationNode Assignation;
         public override void ValidateSemantic()
         {

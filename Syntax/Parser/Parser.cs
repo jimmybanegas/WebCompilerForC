@@ -579,9 +579,11 @@ namespace Syntax.Parser
             }
             Utilities.NextToken();
 
+            var assignation = new AssignationNode {LeftValue = new IdentifierNode(), RightValue = expression};
+
             return new ConstantNode
             {
-                ConstName = nameNode, ExpressionConst = expression, TypeOfConst = typeNode, PointersList = listOfPointer
+                ConstName = nameNode, TypeOfConst = typeNode, PointersList = listOfPointer, Assignation = assignation
             };
         }
 
@@ -615,34 +617,42 @@ namespace Syntax.Parser
 
         private StatementNode Struct()
         {
-            var structItem = new StructNode(); 
+            var structNode = new StructNode(); 
 
             Utilities.NextToken();
 
             if (!Utilities.CompareTokenType(TokenType.Identifier))
                 throw new Exception("Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
+            structNode.Name= new IdentifierExpression {Accessors = new List<AccessorNode>(), Value = CurrentToken.Lexeme};
+
             Utilities.NextToken();
 
-            StructDeclarationOrInitialization();
+            List<StructItemNode> structItems = new List<StructItemNode>();
+            StructDeclarationOrInitialization(structItems);
+
+            structNode.ListOfItems = structItems;
 
             if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
                 throw new Exception("End of sentence was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
             Utilities.NextToken();
 
-            return structItem;
+            return structNode;
         }
 
-        private void StructDeclarationOrInitialization()
+        private void StructDeclarationOrInitialization(List<StructItemNode> structItems)
         {
+            //Declaracion de variable struct no de el struct como tal
+            //struct point my_point = { 3, 7 };
             if (Utilities.CompareTokenType(TokenType.Identifier) || Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
-                    List<PointerNode> listOfPointer = new List<PointerNode>();
+                    var listOfPointer = new List<PointerNode>();
                     IsPointer(listOfPointer);
                 }
+
                 Utilities.NextToken();
 
                 //Posible inicializacion de los valores, así como se inicializa un arreglo
@@ -672,7 +682,9 @@ namespace Syntax.Parser
 
                 if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
                 {
-                    DeclarationOfStruct(false);
+                  DeclarationOfStruct(false,structItems,null);
+
+                  //structItems.Add(item);
                 }
 
                 if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
@@ -712,13 +724,24 @@ namespace Syntax.Parser
                 Utilities.NextToken();
         }
 
-        private void DeclarationOfStruct(bool isMultideclaration)
+        private void DeclarationOfStruct(bool isMultideclaration, List<StructItemNode> structItems, StructItemNode itemMultideclaration)
         {
             if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
             {
+                var structItem = new StructItemNode();
+
                 if (!isMultideclaration)
                 {
-                    GeneralDeclaration();
+                    GeneralDeclarationNode itemDeclaration = GeneralDeclaration();
+
+                    //structItem = new StructItemNode
+                    //{
+                    //    Assignation = new AssignationNode(),
+                    //    ItemDeclaration = itemDeclaration
+                    //};
+
+                    //structItems.Add(structItem);
+                    structItem.ItemDeclaration = itemDeclaration;
                 }
                 else
                 {
@@ -730,6 +753,7 @@ namespace Syntax.Parser
 
                     if (!Utilities.CompareTokenType(TokenType.Identifier))
                     {
+
                         throw new Exception("Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                     }
                     Utilities.NextToken();
@@ -738,7 +762,15 @@ namespace Syntax.Parser
                 if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 {
                     Utilities.NextToken();
-                    Arrays.ArrayIdentifier();
+                    var accesor = Arrays.ArrayIdentifier();
+
+                    if (!isMultideclaration)
+                    {
+                        structItem.ItemDeclaration.NameOfVariable.Accessors.Add(accesor);
+                    }else
+                    {
+                        itemMultideclaration.ItemDeclaration.NameOfVariable.Accessors.Add(accesor);
+                    }
 
                     if (!Utilities.CompareTokenType(TokenType.CloseSquareBracket))
                         throw new Exception("Closing bracket was expected at row: " + CurrentToken.Row + " , column: " +
@@ -749,7 +781,16 @@ namespace Syntax.Parser
                     if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                     {
                         Utilities.NextToken();
-                        Arrays.ArrayIdentifier();
+                        var accesor2 = Arrays.ArrayIdentifier();
+
+                        if (!isMultideclaration)
+                        {
+                            structItem.ItemDeclaration.NameOfVariable.Accessors.Add(accesor2);
+                        }
+                        else
+                        {
+                            itemMultideclaration.ItemDeclaration.NameOfVariable.Accessors.Add(accesor2);
+                        }
 
                         if (!Utilities.CompareTokenType(TokenType.CloseSquareBracket))
                             throw new Exception("Closing bracket was expected at row: " + CurrentToken.Row + " , column: " +
@@ -759,15 +800,52 @@ namespace Syntax.Parser
                     }
                 }
 
+
+                if (!isMultideclaration)
+                {
+                    //structItem.ItemDeclaration.NameOfVariable.Accessors.Add(accesor);
+                    structItems.Add(structItem);
+                }
+                else
+                {
+                    //itemMultideclaration.ItemDeclaration.NameOfVariable.Accessors.Add(accesor);
+                    structItems.Add(itemMultideclaration);
+                }
+              
+
                 if (Utilities.CompareTokenType(TokenType.Comma))
                 {
                     Utilities.NextToken();
-                    DeclarationOfStruct(true);
+                    var structItemMul = new StructItemNode();
+                    GeneralDeclarationNode itemDeclaration;
+
+                    if (isMultideclaration)
+                    {
+                        itemDeclaration = new GeneralDeclarationNode
+                        {
+                            DataType = itemMultideclaration.ItemDeclaration.DataType,
+                            ListOfPointer = new List<PointerNode>(),
+                            NameOfVariable =new IdentifierNode { Accessors = new List<AccessorNode>(), Value = CurrentToken.Lexeme }
+                        };
+                    }
+                    else
+                    {
+                        itemDeclaration = new GeneralDeclarationNode
+                        {
+                            DataType = structItem.ItemDeclaration.DataType,
+                            ListOfPointer = new List<PointerNode>(),
+                            NameOfVariable = new IdentifierNode { Accessors = new List<AccessorNode>(), Value = CurrentToken.Lexeme }
+                        };
+                    }
+                 
+                    structItemMul.ItemDeclaration = itemDeclaration;
+
+                    DeclarationOfStruct(true,structItems,structItemMul);
                 }
                 else if (Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
                     Utilities.NextToken();
-                    DeclarationOfStruct(false);
+                    DeclarationOfStruct(false,structItems,null);
                 }
                 else
                 {
@@ -1004,20 +1082,34 @@ namespace Syntax.Parser
             Functions.OptionalId();
         }
 
-        private void GeneralDeclaration()
+        private GeneralDeclarationNode GeneralDeclaration()
         {
-            DataType();
+            List<PointerNode> listOfPointer = new List<PointerNode>();
+            IdentifierNode nameOfVariable = new IdentifierNode();
+
+            IdentifierNode dataType = (IdentifierNode)DataType();
 
             if (Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
-                List<PointerNode> listOfPointer = new List<PointerNode>();
                 IsPointer(listOfPointer);
             }
 
             if (Utilities.CompareTokenType(TokenType.Identifier))
             {
+                nameOfVariable = new IdentifierNode
+                {
+                    Accessors = new List<AccessorNode>(),
+                    Value = CurrentToken.Lexeme
+                };
                 Utilities.NextToken();
             }
+
+            return new GeneralDeclarationNode
+            {
+                DataType = dataType,
+                ListOfPointer = listOfPointer,
+                NameOfVariable = nameOfVariable
+            };
         }
 
         public void IsPointer(List<PointerNode> listOfPointer) 

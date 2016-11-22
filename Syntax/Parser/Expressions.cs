@@ -617,11 +617,8 @@ namespace Syntax.Parser
             else if(_parser.Utilities.CompareTokenType(TokenType.OpPointerStructs)
                     ||_parser.Utilities.CompareTokenType(TokenType.Dot))
             {
-
-
                 var IsPointerStrcut = ArrowOrPointer(listOfAccessors);
                
-
                 if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
                     List<PointerNode> listOfPointer = new List<PointerNode>();

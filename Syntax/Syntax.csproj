@@ -60,12 +60,13 @@
     <Compile Include="Tree\Nodes\DataTypes\OctalNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\AssignationNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\CallFunctionNode.cs" />
-    <Compile Include="Tree\Nodes\Declarations\ConstantNode.cs" />
+    <Compile Include="Tree\Nodes\DataTypes\ConstantNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\ContinueNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\DeclarationNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\EnumerationNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\EnumItemNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\FunctionNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\GeneralDeclarationNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\IncludeNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\ParameterOfDeclaration.cs" />
     <Compile Include="Tree\Nodes\Acessors\PointerAccessorNode.cs" />

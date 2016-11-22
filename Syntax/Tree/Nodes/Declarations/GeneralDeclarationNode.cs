@@ -8,12 +8,11 @@ using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Tree.Nodes.Declarations
 {
-    public class ConstantNode : StatementNode
+    public class GeneralDeclarationNode : StatementNode
     {
-        public IdentifierNode ConstName;
-        public List<PointerNode> PointersList;
-        public IdentifierNode TypeOfConst;
-        public ExpressionNode ExpressionConst;
+        public IdentifierNode DataType;
+        public List<PointerNode> ListOfPointer;
+        public IdentifierNode NameOfVariable;
         public override void ValidateSemantic()
         {
             throw new NotImplementedException();
