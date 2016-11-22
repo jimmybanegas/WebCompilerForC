@@ -70,6 +70,7 @@
     <Compile Include="Tree\Nodes\Acessors\PointerAccessorNode.cs" />
     <Compile Include="Tree\Nodes\Acessors\PropertyAccessorNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\ReturnStatementNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\StructItemNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\StructNode.cs" />
     <Compile Include="Tree\Nodes\LoopsAndConditions\BreakNode.cs" />
     <Compile Include="Tree\Nodes\LoopsAndConditions\CaseStatement.cs" />

@@ -38,7 +38,7 @@ namespace ConsoleTest
                 //}
 
 
-                var lex = new Lexer.Lexer(new SourceCode(code));
+               var lex = new Lexer.Lexer(new SourceCode(code));
 
                 var parser = new Parser(lex);
 

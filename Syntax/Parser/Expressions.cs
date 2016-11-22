@@ -446,7 +446,7 @@ namespace Syntax.Parser
                         {
                             Accessors = null,
                             Value = value,
-                            IncrementOrdecrement = new PostIncrementOperatorNode()
+                            IncrementOrdecrement = new PostIncrementOperatorNode { Value = _parser.CurrentToken.Lexeme }
                         };
                     }
                     else if (_parser.Utilities.CompareTokenType(TokenType.OpDecrement))
@@ -455,8 +455,9 @@ namespace Syntax.Parser
                         {
                             Accessors = null,
                             Value = value,
-                            IncrementOrdecrement = new PostDecrementOperatorNode()
+                            IncrementOrdecrement = new PostDecrementOperatorNode { Value = _parser.CurrentToken.Lexeme }
                         };
+                        // identifier = new PostDecrementOperatorNode { Value = _parser.CurrentToken.Lexeme }
                     }
 
                   
@@ -580,10 +581,10 @@ namespace Syntax.Parser
                 };
             }
 
-            return IndexOrArrowAccess();
+            return IndexOrArrowAccess(value);
         }
 
-        public ExpressionNode IndexOrArrowAccess()
+        public ExpressionNode IndexOrArrowAccess(string value)
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
@@ -604,7 +605,7 @@ namespace Syntax.Parser
                 
                 if (_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 {
-                    return IndexOrArrowAccess();
+                    return IndexOrArrowAccess(value);
                 }
 
                 return new IdentifierExpression {Accessors = listOfAccessors };
@@ -627,11 +628,11 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
 
-                 return IndexOrArrowAccess();
+                 return IndexOrArrowAccess(value);
             }
             else
             {
-                return null;
+                return new IdentifierExpression {Accessors = new List<AccessorNode>(), Value = value };
             }
         }
 

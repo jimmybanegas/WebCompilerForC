@@ -10,7 +10,14 @@
 
 <%  
 
+struct potNumber{
+    int x ;
+    int array[20];
+    char theName[10][20];
+};
+
 #include "stdio.h"
+
 
 const char x = 'x';      
   
@@ -19,7 +26,8 @@ if (((4 * 5) + 6  )/4) {     /* if inch is greater or equal to 12, converting it
         //++d3->feet;
       #include "stdio.h"
       const char x = 'x';     
-  }else{
+  }
+  else
      const char grade = 'B';
 
    switch(grade) {
@@ -39,9 +47,9 @@ if (((4 * 5) + 6  )/4) {     /* if inch is greater or equal to 12, converting it
       default :
          printf("Invalid grade\n" );
    }
-  }
+  
 
-  enum suit {
+enum suit {
   club = 0,
   diamonds = 10,
   hearts = 20,
@@ -49,7 +57,7 @@ if (((4 * 5) + 6  )/4) {     /* if inch is greater or equal to 12, converting it
   jimbo
 };
 
-   while( a < 20 ) {
+   while( a.edad < 20 ) {
       printf("value of a: %d\n", a);
       a++;
       const char x = 'x';     
@@ -58,7 +66,7 @@ if (((4 * 5) + 6  )/4) {     /* if inch is greater or equal to 12, converting it
     do {
       printf("value of a: %d\n", a);
       a = a + 1;
-   }while( a < 20 );
+   }while(1- - 1);
  
 
     for( i = 0; i <= j; i ++ )
@@ -66,13 +74,13 @@ if (((4 * 5) + 6  )/4) {     /* if inch is greater or equal to 12, converting it
        if( i == 5 )
        {
           continue;
-       }
+       
        printf("Hello %d\n", i );
     }
 
     return 0;
 
-    struct coordinate{
+  struct coordinate{
     int x;
     int y;
     int direction;

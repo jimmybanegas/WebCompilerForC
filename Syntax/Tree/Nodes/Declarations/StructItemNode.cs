@@ -7,10 +7,9 @@ using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Tree.Nodes.Declarations
 {
-    public  class StructNode : StatementNode
+    public  class StructItemNode : StatementNode
     {
-        public IdentifierExpression Name;
-        public List<StatementNode> ListOStatement;
+        public IdentifierNode ItemName;
         public override void ValidateSemantic()
         {
             throw new NotImplementedException();

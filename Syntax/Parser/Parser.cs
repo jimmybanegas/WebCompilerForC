@@ -163,6 +163,7 @@ namespace Syntax.Parser
                 {
                     IsPointer();
                 }
+
                 AssignmentOrFunctionCall();
             }
             else if (Utilities.CompareTokenType(TokenType.RwConst))
@@ -469,7 +470,7 @@ namespace Syntax.Parser
                 }
             }
 
-            Expressions.IndexOrArrowAccess();
+            Expressions.IndexOrArrowAccess(" ");
 
             if (Utilities.CompareTokenType(TokenType.OpIncrement)
                   || Utilities.CompareTokenType(TokenType.OpDecrement))
@@ -770,8 +771,22 @@ namespace Syntax.Parser
                     Arrays.ArrayIdentifier();
 
                     if (!Utilities.CompareTokenType(TokenType.CloseSquareBracket))
-                        throw new Exception("Closing bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                        throw new Exception("Closing bracket was expected at row: " + CurrentToken.Row + " , column: " +
+                                            CurrentToken.Column);
+
                     Utilities.NextToken();
+
+                    if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+                    {
+                        Utilities.NextToken();
+                        Arrays.ArrayIdentifier();
+
+                        if (!Utilities.CompareTokenType(TokenType.CloseSquareBracket))
+                            throw new Exception("Closing bracket was expected at row: " + CurrentToken.Row + " , column: " +
+                                                CurrentToken.Column);
+
+                        Utilities.NextToken();
+                    }
                 }
 
                 if (Utilities.CompareTokenType(TokenType.Comma))
