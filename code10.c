@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+<div>
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
+
+<%  
 
 // Performs addition, subtraction, multiplication or division depending the input from user
 
@@ -37,3 +48,9 @@ int main() {
     
     return 0;
 }
+
+%>
+
+<div>
+</body>
+</html>

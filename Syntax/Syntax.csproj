@@ -49,6 +49,7 @@
     <Compile Include="Tree\ExpressionBinaryNode.cs" />
     <Compile Include="Tree\ExpressionUnaryNode.cs" />
     <Compile Include="Tree\IdentifierExpression.cs" />
+    <Compile Include="Tree\Nodes\Acessors\PointerNode.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\ForLoopNode.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\TypeOfDeclaration.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\StatementNode.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Tree\Nodes\Operators\Binary\AddAndAssignmentOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\AdditionOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\AndOperatorNode.cs" />
+    <Compile Include="Tree\Nodes\Operators\Binary\BitBinXorOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\BitwiseAndAssignmentOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\BitwiseAndOperatorNode.cs" />
     <Compile Include="Tree\Nodes\Operators\Binary\BitwiseInclusiveOrAndAssignmentOperatorNode.cs" />

@@ -140,11 +140,11 @@ namespace Syntax.Parser
                 _parser.Utilities.NextToken();
                 return new BitwiseOrOperatorNode();
             }
-            //if (_parser.Utilities.CompareTokenType(TokenType.OpBitXor))
-            //{
-            //    _parser.Utilities.NextToken();
-            //    return new BitXorOperatorNode();
-            //}
+            if (_parser.Utilities.CompareTokenType(TokenType.OpBitXor))
+            {
+                _parser.Utilities.NextToken();
+                return new BitBinXorOperatorNode();
+            }
             if (_parser.Utilities.CompareTokenType(TokenType.OpNotEqualTo))
             {
                 _parser.Utilities.NextToken();
@@ -581,16 +581,18 @@ namespace Syntax.Parser
                 };
             }
 
-            return IndexOrArrowAccess(value);
+            List<AccessorNode> listOfAccessors = new List<AccessorNode>();
+
+            return IndexOrArrowAccess(value, listOfAccessors);
         }
 
-        public ExpressionNode IndexOrArrowAccess(string value)
+        public ExpressionNode IndexOrArrowAccess(string value, List<AccessorNode> listOfAccessors)
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
                 _parser.Utilities.NextToken();
 
-                List<AccessorNode> listOfAccessors = new List<AccessorNode>();
+                //List<AccessorNode> listOfAccessors = new List<AccessorNode>();
 
                 var accessor = _parser.Arrays.SizeForBidArray();
 
@@ -603,22 +605,27 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
                 
-                if (_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+                if (_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket) || _parser.Utilities.CompareTokenType(TokenType.OpPointerStructs)
+                    || _parser.Utilities.CompareTokenType(TokenType.Dot))
                 {
-                    return IndexOrArrowAccess(value);
+                    return IndexOrArrowAccess(value, listOfAccessors);
                 }
 
-                return new IdentifierExpression {Accessors = listOfAccessors };
+                return new IdentifierExpression {Accessors = listOfAccessors, Value = value};
 
             }
             else if(_parser.Utilities.CompareTokenType(TokenType.OpPointerStructs)
                     ||_parser.Utilities.CompareTokenType(TokenType.Dot))
             {
-                var IsPointerStrcut = ArrowOrPointer();
+
+
+                var IsPointerStrcut = ArrowOrPointer(listOfAccessors);
+               
 
                 if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
-                    _parser.IsPointer();
+                    List<PointerNode> listOfPointer = new List<PointerNode>();
+                    _parser.IsPointer(listOfPointer);
                 }
 
                 if (!_parser.Utilities.CompareTokenType(TokenType.Identifier))
@@ -628,25 +635,40 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
 
-                 return IndexOrArrowAccess(value);
+                 return IndexOrArrowAccess(value, listOfAccessors);
             }
             else
             {
-                return new IdentifierExpression {Accessors = new List<AccessorNode>(), Value = value };
+                return new IdentifierExpression {Accessors = listOfAccessors, Value = value };
             }
         }
 
-        public bool ArrowOrPointer()
+        public bool ArrowOrPointer(List<AccessorNode> listOfAccessors)
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpPointerStructs))
             {
-
+               // listOfAccessors.Add(new PointerAccessorNode());
                 _parser.Utilities.NextToken();
+                listOfAccessors.Add(new PointerAccessorNode
+                {
+                    IdentifierNode = new IdentifierNode
+                    {
+                        Accessors = new List<AccessorNode>(),
+                        Value = _parser.CurrentToken.Lexeme
+                    }
+                });
                 return true;
             }
             else if (_parser.Utilities.CompareTokenType(TokenType.Dot))
             {
                 _parser.Utilities.NextToken();
+                listOfAccessors.Add(new PropertyAccessorNode
+                {
+                    IdentifierNode =  new IdentifierNode
+                    {
+                        Accessors = new List<AccessorNode>(),Value = _parser.CurrentToken.Lexeme
+                    }
+                });
                 return false;
             }
             else

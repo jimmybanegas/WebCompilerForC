@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+<div>
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
+
+<%  
 
 int myArray[10] = { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
 
@@ -88,7 +99,6 @@ int main()                            /* Most important part of the program!  */
  *A[3][2] = 3.66;          /* assigns 3.66 to linearA[17];     */
  *A[3][3] = 1.44;         /* refers to linearA[12];
                              negative indices are sometimes useful. But avoid using them as much as possible. */
-
 
 
 
@@ -1188,3 +1198,9 @@ void Up()
    if(!kbhit())
        head.y--;
 }
+
+%>
+
+<div>
+</body>
+</html>

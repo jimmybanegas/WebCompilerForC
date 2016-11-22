@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lexer;
+using Syntax.Tree.Nodes.Acessors;
 using Syntax.Tree.Nodes.BaseNodes;
 
 namespace Syntax.Parser
@@ -157,7 +158,8 @@ namespace Syntax.Parser
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
-                _parser.IsPointer();
+                List<PointerNode> listOfPointer = new List<PointerNode>();
+                _parser.IsPointer(listOfPointer);
             }
 
             var expression = _parser.Expressions.Expression();

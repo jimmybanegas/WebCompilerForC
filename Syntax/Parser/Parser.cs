@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Lexer;
 using Syntax.Tree;
+using Syntax.Tree.Nodes.Acessors;
 using Syntax.Tree.Nodes.BaseNodes;
 using Syntax.Tree.Nodes.DataTypes;
 using Syntax.Tree.Nodes.Declarations;
@@ -161,7 +162,8 @@ namespace Syntax.Parser
             {
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
-                    IsPointer();
+                    List<PointerNode> listOfPointer = new List<PointerNode>();
+                    IsPointer(listOfPointer);
                 }
 
                 AssignmentOrFunctionCall();
@@ -284,7 +286,8 @@ namespace Syntax.Parser
                     Utilities.NextToken();
                     if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                     {
-                        IsPointer();
+                        List<PointerNode> listOfPointer = new List<PointerNode>();
+                        IsPointer(listOfPointer);
                     }
 
                     if (!Utilities.CompareTokenType(TokenType.Identifier))
@@ -304,7 +307,8 @@ namespace Syntax.Parser
 
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
-                    IsPointer();
+                    List<PointerNode> listOfPointer = new List<PointerNode>();
+                    IsPointer(listOfPointer);
                 }
                  AssignmentOrFunctionCall();
             }
@@ -470,57 +474,13 @@ namespace Syntax.Parser
                 }
             }
 
-            Expressions.IndexOrArrowAccess(" ");
+            Expressions.IndexOrArrowAccess(" ",new List<AccessorNode>());
 
             if (Utilities.CompareTokenType(TokenType.OpIncrement)
                   || Utilities.CompareTokenType(TokenType.OpDecrement))
             {
                 Utilities.NextToken();
             }
-
-            //if (Utilities.CompareTokenType(TokenType.OpPointerStructs) 
-            //    || Utilities.CompareTokenType(TokenType.Dot))
-            //{
-            //    Expressions.ArrowOrPointer();
-
-            //    if (!Utilities.CompareTokenType(TokenType.Identifier))
-            //    {
-            //        throw new Exception("Identifier expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
-            //    }
-
-            //    Utilities.NextToken();
-
-            //    if (Utilities.CompareTokenType(TokenType.OpIncrement)
-            //      || Utilities.CompareTokenType(TokenType.OpDecrement))
-            //    {
-            //        Utilities.NextToken();
-            //    }
-            //}
-
-            //if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
-            //{
-            //    bool x;
-            //    Arrays.BidArray(out x);
-
-            //    if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
-            //    {
-            //        Arrays.BidArray(out x);
-            //    }
-
-            //    // body[i].x=0;
-            //        if (Utilities.CompareTokenType(TokenType.OpPointerStructs)
-            //        || Utilities.CompareTokenType(TokenType.Dot))
-            //    {
-            //        Expressions.ArrowOrPointer();
-
-            //        if (!Utilities.CompareTokenType(TokenType.Identifier))
-            //        {
-            //            throw new Exception("Identifier expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
-            //        }
-
-            //        Utilities.NextToken();
-            //    }
-            //}
 
             ValueForPreId();
 
@@ -578,6 +538,7 @@ namespace Syntax.Parser
 
         private StatementNode Const()
         {
+            List<PointerNode> listOfPointer = new List<PointerNode>();
             Utilities.NextToken();
 
             StatementNode dataType = DataType();
@@ -587,6 +548,10 @@ namespace Syntax.Parser
                 Accessors = new List<AccessorNode>(), Value = ((IdentifierNode)dataType).Value
             };
 
+            if (Utilities.CompareTokenType(TokenType.OpMultiplication))
+            {
+               IsPointer(listOfPointer);
+            }
 
             if (!Utilities.CompareTokenType(TokenType.Identifier))
             {
@@ -614,7 +579,10 @@ namespace Syntax.Parser
             }
             Utilities.NextToken();
 
-            return new ConstantNode {ConstName = nameNode, ExpressionConst = expression, TypeOfConst = typeNode };
+            return new ConstantNode
+            {
+                ConstName = nameNode, ExpressionConst = expression, TypeOfConst = typeNode, PointersList = listOfPointer
+            };
         }
 
         public StatementNode DataType()
@@ -672,7 +640,8 @@ namespace Syntax.Parser
             {
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
-                    IsPointer();
+                    List<PointerNode> listOfPointer = new List<PointerNode>();
+                    IsPointer(listOfPointer);
                 }
                 Utilities.NextToken();
 
@@ -755,7 +724,8 @@ namespace Syntax.Parser
                 {
                     if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                     {
-                        IsPointer();
+                        List<PointerNode> listOfPointer = new List<PointerNode>();
+                        IsPointer(listOfPointer);
                     }
 
                     if (!Utilities.CompareTokenType(TokenType.Identifier))
@@ -827,7 +797,8 @@ namespace Syntax.Parser
 
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
-                    IsPointer();
+                    List<PointerNode> listOfPointer = new List<PointerNode>();
+                    IsPointer(listOfPointer);
                     Utilities.NextToken();
                 }
 
@@ -852,7 +823,8 @@ namespace Syntax.Parser
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
                     //Structs as parameters for function
-                    IsPointer();
+                    List<PointerNode> listOfPointer = new List<PointerNode>();
+                    IsPointer(listOfPointer);
                    // Utilities.NextToken();
 
                     //if (Utilities.CompareTokenType(TokenType.Identifier))
@@ -1004,7 +976,8 @@ namespace Syntax.Parser
             {
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
-                    IsPointer();
+                    List<PointerNode> listOfPointer = new List<PointerNode>();
+                    IsPointer(listOfPointer);
                 }
 
                 Utilities.NextToken();
@@ -1037,7 +1010,8 @@ namespace Syntax.Parser
 
             if (Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
-                IsPointer();
+                List<PointerNode> listOfPointer = new List<PointerNode>();
+                IsPointer(listOfPointer);
             }
 
             if (Utilities.CompareTokenType(TokenType.Identifier))
@@ -1046,13 +1020,14 @@ namespace Syntax.Parser
             }
         }
 
-        public void IsPointer()
+        public void IsPointer(List<PointerNode> listOfPointer) 
         {
+            listOfPointer.Add(new PointerNode());
             Utilities.NextToken();
 
             if (Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
-                IsPointer();
+                IsPointer(listOfPointer);
             }
             else
             {

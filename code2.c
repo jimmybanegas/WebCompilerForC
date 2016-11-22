@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+<div>
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
+
+<%  
+
 int navigate(char arr[3][3], int box, int player, int key)
 {
    switch(key)
@@ -131,3 +143,8 @@ int checkforwin(char arr[3][3])
 }
 
 //Function to handle the navigation
+%>
+
+<div>
+</body>
+</html>

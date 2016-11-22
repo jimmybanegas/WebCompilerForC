@@ -1,4 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+<div>
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
 
+<%  
 void displayscore()
  {
  char name[20];
@@ -301,3 +311,8 @@ switch(r){
  puts("\n\nNEXT PLAY?(Y/N)");
  
  return 0;
+%>
+
+<div>
+</body>
+</html>

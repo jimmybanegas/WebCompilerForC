@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+<div>
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
+
+<%  
 int main()
 {
     int num[2][2], i, j;
@@ -298,3 +309,9 @@ void put_X_O(char ch,int pos)
  gotoxy(x,y);
  printf("%c",ch);
 }
+
+%>
+
+<div>
+</body>
+</html>

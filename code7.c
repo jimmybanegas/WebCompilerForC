@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+<div>
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
+
+<%  
 
 // a[b]
 // *a
@@ -544,7 +555,13 @@ void payment()
 }
 
  for(i=0;i<79;i++)
-
         printf("-");
 
       printf("\n\nEnter amount of payment :");
+
+
+      %>
+
+<div>
+</body>
+</html>

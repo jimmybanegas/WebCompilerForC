@@ -1,3 +1,15 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+<div>
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
+
+<%  
 #include "header.h"
 #include "Physics/Solver.h"
 
@@ -367,3 +379,9 @@ int main() {
    c = a--; 
    printf("Line 7 - Value of c is %d\n", c );
 }
+
+%>
+
+<div>
+</body>
+</html>

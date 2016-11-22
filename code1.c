@@ -10,6 +10,28 @@
 
 <%  
 
+float KrazyFunction( int *parm1, int p1size, int bb )
+ {
+   int ix; //declaring an integer variable//
+   for (ix=0; ix<p1size; ix++) {
+      if (parm1[ix].m_aNumber == bb )
+          return parm1[ix].num2;
+   }
+   return 0;
+ }
+
+
+ while( a.edad < 20 ) {
+      printf("value of a: %d\n", a);
+      a++;
+      const char x = 'x';  
+       for (ix=0; ix<p1size; ix++) {
+      if (parm1[ix].m_aNumber == bb )
+          return parm1[ix].num2;
+      }   
+   }
+
+
 struct potNumber{
     int x ;
     int array[20];
@@ -19,7 +41,7 @@ struct potNumber{
 #include "stdio.h"
 
 
-const char x = 'x';      
+const char *x = 'x';      
   
 if (((4 * 5) + 6  )/4) {     /* if inch is greater or equal to 12, converting it to feet. */
     //   d3->inch -= 12;
@@ -28,8 +50,8 @@ if (((4 * 5) + 6  )/4) {     /* if inch is greater or equal to 12, converting it
       const char x = 'x';     
   }
   else
-     const char grade = 'B';
-
+  
+  const char grade = 'B';
    switch(grade) {
       case 'A' :
          printf("Excellent!\n" );
@@ -66,7 +88,7 @@ enum suit {
     do {
       printf("value of a: %d\n", a);
       a = a + 1;
-   }while(1- - 1);
+   }while(a>6);
  
 
     for( i = 0; i <= j; i ++ )
@@ -74,7 +96,7 @@ enum suit {
        if( i == 5 )
        {
           continue;
-       
+       }
        printf("Hello %d\n", i );
     }
 
