@@ -10,6 +10,14 @@
 
 <%  
 
+//*a; 
+
+a++;
+
+++a;
+
+//a++;
+
 struct user//Structure for storing User information
     {
         char uid[4];

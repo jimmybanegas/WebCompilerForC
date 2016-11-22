@@ -12,6 +12,8 @@ namespace Syntax.Tree
         public string Value { get; set; }
         public UnaryOperator IncrementOrdecrement { get; set; }
         public List<AccessorNode> Accessors = new List<AccessorNode>();
+
+
         public override BaseType ValidateSemantic()
         {
             throw new NotImplementedException();

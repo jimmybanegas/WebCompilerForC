@@ -6,6 +6,7 @@ using Syntax.Tree.Nodes.Acessors;
 using Syntax.Tree.Nodes.BaseNodes;
 using Syntax.Tree.Nodes.DataTypes;
 using Syntax.Tree.Nodes.Declarations;
+using Syntax.Tree.Nodes.Operators.Unary;
 
 namespace Syntax.Parser
 {
@@ -158,15 +159,83 @@ namespace Syntax.Parser
             }
             else if (Utilities.CompareTokenType(TokenType.Identifier)
                 || Utilities.CompareTokenType(TokenType.OpMultiplication) 
-                || Utilities.CompareTokenType(TokenType.OpenParenthesis))
+                || Utilities.CompareTokenType(TokenType.OpenParenthesis)
+                || Utilities.CompareTokenType(TokenType.OpDecrement)
+                || Utilities.CompareTokenType(TokenType.OpIncrement))
             {
+                var identifier = new IdentifierNode
+                {
+                    Accessors = new List<AccessorNode>(),
+                    Assignation = new AssignationNode(),
+                    PointerNodes = new List<PointerNode>()
+                };
+
+                if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
+                {
+                    Utilities.NextToken();
+
+                    if (Utilities.CompareTokenType(TokenType.OpMultiplication))
+                    {
+                        List<PointerNode> listOfPointer = new List<PointerNode>();
+                        IsPointer(listOfPointer);
+                        identifier.PointerNodes = listOfPointer;
+                    }
+
+                    if (Utilities.CompareTokenType(TokenType.OpIncrement))
+                    {
+                        identifier.IncrementOrdecrement = new PreIncrementOperatorNode { Value = CurrentToken.Lexeme };
+                        Utilities.NextToken();
+                    }
+
+                    if (Utilities.CompareTokenType(TokenType.OpDecrement))
+                    {
+                        identifier.IncrementOrdecrement = new PreDecrementOperatorNode { Value = CurrentToken.Lexeme };
+                        Utilities.NextToken();
+                    }
+
+                    if (!Utilities.CompareTokenType(TokenType.Identifier))
+                    {
+                        throw new Exception("Identifier expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                    }
+
+                    var name = CurrentToken.Lexeme;
+                    identifier.Value = name;
+
+                    Utilities.NextToken();
+
+                    if (!Utilities.CompareTokenType(TokenType.CloseParenthesis))
+                    {
+                        throw new Exception("Closing parenthesis required at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                    }
+
+                    return AssignmentOrFunctionCall(identifier);
+                }
+
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
                     List<PointerNode> listOfPointer = new List<PointerNode>();
                     IsPointer(listOfPointer);
+                    identifier.PointerNodes = listOfPointer;
                 }
 
-                AssignmentOrFunctionCall();
+                if (Utilities.CompareTokenType(TokenType.OpIncrement))
+                {
+                    identifier.IncrementOrdecrement = new PreIncrementOperatorNode { Value = CurrentToken.Lexeme };
+                    Utilities.NextToken();
+                }
+                if (Utilities.CompareTokenType(TokenType.OpDecrement))
+                {
+                    identifier.IncrementOrdecrement = new PreDecrementOperatorNode { Value = CurrentToken.Lexeme };
+                    Utilities.NextToken();
+                }
+
+                if (string.IsNullOrEmpty(identifier.Value))
+                {
+                    var name = CurrentToken.Lexeme;
+                    identifier.Value = name;
+                }
+
+                return AssignmentOrFunctionCall(identifier);
             }
             else if (Utilities.CompareTokenType(TokenType.RwConst))
             {
@@ -279,21 +348,56 @@ namespace Syntax.Parser
             }
             else if (Utilities.CompareTokenType(TokenType.Identifier)
                 || Utilities.CompareTokenType(TokenType.OpMultiplication)
-                || Utilities.CompareTokenType(TokenType.OpenParenthesis))
+                || Utilities.CompareTokenType(TokenType.OpenParenthesis)
+                || Utilities.CompareTokenType(TokenType.OpDecrement)
+                || Utilities.CompareTokenType(TokenType.OpIncrement))
             {
+
+                var identifier = new IdentifierNode
+                {
+                    Accessors = new List<AccessorNode>(),Assignation = new AssignationNode(), PointerNodes = new List<PointerNode>()
+                };
+
                 if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
                 {
                     Utilities.NextToken();
+
                     if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                     {
                         List<PointerNode> listOfPointer = new List<PointerNode>();
                         IsPointer(listOfPointer);
+                        identifier.PointerNodes = listOfPointer;
+                    }
+
+                    if (Utilities.CompareTokenType(TokenType.OpIncrement))
+                    {
+                        //identifier = new IdentifierNode
+                        //{
+                        //    Accessors = new List<AccessorNode>(),
+                        //    IncrementOrdecrement = new PreIncrementOperatorNode { Value = CurrentToken.Lexeme }
+                        //};
+                        identifier.IncrementOrdecrement = new PreIncrementOperatorNode {Value = CurrentToken.Lexeme};
+                        Utilities.NextToken();
+                    }
+
+                    if (Utilities.CompareTokenType(TokenType.OpDecrement))
+                    {
+                        //identifier = new IdentifierNode
+                        //{
+                        //    Accessors = new List<AccessorNode>(),
+                        //    IncrementOrdecrement = new PreDecrementOperatorNode { Value = CurrentToken.Lexeme }
+                        //};
+                        identifier.IncrementOrdecrement = new PreDecrementOperatorNode {Value = CurrentToken.Lexeme};
+                        Utilities.NextToken();
                     }
 
                     if (!Utilities.CompareTokenType(TokenType.Identifier))
                     {
                         throw new Exception("Identifier expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                     }
+
+                    var name = CurrentToken.Lexeme;
+                    identifier.Value = name;
 
                     Utilities.NextToken();
 
@@ -302,15 +406,46 @@ namespace Syntax.Parser
                         throw new Exception("Closing parenthesis required at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                     }
                     
-                     AssignmentOrFunctionCall();
+                    return AssignmentOrFunctionCall(identifier);
                 }
 
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
                     List<PointerNode> listOfPointer = new List<PointerNode>();
                     IsPointer(listOfPointer);
+                    identifier.PointerNodes = listOfPointer;
                 }
-                 AssignmentOrFunctionCall();
+
+                if (Utilities.CompareTokenType(TokenType.OpIncrement))
+                {
+                    //identifier = new IdentifierNode()
+                    //{
+                    //    Accessors = null,
+                    //    // Value = value,
+                    //    IncrementOrdecrement = new PreIncrementOperatorNode { Value = CurrentToken.Lexeme }
+                    //};
+                    identifier.IncrementOrdecrement = new PreIncrementOperatorNode {Value = CurrentToken.Lexeme};
+                    Utilities.NextToken();
+                }
+                if (Utilities.CompareTokenType(TokenType.OpDecrement))
+                {
+                    //identifier = new IdentifierNode()
+                    //{
+                    //    Accessors = null,
+                    //    // Value = value,
+                    //    IncrementOrdecrement = new PreDecrementOperatorNode { Value = CurrentToken.Lexeme }
+                    //};
+                    identifier.IncrementOrdecrement = new PreDecrementOperatorNode {Value = CurrentToken.Lexeme};
+                    Utilities.NextToken();
+                }
+
+                if (string.IsNullOrEmpty(identifier.Value))
+                {
+                    var name = CurrentToken.Lexeme;
+                    identifier.Value = name;
+                }
+
+                return AssignmentOrFunctionCall(identifier);
             }
             else if (Utilities.CompareTokenType(TokenType.RwStruct)
                 ||Utilities.CompareTokenType(TokenType.RwTypedef))
@@ -453,28 +588,52 @@ namespace Syntax.Parser
             return new IntegerNode();
         }
 
-        private void AssignmentOrFunctionCall()
+        private StatementNode AssignmentOrFunctionCall(IdentifierNode identifier)
         {
+            //var identifer = new IdentifierNode();
+            var name = CurrentToken.Lexeme;
+
             Utilities.NextToken();
 
             if (Utilities.CompareTokenType(TokenType.OpIncrement)
                    || Utilities.CompareTokenType(TokenType.OpDecrement))
             {
+                if (Utilities.CompareTokenType(TokenType.OpIncrement))
+                {
+                    var increment = new PostIncrementOperatorNode();
+
+                    identifier.IncrementOrdecrement = increment;
+                }
+                if (Utilities.CompareTokenType(TokenType.OpDecrement))
+                {
+                    var decrement = new PostDecrementOperatorNode();
+                    identifier.IncrementOrdecrement = decrement;
+                }
+
                 Utilities.NextToken();
 
                 if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
                 {
                     Utilities.NextToken();
-                    Expressions.Expression();
+                    var expression = Expressions.Expression();
+                    identifier.Assignation = new AssignationNode {RightValue = expression};
                 }
 
                 if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
                     throw new Exception("End of sentence ; expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
+
+               // return identifier;
             }
 
-            Expressions.IndexOrArrowAccess(" ",new List<AccessorNode>());
+            var accessors = new List<AccessorNode>();
+
+            var id = Expressions.IndexOrArrowAccess(name,accessors);
+
+            identifier.Accessors.AddRange(accessors);
+            identifier.Value = ((IdentifierExpression) id).Value;
+          //  Utilities.NextToken();
 
             if (Utilities.CompareTokenType(TokenType.OpIncrement)
                   || Utilities.CompareTokenType(TokenType.OpDecrement))
@@ -482,7 +641,7 @@ namespace Syntax.Parser
                 Utilities.NextToken();
             }
 
-            ValueForPreId();
+            var expressionList = ValueForPreId();
 
             if (Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
@@ -492,9 +651,11 @@ namespace Syntax.Parser
             {
                 throw new Exception("End of sentence symbol ; expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
+
+            return identifier;
         }
 
-        private void ValueForPreId()
+        private List<ExpressionNode> ValueForPreId()
         {
             if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment)
                 ||Utilities.CompareTokenType(TokenType.OpAddAndAssignment)
@@ -509,12 +670,19 @@ namespace Syntax.Parser
                 ||Utilities.CompareTokenType(TokenType.OpBitwiseInclusiveOrAndAssignment))
             {
                 Utilities.NextToken();
-                Expressions.Expression();
+
+                var expression = Expressions.Expression();
+
+                List<ExpressionNode> expressionList = new List<ExpressionNode>();
+                expressionList.Add(expression);
+                return expressionList;
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
-                Functions.CallFunction();
+                return Functions.CallFunction();
             }
+
+            return new List<ExpressionNode>();
         }
 
         private StatementNode Include()
@@ -819,6 +987,7 @@ namespace Syntax.Parser
                     var structItemMul = new StructItemNode();
                     GeneralDeclarationNode itemDeclaration;
 
+                    //Cuando es en multideclaracion , structitem viene nulo por lo que hay que usar el itemMultideclaration
                     if (isMultideclaration)
                     {
                         itemDeclaration = new GeneralDeclarationNode

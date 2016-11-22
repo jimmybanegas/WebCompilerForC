@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Syntax.Tree.Nodes.Acessors;
 using Syntax.Tree.Nodes.BaseNodes;
+using Syntax.Tree.Nodes.Declarations;
 
 namespace Syntax.Tree
 {
     public class IdentifierNode : TypeOfDeclaration
     {
-        public string Value { get; set; } 
-        public List<AccessorNode> Accessors = new List<AccessorNode>();
+        public string Value { get; set; }
+        public List<AccessorNode> Accessors;
+        public List<PointerNode> PointerNodes;
+        public UnaryOperator IncrementOrdecrement { get; set; }
+        public AssignationNode Assignation;
 
         public override void ValidateSemantic()
         {
