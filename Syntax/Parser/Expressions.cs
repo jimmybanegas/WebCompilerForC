@@ -29,12 +29,12 @@ namespace Syntax.Parser
         private ExpressionNode RelationalExpression()       
         {
             var expression = ExpressionAddition();
-            var relational = RelationalExpressionPrime();
+            var relational = RelationalExpressionPrime(expression);
 
             return relational;
         }
 
-        private ExpressionNode RelationalExpressionPrime()
+        private ExpressionNode RelationalExpressionPrime(ExpressionNode expression)
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpLessThan)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpLessThanOrEqualTo)
@@ -59,17 +59,21 @@ namespace Syntax.Parser
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseInclusiveOrAndAssignment)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
-                RelationalOperators();
-                ExpressionAddition();
-                return RelationalExpressionPrime();
+                var operation = RelationalOperators();
+                var exprAddition = ExpressionAddition();
+
+                operation.LeftOperand = expression;
+                operation.RightOperand = exprAddition;
+
+                return RelationalExpressionPrime(operation);
             }
             else
             {
-                return null;
+                return expression;
             }
         }
 
-        private ExpressionNode RelationalOperators()
+        private BinaryOperatorNode RelationalOperators()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpLessThan))
             {
@@ -136,11 +140,11 @@ namespace Syntax.Parser
                 _parser.Utilities.NextToken();
                 return new BitwiseOrOperatorNode();
             }
-            if (_parser.Utilities.CompareTokenType(TokenType.OpBitXor))
-            {
-                _parser.Utilities.NextToken();
-                return new BitXorOperatorNode();
-            }
+            //if (_parser.Utilities.CompareTokenType(TokenType.OpBitXor))
+            //{
+            //    _parser.Utilities.NextToken();
+            //    return new BitXorOperatorNode();
+            //}
             if (_parser.Utilities.CompareTokenType(TokenType.OpNotEqualTo))
             {
                 _parser.Utilities.NextToken();
@@ -225,27 +229,32 @@ namespace Syntax.Parser
         private ExpressionNode ExpressionAddition()
         {
             var multiplication = ExpressionMultiplication();
-            var addition = ExpressionAdditionPrime();
+            var addition = ExpressionAdditionPrime(multiplication);
 
             return addition;
         }
 
-        private ExpressionNode ExpressionAdditionPrime()
+        private ExpressionNode ExpressionAdditionPrime(ExpressionNode multiplication)
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpAdd)
                 || _parser.Utilities.CompareTokenType(TokenType.OpSubstraction))
             {
-                AdditiveOperrators();
-                ExpressionMultiplication();
-                return ExpressionAdditionPrime();
+                var operation = AdditiveOperrators();
+                var exprMult = ExpressionMultiplication();
+
+
+                operation.LeftOperand = multiplication;
+                operation.RightOperand = exprMult; 
+
+                return ExpressionAdditionPrime(operation);
             }
             else
             {
-                return null;
+                return multiplication;
             }
         }
 
-        private ExpressionNode AdditiveOperrators()
+        private BinaryOperatorNode AdditiveOperrators()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpAdd))
             {
@@ -271,30 +280,34 @@ namespace Syntax.Parser
         private ExpressionNode ExpressionMultiplication()
         {
             var unary = ExpressionUnary();
-            var multiplication = ExpressionMultiplicationPrime();
+            var multiplication = ExpressionMultiplicationPrime(unary);
 
             return multiplication;
         }
 
-        private ExpressionNode ExpressionMultiplicationPrime()
+        private ExpressionNode ExpressionMultiplicationPrime(ExpressionNode unary)
         {
-            var binaryExpression = new ExpressionBinaryNode();
+         //   var binaryExpression = new ExpressionBinaryNode();
 
             if (_parser.Utilities.CompareTokenType(TokenType.OpDivision)
                 || _parser.Utilities.CompareTokenType(TokenType.OpMultiplication)
                 || _parser.Utilities.CompareTokenType(TokenType.OpModule))
             {
-                MultiplicativeOperators();
-                ExpressionUnary();
-                return ExpressionMultiplicationPrime();
+                var operation =  MultiplicativeOperators();
+                var unaryExpre = ExpressionUnary();
+
+                operation.LeftOperand = unary;
+                operation.RightOperand = unaryExpre;
+
+                return ExpressionMultiplicationPrime(operation);
             }
             else
             {
-                return null;
+                return unary;
             }
         }
 
-        private ExpressionNode MultiplicativeOperators()
+        private BinaryOperatorNode MultiplicativeOperators()
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
@@ -419,7 +432,7 @@ namespace Syntax.Parser
             if (_parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
                 var value = _parser.CurrentToken.Lexeme;
-                var identifier = new IdentifierExpression();
+                var identifier = new IdentifierExpression {Value = value};
 
                 _parser.Utilities.NextToken();
 

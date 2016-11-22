@@ -14,7 +14,7 @@
 
 const char x = 'x';      
   
-if ( a >= 12) {     /* if inch is greater or equal to 12, converting it to feet. */
+if (((4 * 5) + 6  )/4) {     /* if inch is greater or equal to 12, converting it to feet. */
     //   d3->inch -= 12;
         //++d3->feet;
       #include "stdio.h"
