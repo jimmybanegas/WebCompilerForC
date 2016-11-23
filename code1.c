@@ -10,6 +10,39 @@
 
 <%  
 
+struct point *p = &my_point;
+struct point my_point = { 3, 7 };
+
+struct sockaddr_in serv_addr, cli_addr;
+struct MyStruct *secondArray;
+//struct MyStruct myArray[4];
+float v3;
+
+ int   someSize;
+ int   ix;
+
+void add(struct distance d1,struct distance d2, struct distance *d3) 
+{
+     //Adding distances d1 and d2 and storing it in d3
+     d3->feet = d1.feet + d2.feet; 
+     d3->inch = d1.inch + d2.inch;
+
+     if (d3->inch >= 12) {     /* if inch is greater or equal to 12, converting it to feet. */
+         d3->inch -= 12;
+         //++d3->feet;
+    }
+}
+
+void copy_array(float *src, float *dst, int n)
+{
+    while (n-- > 0) {
+ // Loop that counts down from n to zero
+        *dst++ = *src++;   // Copies element *(src) to *(dst),
+                           //  then increments both pointers
+    }
+}
+
+
 char cha,nplname[20],c,plname[20];
 
 int  i = 5, j = 6, k;

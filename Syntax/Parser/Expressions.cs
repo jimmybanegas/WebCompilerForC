@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using Lexer;
 using Syntax.Tree;
-using Syntax.Tree.Nodes.Acessors;
-using Syntax.Tree.Nodes.BaseNodes;
-using Syntax.Tree.Nodes.DataTypes;
-using Syntax.Tree.Nodes.Declarations;
-using Syntax.Tree.Nodes.Functions;
-using Syntax.Tree.Nodes.Operators.Binary;
-using Syntax.Tree.Nodes.Operators.Unary;
-using BitXorOperatorNode = Syntax.Tree.Nodes.Operators.Unary.BitXorOperatorNode;
+using Syntax.Tree.Acessors;
+using Syntax.Tree.BaseNodes;
+using Syntax.Tree.DataTypes;
+using Syntax.Tree.Functions;
+using Syntax.Tree.Identifier;
+using Syntax.Tree.Operators.Binary;
+using Syntax.Tree.Operators.Unary;
+using BitXorOperatorNode = Syntax.Tree.Operators.Unary.BitXorOperatorNode;
 
 namespace Syntax.Parser
 {

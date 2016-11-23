@@ -10,6 +10,7 @@
 
 <%  
 
+
 int myArray[10] = { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
 
 int main()                            /* Most important part of the program!  */
@@ -1012,8 +1013,6 @@ void Right()
         body[len].x=head.x-i;
         body[len].y=head.y;
 
-        /*body[len].x=head.x-i;
-        body[len].y=head.y;*/
         len++;
     }
     Bend();

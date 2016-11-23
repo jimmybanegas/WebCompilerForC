@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Lexer;
 using Syntax.Tree;
-using Syntax.Tree.Nodes.Acessors;
-using Syntax.Tree.Nodes.Arrays;
-using Syntax.Tree.Nodes.BaseNodes;
-using Syntax.Tree.Nodes.DataTypes;
-using Syntax.Tree.Nodes.Declarations;
-using Syntax.Tree.Nodes.Functions;
-using Syntax.Tree.Nodes.Operators.Unary;
+using Syntax.Tree.Acessors;
+using Syntax.Tree.Arrays;
+using Syntax.Tree.BaseNodes;
+using Syntax.Tree.DataTypes;
+using Syntax.Tree.Declarations;
+using Syntax.Tree.Functions;
+using Syntax.Tree.GeneralSentences;
+using Syntax.Tree.Identifier;
+using Syntax.Tree.Operators.Binary;
+using Syntax.Tree.Operators.Unary;
+using Syntax.Tree.Struct;
 
 namespace Syntax.Parser
 {
@@ -128,39 +132,39 @@ namespace Syntax.Parser
                 }
                 return SpecialDeclaration();
             }
-            else if (Utilities.CompareTokenType(TokenType.RwIf))
+            if (Utilities.CompareTokenType(TokenType.RwIf))
             {
                 return LoopsAndConditionals.If();
             }
-            else if (Utilities.CompareTokenType(TokenType.RwWhile))
+            if (Utilities.CompareTokenType(TokenType.RwWhile))
             {
                 return LoopsAndConditionals.While();
             }
-            else if (Utilities.CompareTokenType(TokenType.RwDo))
+            if (Utilities.CompareTokenType(TokenType.RwDo))
             {
                 return LoopsAndConditionals.Do();
             }
-            else if (Utilities.CompareTokenType(TokenType.RwFor))
+            if (Utilities.CompareTokenType(TokenType.RwFor))
             {
                 return LoopsAndConditionals.ForLoop();
             }
-            else if (Utilities.CompareTokenType(TokenType.RwSwitch))
+            if (Utilities.CompareTokenType(TokenType.RwSwitch))
             {
                 return LoopsAndConditionals.Switch();
             }
-            else if (Utilities.CompareTokenType(TokenType.RwBreak))
+            if (Utilities.CompareTokenType(TokenType.RwBreak))
             {
                 return LoopsAndConditionals.Break();
             }
-            else if (Utilities.CompareTokenType(TokenType.RwDefault))
+            if (Utilities.CompareTokenType(TokenType.RwDefault))
             {
                 return LoopsAndConditionals.DefaultCase();
             }
-            else if (Utilities.CompareTokenType(TokenType.RwContinue))
+            if (Utilities.CompareTokenType(TokenType.RwContinue))
             {
                 return LoopsAndConditionals.Continue();
             }
-            else if (Utilities.CompareTokenType(TokenType.Identifier)
+            if (Utilities.CompareTokenType(TokenType.Identifier)
                 || Utilities.CompareTokenType(TokenType.OpMultiplication) 
                 || Utilities.CompareTokenType(TokenType.OpenParenthesis)
                 || Utilities.CompareTokenType(TokenType.OpDecrement)
@@ -240,36 +244,24 @@ namespace Syntax.Parser
 
                 return AssignmentOrFunctionCall(identifier);
             }
-            else if (Utilities.CompareTokenType(TokenType.RwConst))
+            if (Utilities.CompareTokenType(TokenType.RwConst))
             {
                 return Const();
             }
-            else if (Utilities.CompareTokenType(TokenType.RwInclude))
+            if (Utilities.CompareTokenType(TokenType.RwInclude))
             {
                 return Include();
             }
-            else if (Utilities.CompareTokenType(TokenType.RwReturn))
+            if (Utilities.CompareTokenType(TokenType.RwReturn))
             {
                 return ReturnStatement();
             }
-            else if (Utilities.CompareTokenType(TokenType.RwStruct)
+            if (Utilities.CompareTokenType(TokenType.RwStruct)
                 || Utilities.CompareTokenType(TokenType.RwTypedef))
             {
                 throw new Exception("Not a valid sentence at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
-            else
-            {
-                try
-                {
-
-                }
-                catch (Exception)
-                {
-
-                    throw new Exception("Not a valid sentence at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
-                }
-
-            }
+          
             return null;
         }
 
@@ -656,9 +648,9 @@ namespace Syntax.Parser
                 isFunctioncall = false;
                 return expressionList;
             }
-            else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
+            if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
-              //  List<ExpressionNode> listOfExpressions = new List<ExpressionNode>(); 
+                //  List<ExpressionNode> listOfExpressions = new List<ExpressionNode>(); 
                 isFunctioncall = true;
                 return Functions.CallFunction();
             }
@@ -739,11 +731,6 @@ namespace Syntax.Parser
 
         public StatementNode DataType()
         {
-            //if (Utilities.CompareTokenType(TokenType.RwChar))
-            //{
-            //    Utilities.NextToken();
-            //    return new IdentifierNode {Accessors = new List<AccessorNode>(), Value = CurrentToken.Lexeme} ;
-            //}
             if (Utilities.CompareTokenType(TokenType.RwChar)
                  || Utilities.CompareTokenType(TokenType.RwString)
                  || Utilities.CompareTokenType(TokenType.RwInt)
@@ -759,10 +746,7 @@ namespace Syntax.Parser
                 Utilities.NextToken();
                 return new IdentifierNode { Accessors = new List<AccessorNode>(), Value = type};
             }
-            else
-            {
-                throw new Exception("A Data Type was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
-            }
+            throw new Exception("A Data Type was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
         }
 
         private StatementNode Struct()
@@ -779,7 +763,8 @@ namespace Syntax.Parser
             Utilities.NextToken();
 
             List<StructItemNode> structItems = new List<StructItemNode>();
-            StructDeclarationOrInitialization(structItems);
+
+           var structDeclaration =  StructDeclarationOrInitialization(structItems,structNode.Name.Value);
 
             structNode.ListOfItems = structItems;
 
@@ -788,21 +773,28 @@ namespace Syntax.Parser
 
             Utilities.NextToken();
 
-            return structNode;
+            return structDeclaration ?? structNode;
         }
 
-        private void StructDeclarationOrInitialization(List<StructItemNode> structItems)
+        private StatementNode StructDeclarationOrInitialization(List<StructItemNode> structItems, string name)
         {
             //Declaracion de variable struct no de el struct como tal
             //struct point my_point = { 3, 7 };
             if (Utilities.CompareTokenType(TokenType.Identifier) || Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
+                List<IdentifierNode> listOptional = new List<IdentifierNode>();
+                var value = new List<ExpressionNode>();
+
+                var general = new GeneralDeclarationNode {DataType = new IdentifierNode {Value = name}};
+                
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
                     var listOfPointer = new List<PointerNode>();
                     IsPointer(listOfPointer);
+                    general.ListOfPointer = listOfPointer;
                 }
 
+                general.NameOfVariable = new IdentifierNode { Value = CurrentToken.Lexeme };
                 Utilities.NextToken();
 
                 //Posible inicializacion de los valores, así como se inicializa un arreglo
@@ -810,19 +802,27 @@ namespace Syntax.Parser
                 //struct point *p = &my_point;
                 if (Utilities.CompareTokenType(TokenType.Comma))
                 {
-                    List<IdentifierNode> listOptional = new List<IdentifierNode>();
                     Functions.OptionalId(listOptional);
                 }
 
                 if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
                 {
-                    InitializationForStruct();
+                    value = InitializationForStruct();
+
+                    general.NameOfVariable.Assignation = new AssignationForAarray {RightValue = value};
                 }
 
                 if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
                     throw new Exception("Openning bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
+
+                if (listOptional.Count > 0)
+                {
+                    return new MultideclarationNode {GeneralNode = general, ListOfVariables = listOptional};
+                }
+
+                return new StructDeclaration {General = general};
             }
             else
             {
@@ -834,8 +834,6 @@ namespace Syntax.Parser
                 if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
                 {
                   DeclarationOfStruct(false,structItems,null);
-
-                  //structItems.Add(item);
                 }
 
                 if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
@@ -847,32 +845,48 @@ namespace Syntax.Parser
                     Utilities.NextToken();
                 }
             }
-          
+
+            return null;
         }
 
-        private void InitializationForStruct()
+        private List<ExpressionNode> InitializationForStruct()
         {
             Utilities.NextToken();
             if (Utilities.CompareTokenType(TokenType.OpBitAnd))
             {
-                ChooseIdType(" ");
+                 var val = ChooseIdType(" ");
+
+                if (val.Reference !=null)
+                {
+                    var list = new List<ExpressionNode>();
+                    var name = val.NameOfVariable.Value;
+
+                    list.Add( new BitAndOperatorNode {Value = name});
+
+                    return list;
+                }
             }
             else if (Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
             {
-                InitElementsOfStruct();
+                return InitElementsOfStruct();
             }
+            return null;
         }
 
-        private void InitElementsOfStruct()
+        private List<ExpressionNode> InitElementsOfStruct()
         {
             if (!Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
                 throw new Exception("Openning bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
             Utilities.NextToken();
+
             List<ExpressionNode> list = new List<ExpressionNode>();
             ListOfExpressions(list);
+
             if (Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
                 Utilities.NextToken();
+
+            return list;
         }
 
         private void DeclarationOfStruct(bool isMultideclaration, List<StructItemNode> structItems, StructItemNode itemMultideclaration)
@@ -885,13 +899,6 @@ namespace Syntax.Parser
                 {
                     GeneralDeclarationNode itemDeclaration = GeneralDeclaration();
 
-                    //structItem = new StructItemNode
-                    //{
-                    //    Assignation = new AssignationNode(),
-                    //    ItemDeclaration = itemDeclaration
-                    //};
-
-                    //structItems.Add(structItem);
                     structItem.ItemDeclaration = itemDeclaration;
                 }
                 else
@@ -1058,6 +1065,7 @@ namespace Syntax.Parser
             else if (Utilities.CompareTokenType(TokenType.Identifier))
             {
                 identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme};
+                var nameOfStruct = CurrentToken.Lexeme;
 
                 Utilities.NextToken();
 
@@ -1073,17 +1081,14 @@ namespace Syntax.Parser
                     List<PointerNode> listOfPointer = new List<PointerNode>();
                     IsPointer(listOfPointer);
                     identifier.ListOfPointer = listOfPointer;
-                    // Utilities.NextToken();
-
-                    //if (Utilities.CompareTokenType(TokenType.Identifier))
-                    //{
-                    //    Utilities.NextToken();
-                    //}
                 }
                 if (Utilities.CompareTokenType(TokenType.Identifier))
                 {
                     //Structs as parameters for function
+                  //  identifier.NameOfVariable.StructValue 
                     identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme};
+                    identifier.NameOfVariable.StructValue = nameOfStruct;
+
                     Utilities.NextToken();
                 }
             }
@@ -1135,6 +1140,7 @@ namespace Syntax.Parser
                 {
                     throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
+
             }
             else if (Utilities.CompareTokenType(TokenType.Comma))
             {
@@ -1155,7 +1161,6 @@ namespace Syntax.Parser
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
                 bool isInMultideclaration = false;
-
                 List<IdentifierNode> listOptionalArr = new List<IdentifierNode>();
 
                 var tuppleArray = Arrays.IsArrayDeclaration(isInMultideclaration, listOptionalArr);
@@ -1165,9 +1170,8 @@ namespace Syntax.Parser
 
                 if (Utilities.CompareTokenType(TokenType.Comma))
                 {
-                    List<IdentifierNode> listOptional = new List<IdentifierNode>();
+                    var listOptional = new List<IdentifierNode>();
                     Functions.OptionalId(listOptional);
-                   // Utilities.NextToken();
                 }
 
                 if (Utilities.CompareTokenType(TokenType.EndOfSentence))
@@ -1352,12 +1356,12 @@ namespace Syntax.Parser
             return typeOfDecla;
         }
 
-        private StatementNode TypeOfDeclarationForFunction(GeneralDeclarationNode generalDecla)
+        private StatementNode TypeOfDeclarationForFunction(GeneralDeclarationNode generalDeclaration)
         {
             if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 var value = ValueForId();
-                generalDecla.NameOfVariable.Assignation = new AssignationNode { RightValue = value };
+                generalDeclaration.NameOfVariable.Assignation = new AssignationNode { RightValue = value };
 
                 if (Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
@@ -1376,6 +1380,8 @@ namespace Syntax.Parser
                     {
                         throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                     }
+
+                    return new MultideclarationNode { GeneralNode = generalDeclaration, ListOfVariables = listOptional };
                 }
                 else
                 {
@@ -1384,8 +1390,7 @@ namespace Syntax.Parser
             }
             else if (Utilities.CompareTokenType(TokenType.Comma))
             {
-                List<IdentifierNode> listOptional = new List<IdentifierNode>();
-                
+                var listOptional = new List<IdentifierNode>();
                 Functions.OptionalId(listOptional);
 
                 if (Utilities.CompareTokenType(TokenType.EndOfSentence))
@@ -1396,6 +1401,8 @@ namespace Syntax.Parser
                 {
                     throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
+
+                return new MultideclarationNode { GeneralNode = generalDeclaration, ListOfVariables = listOptional };
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
@@ -1404,13 +1411,12 @@ namespace Syntax.Parser
 
                 var tupleArray = Arrays.IsArrayDeclaration(isInMultideclaration,listOptionalArr);
                 
-                generalDecla.NameOfVariable.Accessors.AddRange(tupleArray.Item1);
-
-                generalDecla.NameOfVariable.Assignation = new AssignationForAarray {RightValue = tupleArray.Item2};
+                generalDeclaration.NameOfVariable.Accessors.AddRange(tupleArray.Item1);
+                generalDeclaration.NameOfVariable.Assignation = new AssignationForAarray {RightValue = tupleArray.Item2};
 
                 if (Utilities.CompareTokenType(TokenType.Comma))
                 {
-                    List<IdentifierNode> listOptional = new List<IdentifierNode>();
+                    var listOptional = new List<IdentifierNode>();
                     Functions.OptionalId(listOptional);
                 }
 
@@ -1422,6 +1428,11 @@ namespace Syntax.Parser
                 {
                     throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
+
+                if (listOptionalArr.Count > 0)
+                {
+                    return new MultideclarationNode { GeneralNode = generalDeclaration, ListOfVariables = listOptionalArr };
+                }
             }
             else if (Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
@@ -1432,7 +1443,7 @@ namespace Syntax.Parser
                 throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
 
-            return generalDecla;
+            return generalDeclaration;
         }
 
     }

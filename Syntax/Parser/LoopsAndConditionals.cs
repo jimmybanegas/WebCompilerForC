@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using Lexer;
 using Syntax.Tree;
-using Syntax.Tree.Nodes.BaseNodes;
-using Syntax.Tree.Nodes.Declarations;
-using Syntax.Tree.Nodes.LoopsAndConditions;
+using Syntax.Tree.BaseNodes;
+using Syntax.Tree.GeneralSentences;
+using Syntax.Tree.Identifier;
+using Syntax.Tree.LoopsAndConditions;
 
 namespace Syntax.Parser
 {
