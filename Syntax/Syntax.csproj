@@ -46,10 +46,12 @@
     <Compile Include="Parser\LoopsAndConditionals.cs" />
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Parser\Utilities.cs" />
+    <Compile Include="Tree\DeReferenceNode.cs" />
     <Compile Include="Tree\ExpressionBinaryNode.cs" />
     <Compile Include="Tree\ExpressionUnaryNode.cs" />
     <Compile Include="Tree\IdentifierExpression.cs" />
     <Compile Include="Tree\Nodes\Acessors\PointerNode.cs" />
+    <Compile Include="Tree\Nodes\Arrays\ArrayDeclarationNode.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\ForLoopNode.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\TypeOfDeclaration.cs" />
     <Compile Include="Tree\Nodes\BaseNodes\StatementNode.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Tree\Nodes\Declarations\ReturnStatementNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\StructItemNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\StructNode.cs" />
+    <Compile Include="Tree\Nodes\Functions\FunctionDeclarationNode.cs" />
     <Compile Include="Tree\Nodes\LoopsAndConditions\BreakNode.cs" />
     <Compile Include="Tree\Nodes\LoopsAndConditions\CaseStatement.cs" />
     <Compile Include="Tree\Nodes\LoopsAndConditions\DoWhileNode.cs" />
@@ -146,9 +149,7 @@
       <Name>Lexer</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tree\Nodes\Arrays\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

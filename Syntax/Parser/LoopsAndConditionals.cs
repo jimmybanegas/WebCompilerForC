@@ -160,8 +160,6 @@ namespace Syntax.Parser
             {
                 
             }
-
-           
             return new CaseStatement
             {
                 Expression = expression, Sentences = sentences

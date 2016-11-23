@@ -12,6 +12,7 @@ namespace Syntax.Tree.Nodes.Declarations
     {
         public IdentifierNode DataType;
         public List<PointerNode> ListOfPointer;
+        public DeReferenceNode Reference;
         public IdentifierNode NameOfVariable;
         public override void ValidateSemantic()
         {

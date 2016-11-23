@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lexer;
+using Syntax.Tree;
 using Syntax.Tree.Nodes.Acessors;
 using Syntax.Tree.Nodes.BaseNodes;
+using Syntax.Tree.Nodes.Declarations;
+using Syntax.Tree.Nodes.Functions;
 
 namespace Syntax.Parser
 {
@@ -14,14 +17,20 @@ namespace Syntax.Parser
             _parser = parser;
         }
 
-        public void IsFunctionDeclaration()
+        public FunctionDeclarationNode IsFunctionDeclaration(GeneralDeclarationNode generalDecla)
         {
+            var functionNode = new FunctionDeclarationNode {Identifier = generalDecla};
+
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenParenthesis))
                 throw new Exception("Open parenthesis expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
 
             _parser.Utilities.NextToken();
 
-            ParameterList();
+            List<GeneralDeclarationNode> parameters = new List<GeneralDeclarationNode>();
+
+            ParameterList(parameters);
+
+            functionNode.Parameters = parameters;
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
                 throw new Exception("Close parenthesis expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
@@ -31,7 +40,9 @@ namespace Syntax.Parser
             if (_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
             {
                 _parser.Utilities.NextToken();
-                _parser.ListOfSpecialSentences();
+
+               var sentences =  _parser.ListOfSpecialSentences();
+               functionNode.Sentences = sentences;
             }
 
             if (_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket) )
@@ -42,9 +53,11 @@ namespace Syntax.Parser
             {
                 throw new Exception("Close function body symbol expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
+
+            return functionNode;
         }
 
-        private void ParameterList()
+        private void ParameterList(List<GeneralDeclarationNode> parameters)
         {
             if (_parser.Utilities.CompareTokenType(TokenType.RwChar) 
                 || _parser.Utilities.CompareTokenType(TokenType.RwString)
@@ -57,11 +70,13 @@ namespace Syntax.Parser
                 || _parser.Utilities.CompareTokenType(TokenType.RwVoid)
                 || _parser.Utilities.CompareTokenType(TokenType.RwStruct))//Structs as parameter of function
             {
+                var name = _parser.CurrentToken.Lexeme;
                 _parser.Utilities.NextToken();
 
-                _parser.ChooseIdType();
+                var param =  _parser.ChooseIdType(name);
+                parameters.Add(param);
                 
-                OptionaListOfParams();
+                OptionaListOfParams(parameters);
             }
             else
             {
@@ -69,7 +84,7 @@ namespace Syntax.Parser
             }
         }
 
-        public void OptionaListOfParams()
+        public void OptionaListOfParams(List<GeneralDeclarationNode> parameters)
         {
             if (_parser.Utilities.CompareTokenType(TokenType.Comma))
             {
@@ -85,11 +100,13 @@ namespace Syntax.Parser
                     || _parser.Utilities.CompareTokenType(TokenType.RwVoid)
                     || _parser.Utilities.CompareTokenType(TokenType.RwStruct))
                 {
+                    var name = _parser.CurrentToken.Lexeme;
                     _parser.Utilities.NextToken();
 
-                    _parser.ChooseIdType();
+                    var identifier = _parser.ChooseIdType(name);
+                    parameters.Add(identifier);
 
-                    OptionaListOfParams();
+                    OptionaListOfParams(parameters);
                 }
                 else
                 {

@@ -10,6 +10,28 @@
 
 <%  
 
+
+float KrazyFunction( int *parm1, int p1size, int bb )
+ {
+   int ix; //declaring an integer variable//
+   for (ix=0; ix<p1size; ix++) {
+      if (parm1[ix].m_aNumber == bb )
+          return parm1[ix].num2;
+   }
+   return 0;
+ }
+
+
+ while( a.edad < 20 ) {
+      printf("value of a: %d\n", *a);
+      a++;
+      const char x = 'x';  
+       for (ix=0; ix<p1size; ix++) {
+      if (parm1[ix].m_aNumber == bb )
+          return parm1[ix].num2;
+      }   
+   }
+
 //*a; 
 
 a[i].edad = a+b;
@@ -46,26 +68,6 @@ struct Books {
    int   book_id;
 } book;  
 
-float KrazyFunction( int *parm1, int p1size, int bb )
- {
-   int ix; //declaring an integer variable//
-   for (ix=0; ix<p1size; ix++) {
-      if (parm1[ix].m_aNumber == bb )
-          return parm1[ix].num2;
-   }
-   return 0;
- }
-
-
- while( a.edad < 20 ) {
-      printf("value of a: %d\n", *a);
-      a++;
-      const char x = 'x';  
-       for (ix=0; ix<p1size; ix++) {
-      if (parm1[ix].m_aNumber == bb )
-          return parm1[ix].num2;
-      }   
-   }
 
 #include "stdio.h"
 

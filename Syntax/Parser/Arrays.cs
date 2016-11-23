@@ -5,6 +5,7 @@ using Syntax.Tree;
 using Syntax.Tree.Nodes.Acessors;
 using Syntax.Tree.Nodes.BaseNodes;
 using Syntax.Tree.Nodes.DataTypes;
+using Syntax.Tree.Nodes.Declarations;
 
 namespace Syntax.Parser
 {
@@ -17,8 +18,10 @@ namespace Syntax.Parser
             _parser = parser;
         }
 
-        public void ArrayForFunctionsParameter()
+        public List<AccessorNode> ArrayForFunctionsParameter()
         {
+            List<AccessorNode> accesorNodes = new List<AccessorNode>(); 
+
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 throw new Exception("An openning bracket [ symbol was expected");
 
@@ -27,7 +30,9 @@ namespace Syntax.Parser
             bool hasSize;
             bool isUnidimensional = true;
 
-            SizeForArray(out hasSize);
+            var accessor = SizeForArray(out hasSize);
+
+            accesorNodes.Add((ArrayAccessorNode)accessor);
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseSquareBracket))
                 throw new Exception("An closing bracket ] symbol was expected");
@@ -36,7 +41,8 @@ namespace Syntax.Parser
 
             if (_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
-                BidArray(out isUnidimensional);
+                var accessor2 = BidArray(out isUnidimensional);
+                accesorNodes.Add(accessor2);
             }
             if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence) && hasSize && isUnidimensional)
             {
@@ -49,12 +55,17 @@ namespace Syntax.Parser
             //Cuando hay una multideclaracion de variables que lleva arreglos en ese conjunto
             else if (_parser.Utilities.CompareTokenType(TokenType.Comma))
             {
-                _parser.Functions.OptionaListOfParams();
+                List<GeneralDeclarationNode> list = new List<GeneralDeclarationNode>();
+                _parser.Functions.OptionaListOfParams(list);
             }
+
+            return accesorNodes;
         }
 
-        public void IsArrayDeclaration(bool isInMultiDeclaration)
+        public List<AccessorNode> IsArrayDeclaration(bool isInMultiDeclaration)
         {
+            List<AccessorNode> accesorNodes = new List<AccessorNode>();
+
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 throw new Exception("An openning bracket [ symbol was expected");
 
@@ -63,7 +74,8 @@ namespace Syntax.Parser
             bool hasSize;
             bool isUnidimensional = true;
 
-            SizeForArray(out hasSize);
+            var accessor = SizeForArray(out hasSize);
+            accesorNodes.Add((ArrayAccessorNode)accessor);
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseSquareBracket))
                 throw new Exception("An closing bracket ] symbol was expected");
@@ -72,7 +84,8 @@ namespace Syntax.Parser
 
             if (_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
-                BidArray(out isUnidimensional);
+               var accessor2 = BidArray(out isUnidimensional);
+               accesorNodes.Add((ArrayAccessorNode)accessor2);
             }
 
             OptionalInitOfArray(true);
@@ -92,6 +105,8 @@ namespace Syntax.Parser
             {
 
             }
+
+            return accesorNodes;
         }
 
         public void OptionalInitOfArray(bool isInMultiDeclaration)
@@ -103,6 +118,7 @@ namespace Syntax.Parser
 
                 List<ExpressionNode> list = new List<ExpressionNode>();
                 _parser.ListOfExpressions(list);
+
                 if (_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
                     _parser.Utilities.NextToken();
             }
@@ -117,14 +133,14 @@ namespace Syntax.Parser
             }
         }
 
-        public void BidArray(out bool isUnidimensional)
+        public AccessorNode BidArray(out bool isUnidimensional)
         {
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 throw new Exception("An openning bracket [ symbol was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
 
             _parser.Utilities.NextToken();
 
-            SizeForBidArray();
+            var accessor = SizeForBidArray();
 
             if (_parser.Utilities.CompareTokenType(TokenType.CloseSquareBracket))
             {
@@ -136,6 +152,8 @@ namespace Syntax.Parser
             }
 
             isUnidimensional = false;
+
+            return accessor;
         }
 
         public AccessorNode SizeForBidArray()
@@ -169,20 +187,27 @@ namespace Syntax.Parser
             return new ArrayAccessorNode();
         }
 
-        private void SizeForArray(out bool hasSize)
+        private ExpressionNode SizeForArray(out bool hasSize)
         {
+            ExpressionNode expression = new ArrayAccessorNode();
+
             if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber) 
                 || _parser.Utilities.CompareTokenType(TokenType.LiteralOctal)
                 || _parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal) 
                 || _parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
-                _parser.Utilities.NextToken();
+                //_parser.Utilities.NextToken();
                 hasSize = true;
+
+                expression = _parser.Expressions.Expression();
+                //_parser.Utilities.NextToken();
+                return new ArrayAccessorNode { IndexExpression = expression };
             }
             else
             {
                 hasSize = false;
             }
+            return expression;
         }
 
         public AccessorNode ArrayIdentifier()

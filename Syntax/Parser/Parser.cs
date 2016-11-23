@@ -310,7 +310,7 @@ namespace Syntax.Parser
                 {
                     Utilities.NextToken();
                 }
-                Declaration();
+                return Declaration();
             }
             else if (Utilities.CompareTokenType(TokenType.RwIf))
             {
@@ -667,8 +667,6 @@ namespace Syntax.Parser
             }
            
             return identifier;
-
-
         }
 
         private List<ExpressionNode> ValueForPreId(out bool isFunctioncall)
@@ -892,7 +890,7 @@ namespace Syntax.Parser
             Utilities.NextToken();
             if (Utilities.CompareTokenType(TokenType.OpBitAnd))
             {
-                ChooseIdType();
+                ChooseIdType(" ");
             }
             else if (Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
             {
@@ -1043,14 +1041,21 @@ namespace Syntax.Parser
             }
         }
 
-        public void ChooseIdType()
+        public GeneralDeclarationNode ChooseIdType(string dateType)
         {
+            var identifier = new GeneralDeclarationNode();
+            identifier.DataType = new IdentifierNode {Value = dateType };
+            
             if (Utilities.CompareTokenType(TokenType.OpBitAnd))
             {
+                var dereference = new DeReferenceNode {Value = CurrentToken.Lexeme};
+                identifier.Reference = dereference;
+
                 Utilities.NextToken();
 
                 if (Utilities.CompareTokenType(TokenType.Identifier))
                 {
+                    identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme};
                     Utilities.NextToken();
                 }
                 else
@@ -1060,17 +1065,24 @@ namespace Syntax.Parser
             }
             else if (Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
+                List<PointerNode> listOfPointer = new List<PointerNode> {new PointerNode()};
+
+                identifier.ListOfPointer = listOfPointer;
+
                 Utilities.NextToken();
 
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
-                    List<PointerNode> listOfPointer = new List<PointerNode>();
                     IsPointer(listOfPointer);
+
+                    identifier.ListOfPointer = listOfPointer;
+
                     Utilities.NextToken();
                 }
 
                 if (Utilities.CompareTokenType(TokenType.Identifier))
                 {
+                    identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme};
                     Utilities.NextToken();
                 }
                 else
@@ -1080,11 +1092,14 @@ namespace Syntax.Parser
             }
             else if (Utilities.CompareTokenType(TokenType.Identifier))
             {
+                identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme};
+
                 Utilities.NextToken();
 
                 if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
                 {
-                    Arrays.ArrayForFunctionsParameter();
+                    var accessors = Arrays.ArrayForFunctionsParameter();
+                    identifier.NameOfVariable.Accessors = accessors;
                 }
 
                 if (Utilities.CompareTokenType(TokenType.OpMultiplication))
@@ -1092,7 +1107,8 @@ namespace Syntax.Parser
                     //Structs as parameters for function
                     List<PointerNode> listOfPointer = new List<PointerNode>();
                     IsPointer(listOfPointer);
-                   // Utilities.NextToken();
+                    identifier.ListOfPointer = listOfPointer;
+                    // Utilities.NextToken();
 
                     //if (Utilities.CompareTokenType(TokenType.Identifier))
                     //{
@@ -1102,6 +1118,7 @@ namespace Syntax.Parser
                 if (Utilities.CompareTokenType(TokenType.Identifier))
                 {
                     //Structs as parameters for function
+                    identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme};
                     Utilities.NextToken();
                 }
             }
@@ -1109,19 +1126,23 @@ namespace Syntax.Parser
             {
                 throw new Exception("An Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
+
+            return identifier;
         }
 
-        private void Declaration()
+        private StatementNode Declaration()
         {
-            GeneralDeclaration();
-            TypeOfDeclaration();
+            var generalDecla = GeneralDeclaration();
+            var typeOfDecla = TypeOfDeclaration(generalDecla);
+            
+            return typeOfDecla;
         }
 
-        public void TypeOfDeclaration()
+        public StatementNode TypeOfDeclaration(GeneralDeclarationNode generalDecla)
         {
             if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
-                ValueForId();
+                 ValueForId();
 
                 if (Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
@@ -1161,9 +1182,9 @@ namespace Syntax.Parser
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
                 bool isInMultideclaration = false;
-                Arrays.IsArrayDeclaration(isInMultideclaration);
-                //Arrays.ArrayMultiDeclaration(isInMultideclaration);
 
+                var accessors = Arrays.IsArrayDeclaration(isInMultideclaration);
+              
                 if (Utilities.CompareTokenType(TokenType.Comma))
                     Functions.MultiDeclaration(); 
 
@@ -1178,9 +1199,10 @@ namespace Syntax.Parser
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
-                Functions.IsFunctionDeclaration();
-              //  Utilities.NextToken();
-              //  return;
+              var functionDeclaration =  Functions.IsFunctionDeclaration(generalDecla);
+            
+              // Utilities.NextToken();
+               return functionDeclaration;
             } 
             else if (Utilities.CompareTokenType(TokenType.EndOfSentence))
             {
@@ -1190,6 +1212,8 @@ namespace Syntax.Parser
             {
                 throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
+
+            return generalDecla;
         }
 
         public void ListOfExpressions(List<ExpressionNode> list)

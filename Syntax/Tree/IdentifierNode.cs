@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Syntax.Tree.Nodes.Acessors;
 using Syntax.Tree.Nodes.BaseNodes;
 using Syntax.Tree.Nodes.Declarations;
@@ -14,6 +11,7 @@ namespace Syntax.Tree
         public string Value { get; set; }
         public List<AccessorNode> Accessors;
         public List<PointerNode> PointerNodes;
+        public DeReferenceNode Reference;
         public UnaryOperator IncrementOrdecrement { get; set; }
         public AssignationNode Assignation;
 
@@ -34,7 +32,8 @@ namespace Syntax.Tree
 
 
             }
-            return this.Value + accesors;
+
+            return Value + accesors;
         }
     }
 }

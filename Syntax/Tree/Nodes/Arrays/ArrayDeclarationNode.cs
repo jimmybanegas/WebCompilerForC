@@ -5,13 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Syntax.Tree.Nodes.BaseNodes;
 
-namespace Syntax.Tree.Nodes.Declarations
+namespace Syntax.Tree.Nodes.Arrays
 {
-    public class DeclarationNode : TypeOfDeclaration
+    public class ArrayDeclarationNode : StatementNode
     {
-        public IdentifierNode TypeOfIdentifier;
-        public List<TypeOfDeclaration> ListOfIdentifiers;
-
+        public List<ExpressionNode> Initialization;
         public override void ValidateSemantic()
         {
             throw new NotImplementedException();
