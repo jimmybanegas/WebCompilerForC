@@ -68,7 +68,7 @@ int main()                            /* Most important part of the program!  */
     return j;
  }
 
-  float A[6][8];
+ float A[6][8];
  float *pf;
  pf = &A[0][0];
  //*(pf+1) = 1.3;   /* assigns 1.3 to A[0][1] */

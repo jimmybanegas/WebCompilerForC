@@ -10,10 +10,37 @@
 
 <%  
 
+char plname[20],nplname[20],cha,c;
+
+int  i = 5, j = 6, k;
+
+int myArray[10][2] = { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
+
+ float A[6][8];
+ float *pf;
+ pf = &A[0][0];
+ //*(pf+1) = 1.3;   /* assigns 1.3 to A[0][1] */
+ //*(pf+8) = 2.3;   /* assigns 2.3 to A[1][0] */
+
+
+  long  myArray[20];
+ long  *pArray;
+ int  i;
+
+
+    int numbersAdded = 3.0;   
+      int sum = 23.45;  
+      int hex = 0x3F7; 
+      int octal = 007; 
+      int number = 78;
+      int n = 23E-10;  
+      int n2 = 23e-5;
+
 
 float KrazyFunction( int *parm1, int p1size, int bb )
  {
    int ix; //declaring an integer variable//
+   string y = "hola";
    for (ix=0; ix<p1size; ix++) {
       if (parm1[ix].m_aNumber == bb )
           return parm1[ix].num2;
@@ -142,13 +169,7 @@ enum suit {
 
   // score=(float)countr/countq*100-difftime(finaltime,initialtime)/3;
 
-  //   int numbersAdded = 3.0;   
-  //     int sum = 23.45;  
-  //     int hex = 0x3F7; 
-  //     int octal = 007; 
-  //     int number = 78;
-  //     int n = 23E-10;  
-  //     int n2 = 23e-5;
+
 %>
 
 <div>

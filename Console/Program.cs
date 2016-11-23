@@ -37,7 +37,6 @@ namespace ConsoleTest
                 //    // file.WriteCode(currentToken.Lexeme);
                 //}
 
-
                var lex = new Lexer.Lexer(new SourceCode(code));
 
                 var parser = new Parser(lex);

@@ -62,7 +62,7 @@ namespace Syntax.Parser
             return accesorNodes;
         }
 
-        public List<AccessorNode> IsArrayDeclaration(bool isInMultiDeclaration)
+        public Tuple<List<AccessorNode>,List<ExpressionNode>> IsArrayDeclaration(bool isInMultiDeclaration)
         {
             List<AccessorNode> accesorNodes = new List<AccessorNode>();
 
@@ -86,14 +86,16 @@ namespace Syntax.Parser
             {
                var accessor2 = BidArray(out isUnidimensional);
                accesorNodes.Add((ArrayAccessorNode)accessor2);
+               //_parser.Utilities.NextToken();
             }
 
-            OptionalInitOfArray(true);
-            //OptionalInitOfArray(true);
-          
+           //_parser.Utilities.NextToken();
+            var assignation = OptionalInitOfArray(true);
+           
             if (_parser.Utilities.CompareTokenType(TokenType.Comma))
             {
-               _parser.Functions.OptionalId();
+                List<IdentifierNode> listOptional = new List<IdentifierNode>();
+                _parser.Functions.OptionalId(listOptional);
             }
 
             if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
@@ -106,17 +108,20 @@ namespace Syntax.Parser
 
             }
 
-            return accesorNodes;
+            return Tuple.Create(accesorNodes,assignation);
         }
 
-        public void OptionalInitOfArray(bool isInMultiDeclaration)
+        public List<ExpressionNode> OptionalInitOfArray(bool isInMultiDeclaration)
         {
+            List<ExpressionNode> list = new List<ExpressionNode>();
             //_parser.Utilities.NextToken();
+            if (_parser.CurrentToken.TokenType != TokenType.OpSimpleAssignment) return list;
+            _parser.Utilities.NextToken();
+
             if (_parser.Utilities.CompareTokenType(TokenType.OpenCurlyBracket))
             {
                 _parser.Utilities.NextToken();
-
-                List<ExpressionNode> list = new List<ExpressionNode>();
+             
                 _parser.ListOfExpressions(list);
 
                 if (_parser.Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
@@ -131,6 +136,8 @@ namespace Syntax.Parser
                 }
                 _parser.Utilities.NextToken();
             }
+
+            return list;
         }
 
         public AccessorNode BidArray(out bool isUnidimensional)
@@ -175,7 +182,13 @@ namespace Syntax.Parser
                 }
                 else
                 {
-                    _parser.Utilities.NextToken();
+                    var expression = _parser.Expressions.Expression();
+                   // _parser.Utilities.NextToken();
+
+                    return new ArrayAccessorNode
+                    {
+                        IndexExpression = expression
+                    };
                 }
               
             }
@@ -183,8 +196,6 @@ namespace Syntax.Parser
             {
                 throw new Exception("Initialization of array is required at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
-
-            return new ArrayAccessorNode();
         }
 
         private ExpressionNode SizeForArray(out bool hasSize)

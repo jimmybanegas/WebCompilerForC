@@ -119,32 +119,18 @@ namespace Syntax.Parser
             }
          
         }
-
-        public void MultiDeclaration()
+        public void OptionalId(List<IdentifierNode> listOptional)
         {
-            OptionalId();
-           
-            //if (_parser.Utilities.CompareTokenType(TokenType.EndOfSentence))
-            //{
-            //    _parser.Utilities.NextToken();
-            //}
-            //else
-            //{
-            //    throw new Exception("An End of sentence ; symbol was expectedat row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
-            //}
-         
-        }
-
-        public void OptionalId()
-        {
+           // var list = new List<IdentifierNode>();
             if (_parser.Utilities.CompareTokenType(TokenType.Comma))
             {
-                _parser.ListOfId();
+                _parser.ListOfId(listOptional);
             }
             else
             {
                 
             }
+           // return list;
         }
 
         public List<ExpressionNode> CallFunction()
@@ -170,7 +156,6 @@ namespace Syntax.Parser
             return listOfExpressions;
 
         }
-
         private List<ExpressionNode> ListOfExpressions(List<ExpressionNode> listOfExpressions)
         {
             if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
@@ -187,9 +172,7 @@ namespace Syntax.Parser
             {
                 _parser.Utilities.NextToken();
 
-                var optionalExpressions = OptionalListOfExpressions(listOfExpressions);
-
-                //listOfExpressions.AddRange(optionalExpressions);
+                OptionalListOfExpressions(listOfExpressions);
             }
             else
             {
@@ -198,10 +181,9 @@ namespace Syntax.Parser
 
             return listOfExpressions;
         }
-
-        private List<ExpressionNode> OptionalListOfExpressions(List<ExpressionNode> listOfExpressions)
+        private void OptionalListOfExpressions(List<ExpressionNode> listOfExpressions)
         {
-            return ListOfExpressions(listOfExpressions);
+            ListOfExpressions(listOfExpressions);
         }
     }
 }

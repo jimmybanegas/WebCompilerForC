@@ -13,6 +13,7 @@ namespace Syntax.Tree
         public List<PointerNode> PointerNodes;
         public DeReferenceNode Reference;
         public UnaryOperator IncrementOrdecrement { get; set; }
+
         public AssignationNode Assignation;
 
         public override void ValidateSemantic()

@@ -60,7 +60,9 @@
     <Compile Include="Tree\Nodes\Acessors\ArrayAccessorNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\LiteralWithOptionalUnaryOpNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\OctalNode.cs" />
+    <Compile Include="Tree\Nodes\Arrays\AssignationForAarray.cs" />
     <Compile Include="Tree\Nodes\Declarations\AssignationNode.cs" />
+    <Compile Include="Tree\Nodes\Declarations\MultideclarationNode.cs" />
     <Compile Include="Tree\Nodes\Functions\CallFunctionNode.cs" />
     <Compile Include="Tree\Nodes\DataTypes\ConstantNode.cs" />
     <Compile Include="Tree\Nodes\Declarations\ContinueNode.cs" />
