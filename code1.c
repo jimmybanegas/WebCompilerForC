@@ -10,7 +10,7 @@
 
 <%  
 
-char plname[20],nplname[20],cha,c;
+char cha,nplname[20],c,plname[20];
 
 int  i = 5, j = 6, k;
 

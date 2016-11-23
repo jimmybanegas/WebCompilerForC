@@ -62,7 +62,7 @@ namespace Syntax.Parser
             return accesorNodes;
         }
 
-        public Tuple<List<AccessorNode>,List<ExpressionNode>> IsArrayDeclaration(bool isInMultiDeclaration)
+        public Tuple<List<AccessorNode>,List<ExpressionNode>> IsArrayDeclaration(bool isInMultiDeclaration, List<IdentifierNode> listOptional)
         {
             List<AccessorNode> accesorNodes = new List<AccessorNode>();
 
@@ -94,7 +94,7 @@ namespace Syntax.Parser
            
             if (_parser.Utilities.CompareTokenType(TokenType.Comma))
             {
-                List<IdentifierNode> listOptional = new List<IdentifierNode>();
+                // List<IdentifierNode> listOptional = new List<IdentifierNode>();
                 _parser.Functions.OptionalId(listOptional);
             }
 

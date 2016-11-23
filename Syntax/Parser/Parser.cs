@@ -1138,7 +1138,7 @@ namespace Syntax.Parser
             }
             else if (Utilities.CompareTokenType(TokenType.Comma))
             {
-                List<IdentifierNode> listOptional = new List<IdentifierNode>();
+                var listOptional = new List<IdentifierNode>();
                 Functions.OptionalId(listOptional);
 
                 if (Utilities.CompareTokenType(TokenType.EndOfSentence))
@@ -1149,12 +1149,16 @@ namespace Syntax.Parser
                 {
                     throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
+
+                return new MultideclarationNode { GeneralNode = generalDecla, ListOfVariables = listOptional };
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
                 bool isInMultideclaration = false;
 
-                var tuppleArray = Arrays.IsArrayDeclaration(isInMultideclaration);
+                List<IdentifierNode> listOptionalArr = new List<IdentifierNode>();
+
+                var tuppleArray = Arrays.IsArrayDeclaration(isInMultideclaration, listOptionalArr);
 
                 generalDecla.NameOfVariable.Accessors.AddRange(tuppleArray.Item1);
                 generalDecla.NameOfVariable.Assignation = new AssignationForAarray {RightValue = tuppleArray.Item2};
@@ -1173,6 +1177,11 @@ namespace Syntax.Parser
                 else
                 {
                     throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+                }
+
+                if (listOptionalArr.Count > 0)
+                {
+                    return new MultideclarationNode { GeneralNode = generalDecla, ListOfVariables = listOptionalArr };
                 }
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
@@ -1260,7 +1269,8 @@ namespace Syntax.Parser
                 {
                     bool isInMultiDeclaration = true;
 
-                    var tupleArray = Arrays.IsArrayDeclaration(isInMultiDeclaration);
+                    //List<IdentifierNode> listOptionalArr = new List<IdentifierNode>();
+                    var tupleArray = Arrays.IsArrayDeclaration(isInMultiDeclaration,list);
                 
                     identifier.Accessors = new List<AccessorNode>();
           
@@ -1390,8 +1400,9 @@ namespace Syntax.Parser
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
                 bool isInMultideclaration = true;
+                List<IdentifierNode> listOptionalArr = new List<IdentifierNode>();
 
-                var tupleArray = Arrays.IsArrayDeclaration(isInMultideclaration);
+                var tupleArray = Arrays.IsArrayDeclaration(isInMultideclaration,listOptionalArr);
                 
                 generalDecla.NameOfVariable.Accessors.AddRange(tupleArray.Item1);
 
