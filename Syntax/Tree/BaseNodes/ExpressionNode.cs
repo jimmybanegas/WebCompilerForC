@@ -1,4 +1,6 @@
-﻿namespace Syntax.Tree.BaseNodes
+﻿using Syntax.Semantic;
+
+namespace Syntax.Tree.BaseNodes
 {
     public abstract class ExpressionNode
     {

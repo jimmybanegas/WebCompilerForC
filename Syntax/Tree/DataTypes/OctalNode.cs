@@ -1,4 +1,6 @@
 ﻿using System;
+using Syntax.Semantic;
+using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
 
 namespace Syntax.Tree.DataTypes
@@ -8,7 +10,7 @@ namespace Syntax.Tree.DataTypes
         public string Value { get; set; }
         public override BaseType ValidateSemantic()
         {
-            throw new NotImplementedException();
+            return new IntType();
         }
 
         public override string GenerateCode()

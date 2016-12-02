@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syntax.Semantic;
 using Syntax.Tree.BaseNodes;
 
 namespace Syntax.Tree.Functions

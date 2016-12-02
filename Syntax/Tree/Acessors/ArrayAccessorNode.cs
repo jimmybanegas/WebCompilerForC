@@ -1,4 +1,5 @@
 ﻿using System;
+using Syntax.Semantic;
 using Syntax.Tree.BaseNodes;
 
 namespace Syntax.Tree.Acessors

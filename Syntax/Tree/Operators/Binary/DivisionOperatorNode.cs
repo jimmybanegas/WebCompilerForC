@@ -1,3 +1,4 @@
+using Syntax.Semantic;
 using Syntax.Tree.BaseNodes;
 
 namespace Syntax.Tree.Operators.Binary

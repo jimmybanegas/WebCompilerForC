@@ -10,11 +10,14 @@
 
 <%  
 
-struct point *p = &my_point;
-struct point my_point = { 3, 7 };
+a->d[2].c =  arr[a->d[2].c];
 
-struct sockaddr_in serv_addr, cli_addr;
-struct MyStruct *secondArray;
+X;
+// struct point *p = &my_point;
+// struct point my_point = { 3, 7 };
+
+// struct sockaddr_in serv_addr, cli_addr;
+// struct MyStruct *secondArray;
 //struct MyStruct myArray[4];
 float v3;
 
@@ -41,6 +44,7 @@ void copy_array(float *src, float *dst, int n)
                            //  then increments both pointers
     }
 }
+
 
 
 char cha,nplname[20],c,plname[20];

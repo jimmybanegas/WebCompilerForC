@@ -46,6 +46,17 @@
     <Compile Include="Parser\LoopsAndConditionals.cs" />
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Parser\Utilities.cs" />
+    <Compile Include="Exceptions\SemanticException.cs" />
+    <Compile Include="Semantic\Types\EnumType.cs" />
+    <Compile Include="Semantic\Types\BooleanType.cs" />
+    <Compile Include="Semantic\Types\CharType.cs" />
+    <Compile Include="Semantic\Types\ConstType.cs" />
+    <Compile Include="Semantic\Types\DateType.cs" />
+    <Compile Include="Semantic\Types\IntType.cs" />
+    <Compile Include="Semantic\Types\FloatType.cs" />
+    <Compile Include="Semantic\Types\StructType.cs" />
+    <Compile Include="Semantic\Types\StringType.cs" />
+    <Compile Include="Semantic\TypesTable.cs" />
     <Compile Include="Tree\Acessors\DeReferenceNode.cs" />
     <Compile Include="Tree\Operators\Unary\ExpressionUnaryNode.cs" />
     <Compile Include="Tree\Identifier\IdentifierExpression.cs" />
@@ -130,7 +141,7 @@
     <Compile Include="Tree\BaseNodes\UnaryOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tree\Acessors\AccessorNode.cs" />
-    <Compile Include="Tree\BaseNodes\BaseType.cs" />
+    <Compile Include="Semantic\BaseType.cs" />
     <Compile Include="Tree\BaseNodes\BinaryOperatorNode.cs" />
     <Compile Include="Tree\DataTypes\DateNode.cs" />
     <Compile Include="Tree\DataTypes\DecimalNode.cs" />
