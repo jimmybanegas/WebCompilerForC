@@ -6,11 +6,6 @@ namespace Syntax.Tree.Operators.Binary
 {
     class SimpleAssignmentOperatorNode : BinaryOperatorNode
     {
-        public SimpleAssignmentOperatorNode()
-        {
-
-        }
-
         public override BaseType ValidateSemantic()
         {
             throw new NotImplementedException();

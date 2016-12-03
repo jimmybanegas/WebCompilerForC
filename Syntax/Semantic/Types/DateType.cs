@@ -8,5 +8,10 @@ namespace Syntax.Semantic.Types
         {
             return "Date";
         }
+
+        public override bool IsAssignable(BaseType otherType)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

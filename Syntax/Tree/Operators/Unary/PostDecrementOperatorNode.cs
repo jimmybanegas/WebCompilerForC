@@ -8,7 +8,7 @@ namespace Syntax.Tree.Operators.Unary
     {
         public override BaseType ValidateSemantic()
         {
-            throw new NotImplementedException();
+           return Operand.ValidateSemantic();
         }
 
         public override string GenerateCode()

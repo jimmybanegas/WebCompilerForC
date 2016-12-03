@@ -241,23 +241,23 @@ namespace Syntax.Parser
             //    if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber))
             //    {
             //        _parser.Utilities.NextToken();
-            //       // return  new IntegerNode { Value = Convert.ToInt32(_parser.CurrentToken.Lexeme) };
+            //       // return  new IntegerNode { Name = Convert.ToInt32(_parser.CurrentToken.Lexeme) };
             //       //return new ArrayAccessorNode { IndexExpression =  }
             //    }
             //    if (_parser.Utilities.CompareTokenType(TokenType.LiteralOctal))
             //    {
             //        _parser.Utilities.NextToken();
-            //        //return new OctalNode() { Value = _parser.CurrentToken.Lexeme };
+            //        //return new OctalNode() { Name = _parser.CurrentToken.Lexeme };
             //    }
             //    if (_parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal))
             //    {
             //        _parser.Utilities.NextToken();
-            //       // return new HexadecimalNode { Value = _parser.CurrentToken.Lexeme };
+            //       // return new HexadecimalNode { Name = _parser.CurrentToken.Lexeme };
             //    }
             //    if (_parser.Utilities.CompareTokenType(TokenType.Identifier))
             //    {
             //        _parser.Utilities.NextToken();
-            //        //return new IdentifierExpression { Value = _parser.CurrentToken.Lexeme };
+            //        //return new IdentifierExpression { Name = _parser.CurrentToken.Lexeme };
       //    }
             if (_parser.Utilities.CompareTokenType(TokenType.LiteralNumber)
                 || _parser.Utilities.CompareTokenType(TokenType.LiteralOctal)

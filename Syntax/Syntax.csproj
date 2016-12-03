@@ -131,7 +131,6 @@
     <Compile Include="Tree\Operators\Binary\SubstractionOperatorNode.cs" />
     <Compile Include="Tree\Operators\Unary\BitAndOperatorNode.cs" />
     <Compile Include="Tree\Operators\Unary\BitOrOperatorNode.cs" />
-    <Compile Include="Tree\Operators\Unary\BitXorOperatorNode.cs" />
     <Compile Include="Tree\Operators\Unary\ComplementOperatorNode.cs" />
     <Compile Include="Tree\Operators\Unary\PostDecrementOperatorNode.cs" />
     <Compile Include="Tree\Operators\Unary\PostIncrementOperatorNode.cs" />
@@ -153,7 +152,6 @@
     <Compile Include="Tree\DataTypes\StringNode.cs" />
     <Compile Include="Tree\DataTypes\IntegerNode.cs" />
     <Compile Include="Tree\Operators\Unary\NotOperatorNode.cs" />
-    <Compile Include="Tree\Operators\Unary\ReferenceOperatorNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lexer\Lexer.csproj">

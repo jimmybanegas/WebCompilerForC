@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Lexer;
-using Syntax.Tree;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.DataTypes;
@@ -9,7 +8,6 @@ using Syntax.Tree.Functions;
 using Syntax.Tree.Identifier;
 using Syntax.Tree.Operators.Binary;
 using Syntax.Tree.Operators.Unary;
-using BitXorOperatorNode = Syntax.Tree.Operators.Unary.BitXorOperatorNode;
 
 namespace Syntax.Parser
 {
@@ -385,16 +383,16 @@ namespace Syntax.Parser
                 _parser.Utilities.NextToken();
                 return new NotOperatorNode();
             }
-            if (_parser.Utilities.CompareTokenType(TokenType.OpBitXor))
-            {
-                _parser.Utilities.NextToken();
-                return new BitXorOperatorNode();
-            }
-            if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
-            {
-                _parser.Utilities.NextToken();
-                return new ReferenceOperatorNode();
-            }
+            //if (_parser.Utilities.CompareTokenType(TokenType.OpBitXor))
+            //{
+            //    _parser.Utilities.NextToken();
+            //    return new BitXorOperatorNode();
+            //}
+            //if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
+            //{
+            //    _parser.Utilities.NextToken();
+            //    return new ReferenceOperatorNode();
+            //}
             if (_parser.Utilities.CompareTokenType(TokenType.OpSubstraction))
             {
                 _parser.Utilities.NextToken();
@@ -409,7 +407,7 @@ namespace Syntax.Parser
             if (_parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
                 var value = _parser.CurrentToken.Lexeme;
-                var identifier = new IdentifierExpression {Value = value};
+                var identifier = new IdentifierExpression {Name = value};
 
                 _parser.Utilities.NextToken();
 
@@ -422,7 +420,7 @@ namespace Syntax.Parser
                         identifier = new IdentifierExpression
                         {
                             Accessors = null,
-                            Value = value,
+                            Name = value,
                             IncrementOrdecrement = new PostIncrementOperatorNode { Value = _parser.CurrentToken.Lexeme }
                         };
                     }
@@ -431,10 +429,10 @@ namespace Syntax.Parser
                         identifier = new IdentifierExpression
                         {
                             Accessors = null,
-                            Value = value,
+                            Name = value,
                             IncrementOrdecrement = new PostDecrementOperatorNode { Value = _parser.CurrentToken.Lexeme }
                         };
-                        // identifier = new PostDecrementOperatorNode { Value = _parser.CurrentToken.Lexeme }
+                        // identifier = new PostDecrementOperatorNode { Name = _parser.CurrentToken.Lexeme }
                     }
 
                   
@@ -585,7 +583,7 @@ namespace Syntax.Parser
                     return IndexOrArrowAccess(value, listOfAccessors);
                 }
 
-                return new IdentifierExpression {Accessors = listOfAccessors, Value = value};
+                return new IdentifierExpression {Accessors = listOfAccessors, Name = value};
 
             }
 
@@ -609,7 +607,7 @@ namespace Syntax.Parser
 
                 return IndexOrArrowAccess(value, listOfAccessors);
             }
-            return new IdentifierExpression {Accessors = listOfAccessors, Value = value };
+            return new IdentifierExpression {Accessors = listOfAccessors, Name = value };
         }
 
         public bool ArrowOrPointer(List<AccessorNode> listOfAccessors)

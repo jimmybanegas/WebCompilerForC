@@ -1,18 +1,15 @@
 ﻿using System;
 using Syntax.Semantic;
+using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
 
 namespace Syntax.Tree.Operators.Unary
 {
     public class ComplementOperatorNode : UnaryOperator
     {
-        public ComplementOperatorNode()
+       public override BaseType ValidateSemantic()
         {
-        }
-
-        public override BaseType ValidateSemantic()
-        {
-            throw new NotImplementedException();
+            return new IntType();
         }
 
         public override string GenerateCode()

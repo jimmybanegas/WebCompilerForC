@@ -7,6 +7,7 @@ namespace Syntax.Tree.Operators.Unary
     public class ExpressionUnaryNode : ExpressionNode
     {
         public UnaryOperator UnaryOperator;
+
         public ExpressionNode Factor;
         public override BaseType ValidateSemantic()
         {

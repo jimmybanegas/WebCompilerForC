@@ -589,7 +589,7 @@ namespace Syntax.Parser
             var id = Expressions.IndexOrArrowAccess(name,accessors);
 
             identifier.Accessors.AddRange(accessors);
-            identifier.Value = ((IdentifierExpression) id).Value;
+            identifier.Value = ((IdentifierExpression) id).Name;
        
             if (Utilities.CompareTokenType(TokenType.OpIncrement)
                   || Utilities.CompareTokenType(TokenType.OpDecrement))
@@ -614,7 +614,7 @@ namespace Syntax.Parser
             if (isFunctionCall)
             {
                 return new FunctionCallNode {Name = identifier, Parameters = expressionList};
-               // return new CallFunctionNode {Name = identifier.Value, ListOfExpressions = expressionList};
+               // return new CallFunctionNode {Name = identifier.Name, ListOfExpressions = expressionList};
             }
 
             if (expressionList.Count>0)
@@ -758,13 +758,13 @@ namespace Syntax.Parser
             if (!Utilities.CompareTokenType(TokenType.Identifier))
                 throw new Exception("Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
 
-            structNode.Name= new IdentifierExpression {Accessors = new List<AccessorNode>(), Value = CurrentToken.Lexeme};
+            structNode.Name= new IdentifierExpression {Accessors = new List<AccessorNode>(), Name = CurrentToken.Lexeme};
 
             Utilities.NextToken();
 
             List<StructItemNode> structItems = new List<StructItemNode>();
 
-           var structDeclaration =  StructDeclarationOrInitialization(structItems,structNode.Name.Value);
+           var structDeclaration =  StructDeclarationOrInitialization(structItems,structNode.Name.Name);
 
             structNode.ListOfItems = structItems;
 

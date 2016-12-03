@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syntax.Semantic.Types;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Declarations;
@@ -16,7 +17,7 @@ namespace Syntax.Tree.DataTypes
         public AssignationNode Assignation;
         public override void ValidateSemantic()
         {
-            throw new NotImplementedException();
+            //return new ConstType();
         }
 
         public override string GenerateCode()

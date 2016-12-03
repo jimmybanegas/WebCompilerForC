@@ -10,6 +10,7 @@ namespace Syntax.Semantic
     public class TypesTable
     {
         public Dictionary<string, BaseType> Table;
+
         private static TypesTable _instance;
 
         private TypesTable()
@@ -22,15 +23,24 @@ namespace Syntax.Semantic
                 {"date", new DateType()},
                 {"char", new CharType()},
                 {"bool", new BooleanType()},
-                {"const", new ConstType()},
+              //  {"const", new ConstType()},
                 {"struct", new StructType()},
                 {"enum", new EnumType() }
             };
             //_table.Add("function", new FunctionType());
-
         }
 
-        public static TypesTable Instance => _instance ?? (_instance = new TypesTable());
+       public static TypesTable Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new TypesTable();
+                }
+                return _instance;
+            }
+        }
 
         public void RegisterType(string name, BaseType baseType)
         {
@@ -39,10 +49,13 @@ namespace Syntax.Semantic
                 throw new SemanticException($"Type :{name} exists.");
             }
 
+            //if (Table.)
+            //    throw new SemanticException($"  :{name} is a type.");
+
             Table.Add(name, baseType);
         }
 
-        public BaseType GetType(string name)
+        public BaseType GetVariable(string name)
         {
             if (Table.ContainsKey(name))
             {

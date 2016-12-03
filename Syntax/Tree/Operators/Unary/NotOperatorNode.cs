@@ -1,4 +1,5 @@
 ﻿using Syntax.Semantic;
+using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
 
 namespace Syntax.Tree.Operators.Unary
@@ -8,7 +9,7 @@ namespace Syntax.Tree.Operators.Unary
 
         public override BaseType ValidateSemantic()
         {
-            return null;
+            return new BooleanType();
         }
 
         public override string GenerateCode()
