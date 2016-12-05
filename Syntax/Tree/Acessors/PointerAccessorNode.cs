@@ -11,7 +11,16 @@ namespace Syntax.Tree.Acessors
 
         public override BaseType ValidateSemantic()
         {
-            throw new NotImplementedException();
+            var idNodeType = TypesTable.Instance.GetVariable(IdentifierNode.Value);
+
+            return idNodeType;
+        }
+
+        public override BaseType ValidateSemanticType(string type)
+        {
+            var idNodeType = TypesTable.Instance.GetVariable(IdentifierNode.Value);
+
+            return idNodeType;
         }
 
         public override string GenerateCode()

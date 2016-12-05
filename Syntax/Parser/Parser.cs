@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using Lexer;
-using Syntax.Tree;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.Arrays;
 using Syntax.Tree.BaseNodes;
@@ -11,7 +9,6 @@ using Syntax.Tree.Declarations;
 using Syntax.Tree.Functions;
 using Syntax.Tree.GeneralSentences;
 using Syntax.Tree.Identifier;
-using Syntax.Tree.Operators.Binary;
 using Syntax.Tree.Operators.Unary;
 using Syntax.Tree.Struct;
 

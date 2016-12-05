@@ -49,9 +49,6 @@ namespace Syntax.Semantic
                 throw new SemanticException($"Type :{name} exists.");
             }
 
-            //if (Table.)
-            //    throw new SemanticException($"  :{name} is a type.");
-
             Table.Add(name, baseType);
         }
 

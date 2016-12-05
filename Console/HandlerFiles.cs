@@ -6,7 +6,7 @@ namespace ConsoleTest
 {
     class HandlerFiles
     {
-        public readonly string _defaultPath = Directory.GetParent(@"..\..\..\").FullName + @"\code1.c";
+        public readonly string _defaultPath = Directory.GetParent(@"..\..\..\").FullName + @"\semantic.c";
         public readonly string _defaultPathLexer = Directory.GetParent(@"..\..\..\").FullName + @"\lexer.c";
 
         public HandlerFiles()
@@ -29,7 +29,6 @@ namespace ConsoleTest
 
             }
             catch (Exception e)
-
             {
                 Console.Write(" No se ha encontrado el archivo");
                 return "";
@@ -46,7 +45,7 @@ namespace ConsoleTest
             }
             catch (Exception e)
             {
-                System.Console.Write(" No se ha encontrado el archivo");
+                Console.Write(" No se ha encontrado el archivo");
             }
         }
     }

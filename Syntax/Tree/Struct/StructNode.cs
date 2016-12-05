@@ -11,7 +11,7 @@ namespace Syntax.Tree.Struct
         public List<StructItemNode> ListOfItems;
         public override void ValidateSemantic()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public override string GenerateCode()

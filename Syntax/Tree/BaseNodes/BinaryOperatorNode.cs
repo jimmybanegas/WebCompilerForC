@@ -25,7 +25,7 @@ namespace Syntax.Tree.BaseNodes
                 return result;
             }
 
-            throw new SemanticException($"You can't divide two varibles of different types: {leftType} and {rightType}");
+            throw new SemanticException($"You can't operate two varibles of different types: {leftType} and {rightType}");
         }
 
     }

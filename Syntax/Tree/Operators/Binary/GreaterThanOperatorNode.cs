@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Syntax.Semantic;
+using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
 
 namespace Syntax.Tree.Operators.Binary
@@ -11,6 +12,9 @@ namespace Syntax.Tree.Operators.Binary
         {
             Validation = new Dictionary<Tuple<BaseType, BaseType>, BaseType>
             {
+                //{
+                //    new Tuple<BaseType, BaseType>(new IntType(), new IntType()), new BooleanType()
+                //},
                 {
                     new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("int"),
                         TypesTable.Instance.GetVariable("int")),

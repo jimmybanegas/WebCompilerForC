@@ -45,6 +45,7 @@
     <Compile Include="Parser\Functions.cs" />
     <Compile Include="Parser\LoopsAndConditionals.cs" />
     <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Tree\Operators\Unary\ReferenceOperatorNode.cs" />
     <Compile Include="Parser\Utilities.cs" />
     <Compile Include="Exceptions\SemanticException.cs" />
     <Compile Include="Semantic\Types\EnumType.cs" />
@@ -73,13 +74,13 @@
     <Compile Include="Tree\Arrays\AssignationForAarray.cs" />
     <Compile Include="Tree\Declarations\AssignationNode.cs" />
     <Compile Include="Tree\Declarations\MultideclarationNode.cs" />
-    <Compile Include="Tree\Functions\CallFunctionNode.cs" />
+    <Compile Include="Tree\LoopsAndConditions\Functions\CallFunctionNode.cs" />
     <Compile Include="Tree\DataTypes\ConstantNode.cs" />
     <Compile Include="Tree\GeneralSentences\ContinueNode.cs" />
     <Compile Include="Tree\Declarations\DeclarationNode.cs" />
     <Compile Include="Tree\Declarations\EnumerationNode.cs" />
     <Compile Include="Tree\Declarations\EnumItemNode.cs" />
-    <Compile Include="Tree\Functions\FunctionCallNode.cs" />
+    <Compile Include="Tree\LoopsAndConditions\Functions\FunctionCallNode.cs" />
     <Compile Include="Tree\Declarations\GeneralDeclarationNode.cs" />
     <Compile Include="Tree\GeneralSentences\IncludeNode.cs" />
     <Compile Include="Tree\Acessors\PointerAccessorNode.cs" />
@@ -88,7 +89,7 @@
     <Compile Include="Tree\Struct\StructDeclaration.cs" />
     <Compile Include="Tree\Struct\StructItemNode.cs" />
     <Compile Include="Tree\Struct\StructNode.cs" />
-    <Compile Include="Tree\Functions\FunctionDeclarationNode.cs" />
+    <Compile Include="Tree\LoopsAndConditions\Functions\FunctionDeclarationNode.cs" />
     <Compile Include="Tree\LoopsAndConditions\BreakNode.cs" />
     <Compile Include="Tree\LoopsAndConditions\CaseStatement.cs" />
     <Compile Include="Tree\LoopsAndConditions\DoWhileNode.cs" />

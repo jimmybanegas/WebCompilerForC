@@ -11,7 +11,14 @@ namespace Syntax.Tree.Declarations
         public List<IdentifierNode> ListOfVariables;
         public override void ValidateSemantic()
         {
-            throw new NotImplementedException();
+
+            GeneralNode.ValidateSemantic();
+
+            foreach (var variable in ListOfVariables)
+            {
+                variable.ValidateSemantic();
+                variable.ValidateTypeSemantic();
+            }
         }
 
         public override string GenerateCode()

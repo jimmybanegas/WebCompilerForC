@@ -66,10 +66,7 @@ namespace Syntax.Parser
 
                 return RelationalExpressionPrime(operation);
             }
-            else
-            {
-                return expression;
-            }
+            return expression;
         }
 
         private BinaryOperatorNode RelationalOperators()
@@ -194,35 +191,7 @@ namespace Syntax.Parser
                 _parser.Utilities.NextToken();
                 return new SimpleAssignmentOperatorNode();
             }
-            //if (_parser.Utilities.CompareTokenType(TokenType.OpLessThan)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpLessThanOrEqualTo)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpGreaterThan)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpGreaterThanOrEqualTo)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpAnd)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpLogicalOr)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpBitShiftRight)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpBitShiftLeft)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpEqualTo)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpBitAnd)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpBitOr)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpBitXor)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpNotEqualTo)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpAddAndAssignment)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpSusbtractAndAssignment)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpMultiplyAndAssignment)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpDivideAssignment)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpModulusAssignment)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseAndAssignment)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseXorAndAssignment)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpBitwiseInclusiveOrAndAssignment)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
-            //{
-            //    _parser.Utilities.NextToken();
-            //}
-            else
-            {
-                throw new Exception("A relational operator was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
-            }
+            throw new Exception("A relational operator was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
         }
 
         private ExpressionNode ExpressionAddition()
@@ -265,15 +234,8 @@ namespace Syntax.Parser
                 _parser.Utilities.NextToken();
                 return new SubstractionOperatorNode();
             }
-            //if (_parser.Utilities.CompareTokenType(TokenType.OpAdd)
-            //    ||_parser.Utilities.CompareTokenType(TokenType.OpSubstraction))
-            //{
-            //    _parser.Utilities.NextToken();
-            //}
-            else
-            {
-                throw new Exception("An additive operator was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
-            }
+
+            throw new Exception("An additive operator was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
         }
 
         private ExpressionNode ExpressionMultiplication()
@@ -388,11 +350,11 @@ namespace Syntax.Parser
             //    _parser.Utilities.NextToken();
             //    return new BitXorOperatorNode();
             //}
-            //if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
-            //{
-            //    _parser.Utilities.NextToken();
-            //    return new ReferenceOperatorNode();
-            //}
+            if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
+            {
+                _parser.Utilities.NextToken();
+                return new ReferenceOperatorNode();
+            }
             if (_parser.Utilities.CompareTokenType(TokenType.OpSubstraction))
             {
                 _parser.Utilities.NextToken();

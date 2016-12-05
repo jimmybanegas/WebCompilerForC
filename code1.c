@@ -10,19 +10,21 @@
 
 <%  
 
-a->d[2].c =  arr[a->d[2].c];
+//a->d[2].c =  arr[a->d[2].c];
 
-X;
 // struct point *p = &my_point;
 // struct point my_point = { 3, 7 };
 
 // struct sockaddr_in serv_addr, cli_addr;
 // struct MyStruct *secondArray;
 //struct MyStruct myArray[4];
-float v3;
+ float v3;
 
  int   someSize;
  int   ix;
+ string x = "hola";
+
+ int c = ix+x;
 
 void add(struct distance d1,struct distance d2, struct distance *d3) 
 {

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syntax.Exceptions;
+using Syntax.Semantic;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Declarations;
@@ -19,7 +21,28 @@ namespace Syntax.Tree.Identifier
 
         public override void ValidateSemantic()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+        }
+
+        public  BaseType ValidateTypeSemantic()
+        {
+            //if (TypesTable.Instance.VariableExist(Value))
+            //{
+            //    return TypesTable.Instance.GetVariable(Value);
+            //}
+
+            var type = TypesTable.Instance.GetVariable(Value);
+
+
+            foreach (var variable in Accessors)
+            {
+                type = variable.ValidateSemanticType(Value);
+
+            }
+
+            return type;
+
+            //throw new SemanticException($"No se puede asignar {rTipo} a {lTipo}");
         }
 
         public override string GenerateCode()
@@ -31,8 +54,6 @@ namespace Syntax.Tree.Identifier
             foreach (var accesorNode in Accessors)
             {
                 accesors = accesors + accesorNode.GenerateCode();
-
-
             }
 
             return Value + accesors;

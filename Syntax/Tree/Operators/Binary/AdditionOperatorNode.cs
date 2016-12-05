@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Syntax.Semantic;
+using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
 
 namespace Syntax.Tree.Operators.Binary
@@ -67,7 +68,6 @@ namespace Syntax.Tree.Operators.Binary
                         TypesTable.Instance.GetVariable("bool")),
                     TypesTable.Instance.GetVariable("bool")
                 }
-
             };
         }
 

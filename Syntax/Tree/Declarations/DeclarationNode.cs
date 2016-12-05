@@ -5,19 +5,19 @@ using Syntax.Tree.Identifier;
 
 namespace Syntax.Tree.Declarations
 {
-    public class DeclarationNode : TypeOfDeclaration
-    {
-        public IdentifierNode TypeOfIdentifier;
-        public List<TypeOfDeclaration> ListOfIdentifiers;
+    //public class DeclarationNode : TypeOfDeclaration
+    //{
+    //    public IdentifierNode TypeOfIdentifier;
+    //    public List<TypeOfDeclaration> ListOfIdentifiers;
 
-        public override void ValidateSemantic()
-        {
-            throw new NotImplementedException();
-        }
+    //    public override void ValidateSemantic()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        public override string GenerateCode()
-        {
-            throw new NotImplementedException();
-        }
-    }
+    //    public override string GenerateCode()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 }

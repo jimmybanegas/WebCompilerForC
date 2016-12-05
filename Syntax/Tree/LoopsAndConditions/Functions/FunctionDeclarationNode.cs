@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Declarations;
 
-namespace Syntax.Tree.Functions
+namespace Syntax.Tree.LoopsAndConditions.Functions
 {
     public class FunctionDeclarationNode : StatementNode
     {
@@ -13,7 +13,7 @@ namespace Syntax.Tree.Functions
 
         public override void ValidateSemantic()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public override string GenerateCode()

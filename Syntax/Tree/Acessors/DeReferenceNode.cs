@@ -9,7 +9,7 @@ namespace Syntax.Tree.Acessors
         public string Value;
         public override void ValidateSemantic()
         {
-            throw new NotImplementedException();
+          //  throw new NotImplementedException();
         }
 
         public override string GenerateCode()

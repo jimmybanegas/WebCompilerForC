@@ -7,6 +7,7 @@ using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Declarations;
 using Syntax.Tree.Functions;
 using Syntax.Tree.Identifier;
+using Syntax.Tree.LoopsAndConditions.Functions;
 
 namespace Syntax.Parser
 {

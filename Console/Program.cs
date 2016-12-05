@@ -43,8 +43,9 @@ namespace ConsoleTest
 
                var root = parser.Parse();
 
-                foreach (var statementNode in root)
+               foreach (var statementNode in root)
                 {
+                    statementNode.ValidateSemantic();
                     Console.WriteLine(statementNode);
                 }
 
