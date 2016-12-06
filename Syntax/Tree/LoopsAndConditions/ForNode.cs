@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Syntax.Exceptions;
+using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
 
@@ -15,6 +16,8 @@ namespace Syntax.Tree.LoopsAndConditions
 
         public override void ValidateSemantic()
         {
+            StackContext.Context.Stack.Push(new TypesTable());
+             
             var conditional1 = FirstCondition.ValidateSemantic();
             var conditional2 = SecondCondition.ValidateSemantic();
             var conditional3 = ThirdCondition.ValidateSemantic();
@@ -32,6 +35,8 @@ namespace Syntax.Tree.LoopsAndConditions
             {
                 statement.ValidateSemantic();
             }
+
+            StackContext.Context.Stack.Pop();
         }
 
         public override string GenerateCode()

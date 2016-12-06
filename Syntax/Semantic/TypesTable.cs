@@ -16,17 +16,17 @@ namespace Syntax.Semantic
 
         public TypesTable()
         {
-            //Table = new Dictionary<string, BaseType>
-            //{
-            //    {"int", new IntType()},
-            //    {"string", new StringType()},
-            //    {"float", new FloatType()},
-            //    {"date", new DateType()},
-            //    {"char", new CharType()},
-            //    {"bool", new BooleanType()},
-            //    {"struct", new StructType()},
-            //    {"enum", new EnumType() }
-            //};
+            Table = new Dictionary<string, BaseType>
+            {
+                {"int", new IntType()},
+                {"string", new StringType()},
+                {"float", new FloatType()},
+                {"date", new DateType()},
+                {"char", new CharType()},
+                {"bool", new BooleanType()},
+                {"struct", new StructType()},
+                {"enum", new EnumType() }
+            };
             //_table.Add("function", new FunctionType());
         }
         public static TypesTable Instance

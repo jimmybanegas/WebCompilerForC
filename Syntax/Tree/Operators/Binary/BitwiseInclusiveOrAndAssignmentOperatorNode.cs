@@ -13,23 +13,23 @@ namespace Syntax.Tree.Operators.Binary
             {
                 {
                     new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("int"),
-                        TypesTable.Instance.GetVariable("int")),
-                    TypesTable.Instance.GetVariable("int")
+                       StackContext.Context.GetGeneralType("int")),
+                   StackContext.Context.GetGeneralType("int")
                 },
                 {
                     new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("char"),
-                        TypesTable.Instance.GetVariable("char")),
-                    TypesTable.Instance.GetVariable("int")
+                       StackContext.Context.GetGeneralType("char")),
+                   StackContext.Context.GetGeneralType("int")
                 },
                 {
                     new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("int"),
-                        TypesTable.Instance.GetVariable("char")),
-                    TypesTable.Instance.GetVariable("int")
+                       StackContext.Context.GetGeneralType("char")),
+                   StackContext.Context.GetGeneralType("int")
                 },
                 {
                     new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("char"),
-                        TypesTable.Instance.GetVariable("int")),
-                    TypesTable.Instance.GetVariable("int")
+                       StackContext.Context.GetGeneralType("int")),
+                   StackContext.Context.GetGeneralType("int")
                 }
             };
         }

@@ -12,9 +12,9 @@ namespace Syntax.Tree.Operators.Binary
             Validation = new Dictionary<Tuple<BaseType, BaseType>, BaseType>
             {
                  {
-                    new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("int"),
-                            TypesTable.Instance.GetVariable("int")),
-                        TypesTable.Instance.GetVariable("int")
+                    new Tuple<BaseType, BaseType>(StackContext.Context.GetGeneralType("int"),
+                            StackContext.Context.GetGeneralType("int")),
+                        StackContext.Context.GetGeneralType("int")
                 }
             };
         }
