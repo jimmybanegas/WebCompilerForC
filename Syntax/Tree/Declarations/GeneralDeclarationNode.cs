@@ -18,7 +18,8 @@ namespace Syntax.Tree.Declarations
         {
             var type = DataType.ValidateTypeSemantic();
 
-            TypesTable.Instance.RegisterType(NameOfVariable.Value,type);
+            // TypesTable.Instance.RegisterType(NameOfVariable.Value,type);
+            StackContext.Context.Stack.Peek().RegisterType(NameOfVariable.Value, type);
 
             if (NameOfVariable.Assignation !=null)
             {

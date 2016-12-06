@@ -12,7 +12,8 @@ namespace Syntax.Tree.DataTypes
         {
             //  return new DateType();
 
-            return TypesTable.Instance.GetVariable("date");
+            //return TypesTable.Instance.GetVariable("date");
+            return StackContext.Context.GetGeneralType("date");
         }
 
         public override string GenerateCode()

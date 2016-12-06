@@ -11,7 +11,8 @@ namespace Syntax.Tree.DataTypes
         public override BaseType ValidateSemantic()
         {
             //return new CharType();
-            return TypesTable.Instance.GetVariable("char");
+            // return TypesTable.Instance.GetVariable("char");
+            return StackContext.Context.GetGeneralType("char");
         }
 
         public override string GenerateCode()

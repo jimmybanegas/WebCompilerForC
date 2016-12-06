@@ -16,9 +16,9 @@ namespace Syntax.Tree.Operators.Binary
                 //    new Tuple<BaseType, BaseType>(new IntType(), new IntType()), new BooleanType()
                 //},
                 {
-                    new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("int"),
-                        TypesTable.Instance.GetVariable("int")),
-                    TypesTable.Instance.GetVariable("bool")
+                    new Tuple<BaseType, BaseType>( StackContext.Context.GetGeneralType("int"),
+                        StackContext.Context.GetGeneralType("int")),
+                    StackContext.Context.GetGeneralType("bool")
                 },
                 {
                     new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("float"),

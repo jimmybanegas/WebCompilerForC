@@ -19,7 +19,7 @@ namespace Syntax.Tree.LoopsAndConditions
 
             TypesTable.Instance.RegisterType(Item.Value,type);
 
-            TypesTable.Instance.RegisterType(List.Value, type);
+          //  TypesTable.Instance.RegisterType(List.Value, type);
 
         }
 

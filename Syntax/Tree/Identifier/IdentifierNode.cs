@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Syntax.Exceptions;
 using Syntax.Semantic;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
@@ -31,15 +30,25 @@ namespace Syntax.Tree.Identifier
             //    return TypesTable.Instance.GetVariable(Value);
             //}
 
-            var type = TypesTable.Instance.GetVariable(Value);
+            //  var type = TypesTable.Instance.GetVariable(Value);
 
+            var type = StackContext.Context.GetGeneralType(Value);
 
-            foreach (var variable in Accessors)
+            // var type2 = StackContext.Context.Stack.Peek().GetVariable(Value);
+
+            //StackContext.Context.Stack.Push(new TypesTable());
+
+            //var contextos = 
+
+            if (Accessors != null)
             {
-                type = variable.ValidateSemanticType(Value);
+                foreach (var variable in Accessors)
+                {
+                    type = variable.ValidateSemanticType(Value);
 
+                }
             }
-
+           
             return type;
            
         }

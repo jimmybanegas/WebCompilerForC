@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,23 +14,22 @@ namespace Syntax.Semantic
 
         private static TypesTable _instance;
 
-        private TypesTable()
+        public TypesTable()
         {
-            Table = new Dictionary<string, BaseType>
-            {
-                {"int", new IntType()},
-                {"string", new StringType()},
-                {"float", new FloatType()},
-                {"date", new DateType()},
-                {"char", new CharType()},
-                {"bool", new BooleanType()},
-                {"struct", new StructType()},
-                {"enum", new EnumType() }
-            };
+            //Table = new Dictionary<string, BaseType>
+            //{
+            //    {"int", new IntType()},
+            //    {"string", new StringType()},
+            //    {"float", new FloatType()},
+            //    {"date", new DateType()},
+            //    {"char", new CharType()},
+            //    {"bool", new BooleanType()},
+            //    {"struct", new StructType()},
+            //    {"enum", new EnumType() }
+            //};
             //_table.Add("function", new FunctionType());
         }
-
-       public static TypesTable Instance
+        public static TypesTable Instance
         {
             get
             {
@@ -43,7 +43,7 @@ namespace Syntax.Semantic
 
         public void RegisterType(string name, BaseType baseType)
         {
-            if (Table.ContainsKey(name))
+            if (StackContext.Context.Stack.Peek().Table.ContainsKey(name))
             {
                 throw new SemanticException($"Type :{name} exists.");
             }
@@ -53,9 +53,17 @@ namespace Syntax.Semantic
 
         public BaseType GetVariable(string name)
         {
-            if (Table.ContainsKey(name))
+            //if (Table.ContainsKey(name))
+            //{
+            //    return Table[name];
+            //}
+
+            foreach (var stack in StackContext.Context.Stack)
             {
-                return Table[name];
+                if (stack.Table.ContainsKey(name))
+                {
+                    return stack.Table[name];
+                }
             }
 
             throw new SemanticException($"Type :{name} doesn't exists.");
@@ -63,10 +71,62 @@ namespace Syntax.Semantic
 
         public bool VariableExist(string name)
         {
-            return Table.ContainsKey(name);
+
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                if (stack.Table.ContainsKey(name))
+                {
+                    return stack.VariableExist(name);
+                }
+            }
+
+            return false;
+            // return StackContext.Context.Stack.Peek().Table.ContainsKey(name);
         }
 
     }
 
+    public class StackContext
+    {
+        private static StackContext _context;
+        public Stack<TypesTable> Stack = new Stack<TypesTable>();
+        public Dictionary<string, BaseType> TableOfTypes;
+
+        private StackContext()
+        {
+           Stack.Push(new TypesTable());
+
+            TableOfTypes = new Dictionary<string, BaseType>
+            {
+                {"int", new IntType()},
+                {"string", new StringType()},
+                {"float", new FloatType()},
+                {"date", new DateType()},
+                {"char", new CharType()},
+                {"bool", new BooleanType()},
+                {"struct", new StructType()},
+                {"enum", new EnumType() }
+            };
+        }
+
+        public static StackContext Context
+        {
+            get
+            {
+                if (_context == null)
+                {
+                    _context = new StackContext();
+                }
+                return _context;
+            }
+        }
+
+        public BaseType GetGeneralType(string name)
+        {
+            return TableOfTypes[name];
+        }
+
+    }
 
 }
+

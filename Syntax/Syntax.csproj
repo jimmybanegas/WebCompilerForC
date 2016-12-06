@@ -62,7 +62,6 @@
     <Compile Include="Tree\Operators\Unary\ExpressionUnaryNode.cs" />
     <Compile Include="Tree\Identifier\IdentifierExpression.cs" />
     <Compile Include="Tree\Acessors\PointerNode.cs" />
-    <Compile Include="Tree\Arrays\ArrayDeclarationNode.cs" />
     <Compile Include="Tree\BaseNodes\ForLoopNode.cs" />
     <Compile Include="Tree\BaseNodes\TypeOfDeclaration.cs" />
     <Compile Include="Tree\BaseNodes\StatementNode.cs" />
