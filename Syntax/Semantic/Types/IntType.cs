@@ -13,5 +13,6 @@ namespace Syntax.Semantic.Types
         {
             throw new NotImplementedException();
         }
+       
     }
 }

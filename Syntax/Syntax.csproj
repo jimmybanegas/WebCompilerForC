@@ -77,7 +77,6 @@
     <Compile Include="Tree\LoopsAndConditions\Functions\CallFunctionNode.cs" />
     <Compile Include="Tree\DataTypes\ConstantNode.cs" />
     <Compile Include="Tree\GeneralSentences\ContinueNode.cs" />
-    <Compile Include="Tree\Declarations\DeclarationNode.cs" />
     <Compile Include="Tree\Declarations\EnumerationNode.cs" />
     <Compile Include="Tree\Declarations\EnumItemNode.cs" />
     <Compile Include="Tree\LoopsAndConditions\Functions\FunctionCallNode.cs" />

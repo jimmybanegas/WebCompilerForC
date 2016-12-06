@@ -23,7 +23,6 @@ namespace Syntax.Semantic
                 {"date", new DateType()},
                 {"char", new CharType()},
                 {"bool", new BooleanType()},
-              //  {"const", new ConstType()},
                 {"struct", new StructType()},
                 {"enum", new EnumType() }
             };

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syntax.Semantic;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Identifier;
 
@@ -17,7 +18,9 @@ namespace Syntax.Tree.Declarations
             foreach (var variable in ListOfVariables)
             {
                 variable.ValidateSemantic();
-                variable.ValidateTypeSemantic();
+                //variable.ValidateTypeSemantic();
+
+                TypesTable.Instance.RegisterType(variable.Value, GeneralNode.DataType.ValidateTypeSemantic());
             }
         }
 

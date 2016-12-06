@@ -19,8 +19,14 @@ namespace Syntax.Tree.LoopsAndConditions
             var conditional2 = SecondCondition.ValidateSemantic();
             var conditional3 = ThirdCondition.ValidateSemantic();
 
-            if (!(conditional1 is BooleanType && conditional2 is BooleanType && conditional3 is BooleanType))
-                throw new SemanticException($"A boolean expression is expected");
+            if (!(conditional1 is IntType))
+                throw new SemanticException("An Integer expression is expected");
+
+            if (!(conditional2 is BooleanType))
+                throw new SemanticException("A boolean expression is expected");
+
+            if (!(conditional3 is IntType))
+                throw new SemanticException("An Integer expression is expected");
 
             foreach (var statement in Sentences)
             {

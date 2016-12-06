@@ -41,8 +41,7 @@ namespace Syntax.Tree.Identifier
             }
 
             return type;
-
-            //throw new SemanticException($"No se puede asignar {rTipo} a {lTipo}");
+           
         }
 
         public override string GenerateCode()

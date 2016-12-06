@@ -23,9 +23,12 @@ namespace Syntax.Tree.Identifier
 
             var type = TypesTable.Instance.GetVariable(Name);
 
-            foreach (var variable in Accessors)
+            if (Accessors != null)
             {
-              //  type = variable.ValidateSemanticType(type);
+                foreach (var variable in Accessors)
+                {
+                    //  type = variable.ValidateSemanticType(type);
+                }
             }
 
             return type;

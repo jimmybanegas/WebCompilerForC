@@ -16,7 +16,7 @@ namespace Syntax.Tree.BaseNodes
         public override BaseType ValidateSemantic()
         {
             var leftType = LeftOperand.ValidateSemantic();
-            var rightType = RightOperand.ValidateSemantic();
+            var rightType = RightOperand.ValidateSemantic();           
 
             BaseType result;
 

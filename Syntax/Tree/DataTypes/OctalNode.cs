@@ -10,7 +10,8 @@ namespace Syntax.Tree.DataTypes
         public string Value { get; set; }
         public override BaseType ValidateSemantic()
         {
-            return new IntType();
+            //return new IntType();
+            return TypesTable.Instance.GetVariable("int");
         }
 
         public override string GenerateCode()

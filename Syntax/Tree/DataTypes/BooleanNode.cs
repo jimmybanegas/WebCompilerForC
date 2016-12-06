@@ -11,7 +11,8 @@ namespace Syntax.Tree.DataTypes
         public bool Value { get; set; }
         public override BaseType ValidateSemantic()
         {
-            return new BooleanType();
+            // return new BooleanType();
+            return TypesTable.Instance.GetVariable("bool");
         }
 
         public override string GenerateCode()

@@ -6,9 +6,9 @@ using Syntax.Tree.Arrays;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.DataTypes;
 using Syntax.Tree.Declarations;
-using Syntax.Tree.Functions;
 using Syntax.Tree.GeneralSentences;
 using Syntax.Tree.Identifier;
+using Syntax.Tree.LoopsAndConditions.Functions;
 using Syntax.Tree.Operators.Unary;
 using Syntax.Tree.Struct;
 

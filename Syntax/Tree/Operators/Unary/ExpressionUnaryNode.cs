@@ -12,8 +12,6 @@ namespace Syntax.Tree.Operators.Unary
         public ExpressionNode Factor;
         public override BaseType ValidateSemantic()
         {
-            //  throw new NotImplementedException();
-         
             return Factor.ValidateSemantic();
         }
 

@@ -21,7 +21,7 @@ namespace Syntax.Tree.Declarations
             {
                 var lTipo = TypesTable.Instance.GetVariable(LeftValue.Value);
                 if (lTipo.GetType() != rTipo.GetType())
-                    throw new SemanticException($"No se puede asignar {rTipo} a {lTipo}");
+                    throw new SemanticException($"You can't assign a {rTipo} to a {lTipo}");
             }
         }
 
