@@ -21,6 +21,15 @@ namespace Syntax.Tree.Identifier
         public override void ValidateSemantic()
         {
             //throw new NotImplementedException();
+
+            var variable = StackContext.Context.Stack.Peek().GetVariable(Value);
+
+            if (Assignation != null)
+            {
+                Assignation.LeftValue = this;
+                Assignation.ValidateSemantic();
+            }
+
         }
 
         public  BaseType ValidateTypeSemantic()
@@ -45,7 +54,6 @@ namespace Syntax.Tree.Identifier
                 foreach (var variable in Accessors)
                 {
                     type = variable.ValidateSemanticType(Value);
-
                 }
             }
            

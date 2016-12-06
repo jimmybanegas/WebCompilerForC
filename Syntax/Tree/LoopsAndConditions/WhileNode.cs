@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Syntax.Exceptions;
+using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
 
@@ -12,6 +13,8 @@ namespace Syntax.Tree.LoopsAndConditions
         public List<StatementNode> Sentences;
         public override void ValidateSemantic()
         {
+            StackContext.Context.Stack.Push(new TypesTable());
+
             var conditional = WhileCondition.ValidateSemantic();
 
             if (!(conditional is BooleanType))
@@ -21,6 +24,8 @@ namespace Syntax.Tree.LoopsAndConditions
             {
                 statement.ValidateSemantic();
             }
+
+            StackContext.Context.Stack.Pop();
         }
 
         public override string GenerateCode()

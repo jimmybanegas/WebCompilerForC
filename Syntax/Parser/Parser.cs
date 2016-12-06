@@ -1319,6 +1319,7 @@ namespace Syntax.Parser
                     Accessors = new List<AccessorNode>(),
                     Value = CurrentToken.Lexeme
                 };
+
                 Utilities.NextToken();
             }
 
@@ -1326,7 +1327,8 @@ namespace Syntax.Parser
             {
                 DataType = dataType,
                 ListOfPointer = listOfPointer,
-                NameOfVariable = nameOfVariable
+                NameOfVariable = nameOfVariable,
+                CurrentToken = CurrentToken
             };
         }
 

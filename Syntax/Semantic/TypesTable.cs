@@ -51,7 +51,7 @@ namespace Syntax.Semantic
             Table.Add(name, baseType);
         }
 
-        public BaseType GetVariable(string name)
+        public  BaseType GetVariable(string name)
         {
             //if (Table.ContainsKey(name))
             //{
@@ -69,14 +69,14 @@ namespace Syntax.Semantic
             throw new SemanticException($"Type :{name} doesn't exists.");
         }
 
-        public bool VariableExist(string name)
+        public  bool VariableExist(string name)
         {
 
             foreach (var stack in StackContext.Context.Stack)
             {
                 if (stack.Table.ContainsKey(name))
                 {
-                    return stack.VariableExist(name);
+                    return stack.Table.ContainsKey(name);
                 }
             }
 

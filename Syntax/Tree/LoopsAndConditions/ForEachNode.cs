@@ -15,11 +15,15 @@ namespace Syntax.Tree.LoopsAndConditions
 
         public override void ValidateSemantic()
         {
-            var type=DataType.ValidateTypeSemantic();
+            StackContext.Context.Stack.Push(new TypesTable());
 
-            TypesTable.Instance.RegisterType(Item.Value,type);
+            var type = DataType.ValidateTypeSemantic();
 
-          //  TypesTable.Instance.RegisterType(List.Value, type);
+            StackContext.Context.Stack.Peek().RegisterType(Item.Value,type);
+
+            //  TypesTable.Instance.RegisterType(List.Value, type);
+
+            StackContext.Context.Stack.Pop();
 
         }
 

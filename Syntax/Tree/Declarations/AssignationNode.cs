@@ -15,11 +15,11 @@ namespace Syntax.Tree.Declarations
         {
             var rTipo = RightValue.ValidateSemantic();
 
-            if (!TypesTable.Instance.VariableExist(LeftValue.Value))
-                TypesTable.Instance.RegisterType(LeftValue.Value, rTipo);
+            if (!StackContext.Context.Stack.Peek().VariableExist(LeftValue.Value))
+                StackContext.Context.Stack.Peek().RegisterType(LeftValue.Value, rTipo);
             else
             {
-                var lTipo = TypesTable.Instance.GetVariable(LeftValue.Value);
+                var lTipo = StackContext.Context.Stack.Peek().GetVariable(LeftValue.Value);
                 if (lTipo.GetType() != rTipo.GetType())
                     throw new SemanticException($"You can't assign a {rTipo} to a {lTipo}");
             }

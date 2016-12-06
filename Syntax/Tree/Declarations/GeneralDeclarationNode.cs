@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lexer;
 using Syntax.Semantic;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
@@ -13,6 +14,7 @@ namespace Syntax.Tree.Declarations
         public List<PointerNode> ListOfPointer;
         public DeReferenceNode Reference;
         public IdentifierNode NameOfVariable;
+        public Token CurrentToken { get; set; }
 
         public override void ValidateSemantic()
         {
@@ -23,6 +25,8 @@ namespace Syntax.Tree.Declarations
 
             if (NameOfVariable.Assignation !=null)
             {
+               // var typeOfVariable = NameOfVariable.ValidateTypeSemantic();
+
                 NameOfVariable.Assignation.LeftValue = DataType;
 
                 NameOfVariable.Assignation.ValidateSemantic();
