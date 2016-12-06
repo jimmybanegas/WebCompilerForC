@@ -4,8 +4,8 @@ using Lexer;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.DataTypes;
-using Syntax.Tree.Functions;
 using Syntax.Tree.Identifier;
+using Syntax.Tree.LoopsAndConditions.Functions;
 using Syntax.Tree.Operators.Binary;
 using Syntax.Tree.Operators.Unary;
 

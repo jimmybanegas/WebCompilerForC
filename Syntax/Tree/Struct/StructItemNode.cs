@@ -1,4 +1,5 @@
 ﻿using System;
+using Lexer;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Declarations;
 
@@ -8,7 +9,7 @@ namespace Syntax.Tree.Struct
     {
         public GeneralDeclarationNode ItemDeclaration;
         public AssignationNode Assignation;
-        public override void ValidateSemantic()
+        public override void ValidateSemantic(Token currentToken)
         {
             throw new NotImplementedException();
         }

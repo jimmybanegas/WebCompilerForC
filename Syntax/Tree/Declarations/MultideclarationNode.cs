@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lexer;
 using Syntax.Semantic;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Identifier;
@@ -10,17 +11,23 @@ namespace Syntax.Tree.Declarations
     {
         public GeneralDeclarationNode GeneralNode;
         public List<IdentifierNode> ListOfVariables;
-        public override void ValidateSemantic()
-        {
+        public Token Position = new Token();
 
-            GeneralNode.ValidateSemantic();
+        public override void ValidateSemantic(Token currentToken)
+        {
+            GeneralNode.ValidateSemantic(Position);
+
+            var type = GeneralNode.DataType.ValidateTypeSemantic();
 
             foreach (var variable in ListOfVariables)
             {
-                variable.ValidateSemantic();
+                StackContext.Context.Stack.Peek().RegisterType(variable.Value, type,currentToken);
+
+                variable.ValidateSemantic(Position);
+
+                //var type = GeneralNode.DataType.ValidateTypeSemantic();
                 //variable.ValidateTypeSemantic();
 
-                TypesTable.Instance.RegisterType(variable.Value, GeneralNode.DataType.ValidateTypeSemantic());
             }
         }
 

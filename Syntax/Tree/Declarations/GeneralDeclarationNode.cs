@@ -14,14 +14,15 @@ namespace Syntax.Tree.Declarations
         public List<PointerNode> ListOfPointer;
         public DeReferenceNode Reference;
         public IdentifierNode NameOfVariable;
-        public Token CurrentToken { get; set; }
+     
+        public Token Position = new Token();
 
-        public override void ValidateSemantic()
+        public override void ValidateSemantic(Token currentToken)
         {
             var type = DataType.ValidateTypeSemantic();
 
             // TypesTable.Instance.RegisterType(NameOfVariable.Value,type);
-            StackContext.Context.Stack.Peek().RegisterType(NameOfVariable.Value, type);
+            StackContext.Context.Stack.Peek().RegisterType(NameOfVariable.Value, type,currentToken);
 
             if (NameOfVariable.Assignation !=null)
             {
@@ -29,7 +30,7 @@ namespace Syntax.Tree.Declarations
 
                 NameOfVariable.Assignation.LeftValue = DataType;
 
-                NameOfVariable.Assignation.ValidateSemantic();
+                NameOfVariable.Assignation.ValidateSemantic(Position);
             } 
         }
 

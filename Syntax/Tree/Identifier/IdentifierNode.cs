@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Lexer;
 using Syntax.Semantic;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
@@ -15,10 +16,11 @@ namespace Syntax.Tree.Identifier
         public List<PointerNode> PointerNodes;
         public DeReferenceNode Reference;
         public UnaryOperator IncrementOrdecrement { get; set; }
-
+       
         public AssignationNode Assignation;
 
-        public override void ValidateSemantic()
+        public Token Position = new Token();
+        public override void ValidateSemantic(Token currentToken)
         {
             //throw new NotImplementedException();
 
@@ -27,7 +29,7 @@ namespace Syntax.Tree.Identifier
             if (Assignation != null)
             {
                 Assignation.LeftValue = this;
-                Assignation.ValidateSemantic();
+                Assignation.ValidateSemantic(currentToken);
             }
 
         }

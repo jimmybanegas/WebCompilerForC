@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lexer;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Identifier;
 
@@ -9,7 +10,7 @@ namespace Syntax.Tree.Struct
     {
         public IdentifierExpression Name;
         public List<StructItemNode> ListOfItems;
-        public override void ValidateSemantic()
+        public override void ValidateSemantic(Token currentToken)
         {
             //throw new NotImplementedException();
         }

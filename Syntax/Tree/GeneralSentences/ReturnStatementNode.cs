@@ -1,4 +1,6 @@
 ﻿using System;
+using Lexer;
+using Syntax.Semantic;
 using Syntax.Tree.BaseNodes;
 
 namespace Syntax.Tree.GeneralSentences
@@ -6,9 +8,16 @@ namespace Syntax.Tree.GeneralSentences
     public class ReturnStatementNode : StatementNode
     {
         public ExpressionNode ReturnExpression;
-        public override void ValidateSemantic()
+
+        public Token Position = new Token();
+        public override void ValidateSemantic(Token currentToken)
         {
-            throw new NotImplementedException();
+            ReturnExpression.ValidateSemantic();
+        }
+
+        public BaseType ValidateSemanticAndGetType()
+        {
+            return ReturnExpression.ValidateSemantic();
         }
 
         public override string GenerateCode()

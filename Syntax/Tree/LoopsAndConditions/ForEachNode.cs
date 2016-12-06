@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Lexer;
 using Syntax.Semantic;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Identifier;
@@ -13,13 +14,14 @@ namespace Syntax.Tree.LoopsAndConditions
 
         public List<StatementNode> Sentences;
 
-        public override void ValidateSemantic()
+        public Token Position = new Token();
+        public override void ValidateSemantic(Token currentToken)
         {
             StackContext.Context.Stack.Push(new TypesTable());
 
             var type = DataType.ValidateTypeSemantic();
 
-            StackContext.Context.Stack.Peek().RegisterType(Item.Value,type);
+            StackContext.Context.Stack.Peek().RegisterType(Item.Value,type,currentToken);
 
             //  TypesTable.Instance.RegisterType(List.Value, type);
 

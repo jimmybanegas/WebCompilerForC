@@ -12,37 +12,37 @@ namespace Syntax.Tree.Operators.Binary
             Validation = new Dictionary<Tuple<BaseType, BaseType>, BaseType>
             {
                 {
-                    new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("int"),
+                    new Tuple<BaseType, BaseType>(StackContext.Context.GetGeneralType("int"),
                        StackContext.Context.GetGeneralType("int")),
                    StackContext.Context.GetGeneralType("int")
                 },
                 {
-                    new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("float"),
+                    new Tuple<BaseType, BaseType>(StackContext.Context.GetGeneralType("float"),
                        StackContext.Context.GetGeneralType("float")),
                    StackContext.Context.GetGeneralType("float")
                 },
                 {
-                    new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("int"),
+                    new Tuple<BaseType, BaseType>(StackContext.Context.GetGeneralType("int"),
                        StackContext.Context.GetGeneralType("float")),
                    StackContext.Context.GetGeneralType("float")
                 },
                 {
-                    new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("float"),
+                    new Tuple<BaseType, BaseType>(StackContext.Context.GetGeneralType("float"),
                        StackContext.Context.GetGeneralType("int")),
                    StackContext.Context.GetGeneralType("float")
                 },
                   {
-                    new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("bool"),
+                    new Tuple<BaseType, BaseType>(StackContext.Context.GetGeneralType("bool"),
                        StackContext.Context.GetGeneralType("bool")),
                    StackContext.Context.GetGeneralType("bool")
                 },
                 {
-                    new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("bool"),
+                    new Tuple<BaseType, BaseType>(StackContext.Context.GetGeneralType("bool"),
                        StackContext.Context.GetGeneralType("int")),
                    StackContext.Context.GetGeneralType("bool")
                 },
                 {
-                    new Tuple<BaseType, BaseType>(TypesTable.Instance.GetVariable("int"),
+                    new Tuple<BaseType, BaseType>(StackContext.Context.GetGeneralType("int"),
                        StackContext.Context.GetGeneralType("bool")),
                    StackContext.Context.GetGeneralType("bool")
                 }

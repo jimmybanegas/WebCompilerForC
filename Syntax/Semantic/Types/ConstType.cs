@@ -1,4 +1,5 @@
 using System;
+using Syntax.Tree.Declarations;
 
 namespace Syntax.Semantic.Types
 {
@@ -13,5 +14,9 @@ namespace Syntax.Semantic.Types
         {
             throw new NotImplementedException();
         }
+
+        public AssignationNode Assignation;
+        public BaseType Type;
+
     }
 }

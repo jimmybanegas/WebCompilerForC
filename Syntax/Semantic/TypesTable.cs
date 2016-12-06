@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lexer;
 using Syntax.Exceptions;
 using Syntax.Semantic.Types;
 
@@ -23,9 +24,7 @@ namespace Syntax.Semantic
                 {"float", new FloatType()},
                 {"date", new DateType()},
                 {"char", new CharType()},
-                {"bool", new BooleanType()},
-                {"struct", new StructType()},
-                {"enum", new EnumType() }
+                {"bool", new BooleanType()}
             };
             //_table.Add("function", new FunctionType());
         }
@@ -41,11 +40,11 @@ namespace Syntax.Semantic
             }
         }
 
-        public void RegisterType(string name, BaseType baseType)
+        public void RegisterType(string name, BaseType baseType, Token currentToken)
         {
             if (StackContext.Context.Stack.Peek().Table.ContainsKey(name))
             {
-                throw new SemanticException($"Type :{name} exists.");
+                throw new SemanticException($"Type :{name} already exists at Row: {currentToken.Row}.");
             }
 
             Table.Add(name, baseType);
@@ -53,11 +52,6 @@ namespace Syntax.Semantic
 
         public  BaseType GetVariable(string name)
         {
-            //if (Table.ContainsKey(name))
-            //{
-            //    return Table[name];
-            //}
-
             foreach (var stack in StackContext.Context.Stack)
             {
                 if (stack.Table.ContainsKey(name))
@@ -71,7 +65,6 @@ namespace Syntax.Semantic
 
         public  bool VariableExist(string name)
         {
-
             foreach (var stack in StackContext.Context.Stack)
             {
                 if (stack.Table.ContainsKey(name))
@@ -81,52 +74,8 @@ namespace Syntax.Semantic
             }
 
             return false;
-            // return StackContext.Context.Stack.Peek().Table.ContainsKey(name);
         }
 
     }
-
-    public class StackContext
-    {
-        private static StackContext _context;
-        public Stack<TypesTable> Stack = new Stack<TypesTable>();
-        public Dictionary<string, BaseType> TableOfTypes;
-
-        private StackContext()
-        {
-           Stack.Push(new TypesTable());
-
-            TableOfTypes = new Dictionary<string, BaseType>
-            {
-                {"int", new IntType()},
-                {"string", new StringType()},
-                {"float", new FloatType()},
-                {"date", new DateType()},
-                {"char", new CharType()},
-                {"bool", new BooleanType()},
-                {"struct", new StructType()},
-                {"enum", new EnumType() }
-            };
-        }
-
-        public static StackContext Context
-        {
-            get
-            {
-                if (_context == null)
-                {
-                    _context = new StackContext();
-                }
-                return _context;
-            }
-        }
-
-        public BaseType GetGeneralType(string name)
-        {
-            return TableOfTypes[name];
-        }
-
-    }
-
 }
 

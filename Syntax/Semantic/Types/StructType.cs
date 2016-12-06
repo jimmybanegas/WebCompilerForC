@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Syntax.Semantic.Types
 {
@@ -12,6 +13,13 @@ namespace Syntax.Semantic.Types
         public override bool IsAssignable(BaseType otherType)
         {
             throw new NotImplementedException();
+        }
+
+        public List<ElementStruct> Elements;
+      
+        public StructType(List<ElementStruct> elements)
+        {
+            Elements = elements;
         }
     }
 }

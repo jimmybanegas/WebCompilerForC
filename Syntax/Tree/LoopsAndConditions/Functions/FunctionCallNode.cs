@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lexer;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Identifier;
 
@@ -10,7 +11,9 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
         public IdentifierNode Name;
 
         public List<ExpressionNode> Parameters;
-        public override void ValidateSemantic()
+
+        public Token Position = new Token();
+        public override void ValidateSemantic(Token currentToken)
         {
             //throw new NotImplementedException();
         }

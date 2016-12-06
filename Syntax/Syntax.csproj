@@ -45,6 +45,12 @@
     <Compile Include="Parser\Functions.cs" />
     <Compile Include="Parser\LoopsAndConditionals.cs" />
     <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Semantic\StackContext.cs" />
+    <Compile Include="Semantic\Types\ElementEnum.cs" />
+    <Compile Include="Semantic\Types\ElementStruct.cs" />
+    <Compile Include="Semantic\Validations.cs" />
+    <Compile Include="Semantic\Types\FunctionType.cs" />
+    <Compile Include="Semantic\Types\ParameterFunction.cs" />
     <Compile Include="Tree\Operators\Unary\ReferenceOperatorNode.cs" />
     <Compile Include="Parser\Utilities.cs" />
     <Compile Include="Exceptions\SemanticException.cs" />
@@ -70,7 +76,7 @@
     <Compile Include="Tree\Acessors\ArrayAccessorNode.cs" />
     <Compile Include="Tree\DataTypes\LiteralWithOptionalUnaryOpNode.cs" />
     <Compile Include="Tree\DataTypes\OctalNode.cs" />
-    <Compile Include="Tree\Arrays\AssignationForAarray.cs" />
+    <Compile Include="Tree\Arrays\AssignationForArray.cs" />
     <Compile Include="Tree\Declarations\AssignationNode.cs" />
     <Compile Include="Tree\Declarations\MultideclarationNode.cs" />
     <Compile Include="Tree\LoopsAndConditions\Functions\CallFunctionNode.cs" />

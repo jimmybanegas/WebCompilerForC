@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lexer;
 using Syntax.Exceptions;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
@@ -12,7 +13,8 @@ namespace Syntax.Tree.LoopsAndConditions
         public ExpressionNode WhileCondition;
         public List<StatementNode> Sentences;
 
-        public override void ValidateSemantic()
+        public Token Position = new Token();
+        public override void ValidateSemantic(Token currentToken)
         {
             StackContext.Context.Stack.Push(new TypesTable());
 
@@ -23,7 +25,7 @@ namespace Syntax.Tree.LoopsAndConditions
 
             foreach (var statement in Sentences)
             {
-                statement.ValidateSemantic();
+                statement.ValidateSemantic(currentToken);
             }
 
             StackContext.Context.Stack.Pop();

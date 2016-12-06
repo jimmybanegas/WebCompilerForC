@@ -1,11 +1,12 @@
 ﻿using System;
+using Lexer;
 using Syntax.Tree.BaseNodes;
 
 namespace Syntax.Tree.GeneralSentences
 {
     public class ContinueNode : StatementNode
     {
-        public override void ValidateSemantic()
+        public override void ValidateSemantic(Token currentToken)
         {
             throw new NotImplementedException();
         }

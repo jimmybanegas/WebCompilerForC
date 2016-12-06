@@ -5,7 +5,6 @@ using Syntax.Tree;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Declarations;
-using Syntax.Tree.Functions;
 using Syntax.Tree.Identifier;
 using Syntax.Tree.LoopsAndConditions.Functions;
 
@@ -55,6 +54,8 @@ namespace Syntax.Parser
             {
                 throw new Exception("Close function body symbol expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
+
+            functionNode.Position = _parser.CurrentToken;
 
             return functionNode;
         }

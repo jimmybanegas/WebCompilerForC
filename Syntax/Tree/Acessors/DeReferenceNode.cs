@@ -1,4 +1,5 @@
 ﻿using System;
+using Lexer;
 using Syntax.Tree.BaseNodes;
 
 namespace Syntax.Tree.Acessors
@@ -7,7 +8,7 @@ namespace Syntax.Tree.Acessors
     {
         //Para  suma (int &entrada)
         public string Value;
-        public override void ValidateSemantic()
+        public override void ValidateSemantic(Token currentToken)
         {
           //  throw new NotImplementedException();
         }

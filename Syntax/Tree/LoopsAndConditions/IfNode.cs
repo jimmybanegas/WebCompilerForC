@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lexer;
 using Syntax.Exceptions;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
@@ -12,8 +13,8 @@ namespace Syntax.Tree.LoopsAndConditions
         public ExpressionNode IfCondition;
         public List<StatementNode> TrueBlock;
         public List<StatementNode> FalseBlock;
-
-        public override void ValidateSemantic()
+        public Token Position = new Token();
+        public override void ValidateSemantic(Token currentToken)
         {
             StackContext.Context.Stack.Push(new TypesTable());
 
@@ -24,12 +25,12 @@ namespace Syntax.Tree.LoopsAndConditions
 
             foreach (var statement in TrueBlock)
             {
-                statement.ValidateSemantic();
+                statement.ValidateSemantic(currentToken);
             }
 
             foreach (var statementNode in FalseBlock)
             {
-                statementNode.ValidateSemantic();
+                statementNode.ValidateSemantic(currentToken);
             }
 
             StackContext.Context.Stack.Pop();

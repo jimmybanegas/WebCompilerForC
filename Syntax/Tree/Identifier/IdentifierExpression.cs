@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lexer;
 using Syntax.Exceptions;
 using Syntax.Semantic;
 using Syntax.Tree.Acessors;
@@ -12,7 +13,8 @@ namespace Syntax.Tree.Identifier
         public string Name { get; set; }
         public UnaryOperator IncrementOrdecrement { get; set; }
         public List<AccessorNode> Accessors = new List<AccessorNode>();
-        
+
+        public Token Position = new Token();
         public override BaseType ValidateSemantic()
         {
 

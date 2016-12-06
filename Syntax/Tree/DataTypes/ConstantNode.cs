@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lexer;
+using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
@@ -15,9 +17,27 @@ namespace Syntax.Tree.DataTypes
         public IdentifierNode TypeOfConst;
         //public ExpressionNode ExpressionConst;
         public AssignationNode Assignation;
-        public override void ValidateSemantic()
+
+        public Token Position;
+        public override void ValidateSemantic(Token currentToken)
         {
-            //return new ConstType();
+           // ConstName.ValidateSemantic(Position);
+
+            var type = TypeOfConst.ValidateTypeSemantic();
+
+            if (Assignation != null)
+            {
+                Assignation.LeftValue = ConstName;
+
+                Assignation.ValidateSemantic(Position);
+            }
+
+            StackContext.Context.Stack.Peek().Table.Remove(ConstName.Value);
+
+            StackContext.Context.Stack.Peek().RegisterType(ConstName.Value, new ConstType
+            {
+                Assignation = Assignation, Type = type
+            }, Position);
         }
 
         public override string GenerateCode()

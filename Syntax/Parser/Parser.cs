@@ -344,7 +344,7 @@ namespace Syntax.Parser
 
                 var identifier = new IdentifierNode
                 {
-                    Accessors = new List<AccessorNode>(),Assignation = new AssignationNode(), PointerNodes = new List<PointerNode>()
+                    Accessors = new List<AccessorNode>(), Assignation = new AssignationNode(), PointerNodes = new List<PointerNode>()
                 };
 
                 if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
@@ -453,6 +453,8 @@ namespace Syntax.Parser
 
             if (!Utilities.CompareTokenType(TokenType.Identifier))
                 throw new Exception("Identifier was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
+
+            enumerationNode.Name = new IdentifierNode {Value = CurrentToken.Lexeme};
 
             Utilities.NextToken();
 
@@ -587,6 +589,8 @@ namespace Syntax.Parser
 
             identifier.Accessors.AddRange(accessors);
             identifier.Value = ((IdentifierExpression) id).Name;
+
+            identifier.Position = new Token {Row = CurrentToken.Row, Column = CurrentToken.Column};
        
             if (Utilities.CompareTokenType(TokenType.OpIncrement)
                   || Utilities.CompareTokenType(TokenType.OpDecrement))
@@ -806,7 +810,7 @@ namespace Syntax.Parser
                 {
                     value = InitializationForStruct();
 
-                    general.NameOfVariable.Assignation = new AssignationForAarray {RightValue = value};
+                    general.NameOfVariable.Assignation = new AssignationForArray {RightValue = value};
                 }
 
                 if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
@@ -1088,6 +1092,8 @@ namespace Syntax.Parser
 
                     Utilities.NextToken();
                 }
+
+                identifier.Position = CurrentToken;
             }
             else
             {
@@ -1131,7 +1137,7 @@ namespace Syntax.Parser
                         throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                     }
 
-                    return new MultideclarationNode {GeneralNode = generalDecla, ListOfVariables = listOptional};
+                    return new MultideclarationNode {GeneralNode = generalDecla, ListOfVariables = listOptional, Position = CurrentToken};
                 }
                 else
                 {
@@ -1153,7 +1159,7 @@ namespace Syntax.Parser
                     throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
 
-                return new MultideclarationNode { GeneralNode = generalDecla, ListOfVariables = listOptional };
+                return new MultideclarationNode { GeneralNode = generalDecla, ListOfVariables = listOptional, Position = CurrentToken };
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
@@ -1163,7 +1169,7 @@ namespace Syntax.Parser
                 var tuppleArray = Arrays.IsArrayDeclaration(isInMultideclaration, listOptionalArr);
 
                 generalDecla.NameOfVariable.Accessors.AddRange(tuppleArray.Item1);
-                generalDecla.NameOfVariable.Assignation = new AssignationForAarray {RightValue = tuppleArray.Item2};
+                generalDecla.NameOfVariable.Assignation = new AssignationForArray {RightValue = tuppleArray.Item2};
 
                 if (Utilities.CompareTokenType(TokenType.Comma))
                 {
@@ -1182,7 +1188,7 @@ namespace Syntax.Parser
 
                 if (listOptionalArr.Count > 0)
                 {
-                    return new MultideclarationNode { GeneralNode = generalDecla, ListOfVariables = listOptionalArr };
+                    return new MultideclarationNode { GeneralNode = generalDecla, ListOfVariables = listOptionalArr, Position = CurrentToken};
                 }
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
@@ -1328,7 +1334,7 @@ namespace Syntax.Parser
                 DataType = dataType,
                 ListOfPointer = listOfPointer,
                 NameOfVariable = nameOfVariable,
-                CurrentToken = CurrentToken
+                Position = CurrentToken
             };
         }
 
@@ -1411,7 +1417,7 @@ namespace Syntax.Parser
                 var tupleArray = Arrays.IsArrayDeclaration(isInMultideclaration,listOptionalArr);
                 
                 generalDeclaration.NameOfVariable.Accessors.AddRange(tupleArray.Item1);
-                generalDeclaration.NameOfVariable.Assignation = new AssignationForAarray {RightValue = tupleArray.Item2};
+                generalDeclaration.NameOfVariable.Assignation = new AssignationForArray {RightValue = tupleArray.Item2};
 
                 if (Utilities.CompareTokenType(TokenType.Comma))
                 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using Lexer;
 using Syntax.Tree.BaseNodes;
 
 namespace Syntax.Tree.GeneralSentences
@@ -6,7 +7,9 @@ namespace Syntax.Tree.GeneralSentences
     public class IncludeNode : StatementNode
     {
         public string ReferencedClass;
-        public override void ValidateSemantic()
+
+        public Token Position = new Token();
+        public override void ValidateSemantic(Token currentToken)
         {
            // throw new NotImplementedException();
         }
