@@ -17,6 +17,17 @@ struct Books {
    int   book_id;
 };
 
+struct Books Book1; 
+
+void copy_array(float *src, float *dst, int n)
+{
+    while (n-- > 0) {
+ // Loop that counts down from n to zero
+        *dst++ = *src++;   // Copies element *(src) to *(dst),
+                           //  then increments both pointers
+    }
+}
+
 
 const int ptr = 32.75; 
 

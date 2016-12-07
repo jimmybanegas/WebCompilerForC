@@ -27,6 +27,7 @@ namespace Syntax.Tree.Declarations
             }
 
             StackContext.Context.Stack.Peek().RegisterType(Name.Value,new EnumType(items),Position );
+            StackContext.Context.TableOfTypes.Add(Name.Value, new EnumType(items));
         }
 
         public override string GenerateCode()

@@ -17,7 +17,16 @@ namespace Syntax.Tree.Struct
 
         public override void ValidateSemantic(Token currentToken)
         {
-            throw new NotImplementedException();
+            General.ValidateSemantic(currentToken);
+
+            if (Initialization != null)
+            {
+                foreach (var node in Initialization)
+                {
+                    node.ValidateSemantic();
+                }
+            }
+          
         }
 
         public override string GenerateCode()

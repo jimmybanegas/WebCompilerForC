@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Lexer;
 using Syntax.Semantic;
@@ -21,12 +22,15 @@ namespace Syntax.Tree.Struct
 
             foreach (var item in ListOfItems)
             {
-               item.ValidateSemantic(Position);
+                item.ValidateSemantic(Position);
 
                 elements.Add( new ElementStruct {Element = item});
+
+                StackContext.Context.Stack.Peek().Table.Remove(item.ItemDeclaration.NameOfVariable.Value);
             }
 
             StackContext.Context.Stack.Peek().RegisterType(Name.Name, new StructType (elements), currentToken );
+            StackContext.Context.TableOfTypes.Add(Name.Name, new StructType(elements));
         }
 
         public override string GenerateCode()
