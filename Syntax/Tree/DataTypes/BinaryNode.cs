@@ -9,8 +9,6 @@ namespace Syntax.Tree.DataTypes
         public string Value { get; set; }
         public override BaseType ValidateSemantic()
         {
-            // return new IntType();
-            // return StackContext.Context.Stack.Peek().GetVariable("int");
             return StackContext.Context.GetGeneralType("int");
         }
 

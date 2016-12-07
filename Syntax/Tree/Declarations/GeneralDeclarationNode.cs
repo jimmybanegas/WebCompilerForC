@@ -20,7 +20,7 @@ namespace Syntax.Tree.Declarations
         public override void ValidateSemantic(Token currentToken)
         {
             var type = DataType.ValidateTypeSemantic();
-
+            
             // TypesTable.Instance.RegisterType(NameOfVariable.Value,type);
             StackContext.Context.Stack.Peek().RegisterType(NameOfVariable.Value, type,currentToken);
 

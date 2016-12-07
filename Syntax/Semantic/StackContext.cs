@@ -21,8 +21,9 @@ namespace Syntax.Semantic
                 {"date", new DateType()},
                 {"char", new CharType()},
                 {"bool", new BooleanType()},
-               // {"struct", new StructType(new List<ElementStruct>())},
-              //  {"enum", new EnumType(new List<ElementEnum>()) }
+                {"double", new FloatType()},
+                {"decimal", new FloatType()},
+                {"void", new VoidType()}
             };
         }
 

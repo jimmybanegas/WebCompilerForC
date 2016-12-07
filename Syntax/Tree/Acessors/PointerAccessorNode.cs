@@ -16,7 +16,7 @@ namespace Syntax.Tree.Acessors
             return idNodeType;
         }
 
-        public override BaseType ValidateSemanticType(string type)
+        public override BaseType ValidateSemanticType(BaseType type)
         {
             var idNodeType = TypesTable.Instance.GetVariable(IdentifierNode.Value);
 

@@ -10,9 +10,7 @@ namespace Syntax.Tree.DataTypes
         public string Value { get; set; }
         public override BaseType ValidateSemantic()
         {
-            //return new CharType();
-            // return TypesTable.Instance.GetVariable("char");
-            return StackContext.Context.GetGeneralType("char");
+          return StackContext.Context.GetGeneralType("char");
         }
 
         public override string GenerateCode()

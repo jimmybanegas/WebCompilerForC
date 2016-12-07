@@ -51,6 +51,7 @@
     <Compile Include="Semantic\Validations.cs" />
     <Compile Include="Semantic\Types\FunctionType.cs" />
     <Compile Include="Semantic\Types\ParameterFunction.cs" />
+    <Compile Include="Semantic\Types\VoidType.cs" />
     <Compile Include="Tree\Operators\Unary\ReferenceOperatorNode.cs" />
     <Compile Include="Parser\Utilities.cs" />
     <Compile Include="Exceptions\SemanticException.cs" />

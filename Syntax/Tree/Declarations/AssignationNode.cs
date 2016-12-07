@@ -24,7 +24,6 @@ namespace Syntax.Tree.Declarations
             {
                 var lTipo = StackContext.Context.Stack.Peek().GetVariable(LeftValue.Value);
                 
-             //   if (lTipo.GetType() != rTipo.GetType())
                 if (!Validations.ValidateReturnTypesEquivalence(rTipo,lTipo))
                     throw new SemanticException($"You can't assign a {rTipo} to a {lTipo} at Row: {currentToken.Row}, column : {currentToken.Column}");
             }

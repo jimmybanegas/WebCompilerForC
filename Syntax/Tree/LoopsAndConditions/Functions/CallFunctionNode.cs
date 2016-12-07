@@ -14,7 +14,12 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
         public Token Position = new Token();
         public override BaseType ValidateSemantic()
         {
-            throw new NotImplementedException();
+            foreach (var expression in ListOfExpressions)
+            {
+                var type = expression.ValidateSemantic();
+            }
+
+            return null;
         }
 
         public override string GenerateCode()

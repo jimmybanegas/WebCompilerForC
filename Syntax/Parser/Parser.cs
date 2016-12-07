@@ -579,8 +579,6 @@ namespace Syntax.Parser
                 {
                     throw new Exception("End of sentence ; expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
-
-               // return identifier;
             }
 
             var accessors = new List<AccessorNode>();

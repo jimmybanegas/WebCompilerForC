@@ -10,10 +10,7 @@ namespace Syntax.Tree.DataTypes
 
         public override BaseType ValidateSemantic()
         {
-            //  return new DateType();
-
-            //return TypesTable.Instance.GetVariable("date");
-            return StackContext.Context.GetGeneralType("date");
+           return StackContext.Context.GetGeneralType("date");
         }
 
         public override string GenerateCode()

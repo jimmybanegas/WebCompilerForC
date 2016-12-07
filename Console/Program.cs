@@ -1,6 +1,7 @@
 ﻿using System;
 using Lexer;
 using Syntax.Parser;
+using Syntax.Semantic;
 
 namespace ConsoleTest
 {
@@ -48,6 +49,8 @@ namespace ConsoleTest
                     statementNode.ValidateSemantic(new Token());
                     Console.WriteLine(statementNode);
                 }
+
+                var stack = StackContext.Context.Stack.Peek();
 
               Console.ReadKey();
             //}

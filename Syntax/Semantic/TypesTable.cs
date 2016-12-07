@@ -24,9 +24,10 @@ namespace Syntax.Semantic
                 {"float", new FloatType()},
                 {"date", new DateType()},
                 {"char", new CharType()},
-                {"bool", new BooleanType()}
+                {"bool", new BooleanType()},
+                {"double", new FloatType()},
+                {"decimal", new FloatType()},
             };
-            //_table.Add("function", new FunctionType());
         }
         public static TypesTable Instance
         {
@@ -44,7 +45,7 @@ namespace Syntax.Semantic
         {
             if (StackContext.Context.Stack.Peek().Table.ContainsKey(name))
             {
-                throw new SemanticException($"Type :{name} already exists at Row: {currentToken.Row}.");
+                throw new SemanticException($"Variable :{name} already exists at Row: {currentToken.Row}.");
             }
 
             Table.Add(name, baseType);
@@ -60,7 +61,7 @@ namespace Syntax.Semantic
                 }
             }
 
-            throw new SemanticException($"Type :{name} doesn't exists.");
+            throw new SemanticException($"Variable :{name} doesn't exists.");
         }
 
         public  bool VariableExist(string name)

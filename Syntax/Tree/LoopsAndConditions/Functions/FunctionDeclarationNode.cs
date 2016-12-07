@@ -32,7 +32,9 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
             {
                 parameter.ValidateSemantic(Position);
 
-                listParams.Add(new ParameterFunction {IsVar = true, Type = parameter.DataType.ValidateTypeSemantic()});
+                //listParams.Add(new ParameterFunction {IsVar = true, Type = parameter.DataType.ValidateTypeSemantic()});
+
+               listParams.Add(new ParameterFunction { Parameter = parameter} ); 
             }
 
             foreach (var sentence in Sentences)

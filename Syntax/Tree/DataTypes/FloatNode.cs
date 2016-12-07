@@ -11,8 +11,6 @@ namespace Syntax.Tree.DataTypes
 
         public override BaseType ValidateSemantic()
         {
-            //return new FloatType();
-            //  return TypesTable.Instance.GetVariable("float");
             return StackContext.Context.GetGeneralType("int");
         }
 

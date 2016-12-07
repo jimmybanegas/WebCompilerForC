@@ -1,5 +1,7 @@
 ﻿using System;
+using Syntax.Exceptions;
 using Syntax.Semantic;
+using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Identifier;
 
@@ -15,12 +17,26 @@ namespace Syntax.Tree.Acessors
             return idNodeType;
         }
 
-        public override BaseType ValidateSemanticType(string type)
+        public override BaseType ValidateSemanticType(BaseType type)
         {
-           
-            var idNodeType = TypesTable.Instance.GetVariable(IdentifierNode.Value);
+            if (type is StructType)
+            {
+                var list = ((StructType) type).Elements;
 
-            return idNodeType;
+                foreach (var elementStruct in list)
+                {
+                     var name =   elementStruct.Element.ItemDeclaration.NameOfVariable.Value;
+
+                    if (IdentifierNode.Value == name)
+                    {
+                        var typeOfElement = elementStruct.Element.ItemDeclaration.DataType.ValidateTypeSemantic();
+
+                        return typeOfElement;
+                    }
+                }
+            }
+            
+            throw  new SemanticException($"The property {IdentifierNode.Value} doen't exist in the element");
         }
 
         public override string GenerateCode()

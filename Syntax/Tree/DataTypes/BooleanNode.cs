@@ -11,9 +11,7 @@ namespace Syntax.Tree.DataTypes
         public bool Value { get; set; }
         public override BaseType ValidateSemantic()
         {
-            // return new BooleanType();
-            //  return StackContext.Context.Stack.Peek().GetVariable("bool");
-            return StackContext.Context.GetGeneralType("bool");
+           return StackContext.Context.GetGeneralType("bool");
         }
 
         public override string GenerateCode()

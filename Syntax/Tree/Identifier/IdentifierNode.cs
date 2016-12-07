@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Lexer;
+using Syntax.Exceptions;
 using Syntax.Semantic;
+using Syntax.Semantic.Types;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Declarations;
@@ -22,45 +24,46 @@ namespace Syntax.Tree.Identifier
         public Token Position = new Token();
         public override void ValidateSemantic(Token currentToken)
         {
-            //throw new NotImplementedException();
-
             var variable = StackContext.Context.Stack.Peek().GetVariable(Value);
 
-            if (Assignation != null)
+            if (Assignation != null && !(variable is StructType))
             {
                 Assignation.LeftValue = this;
                 Assignation.ValidateSemantic(currentToken);
+            }
+
+            if (Accessors != null)
+            {
+                foreach (var accessor in Accessors)
+                {
+                    var typeOfAccessor = accessor.ValidateSemanticType(variable);
+
+                    if (Assignation != null)
+                    {
+                        
+                        var right = Assignation.RightValue.ValidateSemantic();
+
+                        if (!Validations.ValidateReturnTypesEquivalence(right, typeOfAccessor))
+                            throw new SemanticException($"You can't assign a {right} to a {typeOfAccessor} at Row: {currentToken.Row}, column : {currentToken.Column}");
+                    }
+                }
             }
 
         }
 
         public  BaseType ValidateTypeSemantic()
         {
-            //if (TypesTable.Instance.VariableExist(Value))
-            //{
-            //    return TypesTable.Instance.GetVariable(Value);
-            //}
-
-            //  var type = TypesTable.Instance.GetVariable(Value);
-
             var type = StackContext.Context.GetGeneralType(Value);
-
-            // var type2 = StackContext.Context.Stack.Peek().GetVariable(Value);
-
-            //StackContext.Context.Stack.Push(new TypesTable());
-
-            //var contextos = 
-
+            
             if (Accessors != null)
             {
                 foreach (var variable in Accessors)
                 {
-                    type = variable.ValidateSemanticType(Value);
+                    type = variable.ValidateSemanticType(type);
                 }
             }
            
             return type;
-           
         }
 
         public override string GenerateCode()

@@ -11,24 +11,23 @@ namespace Syntax.Tree.Acessors
         public ExpressionNode IndexExpression { get; set; }
         public override BaseType ValidateSemantic()
         {
-          //  throw new NotImplementedException();
-          return new BooleanType();
+            throw new NotImplementedException();
+         // return new BooleanType();
         }
-
-    
+        
         public override string GenerateCode()
         {
             return "[" + IndexExpression.GenerateCode() + "]";
         }
 
-        public override BaseType ValidateSemanticType(string type)
+        public override BaseType ValidateSemanticType(BaseType type)
         {
             var expressionType = IndexExpression.ValidateSemantic();
 
-            //if (type == expressionType)
-            //{
-            //    return expressionType;
-            //}
+            if (Validations.ValidateReturnTypesEquivalence(type,expressionType))
+            {
+                return type;
+            }
 
             throw new SemanticException($"Types don't match {type} and {expressionType}");
         }
