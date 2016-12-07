@@ -21,5 +21,6 @@ namespace Syntax.Semantic.Types
         {
             Elements = elements;
         }
+
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lexer;
+using Syntax.Semantic;
+using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Identifier;
 
@@ -10,9 +12,21 @@ namespace Syntax.Tree.Struct
     {
         public IdentifierExpression Name;
         public List<StructItemNode> ListOfItems;
+        private Token Position { get; set; }
         public override void ValidateSemantic(Token currentToken)
         {
-            //throw new NotImplementedException();
+            //Name.ValidateSemantic();
+                
+            List<ElementStruct> elements = new List<ElementStruct>();
+
+            foreach (var item in ListOfItems)
+            {
+               item.ValidateSemantic(Position);
+
+                elements.Add( new ElementStruct {Element = item});
+            }
+
+            StackContext.Context.Stack.Peek().RegisterType(Name.Name, new StructType (elements), currentToken );
         }
 
         public override string GenerateCode()

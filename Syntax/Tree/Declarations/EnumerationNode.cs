@@ -23,7 +23,7 @@ namespace Syntax.Tree.Declarations
             {
                 item.ValidateSemantic(Position);
 
-                items.Add( new ElementEnum {Element = item as EnumItemNode});
+                items.Add(new ElementEnum {Element = item as EnumItemNode});
             }
 
             StackContext.Context.Stack.Peek().RegisterType(Name.Value,new EnumType(items),Position );

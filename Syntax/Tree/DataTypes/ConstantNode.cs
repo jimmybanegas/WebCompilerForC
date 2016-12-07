@@ -27,7 +27,7 @@ namespace Syntax.Tree.DataTypes
 
             if (Assignation != null)
             {
-                Assignation.LeftValue = ConstName;
+                Assignation.LeftValue = TypeOfConst;
 
                 Assignation.ValidateSemantic(Position);
             }

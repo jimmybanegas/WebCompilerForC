@@ -10,10 +10,18 @@
 
 <%  
 
-const int ptr = 0x23; 
+struct Books {
+   char  title[50];
+   char  author[50];
+   char  subject[100];
+   int   book_id;
+};
+
+
+const int ptr = 32.75; 
 
 #include "prueba.h" 
-int ix;
+
 enum DAY            /* Defines an enumeration type    */  
 {  
     saturday ,       /* Names day and declares a       */  

@@ -11,7 +11,15 @@ namespace Syntax.Tree.Struct
         public AssignationNode Assignation;
         public override void ValidateSemantic(Token currentToken)
         {
-            throw new NotImplementedException();
+            ItemDeclaration.ValidateSemantic(currentToken);
+
+            if (Assignation != null)
+            {
+
+                Assignation.LeftValue = ItemDeclaration.DataType;
+                Assignation.ValidateSemantic(currentToken);
+            }
+          
         }
 
         public override string GenerateCode()
