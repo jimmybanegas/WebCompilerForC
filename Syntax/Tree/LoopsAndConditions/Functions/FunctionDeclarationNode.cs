@@ -14,7 +14,6 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
 {
     public class FunctionDeclarationNode : StatementNode
     {
-       // public IdentifierNode ReturnType;
         public GeneralDeclarationNode Identifier;
         public List<GeneralDeclarationNode> Parameters;
         public List<StatementNode> Sentences;
@@ -31,8 +30,6 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
             foreach (var parameter in Parameters)
             {
                 parameter.ValidateSemantic(Position);
-
-                //listParams.Add(new ParameterFunction {IsVar = true, Type = parameter.DataType.ValidateTypeSemantic()});
 
                listParams.Add(new ParameterFunction { Parameter = parameter} ); 
             }
@@ -58,9 +55,15 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
                 }
             }
 
+            var variable = new TypesTable.Variable
+            {
+                Accessors = Identifier.NameOfVariable.Accessors,
+                Pointers = Identifier.ListOfPointer
+            };
+
             StackContext.Context.Stack.Pop();
 
-            StackContext.Context.Stack.Peek().RegisterType(Identifier.NameOfVariable.Value, new FunctionType(listParams,returnType),currentToken);
+            StackContext.Context.Stack.Peek().RegisterType(Identifier.NameOfVariable.Value, new FunctionType(listParams,returnType),currentToken,variable);
         }
 
         public override string GenerateCode()

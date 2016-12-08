@@ -19,15 +19,32 @@ namespace Syntax.Tree.Declarations
 
         public override void ValidateSemantic(Token currentToken)
         {
-            var type = DataType.ValidateTypeSemantic();
-            
-            // TypesTable.Instance.RegisterType(NameOfVariable.Value,type);
-            StackContext.Context.Stack.Peek().RegisterType(NameOfVariable.Value, type,currentToken);
+            BaseType type;
+            if (NameOfVariable.StructValue != null)
+            {
+                type = StackContext.Context.Stack.Peek().GetVariable(NameOfVariable.StructValue);
+            }
+            else
+            {
+                type = DataType.ValidateTypeSemantic();
+            }
+
+            var variable = new TypesTable.Variable();
+       
+            if (NameOfVariable.Accessors != null && NameOfVariable.Accessors.Count > 0)
+            {
+                variable.Accessors.AddRange(NameOfVariable.Accessors);
+            }
+
+            if (ListOfPointer!=null && ListOfPointer.Count > 0)
+            {
+                variable.Pointers.AddRange(ListOfPointer);
+            }
+
+            StackContext.Context.Stack.Peek().RegisterType(NameOfVariable.Value, type,currentToken,variable);
 
             if (NameOfVariable.Assignation !=null)
             {
-               // var typeOfVariable = NameOfVariable.ValidateTypeSemantic();
-
                 NameOfVariable.Assignation.LeftValue = DataType;
 
                 NameOfVariable.Assignation.ValidateSemantic(Position);

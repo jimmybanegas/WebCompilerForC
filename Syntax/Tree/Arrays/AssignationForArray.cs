@@ -18,8 +18,14 @@ namespace Syntax.Tree.Arrays
             {
                 var rTipo = expressionNode.ValidateSemantic();
 
+                var variable = new TypesTable.Variable
+                {
+                    Accessors = LeftValue.Accessors,
+                    Pointers = LeftValue.PointerNodes
+                };
+
                 if (!StackContext.Context.Stack.Peek().VariableExist(LeftValue.Value))
-                    StackContext.Context.Stack.Peek().RegisterType(LeftValue.Value, rTipo,currentToken);
+                    StackContext.Context.Stack.Peek().RegisterType(LeftValue.Value, rTipo,currentToken,variable);
                 else
                 {
                     var lTipo = StackContext.Context.Stack.Peek().GetVariable(LeftValue.Value);

@@ -23,7 +23,8 @@ namespace Syntax.Semantic
                 {"bool", new BooleanType()},
                 {"double", new FloatType()},
                 {"decimal", new FloatType()},
-                {"void", new VoidType()}
+                {"void", new VoidType()},
+                {"long", new IntType()},
             };
         }
 

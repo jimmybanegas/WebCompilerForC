@@ -21,10 +21,13 @@ namespace Syntax.Tree.LoopsAndConditions
 
             var type = DataType.ValidateTypeSemantic();
 
-            StackContext.Context.Stack.Peek().RegisterType(Item.Value,type,currentToken);
+            var variable = new TypesTable.Variable
+            {
+                Accessors = Item.Accessors,
+                Pointers = Item.PointerNodes
+            };
 
-            //  TypesTable.Instance.RegisterType(List.Value, type);
-
+            StackContext.Context.Stack.Peek().RegisterType(Item.Value,type,currentToken,variable);
             StackContext.Context.Stack.Pop();
 
         }

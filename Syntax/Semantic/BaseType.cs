@@ -1,9 +1,11 @@
-﻿namespace Syntax.Semantic
+﻿using System.Collections.Generic;
+using Syntax.Tree.Acessors;
+
+namespace Syntax.Semantic
 {
     public abstract class BaseType
     {
         public abstract bool IsAssignable(BaseType otherType);
-     //   public abstract string GenerateCode();
 
     }
 }

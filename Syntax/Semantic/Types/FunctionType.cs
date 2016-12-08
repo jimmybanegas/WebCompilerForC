@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syntax.Tree.Acessors;
 
 namespace Syntax.Semantic.Types
 {

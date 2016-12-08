@@ -10,6 +10,7 @@
 
 <%  
 
+
 //a->d[2].c =  arr[a->d[2].c];
 
 // struct point *p = &my_point;

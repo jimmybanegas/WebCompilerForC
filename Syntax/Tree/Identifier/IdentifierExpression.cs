@@ -17,29 +17,24 @@ namespace Syntax.Tree.Identifier
         public Token Position = new Token();
         public override BaseType ValidateSemantic()
         {
+            var type = StackContext.Context.Stack.Peek().GetVariable(Name);
 
-            //if (TypesTable.Instance.VariableExist(Name))
-            //{
-            //    return TypesTable.Instance.GetVariable(Name);
-            //}
-
-            var type = TypesTable.Instance.GetVariable(Name);
-
-            if (Accessors != null)
+            if (Accessors != null && Accessors.Count>0)
             {
+                var accessorsAndPointers = StackContext.Context.Stack.Peek().GetVariableAccessorsAndPointers(Name);
+
+                if (accessorsAndPointers.Accessors.Count != Accessors.Count && Accessors[0] is ArrayAccessorNode)
+                {
+                    throw new SemanticException($"Variable {Name} contains: {accessorsAndPointers.Accessors.Count} array accessor, you're trying to access : {Accessors.Count}");
+                }
+
                 foreach (var variable in Accessors)
                 {
-                    //  type = variable.ValidateSemanticType(type);
+                      type = variable.ValidateSemanticType(type);
                 }
             }
 
             return type;
-
-
-            //if (!TypesTable.Instance.VariableExist(Name))
-            //    throw new SemanticException($"Variable {Name} doesn't exist");
-
-            //return TypesTable.Instance.GetVariable(Name);
         }
 
         public override string GenerateCode()

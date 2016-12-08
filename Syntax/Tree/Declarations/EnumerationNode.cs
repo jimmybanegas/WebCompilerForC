@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Lexer;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
+using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Identifier;
 
@@ -26,7 +27,13 @@ namespace Syntax.Tree.Declarations
                 items.Add(new ElementEnum {Element = item as EnumItemNode});
             }
 
-            StackContext.Context.Stack.Peek().RegisterType(Name.Value,new EnumType(items),Position );
+            var variable = new TypesTable.Variable
+            {
+                Accessors = Name.Accessors,
+                Pointers = Name.PointerNodes
+            };
+
+            StackContext.Context.Stack.Peek().RegisterType(Name.Value,new EnumType(items),Position ,variable);
             StackContext.Context.TableOfTypes.Add(Name.Value, new EnumType(items));
         }
 

@@ -21,8 +21,6 @@ namespace Syntax.Tree.DataTypes
         public Token Position;
         public override void ValidateSemantic(Token currentToken)
         {
-           // ConstName.ValidateSemantic(Position);
-
             var type = TypeOfConst.ValidateTypeSemantic();
 
             if (Assignation != null)
@@ -32,12 +30,18 @@ namespace Syntax.Tree.DataTypes
                 Assignation.ValidateSemantic(Position);
             }
 
+            var variable = new TypesTable.Variable
+            {
+                Accessors = ConstName.Accessors,
+                Pointers = PointersList
+            };
+
             StackContext.Context.Stack.Peek().Table.Remove(ConstName.Value);
 
             StackContext.Context.Stack.Peek().RegisterType(ConstName.Value, new ConstType
             {
                 Assignation = Assignation, Type = type
-            }, Position);
+            }, Position,variable);
         }
 
         public override string GenerateCode()

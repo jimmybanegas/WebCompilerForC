@@ -24,7 +24,16 @@ namespace Syntax.Tree.Identifier
         public Token Position = new Token();
         public override void ValidateSemantic(Token currentToken)
         {
-            var variable = StackContext.Context.Stack.Peek().GetVariable(Value);
+            BaseType variable;
+
+            //if (StructValue != null)
+            //{
+            //    variable = StackContext.Context.Stack.Peek().GetVariable(Value);
+            //}
+            //else
+            //{
+                 variable = StackContext.Context.Stack.Peek().GetVariable(Value);
+         //   }
 
             if (Assignation != null && !(variable is StructType))
             {
@@ -34,13 +43,19 @@ namespace Syntax.Tree.Identifier
 
             if (Accessors != null)
             {
+                var accessorsAndPointers = StackContext.Context.Stack.Peek().GetVariableAccessorsAndPointers(Value);
+
+                if (accessorsAndPointers.Accessors.Count != Accessors.Count && Accessors[0] is ArrayAccessorNode)
+                {
+                    throw new SemanticException($"Variable {Value} contains: {accessorsAndPointers.Accessors.Count} array accessor, you're trying to access : {Accessors.Count}");
+                }
+
                 foreach (var accessor in Accessors)
                 {
                     var typeOfAccessor = accessor.ValidateSemanticType(variable);
 
                     if (Assignation != null)
                     {
-                        
                         var right = Assignation.RightValue.ValidateSemantic();
 
                         if (!Validations.ValidateReturnTypesEquivalence(right, typeOfAccessor))

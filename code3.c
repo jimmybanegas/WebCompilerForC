@@ -166,7 +166,7 @@ int main()
 }
 
 long  *  var1, var2;
- int   ** p3;
+int   ** p3;
 
 void copy_array(float *src, float *dst, int n)
 {

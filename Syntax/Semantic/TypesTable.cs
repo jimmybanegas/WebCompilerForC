@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Lexer;
 using Syntax.Exceptions;
 using Syntax.Semantic.Types;
+using Syntax.Tree.Acessors;
 
 namespace Syntax.Semantic
 {
@@ -14,6 +11,8 @@ namespace Syntax.Semantic
         public Dictionary<string, BaseType> Table;
 
         private static TypesTable _instance;
+
+        public Dictionary<string, Variable> Variables;
 
         public TypesTable()
         {
@@ -27,7 +26,10 @@ namespace Syntax.Semantic
                 {"bool", new BooleanType()},
                 {"double", new FloatType()},
                 {"decimal", new FloatType()},
+                {"long", new IntType()}
             };
+
+            Variables = new Dictionary<string, Variable>();
         }
         public static TypesTable Instance
         {
@@ -41,14 +43,15 @@ namespace Syntax.Semantic
             }
         }
 
-        public void RegisterType(string name, BaseType baseType, Token currentToken)
+        public void RegisterType(string name, BaseType baseType, Token currentToken, Variable variable)
         {
             if (StackContext.Context.Stack.Peek().Table.ContainsKey(name))
             {
-                throw new SemanticException($"Variable :{name} already exists at Row: {currentToken.Row}.");
+                throw new SemanticException($"Type: {name} already exists at Row: {currentToken.Row}.");
             }
 
             Table.Add(name, baseType);
+            Variables.Add(name, new Variable {Accessors = variable.Accessors, Pointers = variable.Pointers});
         }
 
         public  BaseType GetVariable(string name)
@@ -61,7 +64,20 @@ namespace Syntax.Semantic
                 }
             }
 
-            throw new SemanticException($"Variable :{name} doesn't exists.");
+            throw new SemanticException($"Type: {name} doesn't exists.");
+        }
+
+        public Variable GetVariableAccessorsAndPointers(string name)
+        {
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                if (stack.Variables.ContainsKey(name))
+                {
+                    return stack.Variables[name];
+                }
+            }
+
+            throw new SemanticException($"Type: {name} doesn't exists.");
         }
 
         public  bool VariableExist(string name)
@@ -75,6 +91,18 @@ namespace Syntax.Semantic
             }
 
             return false;
+        }
+
+        public class Variable
+        {
+            public List<PointerNode> Pointers { get; set; }
+            public List<AccessorNode> Accessors { get; set; }
+
+            public Variable() 
+            {
+                Pointers = new List<PointerNode>();
+                Accessors = new List<AccessorNode>();
+            }
         }
 
     }

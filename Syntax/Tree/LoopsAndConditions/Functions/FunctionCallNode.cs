@@ -25,6 +25,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
                throw new SemanticException($"You provided {Parameters.Count} parameters, {o.Parameters.Count} are required to call function {Name.Value}");
 
             int pos = 0;
+
             foreach (var expression in Parameters)
             {
                 var type = expression.ValidateSemantic();
