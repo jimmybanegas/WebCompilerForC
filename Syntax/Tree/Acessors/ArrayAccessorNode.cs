@@ -29,6 +29,18 @@ namespace Syntax.Tree.Acessors
                 return type;
             }
 
+            if (type is StructType)
+            {
+                //var list = ((StructType)type).Elements;
+
+                //foreach (var element in list)
+                //{
+                    
+                //}
+
+                return type;
+            }
+
             throw new SemanticException($"Types don't match {type} and {expressionType}");
         }
     }

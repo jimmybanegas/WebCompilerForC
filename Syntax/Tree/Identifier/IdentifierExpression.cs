@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Lexer;
 using Syntax.Exceptions;
 using Syntax.Semantic;
@@ -23,9 +24,13 @@ namespace Syntax.Tree.Identifier
             {
                 var accessorsAndPointers = StackContext.Context.Stack.Peek().GetVariableAccessorsAndPointers(Name);
 
-                if (accessorsAndPointers.Accessors.Count != Accessors.Count && Accessors[0] is ArrayAccessorNode)
+                var arrayAccessorsCount = Accessors.Count(a => a is ArrayAccessorNode);
+                var arrayAccessorsCountFromVariable = accessorsAndPointers.Accessors.Count(a => a is ArrayAccessorNode);
+
+                // if (accessorsAndPointers.Accessors.Count != Accessors.Count && Accessors[0] is ArrayAccessorNode)
+                if (arrayAccessorsCountFromVariable != arrayAccessorsCount)
                 {
-                    throw new SemanticException($"Variable {Name} contains: {accessorsAndPointers.Accessors.Count} array accessor, you're trying to access : {Accessors.Count}");
+                    throw new SemanticException($"Variable {Name} contains: {arrayAccessorsCountFromVariable} array accessor, you're trying to access : {arrayAccessorsCount}");
                 }
 
                 foreach (var variable in Accessors)

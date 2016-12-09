@@ -811,6 +811,16 @@ namespace Syntax.Parser
                     general.NameOfVariable.Assignation = new AssignationForArray {RightValue = value};
                 }
 
+                if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
+                {
+                    var accessors = new List<AccessorNode>();
+
+                    var id = Expressions.IndexOrArrowAccess(name, accessors);
+
+                    general.NameOfVariable.Accessors = accessors;
+                }
+
+
                 if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
                     throw new Exception("Openning bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);

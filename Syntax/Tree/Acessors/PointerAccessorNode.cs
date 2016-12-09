@@ -37,7 +37,7 @@ namespace Syntax.Tree.Acessors
                 }
             }
 
-            throw new SemanticException($"The property {IdentifierNode.Value} doen't exist in the element");
+            throw new SemanticException($"The property {IdentifierNode.Value} doesn't exist in the element");
         }
 
         public override string GenerateCode()

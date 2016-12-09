@@ -97,6 +97,7 @@ namespace Syntax.Semantic
         {
             public List<PointerNode> Pointers { get; set; }
             public List<AccessorNode> Accessors { get; set; }
+            
 
             public Variable() 
             {
