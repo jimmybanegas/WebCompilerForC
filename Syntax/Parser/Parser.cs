@@ -264,7 +264,7 @@ namespace Syntax.Parser
 
         private StatementNode ReturnStatement()
         {
-            var returnStatement = new ReturnStatementNode();
+            var returnStatement = new ReturnStatementNode {Position = CurrentToken};
 
             Utilities.NextToken();
 
@@ -588,7 +588,9 @@ namespace Syntax.Parser
             identifier.Accessors.AddRange(accessors);
             identifier.Value = ((IdentifierExpression) id).Name;
 
-            identifier.Position = new Token {Row = CurrentToken.Row, Column = CurrentToken.Column};
+            var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+
+            identifier.Position = position;
        
             if (Utilities.CompareTokenType(TokenType.OpIncrement)
                   || Utilities.CompareTokenType(TokenType.OpDecrement))
@@ -612,8 +614,7 @@ namespace Syntax.Parser
 
             if (isFunctionCall)
             {
-                return new FunctionCallNode {Name = identifier, Parameters = expressionList};
-               // return new CallFunctionNode {Name = identifier.Name, ListOfExpressions = expressionList};
+                return new FunctionCallNode {Name = identifier, Parameters = expressionList, Position = position};
             }
 
             if (expressionList.Count>0)
@@ -649,7 +650,6 @@ namespace Syntax.Parser
             }
             if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
-                //  List<ExpressionNode> listOfExpressions = new List<ExpressionNode>(); 
                 isFunctioncall = true;
                 return Functions.CallFunction();
             }
@@ -902,7 +902,9 @@ namespace Syntax.Parser
         {
             if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
             {
-                var structItem = new StructItemNode();
+                var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+
+                var structItem = new StructItemNode {Position = position};
 
                 if (!isMultideclaration)
                 {
@@ -970,13 +972,11 @@ namespace Syntax.Parser
 
                 if (!isMultideclaration)
                 {
-                    //structItem.ItemDeclaration.NameOfVariable.Accessors.Add(accesor);
-                    structItems.Add(structItem);
+                   structItems.Add(structItem);
                 }
                 else
                 {
-                    //itemMultideclaration.ItemDeclaration.NameOfVariable.Accessors.Add(accesor);
-                    structItems.Add(itemMultideclaration);
+                   structItems.Add(itemMultideclaration);
                 }
               
 
@@ -986,7 +986,6 @@ namespace Syntax.Parser
                     var structItemMul = new StructItemNode();
                     GeneralDeclarationNode itemDeclaration;
 
-                    //Cuando es en multideclaracion , structitem viene nulo por lo que hay que usar el itemMultideclaration
                     if (isMultideclaration)
                     {
                         itemDeclaration = new GeneralDeclarationNode
@@ -1024,8 +1023,11 @@ namespace Syntax.Parser
 
         public GeneralDeclarationNode ChooseIdType(string dataType)
         {
-            var identifier = new GeneralDeclarationNode();
-            identifier.DataType = new IdentifierNode {Value = dataType };
+            var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+
+            var identifier = new GeneralDeclarationNode {Position = position};
+
+            identifier.DataType = new IdentifierNode {Value = dataType, Position = position};
             
             if (Utilities.CompareTokenType(TokenType.OpBitAnd))
             {
@@ -1036,7 +1038,7 @@ namespace Syntax.Parser
 
                 if (Utilities.CompareTokenType(TokenType.Identifier))
                 {
-                    identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme};
+                    identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme, Position = position};
                     Utilities.NextToken();
                 }
                 else
@@ -1046,7 +1048,7 @@ namespace Syntax.Parser
             }
             else if (Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
-                List<PointerNode> listOfPointer = new List<PointerNode> {new PointerNode()};
+                List<PointerNode> listOfPointer = new List<PointerNode> {new PointerNode {Position = position} };
 
                 identifier.ListOfPointer = listOfPointer;
 
@@ -1061,9 +1063,10 @@ namespace Syntax.Parser
                     Utilities.NextToken();
                 }
 
+                position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
                 if (Utilities.CompareTokenType(TokenType.Identifier))
                 {
-                    identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme};
+                    identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme, Position = position};
                     Utilities.NextToken();
                 }
                 else
@@ -1073,7 +1076,7 @@ namespace Syntax.Parser
             }
             else if (Utilities.CompareTokenType(TokenType.Identifier))
             {
-                identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme};
+                identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme, Position = position};
                 var nameOfStruct = CurrentToken.Lexeme;
 
                 Utilities.NextToken();
@@ -1094,8 +1097,11 @@ namespace Syntax.Parser
                 if (Utilities.CompareTokenType(TokenType.Identifier))
                 {
                     //Structs as parameters for function
-                  //  identifier.NameOfVariable.StructValue 
-                    identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme};
+                    //  identifier.NameOfVariable.StructValue 
+
+                    position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+
+                    identifier.NameOfVariable = new IdentifierNode {Value = CurrentToken.Lexeme, Position = position};
                     identifier.NameOfVariable.StructValue = nameOfStruct;
 
                     Utilities.NextToken();
@@ -1124,8 +1130,9 @@ namespace Syntax.Parser
             if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 var value = ValueForId();
+                var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
 
-                generalDecla.NameOfVariable.Assignation = new AssignationNode {RightValue = value};
+                generalDecla.NameOfVariable.Assignation = new AssignationNode {RightValue = value, Position = position};
 
                 if (Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
@@ -1136,6 +1143,8 @@ namespace Syntax.Parser
                     List<IdentifierNode> listOptional = new List<IdentifierNode>();
                     Functions.OptionalId(listOptional);
 
+                    position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+
                     if (Utilities.CompareTokenType(TokenType.EndOfSentence))
                     {
                         Utilities.NextToken();
@@ -1145,7 +1154,7 @@ namespace Syntax.Parser
                         throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                     }
 
-                    return new MultideclarationNode {GeneralNode = generalDecla, ListOfVariables = listOptional, Position = CurrentToken};
+                    return new MultideclarationNode {GeneralNode = generalDecla, ListOfVariables = listOptional, Position = position};
                 }
                 else
                 {
@@ -1158,6 +1167,8 @@ namespace Syntax.Parser
                 var listOptional = new List<IdentifierNode>();
                 Functions.OptionalId(listOptional);
 
+                var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+
                 if (Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
                     Utilities.NextToken();
@@ -1167,7 +1178,7 @@ namespace Syntax.Parser
                     throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
 
-                return new MultideclarationNode { GeneralNode = generalDecla, ListOfVariables = listOptional, Position = CurrentToken };
+                return new MultideclarationNode { GeneralNode = generalDecla, ListOfVariables = listOptional, Position = position };
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
@@ -1176,8 +1187,10 @@ namespace Syntax.Parser
 
                 var tuppleArray = Arrays.IsArrayDeclaration(isInMultideclaration, listOptionalArr);
 
+                var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+
                 generalDecla.NameOfVariable.Accessors.AddRange(tuppleArray.Item1);
-                generalDecla.NameOfVariable.Assignation = new AssignationForArray {RightValue = tuppleArray.Item2};
+                generalDecla.NameOfVariable.Assignation = new AssignationForArray {RightValue = tuppleArray.Item2 , Position = position};
 
                 if (Utilities.CompareTokenType(TokenType.Comma))
                 {
@@ -1196,7 +1209,7 @@ namespace Syntax.Parser
 
                 if (listOptionalArr.Count > 0)
                 {
-                    return new MultideclarationNode { GeneralNode = generalDecla, ListOfVariables = listOptionalArr, Position = CurrentToken};
+                    return new MultideclarationNode { GeneralNode = generalDecla, ListOfVariables = listOptionalArr, Position = position};
                 }
             }
             else if (Utilities.CompareTokenType(TokenType.OpenParenthesis))
@@ -1306,9 +1319,11 @@ namespace Syntax.Parser
         {
             var value = ValueForId();
 
+            var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+
             if (value != null)
             {
-                identifier.Assignation = new AssignationNode {RightValue = value};
+                identifier.Assignation = new AssignationNode {RightValue = value, Position = position};
             }
  
             Functions.OptionalId(listOptional);
@@ -1320,6 +1335,8 @@ namespace Syntax.Parser
             IdentifierNode nameOfVariable = new IdentifierNode();
 
             IdentifierNode dataType = (IdentifierNode)DataType();
+
+            var position = new Token();
 
             if (Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
@@ -1334,6 +1351,8 @@ namespace Syntax.Parser
                     Value = CurrentToken.Lexeme
                 };
 
+                position = new Token {Row = CurrentToken.Row, Column = CurrentToken.Column};
+
                 Utilities.NextToken();
             }
 
@@ -1342,13 +1361,15 @@ namespace Syntax.Parser
                 DataType = dataType,
                 ListOfPointer = listOfPointer,
                 NameOfVariable = nameOfVariable,
-                Position = CurrentToken
+                Position = position
             };
         }
 
         public void IsPointer(List<PointerNode> listOfPointer) 
         {
-            listOfPointer.Add(new PointerNode());
+
+            var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+            listOfPointer.Add(new PointerNode {Position = position});
             Utilities.NextToken();
 
             if (Utilities.CompareTokenType(TokenType.OpMultiplication))
@@ -1374,7 +1395,8 @@ namespace Syntax.Parser
             if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 var value = ValueForId();
-                generalDeclaration.NameOfVariable.Assignation = new AssignationNode { RightValue = value };
+                var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+                generalDeclaration.NameOfVariable.Assignation = new AssignationNode { RightValue = value ,Position = position};
 
                 if (Utilities.CompareTokenType(TokenType.EndOfSentence))
                 {
@@ -1385,6 +1407,8 @@ namespace Syntax.Parser
                     List<IdentifierNode> listOptional = new List<IdentifierNode>();
                     Functions.OptionalId(listOptional);
 
+                    position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+
                     if (Utilities.CompareTokenType(TokenType.EndOfSentence))
                     {
                         Utilities.NextToken();
@@ -1394,7 +1418,7 @@ namespace Syntax.Parser
                         throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                     }
 
-                    return new MultideclarationNode { GeneralNode = generalDeclaration, ListOfVariables = listOptional };
+                    return new MultideclarationNode { GeneralNode = generalDeclaration, ListOfVariables = listOptional, Position = position};
                 }
                 else
                 {
@@ -1404,6 +1428,8 @@ namespace Syntax.Parser
             else if (Utilities.CompareTokenType(TokenType.Comma))
             {
                 var listOptional = new List<IdentifierNode>();
+
+                var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
                 Functions.OptionalId(listOptional);
 
                 if (Utilities.CompareTokenType(TokenType.EndOfSentence))
@@ -1415,7 +1441,7 @@ namespace Syntax.Parser
                     throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
                 }
 
-                return new MultideclarationNode { GeneralNode = generalDeclaration, ListOfVariables = listOptional };
+                return new MultideclarationNode { GeneralNode = generalDeclaration, ListOfVariables = listOptional , Position = position};
             }
             else if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
@@ -1425,7 +1451,10 @@ namespace Syntax.Parser
                 var tupleArray = Arrays.IsArrayDeclaration(isInMultideclaration,listOptionalArr);
                 
                 generalDeclaration.NameOfVariable.Accessors.AddRange(tupleArray.Item1);
-                generalDeclaration.NameOfVariable.Assignation = new AssignationForArray {RightValue = tupleArray.Item2};
+
+                var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+
+                generalDeclaration.NameOfVariable.Assignation = new AssignationForArray {RightValue = tupleArray.Item2, Position = position};
 
                 if (Utilities.CompareTokenType(TokenType.Comma))
                 {
@@ -1444,7 +1473,7 @@ namespace Syntax.Parser
 
                 if (listOptionalArr.Count > 0)
                 {
-                    return new MultideclarationNode { GeneralNode = generalDeclaration, ListOfVariables = listOptionalArr };
+                  return new MultideclarationNode { GeneralNode = generalDeclaration, ListOfVariables = listOptionalArr, Position = position};
                 }
             }
             else if (Utilities.CompareTokenType(TokenType.EndOfSentence))

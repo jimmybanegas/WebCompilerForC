@@ -366,10 +366,12 @@ namespace Syntax.Parser
 
         private ExpressionNode Factor()
         {
+            var position = new Token { Row = _parser.CurrentToken.Row, Column =_parser.CurrentToken.Column };
+
             if (_parser.Utilities.CompareTokenType(TokenType.Identifier))
             {
                 var value = _parser.CurrentToken.Lexeme;
-                var identifier = new IdentifierExpression {Name = value};
+                var identifier = new IdentifierExpression {Name = value, Position = position};
 
                 _parser.Utilities.NextToken();
 
@@ -383,7 +385,8 @@ namespace Syntax.Parser
                         {
                             Accessors = null,
                             Name = value,
-                            IncrementOrdecrement = new PostIncrementOperatorNode { Value = _parser.CurrentToken.Lexeme }
+                            IncrementOrdecrement = new PostIncrementOperatorNode { Value = _parser.CurrentToken.Lexeme, Position = position},
+                            Position = position
                         };
                     }
                     else if (_parser.Utilities.CompareTokenType(TokenType.OpDecrement))
@@ -392,9 +395,9 @@ namespace Syntax.Parser
                         {
                             Accessors = null,
                             Name = value,
-                            IncrementOrdecrement = new PostDecrementOperatorNode { Value = _parser.CurrentToken.Lexeme }
+                            IncrementOrdecrement = new PostDecrementOperatorNode { Value = _parser.CurrentToken.Lexeme,Position = position},
+                            Position = position
                         };
-                        // identifier = new PostDecrementOperatorNode { Name = _parser.CurrentToken.Lexeme }
                     }
 
                   
@@ -411,7 +414,7 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
 
-                return new IntegerNode {Value = value};
+                return new IntegerNode {Value = value, Position = position};
             }
             if (_parser.Utilities.CompareTokenType(TokenType.LiteralDecimal))
             {
@@ -419,7 +422,7 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
 
-                return new DecimalNode { Value = value };
+                return new DecimalNode { Value = value, Position = position};
             }
             if (_parser.Utilities.CompareTokenType(TokenType.LiteralChar))
             {
@@ -427,7 +430,7 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
 
-                return new CharNode { Value = value };
+                return new CharNode { Value = value , Position = position};
             }
             if (_parser.Utilities.CompareTokenType(TokenType.LiteralDate))
             {
@@ -435,7 +438,7 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
 
-                return new DateNode { Value = value };
+                return new DateNode { Value = value , Position = position};
             }
             if (_parser.Utilities.CompareTokenType(TokenType.LiteralFloat))
             {
@@ -443,7 +446,7 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
 
-                return new FloatNode { Value = value };
+                return new FloatNode { Value = value, Position = position};
             }
             if (_parser.Utilities.CompareTokenType(TokenType.LiteralHexadecimal))
             {
@@ -451,7 +454,7 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
 
-                return new HexadecimalNode { Value = value };
+                return new HexadecimalNode { Value = value , Position = position};
             }
             if (_parser.Utilities.CompareTokenType(TokenType.LiteralOctal))
             {
@@ -459,7 +462,7 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
 
-                return new OctalNode { Value = value };
+                return new OctalNode { Value = value, Position = position};
             }
             if (_parser.Utilities.CompareTokenType(TokenType.LiteralString))
             {
@@ -467,7 +470,7 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
 
-                return new StringNode { Value = value };
+                return new StringNode { Value = value , Position = position};
             }
             if (_parser.Utilities.CompareTokenType(TokenType.RwTrue))
             {
@@ -475,7 +478,7 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
 
-                return new BooleanNode { Value = true };
+                return new BooleanNode { Value = true, Position = position};
             }
             if (_parser.Utilities.CompareTokenType(TokenType.RwFalse))
             {
@@ -483,7 +486,7 @@ namespace Syntax.Parser
 
                 _parser.Utilities.NextToken();
 
-                return new BooleanNode { Value = false };
+                return new BooleanNode { Value = false , Position = position};
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpenParenthesis))
             {
@@ -505,13 +508,15 @@ namespace Syntax.Parser
 
         private ExpressionNode FactorFunctionOrArray(string value)
         {
+            var position = new Token { Row = _parser.CurrentToken.Row, Column = _parser.CurrentToken.Column };
+
             if (_parser.Utilities.CompareTokenType(TokenType.OpenParenthesis))
             { 
                 var listOfExpressions = _parser.Functions.CallFunction();
 
                 return new CallFunctionNode
                 {
-                    Name = value, ListOfExpressions = listOfExpressions
+                    Name = value, ListOfExpressions = listOfExpressions, Position = position
                 };
             }
 
@@ -522,11 +527,13 @@ namespace Syntax.Parser
 
         public ExpressionNode IndexOrArrowAccess(string value, List<AccessorNode> listOfAccessors)
         {
+            var position = new Token { Row = _parser.CurrentToken.Row, Column = _parser.CurrentToken.Column };
+
             if (_parser.Utilities.CompareTokenType(TokenType.OpenSquareBracket))
             {
                 _parser.Utilities.NextToken();
 
-                //List<AccessorNode> listOfAccessors = new List<AccessorNode>();
+               // var position = new Token { Row = _parser.CurrentToken.Row, Column = _parser.CurrentToken.Column };
 
                 var accessor = _parser.Arrays.SizeForBidArray();
 
@@ -545,7 +552,7 @@ namespace Syntax.Parser
                     return IndexOrArrowAccess(value, listOfAccessors);
                 }
 
-                return new IdentifierExpression {Accessors = listOfAccessors, Name = value};
+                return new IdentifierExpression {Accessors = listOfAccessors, Name = value, Position = position};
 
             }
 
@@ -553,7 +560,9 @@ namespace Syntax.Parser
                ||_parser.Utilities.CompareTokenType(TokenType.Dot))
             {
                 var IsPointerStrcut = ArrowOrPointer(listOfAccessors);
-               
+
+                position = new Token { Row = _parser.CurrentToken.Row, Column = _parser.CurrentToken.Column };
+
                 if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
                 {
                     List<PointerNode> listOfPointer = new List<PointerNode>();
@@ -569,7 +578,8 @@ namespace Syntax.Parser
 
                 return IndexOrArrowAccess(value, listOfAccessors);
             }
-            return new IdentifierExpression {Accessors = listOfAccessors, Name = value };
+
+            return new IdentifierExpression {Accessors = listOfAccessors, Name = value , Position = position};
         }
 
         public bool ArrowOrPointer(List<AccessorNode> listOfAccessors)

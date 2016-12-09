@@ -11,58 +11,115 @@
 <%  
 
 
-  enum Security_Levels
-        {
-          black_ops,
-          top_secret,
-          secret,
-          non_secret
-        };       // don't forget the semi-colon ; 
+ 
+/* function declaration */
+
+double getAverage(int *arr, int size) {
+
+   int  i, sum = 0;       
+   double avg;          
+ 
+   for (i = 0; i < size; ++i) {
+      sum += arr[i];
+   }
+ 
+   avg = sum / size;
+   return avg;
+}
+
+ 
+int main () {
+
+   /* an int array with 5 elements */
+   int balance[5] = {1000, 2, 3, 17, 50};
+   double avg;
+ 
+   /* pass pointer to the array as an argument */
+   avg = getAverage( balance, 5 ) ;
+ 
+   /* output the returned value  */
+   //printf("Average value is: %f\n", avg );
+   return 0;
+}
+
+
+int swap(int *x, int *y) {
+
+   int temp;
+   temp = *x;    /* save the value at address x */
+   *x = *y;      /* put y into x */
+   *y = temp;    /* put temp into y */
+  
+   return 0;
+}
+
+int main () {
+
+   /* local variable definition */
+   int a = 100;
+   int b = 200;
+ 
+  // printf("Before swap, value of a : %d\n", a );
+  // printf("Before swap, value of b : %d\n", b );
+ 
+   /* calling a function to swap the values.
+      * &a indicates pointer to a ie. address of variable a and 
+      * &b indicates pointer to b ie. address of variable b.
+   */
+ int x =  swap(&a, &b);
+ 
+  // printf("After swap, value of a : %d\n", a );
+   //printf("After swap, value of b : %d\n", b );
+ 
+   return 0;
+}
+
+
+//   enum Security_Levels
+//         {
+//           black_ops,
+//           top_secret,
+//           secret,
+//           non_secret
+//         };       // don't forget the semi-colon ; 
         
-// int main()
-// {
-//     enum week today;
-//     today = wednesday;
-//     printf("Day %d",today+1);
-//     return 0;
-// }
 
+// struct student {
+//     char name[50];
+//     int  age;
+//     int  year;
+//     float  gpa;
+// };
 
-struct student {
-    char name[50];
-    int  age;
-    int  year;
-    float  gpa;
-};
-
-struct student s;
-struct student *sptr;
-struct student students[36];  
+// struct student s;
+// struct student *sptr;
+// struct student students[36];  
 
 // struct Foo {
 //     int bar;
 //     int some_array[20];
 // };
 
- //struct Foo foo;
+//  struct Foo foo;
 
-   bool f = true;
+//   // bool f = #01-01-1990#;
 
-   int x;
- for ( x = 0; x < 10; x++ ) {
-    /* Keep in mind that the loop condition checks 
-        the conditional statement before it loops again.
-        consequently, when x equals 10 the loop breaks.
-        x is updated before the condition is checked. */ 
-   string y = "hola";  
-  //  printf( "%d\n", x );
-   bool f = true;
- }
-//foo.some_array[0] = 12;
+//    int x;
+//  for ( x = 0; x < 10; x++ ) {
+//     /* Keep in mind that the loop condition checks 
+//         the conditional statement before it loops again.
+//         consequently, when x equals 10 the loop breaks.
+//         x is updated before the condition is checked. */ 
+//    string y = "hola";  
+//   //  printf( "%d\n", x );
+//    bool f = true;
+//  }
 
-s.age = 18;
-s.year = 2016;
-s.gpa = 4.0;
+// foo.some_array = 12;
+
+// s.age = 18;
+// s.year = 2016;
+//s.gpa = "hola";
 
 // sptr->age = 19;     // the age field of what sptr points to gets 20
 // sptr->year = 2015;
@@ -98,17 +155,19 @@ s.gpa = 4.0;
 //     return j;
 //  }
 
+//  FunctTwo();
+
 // struct Books {
-//  //  char  title[50];
-//  //  char  author[50];
-//  //  char  subject[100];
+//   char  title[50];
+//   char  author[50];
+//   char  subject[100];
 //    int   book_id;
 // };
 
-// //struct Books *personPtr, person1;
+// struct Books *personPtr;
 
 // void printBook( struct Books book ) {
-//    int a = book.book_id;
+//     //book.book_id = 200;
 // }
 
 //    int n[ 10 ]; /* n is an array of 10 integers */

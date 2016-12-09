@@ -48,6 +48,7 @@ namespace Syntax.Tree.Identifier
                         if (accessor is PropertyAccessorNode)
                         {
                             nameOfProperty = (accessor as PropertyAccessorNode).IdentifierNode.Value;
+
                             if (element.Element.ItemDeclaration.NameOfVariable.Value == (accessor as PropertyAccessorNode).IdentifierNode.Value)
                             {
                                 typeOfAccessorStruct = element.Element.ItemDeclaration.DataType.ValidateTypeSemantic();
@@ -85,7 +86,7 @@ namespace Syntax.Tree.Identifier
                         {
                             if (typeOfAccessorStruct == null)
                             {
-                               throw  new SemanticException($"Property {nameOfProperty} doesn't exist in struct");
+                               throw  new SemanticException($"Property {nameOfProperty} doesn't exist in struct at Row: {Position.Row} , Column {Position.Column}");
                             }
 
                             if (!Validations.ValidateReturnTypesEquivalence(right, typeOfAccessorStruct))
