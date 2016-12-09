@@ -8,7 +8,9 @@ namespace Syntax.Semantic
         private static StackContext _context;
         public Stack<TypesTable> Stack = new Stack<TypesTable>();
         public Dictionary<string, BaseType> TableOfTypes;
-
+        public bool CanDeclareBreak = false;
+        public bool CanDeclareContinue = false;
+        public bool CanDeclareReturn = false;
         private StackContext()
         {
             Stack.Push(new TypesTable());

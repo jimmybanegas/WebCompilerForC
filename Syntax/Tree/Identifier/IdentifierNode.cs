@@ -26,7 +26,7 @@ namespace Syntax.Tree.Identifier
         {
             BaseType variable;
         
-            variable = StackContext.Context.Stack.Peek().GetVariable(Value);
+            variable = StackContext.Context.Stack.Peek().GetVariable(Value, Position);
 
             if (Assignation != null && !(variable is StructType))
             {

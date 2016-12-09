@@ -15,11 +15,14 @@ namespace Syntax.Tree.LoopsAndConditions
         public override void ValidateSemantic()
         {
             StackContext.Context.Stack.Push(new TypesTable());
+            //StackContext.Context.CanDeclareBreak = true;
+            //StackContext.Context.CanDeclareReturn = true;
+            //StackContext.Context.CanDeclareContinue = true;
 
             var conditional = Expression.ValidateSemantic();
 
-            if (!(conditional is BooleanType))
-                throw new SemanticException($"A boolean expression was expected, not a {conditional} at Row: {Position.Row} , Column {Position.Column}");
+            //if (!(conditional is BooleanType))
+            //    throw new SemanticException($"A boolean expression was expected, not a {conditional} at Row: {Position.Row} , Column {Position.Column}");
 
             foreach (var statement in CaseStatements)
             {
@@ -27,6 +30,9 @@ namespace Syntax.Tree.LoopsAndConditions
             }
 
             StackContext.Context.Stack.Pop();
+            //StackContext.Context.CanDeclareBreak = false;
+            //StackContext.Context.CanDeclareReturn = false;
+            //StackContext.Context.CanDeclareContinue = false;
         }
 
         public override string GenerateCode()

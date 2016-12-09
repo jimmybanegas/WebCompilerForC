@@ -28,7 +28,7 @@ namespace Syntax.Tree.Arrays
                     StackContext.Context.Stack.Peek().RegisterType(LeftValue.Value, rTipo, Position, variable);
                 else
                 {
-                    var lTipo = StackContext.Context.Stack.Peek().GetVariable(LeftValue.Value);
+                    var lTipo = StackContext.Context.Stack.Peek().GetVariable(LeftValue.Value, Position);
                     if (lTipo.GetType() != rTipo.GetType())
                         throw new SemanticException($"You can't assign a {rTipo} to a {lTipo} at Row: {Position.Row} , Column {Position.Column}");
                 }

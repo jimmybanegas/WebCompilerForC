@@ -17,6 +17,9 @@ namespace Syntax.Tree.LoopsAndConditions
         public override void ValidateSemantic()
         {
             StackContext.Context.Stack.Push(new TypesTable());
+            //StackContext.Context.CanDeclareBreak = true;
+            //StackContext.Context.CanDeclareReturn = true;
+            //StackContext.Context.CanDeclareContinue = true;
 
             var condition = IfCondition.ValidateSemantic();
 
@@ -34,6 +37,9 @@ namespace Syntax.Tree.LoopsAndConditions
             }
 
             StackContext.Context.Stack.Pop();
+            //StackContext.Context.CanDeclareBreak = false;
+            //StackContext.Context.CanDeclareReturn = false;
+            //StackContext.Context.CanDeclareContinue = false;
         }
 
         public override string GenerateCode()

@@ -47,14 +47,14 @@ namespace Syntax.Semantic
         {
             if (StackContext.Context.Stack.Peek().Table.ContainsKey(name))
             {
-                throw new SemanticException($"Type: {name} already exists at Row: {currentToken.Row}.");
+                throw new SemanticException($"Type: {name} already exists.  Row: {currentToken.Row}, Column: {currentToken.Column}");
             }
 
             Table.Add(name, baseType);
             Variables.Add(name, new Variable {Accessors = variable.Accessors, Pointers = variable.Pointers});
         }
 
-        public  BaseType GetVariable(string name)
+        public  BaseType GetVariable(string name, Token currentToken)
         {
             foreach (var stack in StackContext.Context.Stack)
             {
@@ -64,7 +64,7 @@ namespace Syntax.Semantic
                 }
             }
 
-            throw new SemanticException($"Type: {name} doesn't exists.");
+            throw new SemanticException($"Type: {name} doesn't exists. Row: {currentToken.Row}, Column: {currentToken.Column}");
         }
 
         public Variable GetVariableAccessorsAndPointers(string name)

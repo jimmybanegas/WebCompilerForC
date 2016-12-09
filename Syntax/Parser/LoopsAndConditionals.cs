@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Lexer;
+using Syntax.Semantic;
 using Syntax.Tree;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.GeneralSentences;
@@ -52,6 +53,12 @@ namespace Syntax.Parser
 
         public SwitchNode Switch()
         {
+            bool insideFunction = StackContext.Context.CanDeclareReturn;
+
+            StackContext.Context.CanDeclareBreak = true;
+            StackContext.Context.CanDeclareReturn = true;
+            StackContext.Context.CanDeclareContinue = true;
+
             _parser.Utilities.NextToken();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenParenthesis))
@@ -86,6 +93,14 @@ namespace Syntax.Parser
 
             _parser.Utilities.NextToken();
 
+
+            if (!insideFunction)
+            {
+                StackContext.Context.CanDeclareReturn = false;
+            }
+            StackContext.Context.CanDeclareContinue = false;
+            StackContext.Context.CanDeclareBreak = false;
+
             return new SwitchNode
             {
                 CaseStatements = caseList, Expression = expression
@@ -95,8 +110,7 @@ namespace Syntax.Parser
 
         private List<CaseStatement> ListOfCase(List<CaseStatement> list)
         {
-            //List<CaseStatement> list = new List<CaseStatement>();
-
+       
             if (_parser.Utilities.CompareTokenType(TokenType.RwCase))
             {
                 var caseStatement = Case();
@@ -180,6 +194,13 @@ namespace Syntax.Parser
 
         private ForLoopNode ForOrForEach()
         {
+            //if true, it's inside a function
+            bool insideFunction = StackContext.Context.CanDeclareReturn;
+
+            StackContext.Context.CanDeclareBreak = true;
+            StackContext.Context.CanDeclareReturn = true;
+            StackContext.Context.CanDeclareContinue = true;
+
             _parser.Utilities.NextToken();
 
             if (_parser.Utilities.CompareTokenType(TokenType.RwChar)
@@ -224,7 +245,6 @@ namespace Syntax.Parser
                     throw new Exception("Closin parenthesis was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
                 }
 
-                //BlockForLoop();
                 var sentences = BlockForLoops();
 
                 return new ForEachNode
@@ -258,9 +278,15 @@ namespace Syntax.Parser
                 {
                     throw new Exception("Closing parenthesis was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
                 }
-
-               // BlockForLoop();
+             
                var sentences = BlockForLoops();
+
+                if (!insideFunction)
+                {
+                    StackContext.Context.CanDeclareReturn = false;
+                }
+                StackContext.Context.CanDeclareContinue = false;
+                StackContext.Context.CanDeclareBreak = false;
 
                 return new ForNode
                 {
@@ -274,7 +300,12 @@ namespace Syntax.Parser
 
         public DoWhileNode Do()
         {
-            //BlockForLoop();
+            bool insideFunction = StackContext.Context.CanDeclareReturn;
+
+            StackContext.Context.CanDeclareBreak = true;
+            StackContext.Context.CanDeclareReturn = true;
+            StackContext.Context.CanDeclareContinue = true;
+
             var sentences = BlockForLoops();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.RwWhile))
@@ -308,6 +339,13 @@ namespace Syntax.Parser
 
             _parser.Utilities.NextToken();
 
+            if (!insideFunction)
+            {
+                StackContext.Context.CanDeclareReturn = false;
+            }
+            StackContext.Context.CanDeclareContinue = false;
+            StackContext.Context.CanDeclareBreak = false;
+
             return new DoWhileNode
             {
                 Sentences = sentences, WhileCondition = expression
@@ -317,6 +355,12 @@ namespace Syntax.Parser
 
         public WhileNode While()
         {
+            bool insideFunction = StackContext.Context.CanDeclareReturn;
+
+            StackContext.Context.CanDeclareBreak = true;
+            StackContext.Context.CanDeclareReturn = true;
+            StackContext.Context.CanDeclareContinue = true;
+
             _parser.Utilities.NextToken();
 
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenParenthesis))
@@ -332,7 +376,15 @@ namespace Syntax.Parser
                 throw new Exception("Closing parenthesis was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
 
-           var sentences = BlockForLoops();
+            var sentences = BlockForLoops();
+
+            if (!insideFunction)
+            {
+                StackContext.Context.CanDeclareReturn = false;
+            }
+            StackContext.Context.CanDeclareContinue = false;
+            StackContext.Context.CanDeclareBreak = false;
+
 
             return new WhileNode
             {
@@ -342,6 +394,10 @@ namespace Syntax.Parser
 
         public IfNode If()
         {
+            bool insideFunction = StackContext.Context.CanDeclareReturn;
+            StackContext.Context.CanDeclareBreak = true;
+            StackContext.Context.CanDeclareReturn = true;
+            StackContext.Context.CanDeclareContinue = true;
 
             var trueBlock = new List<StatementNode>();
             var falseBlock = new List<StatementNode>();
@@ -367,6 +423,14 @@ namespace Syntax.Parser
 
             var falseB = Else();
             falseBlock.AddRange(falseB);
+
+            if (!insideFunction)
+            {
+                StackContext.Context.CanDeclareReturn = false;
+            }
+            StackContext.Context.CanDeclareContinue = false;
+            StackContext.Context.CanDeclareBreak = false;
+
 
             return new IfNode
             {

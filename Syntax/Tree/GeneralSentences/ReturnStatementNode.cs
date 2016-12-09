@@ -11,12 +11,12 @@ namespace Syntax.Tree.GeneralSentences
 
         public override void ValidateSemantic()
         {
-            ReturnExpression.ValidateSemantic();
+            ReturnExpression?.ValidateSemantic();
         }
 
         public BaseType ValidateSemanticAndGetType()
         {
-            return ReturnExpression.ValidateSemantic();
+            return ReturnExpression?.ValidateSemantic();
         }
 
         public override string GenerateCode()

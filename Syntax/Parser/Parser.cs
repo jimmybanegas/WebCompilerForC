@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lexer;
+using Syntax.Exceptions;
+using Syntax.Semantic;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.Arrays;
 using Syntax.Tree.BaseNodes;
@@ -151,6 +153,9 @@ namespace Syntax.Parser
             }
             if (Utilities.CompareTokenType(TokenType.RwBreak))
             {
+                if (!StackContext.Context.CanDeclareBreak)
+                    throw new SemanticException($"You cant´t declare a BREAK outside a Loop or condition, Row: {CurrentToken.Row}, Column: {CurrentToken.Column}");
+
                 return LoopsAndConditionals.Break();
             }
             if (Utilities.CompareTokenType(TokenType.RwDefault))
@@ -159,6 +164,9 @@ namespace Syntax.Parser
             }
             if (Utilities.CompareTokenType(TokenType.RwContinue))
             {
+                if (!StackContext.Context.CanDeclareContinue)
+                    throw new SemanticException($"You cant´t declare a CONTINUE in the current context, Row: {CurrentToken.Row}, Column: {CurrentToken.Column}");
+
                 return LoopsAndConditionals.Continue();
             }
             if (Utilities.CompareTokenType(TokenType.Identifier)
@@ -251,6 +259,9 @@ namespace Syntax.Parser
             }
             if (Utilities.CompareTokenType(TokenType.RwReturn))
             {
+                if (!StackContext.Context.CanDeclareReturn)
+                    throw new SemanticException($"You cant´t declare a RETURN in current scope, Row: {CurrentToken.Row}, Column: {CurrentToken.Column}");
+
                 return ReturnStatement();
             }
             if (Utilities.CompareTokenType(TokenType.RwStruct)
@@ -325,6 +336,9 @@ namespace Syntax.Parser
             }
             if (Utilities.CompareTokenType(TokenType.RwBreak))
             {
+                if (!StackContext.Context.CanDeclareBreak)
+                    throw new SemanticException($"You cant´t declare a BREAK outside a Loop or condition, Row: {CurrentToken.Row}, Column: {CurrentToken.Column}");
+
                 return LoopsAndConditionals.Break();
             }
             if (Utilities.CompareTokenType(TokenType.RwDefault))
@@ -333,6 +347,9 @@ namespace Syntax.Parser
             }
             if (Utilities.CompareTokenType(TokenType.RwContinue))
             {
+                if (!StackContext.Context.CanDeclareContinue)
+                    throw new SemanticException($"You cant´t declare a CONTINUE in current scope, Row: {CurrentToken.Row}, Column: {CurrentToken.Column}");
+
                 return LoopsAndConditionals.Continue();
             }
             if (Utilities.CompareTokenType(TokenType.Identifier)
@@ -439,6 +456,9 @@ namespace Syntax.Parser
             //Return no debería estar aquí porque no es una sentence
             if (Utilities.CompareTokenType(TokenType.RwReturn))
             {
+                if (!StackContext.Context.CanDeclareReturn)
+                    throw new SemanticException($"You cant´t declare a RETURN in current scope, Row: {CurrentToken.Row}, Column: {CurrentToken.Column}");
+
                 return ReturnStatement();
             }
 
@@ -546,11 +566,12 @@ namespace Syntax.Parser
 
         private StatementNode AssignmentOrFunctionCall(IdentifierNode identifier)
         {
-            //var identifer = new IdentifierNode();
             var name = CurrentToken.Lexeme;
 
             Utilities.NextToken();
 
+            Token  position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+            
             if (Utilities.CompareTokenType(TokenType.OpIncrement)
                    || Utilities.CompareTokenType(TokenType.OpDecrement))
             {
@@ -572,7 +593,7 @@ namespace Syntax.Parser
                 {
                     Utilities.NextToken();
                     var expression = Expressions.Expression();
-                    identifier.Assignation = new AssignationNode {RightValue = expression};
+                    identifier.Assignation = new AssignationNode {RightValue = expression , Position = position};
                 }
 
                 if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
@@ -588,7 +609,7 @@ namespace Syntax.Parser
             identifier.Accessors.AddRange(accessors);
             identifier.Value = ((IdentifierExpression) id).Name;
 
-            var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
+            position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
 
             identifier.Position = position;
        
@@ -610,7 +631,6 @@ namespace Syntax.Parser
             {
                 throw new Exception("End of sentence symbol ; expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
-
 
             if (isFunctionCall)
             {
@@ -679,6 +699,8 @@ namespace Syntax.Parser
 
         private StatementNode Const()
         {
+            var position = new Token {Row = CurrentToken.Row, Column = CurrentToken.Column};
+
             List<PointerNode> listOfPointer = new List<PointerNode>();
             Utilities.NextToken();
 
@@ -686,7 +708,7 @@ namespace Syntax.Parser
 
             var typeNode = new IdentifierNode
             {
-                Accessors = new List<AccessorNode>(), Value = ((IdentifierNode)dataType).Value
+                Accessors = new List<AccessorNode>(), Value = ((IdentifierNode)dataType).Value , Position = position
             };
 
             if (Utilities.CompareTokenType(TokenType.OpMultiplication))
@@ -701,7 +723,7 @@ namespace Syntax.Parser
 
             var name = CurrentToken.Lexeme;
 
-            var nameNode = new IdentifierNode {Accessors = new List<AccessorNode>(), Value = name};
+            var nameNode = new IdentifierNode {Accessors = new List<AccessorNode>(), Value = name , Position = position};
 
             Utilities.NextToken();
 
@@ -720,11 +742,11 @@ namespace Syntax.Parser
             }
             Utilities.NextToken();
 
-            var assignation = new AssignationNode {LeftValue = new IdentifierNode(), RightValue = expression};
+            var assignation = new AssignationNode {LeftValue = new IdentifierNode(), RightValue = expression, Position = position };
 
             return new ConstantNode
             {
-                ConstName = nameNode, TypeOfConst = typeNode, PointersList = listOfPointer, Assignation = assignation
+                ConstName = nameNode, TypeOfConst = typeNode, PointersList = listOfPointer, Assignation = assignation, Position = position
             };
         }
 

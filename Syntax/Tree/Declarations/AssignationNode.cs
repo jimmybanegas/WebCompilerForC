@@ -27,7 +27,7 @@ namespace Syntax.Tree.Declarations
                 StackContext.Context.Stack.Peek().RegisterType(LeftValue.Value, rTipo,Position,variable);
             else
             {
-                var lTipo = StackContext.Context.Stack.Peek().GetVariable(LeftValue.Value);
+                var lTipo = StackContext.Context.Stack.Peek().GetVariable(LeftValue.Value,Position);
 
                 if (rTipo is FunctionType)
                 {
@@ -39,7 +39,14 @@ namespace Syntax.Tree.Declarations
                 else
                 {
                     if (!Validations.ValidateReturnTypesEquivalence(rTipo, lTipo))
+                    {
+                        if (lTipo is ConstType)
+                        {
+                            throw new SemanticException(
+                                $"You can't assign a {rTipo} to a {lTipo} at Row: {LeftValue.Position.Row}, column : {LeftValue.Position.Column}");
+                        }
                         throw new SemanticException($"You can't assign a {rTipo} to a {lTipo} at Row: {Position.Row}, column : {Position.Column}");
+                    }
                 }
             }
          

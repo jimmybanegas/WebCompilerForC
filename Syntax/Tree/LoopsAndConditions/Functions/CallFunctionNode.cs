@@ -17,7 +17,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
 
         public override BaseType ValidateSemantic()
         {
-            var functionType = StackContext.Context.Stack.Peek().GetVariable(Name);
+            var functionType = StackContext.Context.Stack.Peek().GetVariable(Name,Position);
 
             var o = functionType as FunctionType;
             if (o != null && o.Parameters.Count != ListOfExpressions.Count)

@@ -15,7 +15,6 @@ namespace Syntax.Tree.DataTypes
         public IdentifierNode ConstName;
         public List<PointerNode> PointersList;
         public IdentifierNode TypeOfConst;
-        //public ExpressionNode ExpressionConst;
         public AssignationNode Assignation;
         public override void ValidateSemantic()
         {

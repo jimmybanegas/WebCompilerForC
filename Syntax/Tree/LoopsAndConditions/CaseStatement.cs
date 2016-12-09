@@ -15,10 +15,13 @@ namespace Syntax.Tree.LoopsAndConditions
         {
             StackContext.Context.Stack.Push(new TypesTable());
 
-            var conditional = Expression.ValidateSemantic();
+            if (Expression != null)
+            {
+                var conditional = Expression.ValidateSemantic();
+            }
 
-            if (!(conditional is BooleanType))
-                throw new SemanticException($"A boolean expression is expected, not a {conditional} at Row: {Position.Row} , Column {Position.Column}");
+            //if (!(conditional is BooleanType))
+            //    throw new SemanticException($"A boolean expression is expected, not a {conditional} at Row: {Position.Row} , Column {Position.Column}");
 
             foreach (var statement in Sentences)
             {

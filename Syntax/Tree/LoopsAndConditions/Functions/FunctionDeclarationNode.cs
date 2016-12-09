@@ -21,6 +21,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
         public override void ValidateSemantic()
         {
             StackContext.Context.Stack.Push(new TypesTable());
+            //StackContext.Context.CanDeclareReturn = true;
 
             List<ParameterFunction> listParams = new List<ParameterFunction>();
             BaseType returnType = null;
@@ -61,7 +62,8 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
 
             StackContext.Context.Stack.Pop();
 
-            StackContext.Context.Stack.Peek().RegisterType(Identifier.NameOfVariable.Value, new FunctionType(listParams,returnType), Position, variable);
+            StackContext.Context.Stack.Peek().RegisterType(Identifier.NameOfVariable.Value, new FunctionType(listParams,returnType), Identifier.Position, variable);
+           // StackContext.Context.CanDeclareReturn = false;
         }
 
         public override string GenerateCode()

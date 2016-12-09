@@ -17,7 +17,7 @@ namespace Syntax.Tree.Identifier
 
         public override BaseType ValidateSemantic()
         {
-            var type = StackContext.Context.Stack.Peek().GetVariable(Name);
+            var type = StackContext.Context.Stack.Peek().GetVariable(Name, Position);
 
             if (Accessors != null && Accessors.Count>0)
             {

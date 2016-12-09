@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lexer;
+using Syntax.Semantic;
 using Syntax.Tree;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
@@ -20,7 +21,11 @@ namespace Syntax.Parser
 
         public FunctionDeclarationNode IsFunctionDeclaration(GeneralDeclarationNode generalDecla)
         {
-            var functionNode = new FunctionDeclarationNode {Identifier = generalDecla};
+            StackContext.Context.CanDeclareReturn = true;
+
+            var position = new Token {Row = _parser.CurrentToken.Row, Column = _parser.CurrentToken.Column};
+
+            var functionNode = new FunctionDeclarationNode {Identifier = generalDecla, Position = position};
 
             if (!_parser.Utilities.CompareTokenType(TokenType.OpenParenthesis))
                 throw new Exception("Open parenthesis expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
@@ -56,6 +61,8 @@ namespace Syntax.Parser
             }
 
             functionNode.Position = _parser.CurrentToken;
+
+            StackContext.Context.CanDeclareReturn = false;
 
             return functionNode;
         }

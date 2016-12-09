@@ -20,7 +20,7 @@ namespace Syntax.Tree.Declarations
             BaseType type;
             if (NameOfVariable.StructValue != null)
             {
-                type = StackContext.Context.Stack.Peek().GetVariable(NameOfVariable.StructValue);
+                type = StackContext.Context.Stack.Peek().GetVariable(NameOfVariable.StructValue, Position);
             }
             else
             {

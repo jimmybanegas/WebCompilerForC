@@ -12,7 +12,7 @@ namespace Syntax.Tree.Acessors
         public IdentifierNode IdentifierNode { get; set; }
         public override BaseType ValidateSemantic()
         {
-            var idNodeType = TypesTable.Instance.GetVariable(IdentifierNode.Value);
+            var idNodeType = TypesTable.Instance.GetVariable(IdentifierNode.Value, Position);
 
             return idNodeType;
         }

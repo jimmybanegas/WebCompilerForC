@@ -16,6 +16,9 @@ namespace Syntax.Tree.LoopsAndConditions
         public override void ValidateSemantic()
         {
             StackContext.Context.Stack.Push(new TypesTable());
+            //StackContext.Context.CanDeclareBreak = true;
+            //StackContext.Context.CanDeclareReturn = true;
+            //StackContext.Context.CanDeclareContinue = true;
 
             var type = DataType.ValidateTypeSemantic();
 
@@ -27,6 +30,9 @@ namespace Syntax.Tree.LoopsAndConditions
 
             StackContext.Context.Stack.Peek().RegisterType(Item.Value,type,Position,variable);
             StackContext.Context.Stack.Pop();
+            //StackContext.Context.CanDeclareBreak = false;
+            //StackContext.Context.CanDeclareReturn = false;
+            //StackContext.Context.CanDeclareContinue = false;
 
         }
 

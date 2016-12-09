@@ -18,7 +18,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
         public List<ExpressionNode> Parameters;
         public override void ValidateSemantic()
         {
-            var functionType = StackContext.Context.Stack.Peek().GetVariable(Name.Value);
+            var functionType = StackContext.Context.Stack.Peek().GetVariable(Name.Value, Position);
 
             var o  = functionType as FunctionType;
 
