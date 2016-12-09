@@ -17,9 +17,7 @@ namespace Syntax.Tree.DataTypes
         public IdentifierNode TypeOfConst;
         //public ExpressionNode ExpressionConst;
         public AssignationNode Assignation;
-
-        public Token Position;
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
             var type = TypeOfConst.ValidateTypeSemantic();
 
@@ -27,7 +25,7 @@ namespace Syntax.Tree.DataTypes
             {
                 Assignation.LeftValue = TypeOfConst;
 
-                Assignation.ValidateSemantic(Position);
+                Assignation.ValidateSemantic();
             }
 
             var variable = new TypesTable.Variable

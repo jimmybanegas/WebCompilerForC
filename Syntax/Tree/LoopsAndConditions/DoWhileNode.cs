@@ -12,20 +12,18 @@ namespace Syntax.Tree.LoopsAndConditions
     {
         public ExpressionNode WhileCondition;
         public List<StatementNode> Sentences;
-
-        public Token Position = new Token();
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
             StackContext.Context.Stack.Push(new TypesTable());
 
             var conditional = WhileCondition.ValidateSemantic();
 
             if (!(conditional is BooleanType))
-                throw new SemanticException($"A boolean expression was expected, not a {conditional}");
+                throw new SemanticException($"A boolean expression was expected, not a {conditional} at Row: {Position.Row} , Column {Position.Column}");
 
             foreach (var statement in Sentences)
             {
-                statement.ValidateSemantic(currentToken);
+                statement.ValidateSemantic();
             }
 
             StackContext.Context.Stack.Pop();

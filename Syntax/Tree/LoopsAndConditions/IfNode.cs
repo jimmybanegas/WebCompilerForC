@@ -13,24 +13,24 @@ namespace Syntax.Tree.LoopsAndConditions
         public ExpressionNode IfCondition;
         public List<StatementNode> TrueBlock;
         public List<StatementNode> FalseBlock;
-        public Token Position = new Token();
-        public override void ValidateSemantic(Token currentToken)
+      
+        public override void ValidateSemantic()
         {
             StackContext.Context.Stack.Push(new TypesTable());
 
             var condition = IfCondition.ValidateSemantic();
 
             if (!(condition is BooleanType))
-                throw new SemanticException("A boolean expression was expected");
+                throw new SemanticException($"A boolean expression was expected at Row: {Position.Row} , Column {Position.Column}");
 
             foreach (var statement in TrueBlock)
             {
-                statement.ValidateSemantic(currentToken);
+                statement.ValidateSemantic();
             }
 
             foreach (var statementNode in FalseBlock)
             {
-                statementNode.ValidateSemantic(currentToken);
+                statementNode.ValidateSemantic();
             }
 
             StackContext.Context.Stack.Pop();

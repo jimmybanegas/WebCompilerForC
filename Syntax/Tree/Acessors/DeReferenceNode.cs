@@ -8,7 +8,7 @@ namespace Syntax.Tree.Acessors
     {
         //Para  suma (int &entrada)
         public string Value;
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
           //  throw new NotImplementedException();
         }

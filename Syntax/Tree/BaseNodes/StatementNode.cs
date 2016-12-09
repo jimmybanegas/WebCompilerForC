@@ -4,7 +4,8 @@ namespace Syntax.Tree.BaseNodes
 {
     public abstract class StatementNode
     {
-        public abstract void ValidateSemantic(Token currentToken);
+        public Token Position = new Token();
+        public abstract void ValidateSemantic();
         public abstract string GenerateCode();
 
     }

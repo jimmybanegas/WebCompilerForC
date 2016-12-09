@@ -14,15 +14,14 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
         public IdentifierNode Name;
 
         public List<ExpressionNode> Parameters;
-
-        public Token Position = new Token();
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
             var functionType = StackContext.Context.Stack.Peek().GetVariable(Name.Value);
 
             var o  = functionType as FunctionType;
             if (o != null && o.Parameters.Count != Parameters.Count)
-               throw new SemanticException($"You provided {Parameters.Count} parameters, {o.Parameters.Count} are required to call function {Name.Value}");
+               throw new SemanticException($"You provided {Parameters.Count} parameters, {o.Parameters.Count} " +
+                                           $"are required to call function {Name.Value} at Row: {Position.Row} , Column {Position.Column}");
 
             int pos = 0;
 
@@ -33,7 +32,8 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
                 var typeInTable = o.Parameters[pos].Parameter.DataType.ValidateTypeSemantic();
 
                 if (!(Validations.ValidateReturnTypesEquivalence(type,typeInTable)))
-                    throw new SemanticException($"You provided a {type} as parameter, {typeInTable} is required as parameter in position {pos+1}");
+                    throw new SemanticException($"You provided a {type} as parameter, {typeInTable} " +
+                                                $"is required as parameter in position {pos+1} at Row: {Position.Row} , Column {Position.Column}");
 
                 pos++;
             }

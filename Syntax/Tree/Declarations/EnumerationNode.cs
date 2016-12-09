@@ -15,14 +15,13 @@ namespace Syntax.Tree.Declarations
         //public List<TypeOfDeclaration> EnumItems;
         public List<StatementNode> EnumItems;
 
-        public Token Position = new Token();
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
             List<ElementEnum> items = new List<ElementEnum>();
             
             foreach (var item in EnumItems)
             {
-                item.ValidateSemantic(Position);
+                item.ValidateSemantic();
 
                 items.Add(new ElementEnum {Element = item as EnumItemNode});
             }

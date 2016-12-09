@@ -15,7 +15,6 @@ namespace Syntax.Tree.Identifier
         public UnaryOperator IncrementOrdecrement { get; set; }
         public List<AccessorNode> Accessors = new List<AccessorNode>();
 
-        public Token Position = new Token();
         public override BaseType ValidateSemantic()
         {
             var type = StackContext.Context.Stack.Peek().GetVariable(Name);
@@ -27,10 +26,10 @@ namespace Syntax.Tree.Identifier
                 var arrayAccessorsCount = Accessors.Count(a => a is ArrayAccessorNode);
                 var arrayAccessorsCountFromVariable = accessorsAndPointers.Accessors.Count(a => a is ArrayAccessorNode);
 
-                // if (accessorsAndPointers.Accessors.Count != Accessors.Count && Accessors[0] is ArrayAccessorNode)
                 if (arrayAccessorsCountFromVariable != arrayAccessorsCount)
                 {
-                    throw new SemanticException($"Variable {Name} contains: {arrayAccessorsCountFromVariable} array accessor, you're trying to access : {arrayAccessorsCount}");
+                    throw new SemanticException($"Variable {Name} contains: {arrayAccessorsCountFromVariable} array accessor, " +
+                                                $"you're trying to access : {arrayAccessorsCount} at Row: {Position.Row} , Column {Position.Column}");
                 }
 
                 foreach (var variable in Accessors)

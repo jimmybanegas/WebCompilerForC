@@ -15,9 +15,7 @@ namespace Syntax.Tree.Declarations
         public DeReferenceNode Reference;
         public IdentifierNode NameOfVariable;
      
-        public Token Position = new Token();
-
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
             BaseType type;
             if (NameOfVariable.StructValue != null)
@@ -41,13 +39,13 @@ namespace Syntax.Tree.Declarations
                 variable.Pointers.AddRange(ListOfPointer);
             }
 
-            StackContext.Context.Stack.Peek().RegisterType(NameOfVariable.Value, type,currentToken,variable);
+            StackContext.Context.Stack.Peek().RegisterType(NameOfVariable.Value, type,Position,variable);
 
             if (NameOfVariable.Assignation !=null)
             {
                 NameOfVariable.Assignation.LeftValue = DataType;
 
-                NameOfVariable.Assignation.ValidateSemantic(Position);
+                NameOfVariable.Assignation.ValidateSemantic();
             } 
         }
 

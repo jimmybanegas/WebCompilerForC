@@ -9,8 +9,7 @@ namespace Syntax.Tree.GeneralSentences
     {
         public ExpressionNode ReturnExpression;
 
-        public Token Position = new Token();
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
             ReturnExpression.ValidateSemantic();
         }

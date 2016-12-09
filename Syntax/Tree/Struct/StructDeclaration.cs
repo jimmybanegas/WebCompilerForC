@@ -15,9 +15,9 @@ namespace Syntax.Tree.Struct
 
         public List<ExpressionNode> Initialization;
 
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
-            General.ValidateSemantic(currentToken);
+            General.ValidateSemantic();
 
             if (Initialization != null)
             {

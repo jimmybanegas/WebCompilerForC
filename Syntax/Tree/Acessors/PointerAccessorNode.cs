@@ -1,4 +1,5 @@
 ﻿using System;
+using Lexer;
 using Syntax.Exceptions;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
@@ -10,7 +11,6 @@ namespace Syntax.Tree.Acessors
     public class PointerAccessorNode : AccessorNode
     {
         public IdentifierNode IdentifierNode { get; set; }
-
         public override BaseType ValidateSemantic()
         {
             var idNodeType = TypesTable.Instance.GetVariable(IdentifierNode.Value);
@@ -37,7 +37,7 @@ namespace Syntax.Tree.Acessors
                 }
             }
 
-            throw new SemanticException($"The property {IdentifierNode.Value} doesn't exist in the element");
+            throw new SemanticException($"The property {IdentifierNode.Value} doesn't exist in the element at Row: {Position.Row} , Column {Position.Column}");
         }
 
         public override string GenerateCode()

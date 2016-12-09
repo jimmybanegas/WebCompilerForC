@@ -30,7 +30,7 @@ namespace ConsoleTest
             }
             catch (Exception e)
             {
-                Console.Write(" No se ha encontrado el archivo");
+                Console.Write(" No se ha encontrado el archivo" + e.Message);
                 return "";
             }
             return file;
@@ -45,7 +45,7 @@ namespace ConsoleTest
             }
             catch (Exception e)
             {
-                Console.Write(" No se ha encontrado el archivo");
+                Console.Write(" No se ha encontrado el archivo"+e.Message);
             }
         }
     }

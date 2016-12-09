@@ -13,9 +13,7 @@ namespace Syntax.Tree.LoopsAndConditions
         public IdentifierNode List;
 
         public List<StatementNode> Sentences;
-
-        public Token Position = new Token();
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
             StackContext.Context.Stack.Push(new TypesTable());
 
@@ -27,7 +25,7 @@ namespace Syntax.Tree.LoopsAndConditions
                 Pointers = Item.PointerNodes
             };
 
-            StackContext.Context.Stack.Peek().RegisterType(Item.Value,type,currentToken,variable);
+            StackContext.Context.Stack.Peek().RegisterType(Item.Value,type,Position,variable);
             StackContext.Context.Stack.Pop();
 
         }

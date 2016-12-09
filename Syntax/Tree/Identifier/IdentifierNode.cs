@@ -22,24 +22,16 @@ namespace Syntax.Tree.Identifier
        
         public AssignationNode Assignation;
 
-        public Token Position = new Token();
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
             BaseType variable;
-
-            //if (StructValue != null)
-            //{
-            //    variable = StackContext.Context.Stack.Peek().GetVariable(Value);
-            //}
-            //else
-            //{
-                 variable = StackContext.Context.Stack.Peek().GetVariable(Value);
-         //   }
+        
+            variable = StackContext.Context.Stack.Peek().GetVariable(Value);
 
             if (Assignation != null && !(variable is StructType))
             {
                 Assignation.LeftValue = this;
-                Assignation.ValidateSemantic(currentToken);
+                Assignation.ValidateSemantic();
             }
 
             BaseType typeOfAccessorStruct = null;
@@ -73,29 +65,17 @@ namespace Syntax.Tree.Identifier
                 var arrayAccessorsCount = Accessors.Count(a => a is ArrayAccessorNode);
                 var arrayAccessorsCountFromVariable = accessorsAndPointers.Accessors.Count(a => a is ArrayAccessorNode);
 
-                // if (accessorsAndPointers.Accessors.Count != Accessors.Count && Accessors[0] is ArrayAccessorNode)
                 if (arrayAccessorsCountFromVariable != arrayAccessorsCount)
                 {
-                    throw new SemanticException($"Variable {Value} contains: {arrayAccessorsCountFromVariable} array accessor, you're trying to access : {arrayAccessorsCount}");
+                    throw new SemanticException($"Variable {Value} contains: {arrayAccessorsCountFromVariable} array accessor," +
+                                                $" you're trying to access : {arrayAccessorsCount} at Row: {Position.Row} , Column {Position.Column}");
                 }
 
                 foreach (var accessor in Accessors)
                 {
                     BaseType typeOfAccessor = null;
 
-                    //if (!(variable is StructType))
-                    //{
-                        typeOfAccessor = accessor.ValidateSemanticType(variable);
-                    //}
-                    //else
-                    //{
-                    //    if (typeOfAccessorStruct== null)
-                    //    {
-                    //        throw new SemanticException($"Property in struct doent exist");
-                    //    }
-
-                    //    typeOfAccessor = accessor.ValidateSemanticType(typeOfAccessorStruct);
-                    //}
+                    typeOfAccessor = accessor.ValidateSemanticType(variable);
             
                     if (Assignation != null)
                     {
@@ -109,12 +89,12 @@ namespace Syntax.Tree.Identifier
                             }
 
                             if (!Validations.ValidateReturnTypesEquivalence(right, typeOfAccessorStruct))
-                                throw new SemanticException($"You can't assign a {right} to a {typeOfAccessorStruct} at Row: {currentToken.Row}, column : {currentToken.Column}");
+                                throw new SemanticException($"You can't assign a {right} to a {typeOfAccessorStruct} at Row: {Position.Row}, column : {Position.Column}");
                         }
                         else
                         {
                             if (!Validations.ValidateReturnTypesEquivalence(right, typeOfAccessor))
-                                throw new SemanticException($"You can't assign a {right} to a {typeOfAccessor} at Row: {currentToken.Row}, column : {currentToken.Column}");
+                                throw new SemanticException($"You can't assign a {right} to a {typeOfAccessor} at Row: {Position.Row}, column : {Position.Column}");
                         }
                     }
                 }

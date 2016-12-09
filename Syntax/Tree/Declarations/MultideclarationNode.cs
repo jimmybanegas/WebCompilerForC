@@ -12,11 +12,9 @@ namespace Syntax.Tree.Declarations
     {
         public GeneralDeclarationNode GeneralNode;
         public List<IdentifierNode> ListOfVariables;
-        public Token Position = new Token();
-
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
-            GeneralNode.ValidateSemantic(Position);
+            GeneralNode.ValidateSemantic();
 
             foreach (var variable in ListOfVariables)
             {
@@ -34,9 +32,9 @@ namespace Syntax.Tree.Declarations
                    variables.Pointers.AddRange(variable.PointerNodes);
                 }
                 
-                StackContext.Context.Stack.Peek().RegisterType(variable.Value, type,currentToken,variables);
+                StackContext.Context.Stack.Peek().RegisterType(variable.Value, type,Position,variables);
 
-                variable.ValidateSemantic(Position);
+                variable.ValidateSemantic();
             }
         }
 

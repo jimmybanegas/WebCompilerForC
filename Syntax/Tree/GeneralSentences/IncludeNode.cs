@@ -8,8 +8,7 @@ namespace Syntax.Tree.GeneralSentences
     {
         public string ReferencedClass;
 
-        public Token Position = new Token();
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
            // throw new NotImplementedException();
         }

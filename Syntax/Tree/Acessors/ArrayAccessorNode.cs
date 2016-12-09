@@ -1,4 +1,5 @@
 ﻿using System;
+using Lexer;
 using Syntax.Exceptions;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
@@ -12,7 +13,6 @@ namespace Syntax.Tree.Acessors
         public override BaseType ValidateSemantic()
         {
             throw new NotImplementedException();
-         // return new BooleanType();
         }
         
         public override string GenerateCode()
@@ -31,17 +31,10 @@ namespace Syntax.Tree.Acessors
 
             if (type is StructType)
             {
-                //var list = ((StructType)type).Elements;
-
-                //foreach (var element in list)
-                //{
-                    
-                //}
-
                 return type;
             }
 
-            throw new SemanticException($"Types don't match {type} and {expressionType}");
+            throw new SemanticException($"Types don't match {type} and {expressionType} at Row: {Position.Row} , Column {Position.Column}");
         }
     }
 }

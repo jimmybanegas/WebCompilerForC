@@ -14,8 +14,7 @@ namespace Syntax.Tree.LoopsAndConditions
         public ExpressionNode SecondCondition;
         public ExpressionNode ThirdCondition;
         public List<StatementNode> Sentences;
-        public Token Position = new Token();
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
             StackContext.Context.Stack.Push(new TypesTable());
              
@@ -24,17 +23,17 @@ namespace Syntax.Tree.LoopsAndConditions
             var conditional3 = ThirdCondition.ValidateSemantic();
 
             if (!(conditional1 is IntType))
-                throw new SemanticException("An Integer expression is expected");
+                throw new SemanticException($"An Integer expression is expected at Row: {Position.Row} , Column {Position.Column}");
 
             if (!(conditional2 is BooleanType))
-                throw new SemanticException("A boolean expression is expected");
+                throw new SemanticException($"A boolean expression is expected at Row: {Position.Row} , Column {Position.Column}");
 
             if (!(conditional3 is IntType))
-                throw new SemanticException("An Integer expression is expected");
+                throw new SemanticException($"An Integer expression is expected at Row: {Position.Row} , Column {Position.Column}");
 
             foreach (var statement in Sentences)
             {
-                statement.ValidateSemantic(currentToken);
+                statement.ValidateSemantic();
             }
 
             StackContext.Context.Stack.Pop();

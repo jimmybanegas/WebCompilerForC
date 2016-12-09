@@ -9,15 +9,15 @@ namespace Syntax.Tree.Struct
     {
         public GeneralDeclarationNode ItemDeclaration;
         public AssignationNode Assignation;
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
-            ItemDeclaration.ValidateSemantic(currentToken);
+            ItemDeclaration.ValidateSemantic();
 
             if (Assignation != null)
             {
 
                 Assignation.LeftValue = ItemDeclaration.DataType;
-                Assignation.ValidateSemantic(currentToken);
+                Assignation.ValidateSemantic();
             }
           
         }

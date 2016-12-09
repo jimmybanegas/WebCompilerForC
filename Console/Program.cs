@@ -46,7 +46,7 @@ namespace ConsoleTest
 
                foreach (var statementNode in root)
                 {
-                    statementNode.ValidateSemantic(new Token());
+                    statementNode.ValidateSemantic();
                     Console.WriteLine(statementNode);
                 }
 

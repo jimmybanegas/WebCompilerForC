@@ -18,9 +18,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
         public List<GeneralDeclarationNode> Parameters;
         public List<StatementNode> Sentences;
 
-        public Token Position = new Token();
-
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
             StackContext.Context.Stack.Push(new TypesTable());
 
@@ -29,7 +27,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
 
             foreach (var parameter in Parameters)
             {
-                parameter.ValidateSemantic(Position);
+                parameter.ValidateSemantic();
 
                listParams.Add(new ParameterFunction { Parameter = parameter} ); 
             }
@@ -46,12 +44,12 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
 
                     if (!canReturn)
                     {
-                        throw new SemanticException($"Return types don't match at function {Identifier.NameOfVariable.Value}");
+                        throw new SemanticException($"Return types don't match at function {Identifier.NameOfVariable.Value} at Row: {Position.Row} , Column {Position.Column}");
                     }
                 }
                 else
                 {
-                    sentence.ValidateSemantic(Position);
+                    sentence.ValidateSemantic();
                 }
             }
 
@@ -63,7 +61,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
 
             StackContext.Context.Stack.Pop();
 
-            StackContext.Context.Stack.Peek().RegisterType(Identifier.NameOfVariable.Value, new FunctionType(listParams,returnType),currentToken,variable);
+            StackContext.Context.Stack.Peek().RegisterType(Identifier.NameOfVariable.Value, new FunctionType(listParams,returnType), Position, variable);
         }
 
         public override string GenerateCode()

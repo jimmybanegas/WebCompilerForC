@@ -7,7 +7,6 @@ namespace Syntax.Tree.Operators.Binary
 {
     public class AddAndAssignmentOperatorNode : BinaryOperatorNode
     {
-
         public AddAndAssignmentOperatorNode()
         {
             Validation = new Dictionary<Tuple<BaseType, BaseType>, BaseType>

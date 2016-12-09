@@ -14,8 +14,7 @@ namespace Syntax.Tree.Struct
     {
         public IdentifierExpression Name;
         public List<StructItemNode> ListOfItems;
-        private Token Position { get; set; }
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
             //Name.ValidateSemantic();
                 
@@ -23,7 +22,7 @@ namespace Syntax.Tree.Struct
 
             foreach (var item in ListOfItems)
             {
-                item.ValidateSemantic(Position);
+                item.ValidateSemantic();
 
                 elements.Add( new ElementStruct {Element = item});
 
@@ -37,7 +36,7 @@ namespace Syntax.Tree.Struct
                 Pointers = new List<PointerNode>()
             };
 
-            StackContext.Context.Stack.Peek().RegisterType(Name.Name, new StructType (elements), currentToken,variable );
+            StackContext.Context.Stack.Peek().RegisterType(Name.Name, new StructType (elements), Position, variable );
             StackContext.Context.TableOfTypes.Add(Name.Name, new StructType(elements));
         }
 

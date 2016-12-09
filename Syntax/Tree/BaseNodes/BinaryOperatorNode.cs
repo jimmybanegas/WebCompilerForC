@@ -25,7 +25,7 @@ namespace Syntax.Tree.BaseNodes
                 return result;
             }
 
-            throw new SemanticException($"You can't operate two varibles of different types: {leftType} and {rightType}");
+            throw new SemanticException($"You can't operate two varibles of different types: {leftType} and {rightType} at Row: {Position.Row} , Column {Position.Column}");
         }
 
     }

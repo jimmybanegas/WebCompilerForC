@@ -13,9 +13,7 @@ namespace Syntax.Tree.Declarations
         public IdentifierNode LeftValue { get; set; }
         public ExpressionNode RightValue { get; set; }
 
-        public Token Position = new Token();
-
-        public override void ValidateSemantic(Token currentToken)
+        public override void ValidateSemantic()
         {
             var rTipo = RightValue.ValidateSemantic();
 
@@ -26,7 +24,7 @@ namespace Syntax.Tree.Declarations
             };
 
             if (!StackContext.Context.Stack.Peek().VariableExist(LeftValue.Value))
-                StackContext.Context.Stack.Peek().RegisterType(LeftValue.Value, rTipo,currentToken,variable);
+                StackContext.Context.Stack.Peek().RegisterType(LeftValue.Value, rTipo,Position,variable);
             else
             {
                 var lTipo = StackContext.Context.Stack.Peek().GetVariable(LeftValue.Value);
@@ -36,12 +34,12 @@ namespace Syntax.Tree.Declarations
                     var returnType = (rTipo as FunctionType).FunctValue;
 
                     if (!Validations.ValidateReturnTypesEquivalence(returnType, lTipo))
-                        throw new SemanticException($"You can't assign a {returnType} to a {lTipo} at Row: {currentToken.Row}, column : {currentToken.Column}");
+                        throw new SemanticException($"You can't assign a {returnType} to a {lTipo} at Row: {Position.Row}, column : {Position.Column}");
                 }
                 else
                 {
                     if (!Validations.ValidateReturnTypesEquivalence(rTipo, lTipo))
-                        throw new SemanticException($"You can't assign a {rTipo} to a {lTipo} at Row: {currentToken.Row}, column : {currentToken.Column}");
+                        throw new SemanticException($"You can't assign a {rTipo} to a {lTipo} at Row: {Position.Row}, column : {Position.Column}");
                 }
             }
          
