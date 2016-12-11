@@ -1245,7 +1245,7 @@ namespace Syntax.Parser
                 Utilities.NextToken();
             }
             else
-            {
+            {       
                 throw new Exception("An End of sentence ; symbol was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             }
 

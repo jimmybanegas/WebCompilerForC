@@ -10,6 +10,29 @@
 
 <%  
 
+
+int ana = 20;
+
+   int  var = 20;   /* actual variable declaration */
+   int  *ip;        /* pointer variable declaration */
+
+   ip = &var;  /* store address of var in pointer variable*/
+  
+
+struct student {
+    date faltas[50];
+    int  age;
+    int  year;
+    float  gpa;
+};
+
+struct student s;
+struct student *sptr;
+struct student students[36];  
+
+s.age = 20;
+s.faltas[1] = true;
+
 double getAverage(int *arr, int size) {
 
    int  i, sum = 0;       
@@ -72,7 +95,7 @@ int swap(int *x, int *y) {
    int temp;
    temp = *x;    /* save the value at address x */
    *x = *y;      /* put y into x */
-   *y = temp;    /* put temp into y */
+   *y = &temp;    /* put temp into y */
   
    return 0;
 }
@@ -106,18 +129,7 @@ int main2 () {
           secret,
           non_secret
         };       // don't forget the semi-colon ; 
-        
 
-struct student {
-    char name[50];
-    int  age;
-    int  year;
-    float  gpa;
-};
-
-struct student s;
-struct student *sptr;
-struct student students[36];  
 
 struct Foo {
     int bar;
@@ -142,7 +154,7 @@ bool f = true;
    bool f = true;
  }
 
-foo.some_array = 12;
+foo.some_array[1] = 12;
 
 s.age = 18;
 s.year = 2016;

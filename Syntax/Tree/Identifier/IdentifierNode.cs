@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Lexer;
@@ -35,7 +36,9 @@ namespace Syntax.Tree.Identifier
             }
 
             BaseType typeOfAccessorStruct = null;
+
             string nameOfProperty = null;
+            Tuple<string, List<AccessorNode>> property = null;
 
             if (variable is StructType)
             {
@@ -52,6 +55,8 @@ namespace Syntax.Tree.Identifier
                             if (element.Element.ItemDeclaration.NameOfVariable.Value == (accessor as PropertyAccessorNode).IdentifierNode.Value)
                             {
                                 typeOfAccessorStruct = element.Element.ItemDeclaration.DataType.ValidateTypeSemantic();
+                                property = new Tuple<string, List<AccessorNode>>(nameOfProperty,element.Element.ItemDeclaration.NameOfVariable.Accessors);
+                               
                             }
                         }
                     }
@@ -64,12 +69,26 @@ namespace Syntax.Tree.Identifier
                 var accessorsAndPointers = StackContext.Context.Stack.Peek().GetVariableAccessorsAndPointers(Value);
 
                 var arrayAccessorsCount = Accessors.Count(a => a is ArrayAccessorNode);
+
                 var arrayAccessorsCountFromVariable = accessorsAndPointers.Accessors.Count(a => a is ArrayAccessorNode);
 
-                if (arrayAccessorsCountFromVariable != arrayAccessorsCount)
+                if (property?.Item2 != null && property.Item2.Count > 0)
                 {
-                    throw new SemanticException($"Variable {Value} contains: {arrayAccessorsCountFromVariable} array accessor," +
-                                                $" you're trying to access : {arrayAccessorsCount} at Row: {Position.Row} , Column {Position.Column}");
+                    var accessorsInProperty = property.Item2.Count(a => a is ArrayAccessorNode);
+
+                    if (accessorsInProperty != arrayAccessorsCount)
+                    {
+                        throw new SemanticException($"Property {nameOfProperty} contains: {accessorsInProperty} array accessor," +
+                                                    $" you're trying to access : {arrayAccessorsCount} at Row: {Position.Row} , Column {Position.Column}");
+                    }
+                }
+                else
+                {
+                    if (arrayAccessorsCountFromVariable != arrayAccessorsCount)
+                    {
+                        throw new SemanticException($"Variable {Value} contains: {arrayAccessorsCountFromVariable} array accessor," +
+                                                    $" you're trying to access : {arrayAccessorsCount} at Row: {Position.Row} , Column {Position.Column}");
+                    }
                 }
 
                 foreach (var accessor in Accessors)

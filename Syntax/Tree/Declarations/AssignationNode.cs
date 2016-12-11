@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Linq;
 using Lexer;
 using Syntax.Exceptions;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
+using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Identifier;
+using Syntax.Tree.Operators.Unary;
 
 namespace Syntax.Tree.Declarations
 {
@@ -15,6 +18,53 @@ namespace Syntax.Tree.Declarations
 
         public override void ValidateSemantic()
         {
+            if (LeftValue.Assignation != null)
+            {
+                var leftIdentifierPointers =
+                    StackContext.Context.Stack.Peek().GetVariableAccessorsAndPointers(LeftValue.Value);
+
+                TypesTable.Variable rightIdentifierPointers = null;
+
+                var unaryNode = RightValue as ExpressionUnaryNode;
+
+                var hasDereference = unaryNode != null && (unaryNode.UnaryOperator != null && (unaryNode.UnaryOperator.GetType() ==  typeof(BitAndOperatorNode)));
+
+                var identifierExpression = unaryNode?.Factor as IdentifierExpression;
+
+                if (identifierExpression != null)
+                {
+                     rightIdentifierPointers = StackContext.Context.Stack.Peek().GetVariableAccessorsAndPointers(identifierExpression.Name);
+                }
+
+                if (leftIdentifierPointers.Pointers.Count > 0)
+                {
+                    if (rightIdentifierPointers != null && rightIdentifierPointers.Pointers.Count == leftIdentifierPointers.Pointers.Count)
+                    {
+                        
+                    }
+                    //else if (leftIdentifierPointers.Pointers.Count >0  && !hasDereference)
+                    //{
+
+                    //}
+                    else
+                    {
+                        int? arrayAccessors = null;
+                        if (rightIdentifierPointers != null)
+                        {
+                             arrayAccessors = rightIdentifierPointers.Accessors.Count(a => a is ArrayAccessorNode);
+                        }
+
+                        if (!(leftIdentifierPointers.Pointers.Count > 0 && hasDereference) && 
+                            !(leftIdentifierPointers.Pointers.Count > 0 && arrayAccessors > 0) && arrayAccessors !=null)
+                        {
+                            throw new SemanticException("You need a reference to assignt value to a pointer," +
+                                                        $" at Row: {LeftValue.Position.Row}, column : {LeftValue.Position.Column}");
+                        }
+                    }
+                }
+
+            }
+
             var rTipo = RightValue.ValidateSemantic();
 
             var variable = new TypesTable.Variable
@@ -42,8 +92,7 @@ namespace Syntax.Tree.Declarations
                     {
                         if (lTipo is ConstType)
                         {
-                            throw new SemanticException(
-                                $"You can't assign a {rTipo} to a {lTipo} at Row: {LeftValue.Position.Row}, column : {LeftValue.Position.Column}");
+                            throw new SemanticException($"You can't assign a {rTipo} to a {lTipo} at Row: {LeftValue.Position.Row}, column : {LeftValue.Position.Column}");
                         }
                         throw new SemanticException($"You can't assign a {rTipo} to a {lTipo} at Row: {Position.Row}, column : {Position.Column}");
                     }
