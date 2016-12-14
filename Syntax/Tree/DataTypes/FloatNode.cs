@@ -14,7 +14,7 @@ namespace Syntax.Tree.DataTypes
             return StackContext.Context.GetGeneralType("int");
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
             return Value.ToString(CultureInfo.InvariantCulture);
         }

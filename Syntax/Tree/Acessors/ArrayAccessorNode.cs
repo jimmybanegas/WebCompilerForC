@@ -15,9 +15,9 @@ namespace Syntax.Tree.Acessors
             throw new NotImplementedException();
         }
         
-        public override string GenerateCode()
+        public override string Interpret()
         {
-            return "[" + IndexExpression.GenerateCode() + "]";
+            return "[" + IndexExpression.Interpret() + "]";
         }
 
         public override BaseType ValidateSemanticType(BaseType type)

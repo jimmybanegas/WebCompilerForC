@@ -101,7 +101,7 @@ namespace Syntax.Tree.Declarations
          
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
             throw new NotImplementedException();
         }

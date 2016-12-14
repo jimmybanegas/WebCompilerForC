@@ -56,7 +56,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
             }
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
             throw new NotImplementedException();
         }

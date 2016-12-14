@@ -10,15 +10,6 @@
 
 <%  
 
-
-int ana = 20;
-
-   int  var = 20;   /* actual variable declaration */
-   int  *ip;        /* pointer variable declaration */
-
-   ip = &var;  /* store address of var in pointer variable*/
-  
-
 struct student {
     date faltas[50];
     int  age;
@@ -26,12 +17,42 @@ struct student {
     float  gpa;
 };
 
-struct student s;
-struct student *sptr;
+//struct student s;
+//struct student *sptr;
 struct student students[36];  
 
-s.age = 20;
-s.faltas[1] = true;
+// s.age = 18;
+// s.year = 2016;
+// s.gpa = 62.5;
+
+// sptr->age = 19;     // the age field of what sptr points to gets 20
+// sptr->year = 2015;
+// sptr->gpa = 3.2;
+
+//s.age = 20;
+//s.faltas[1] = #01-01-1990#;
+
+students[1].faltas = #01-01-1990#;
+
+
+int swap(int *x, int *y) {
+
+   int temp;
+   temp = *x;    /* save the value at address x */
+   *x = *y;      /* put y into x */
+   *y = &temp;    /* put temp into y */
+  
+   return 0;
+}
+
+//int resultado = swap();
+
+int ana = 20;
+
+int  var = 20;   /* actual variable declaration */
+int  *ip;        /* pointer variable declaration */
+
+ip = &var;  /* store address of var in pointer variable*/
 
 double getAverage(int *arr, int size) {
 
@@ -90,16 +111,6 @@ int main () {
 }
 
 
-int swap(int *x, int *y) {
-
-   int temp;
-   temp = *x;    /* save the value at address x */
-   *x = *y;      /* put y into x */
-   *y = &temp;    /* put temp into y */
-  
-   return 0;
-}
-
 int main2 () {
 
    /* local variable definition */
@@ -156,13 +167,7 @@ bool f = true;
 
 foo.some_array[1] = 12;
 
-s.age = 18;
-s.year = 2016;
-s.gpa = 62.5;
 
-sptr->age = 19;     // the age field of what sptr points to gets 20
-sptr->year = 2015;
-sptr->gpa = 3.2;
 
 //students[2].name[2] = 'k' ;   
 
@@ -279,7 +284,7 @@ float y;
 bool z;
 
 struct Books2 {
-   char  title[50];
+   string  title;
    char  author[50];
    char  subject[100];
    int   book_id;

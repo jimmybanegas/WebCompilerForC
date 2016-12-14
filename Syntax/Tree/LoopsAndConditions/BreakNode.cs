@@ -11,7 +11,7 @@ namespace Syntax.Tree.LoopsAndConditions
            // throw new NotImplementedException();
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
             throw new NotImplementedException();
         }

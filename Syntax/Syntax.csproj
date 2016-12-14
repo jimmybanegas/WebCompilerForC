@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interpret\IntValue.cs" />
+    <Compile Include="Interpret\Value.cs" />
     <Compile Include="Parser\Arrays.cs" />
     <Compile Include="Parser\Expressions.cs" />
     <Compile Include="Parser\Functions.cs" />

@@ -40,7 +40,7 @@ namespace Syntax.Tree.Acessors
             throw new SemanticException($"The property {IdentifierNode.Value} doesn't exist in the element at Row: {Position.Row} , Column {Position.Column}");
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
             return "->" + IdentifierNode.Value;
         }

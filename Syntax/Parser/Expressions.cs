@@ -292,7 +292,7 @@ namespace Syntax.Parser
             var unaryExpression = new ExpressionUnaryNode();
 
             if (_parser.Utilities.CompareTokenType(TokenType.OpComplement)
-                ||_parser.Utilities.    CompareTokenType(TokenType.OpIncrement)
+                ||_parser.Utilities.CompareTokenType(TokenType.OpIncrement)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpDecrement)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitAnd)
                 ||_parser.Utilities.CompareTokenType(TokenType.OpBitOr)
@@ -310,7 +310,6 @@ namespace Syntax.Parser
             unaryExpression.Factor = factorExpression;
 
             return unaryExpression;
-
         }
 
         private UnaryOperator UnaryOperators()

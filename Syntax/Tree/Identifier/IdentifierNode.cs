@@ -56,8 +56,14 @@ namespace Syntax.Tree.Identifier
                             {
                                 typeOfAccessorStruct = element.Element.ItemDeclaration.DataType.ValidateTypeSemantic();
                                 property = new Tuple<string, List<AccessorNode>>(nameOfProperty,element.Element.ItemDeclaration.NameOfVariable.Accessors);
-                               
                             }
+                            
+                            //if (element.Element.ItemDeclaration.NameOfVariable.Accessors.Count(a=>a is ArrayAccessorNode) 
+                            //    != (accessor as PropertyAccessorNode).IdentifierNode.Accessors.Count(a=>a is ArrayAccessorNode))
+                            //{
+                            //    throw new SemanticException($"Variable {Value} contains:  array accessor," +
+                            //                      $" you're trying to access :  at Row: {Position.Row} , Column {Position.Column}");
+                            //}
                         }
                     }
                 }
@@ -68,7 +74,21 @@ namespace Syntax.Tree.Identifier
             {
                 var accessorsAndPointers = StackContext.Context.Stack.Peek().GetVariableAccessorsAndPointers(Value);
 
-                var arrayAccessorsCount = Accessors.Count(a => a is ArrayAccessorNode);
+                List<AccessorNode> arrayAccess = new List<AccessorNode>();
+
+                if (Accessors.Count > 0)
+                {
+                    arrayAccess.Add(Accessors[0]);
+                    if (Accessors.Count > 1)
+                    {
+                        arrayAccess.Add(Accessors[1]);
+                    }
+                }
+
+
+                // var arrayAccessorsCount = Accessors.Count(a => a is ArrayAccessorNode);
+
+                var arrayAccessorsCount = arrayAccess.Count(a => a is ArrayAccessorNode);
 
                 var arrayAccessorsCountFromVariable = accessorsAndPointers.Accessors.Count(a => a is ArrayAccessorNode);
 
@@ -137,7 +157,7 @@ namespace Syntax.Tree.Identifier
             return type;
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
             if (Accessors.Count == 0)
                 return $"{Value}";
@@ -145,7 +165,7 @@ namespace Syntax.Tree.Identifier
             string accesors = "";
             foreach (var accesorNode in Accessors)
             {
-                accesors = accesors + accesorNode.GenerateCode();
+                accesors = accesors + accesorNode.Interpret();
             }
 
             return Value + accesors;

@@ -11,9 +11,9 @@ namespace Syntax.Tree.Operators.Unary
             return Operand.ValidateSemantic();
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
-            return "-" + Operand.GenerateCode();
+            return "-" + Operand.Interpret();
         }
     }
 }

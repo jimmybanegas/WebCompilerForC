@@ -15,7 +15,7 @@ namespace Syntax.Tree.Operators.Unary
             return Factor.ValidateSemantic();
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
             throw new NotImplementedException();
         }

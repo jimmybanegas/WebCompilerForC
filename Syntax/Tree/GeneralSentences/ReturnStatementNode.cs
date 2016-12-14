@@ -19,7 +19,7 @@ namespace Syntax.Tree.GeneralSentences
             return ReturnExpression?.ValidateSemantic();
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
             throw new NotImplementedException();
         }

@@ -15,9 +15,9 @@ namespace Syntax.Tree.Operators.Unary
             throw new NotImplementedException();
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
-            return  "&" + Operand.GenerateCode();
+            return  "&" + Operand.Interpret();
         }
     }
 }

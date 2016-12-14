@@ -41,7 +41,7 @@ namespace Syntax.Tree.Identifier
             return type;
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
             throw new NotImplementedException();
         }

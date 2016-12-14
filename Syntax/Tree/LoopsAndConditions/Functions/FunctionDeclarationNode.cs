@@ -66,7 +66,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
            // StackContext.Context.CanDeclareReturn = false;
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
             throw new NotImplementedException();
         }

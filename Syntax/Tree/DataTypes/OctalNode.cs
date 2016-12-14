@@ -13,7 +13,7 @@ namespace Syntax.Tree.DataTypes
           return StackContext.Context.GetGeneralType("int");
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
             throw new NotImplementedException();
         }

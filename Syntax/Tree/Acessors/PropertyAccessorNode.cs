@@ -39,7 +39,7 @@ namespace Syntax.Tree.Acessors
             throw  new SemanticException($"The property {IdentifierNode.Value} doen't exist in the element");
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
             return "." + IdentifierNode.Value;
         }

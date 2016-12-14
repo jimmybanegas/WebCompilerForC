@@ -7,7 +7,7 @@ namespace Syntax.Tree.BaseNodes
     {
         public  Token Position = new Token();
         public abstract BaseType ValidateSemantic();
-        public abstract string GenerateCode();
+        public abstract string Interpret();
 
     }
 }

@@ -12,9 +12,9 @@ namespace Syntax.Tree.Operators.Unary
             return new BooleanType();
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
-            return "!" + Operand.GenerateCode();
+            return "!" + Operand.Interpret();
         }
     }
 }

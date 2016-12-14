@@ -27,9 +27,9 @@ namespace Syntax.Tree.Operators.Binary
            throw new SemanticException($"Types don't match {rTipo} and {lTipo}");
         }
 
-        public override string GenerateCode()
+        public override string Interpret()
         {
-            return LeftOperand.GenerateCode() + "=" + RightOperand.GenerateCode();
+            return LeftOperand.Interpret() + "=" + RightOperand.Interpret();
         }
     }
 }
