@@ -1,5 +1,7 @@
 ﻿using System;
 using Syntax.Exceptions;
+using Syntax.Interpret;
+using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
@@ -39,9 +41,11 @@ namespace Syntax.Tree.Acessors
             throw  new SemanticException($"The property {IdentifierNode.Value} doen't exist in the element");
         }
 
-        public override string Interpret()
+        public override Value Interpret()
         {
-            return "." + IdentifierNode.Value;
+           // return "." + IdentifierNode.Value;
+
+            return new IntValue();
         }
     }
 }

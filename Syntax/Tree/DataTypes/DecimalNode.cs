@@ -1,4 +1,6 @@
 ﻿using System.Globalization;
+using Syntax.Interpret;
+using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
@@ -14,9 +16,11 @@ namespace Syntax.Tree.DataTypes
             return StackContext.Context.GetGeneralType("float");
         }
 
-        public override string Interpret()
+        public override Value Interpret()
         {
-            return Value.ToString(CultureInfo.InvariantCulture);
+            //return Value.ToString(CultureInfo.InvariantCulture);
+
+            return new FloatValue();
         }
     }
 }

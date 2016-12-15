@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Syntax.Interpret;
+using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
 using Syntax.Tree.BaseNodes;
 
@@ -69,9 +71,11 @@ namespace Syntax.Tree.Operators.Binary
             };
         }
 
-        public override string Interpret()
+        public override Value Interpret()
         {
-            return LeftOperand.Interpret() + "==" + RightOperand.Interpret();
+            dynamic response = LeftOperand.Interpret() + "==" + RightOperand.Interpret();
+
+            return new BoolValue { Value = response.Value };
         }
     }
 }

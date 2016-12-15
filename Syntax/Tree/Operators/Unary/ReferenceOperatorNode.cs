@@ -1,4 +1,5 @@
 using System;
+using Syntax.Interpret;
 using Syntax.Semantic;
 using Syntax.Tree.BaseNodes;
 
@@ -11,7 +12,7 @@ namespace Syntax.Tree.Operators.Unary
             throw new NotImplementedException();
         }
 
-        public override string Interpret()
+        public override Value Interpret()
         {
             throw new NotImplementedException();
         }

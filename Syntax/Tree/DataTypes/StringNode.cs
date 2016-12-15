@@ -1,3 +1,5 @@
+using Syntax.Interpret;
+using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
@@ -12,9 +14,11 @@ namespace Syntax.Tree.DataTypes
            return StackContext.Context.GetGeneralType("string");
         }
 
-        public override string Interpret()
+        public override Value Interpret()
         {
-            return $"\"{Value}\"";
+           // return $"\"{Value}\"";
+
+            return new StringValue();
         }
     }
 }

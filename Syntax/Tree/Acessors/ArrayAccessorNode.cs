@@ -1,6 +1,8 @@
 ﻿using System;
 using Lexer;
 using Syntax.Exceptions;
+using Syntax.Interpret;
+using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
@@ -15,9 +17,11 @@ namespace Syntax.Tree.Acessors
             throw new NotImplementedException();
         }
         
-        public override string Interpret()
+        public override Value Interpret()
         {
-            return "[" + IndexExpression.Interpret() + "]";
+            dynamic response = "[" + IndexExpression.Interpret() + "]";
+
+            return new FloatValue { Value = response.Value};
         }
 
         public override BaseType ValidateSemanticType(BaseType type)

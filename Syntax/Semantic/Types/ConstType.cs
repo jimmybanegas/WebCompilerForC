@@ -1,4 +1,5 @@
 using System;
+using Syntax.Interpret;
 using Syntax.Tree.Declarations;
 
 namespace Syntax.Semantic.Types
@@ -10,7 +11,7 @@ namespace Syntax.Semantic.Types
             return "Const";
         }
 
-        public override bool IsAssignable(BaseType otherType)
+        public override Value GetDefaultValue()
         {
             throw new NotImplementedException();
         }

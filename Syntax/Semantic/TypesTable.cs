@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Lexer;
 using Syntax.Exceptions;
+using Syntax.Interpret;
 using Syntax.Semantic.Types;
 using Syntax.Tree.Acessors;
 
@@ -13,6 +14,7 @@ namespace Syntax.Semantic
         private static TypesTable _instance;
 
         public Dictionary<string, Variable> Variables;
+        public Dictionary<string, Value> Values;
 
         public TypesTable()
         {
@@ -30,6 +32,7 @@ namespace Syntax.Semantic
             };
 
             Variables = new Dictionary<string, Variable>();
+            Values = new Dictionary<string, Value>();
         }
         public static TypesTable Instance
         {
@@ -51,6 +54,8 @@ namespace Syntax.Semantic
             }
 
             Table.Add(name, baseType);
+            Values.Add(name, baseType.GetDefaultValue());
+
             Variables.Add(name, new Variable {Accessors = variable.Accessors, Pointers = variable.Pointers});
         }
 
@@ -93,11 +98,38 @@ namespace Syntax.Semantic
             return false;
         }
 
+        public void SetVariableValue(string name, Value value)
+        {
+            //Si es rreglo
+            //if (_accesores[name])
+            //{
+            //    List<Value> existing;
+
+            //    if (!_valuesOfArrays.TryGetValue(name, out existing))
+            //    {
+            //        existing = new List<Value>();
+            //        _valuesOfArrays[name] = existing;
+            //    }
+
+            //    existing.Add(value);
+            //}
+            //else
+            //{
+                Values[name] = value;
+           // }
+
+        }
+
+        public Value GetVariableValue(string name)
+        {
+            return Values[name];
+        }
+
+
         public class Variable
         {
             public List<PointerNode> Pointers { get; set; }
             public List<AccessorNode> Accessors { get; set; }
-            
 
             public Variable() 
             {

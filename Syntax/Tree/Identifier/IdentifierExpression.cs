@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Lexer;
 using Syntax.Exceptions;
+using Syntax.Interpret;
 using Syntax.Semantic;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
@@ -41,7 +42,7 @@ namespace Syntax.Tree.Identifier
             return type;
         }
 
-        public override string Interpret()
+        public override Value Interpret()
         {
             throw new NotImplementedException();
         }

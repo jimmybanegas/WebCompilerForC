@@ -1,4 +1,5 @@
 ﻿using Lexer;
+using Syntax.Interpret;
 using Syntax.Semantic;
 
 namespace Syntax.Tree.BaseNodes
@@ -7,7 +8,7 @@ namespace Syntax.Tree.BaseNodes
     {
         public  Token Position = new Token();
         public abstract BaseType ValidateSemantic();
-        public abstract string Interpret();
+        public abstract Value Interpret();
 
     }
 }

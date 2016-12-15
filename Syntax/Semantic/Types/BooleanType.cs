@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Syntax.Interpret;
+using Syntax.Interpret.TypesValues;
 using Syntax.Tree.Acessors;
 
 namespace Syntax.Semantic.Types
@@ -11,9 +13,11 @@ namespace Syntax.Semantic.Types
             return "Boolean";
         }
 
-        public override bool IsAssignable(BaseType otherType)
+        public override Value GetDefaultValue()
         {
-            throw new NotImplementedException();
+            return new BoolValue {Value = false};
         }
+
+      
     }
 }

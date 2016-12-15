@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syntax.Interpret;
+using Syntax.Interpret.TypesValues;
 using Syntax.Tree.Acessors;
 
 namespace Syntax.Semantic.Types
 {
     public class FunctionType : BaseType
     {
-        public override bool IsAssignable(BaseType otherType)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<ParameterFunction> Parameters;
         public readonly BaseType FunctValue;
         
@@ -18,6 +15,11 @@ namespace Syntax.Semantic.Types
         {
             Parameters = parameters;
             FunctValue = functValue;
+        }
+
+        public override Value GetDefaultValue()
+        {
+            return new IntValue();
         }
     }
 }

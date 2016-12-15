@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Lexer;
 using Syntax.Exceptions;
+using Syntax.Interpret;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
@@ -68,7 +69,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
             return functionType;
         }
 
-        public override string Interpret()
+        public override Value Interpret()
         {
             throw new NotImplementedException();
         }

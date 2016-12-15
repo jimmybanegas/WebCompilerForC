@@ -1,4 +1,6 @@
 ﻿using System;
+using Syntax.Interpret;
+using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
@@ -13,9 +15,9 @@ namespace Syntax.Tree.DataTypes
           return StackContext.Context.GetGeneralType("char");
         }
 
-        public override string Interpret()
+        public override Value Interpret()
         {
-            return Value;
+            return new CharValue();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Syntax.Interpret;
 using Syntax.Semantic;
 using Syntax.Tree.BaseNodes;
 
@@ -11,9 +12,11 @@ namespace Syntax.Tree.Operators.Unary
             return Operand.ValidateSemantic();
         }
 
-        public override string Interpret()
+        public override Value Interpret()
         {
-            return  "++" ;
+           // return  "++" ;
+
+            return null;
         }
     }
 }

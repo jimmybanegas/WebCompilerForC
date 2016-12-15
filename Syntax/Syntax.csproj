@@ -40,7 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interpret\IntValue.cs" />
+    <Compile Include="Interpret\TypesValues\BoolValue.cs" />
+    <Compile Include="Interpret\TypesValues\CharValue.cs" />
+    <Compile Include="Interpret\TypesValues\DateValue.cs" />
+    <Compile Include="Interpret\TypesValues\FloatValue.cs" />
+    <Compile Include="Interpret\TypesValues\IntValue.cs" />
+    <Compile Include="Interpret\TypesValues\StringValue.cs" />
     <Compile Include="Interpret\Value.cs" />
     <Compile Include="Parser\Arrays.cs" />
     <Compile Include="Parser\Expressions.cs" />

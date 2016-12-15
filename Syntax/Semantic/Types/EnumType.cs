@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syntax.Interpret;
+using Syntax.Interpret.TypesValues;
 
 namespace Syntax.Semantic.Types
 {
@@ -10,10 +12,11 @@ namespace Syntax.Semantic.Types
             return "Enum";
         }
 
-        public override bool IsAssignable(BaseType otherType)
+        public override Value GetDefaultValue()
         {
-            throw new NotImplementedException();
+           return new IntValue();
         }
+
 
         public List<ElementEnum> Elements;
 

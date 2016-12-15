@@ -10,7 +10,6 @@ namespace Syntax.Semantic.Types
 {
     public class ElementStruct
     {
-       // public BaseType Type;
         public StructItemNode Element;
     }
 }
