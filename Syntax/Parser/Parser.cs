@@ -577,13 +577,13 @@ namespace Syntax.Parser
             {
                 if (Utilities.CompareTokenType(TokenType.OpIncrement))
                 {
-                    var increment = new PostIncrementOperatorNode();
+                    var increment = new PostIncrementOperatorNode { Position = position };
 
                     identifier.IncrementOrdecrement = increment;
                 }
                 if (Utilities.CompareTokenType(TokenType.OpDecrement))
                 {
-                    var decrement = new PostDecrementOperatorNode();
+                    var decrement = new PostDecrementOperatorNode {Position = position};
                     identifier.IncrementOrdecrement = decrement;
                 }
 
@@ -826,16 +826,19 @@ namespace Syntax.Parser
                 //Posible inicializacion de los valores, así como se inicializa un arreglo
                 //struct point my_point = { 3, 7 };
                 //struct point *p = &my_point;
+
+
                 if (Utilities.CompareTokenType(TokenType.Comma))
                 {
                     Functions.OptionalId(listOptional);
                 }
+                var position = new Token {Row = CurrentToken.Row, Column = CurrentToken.Column};
 
                 if (Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
                 {
                     value = InitializationForStruct();
 
-                    general.NameOfVariable.Assignation = new AssignationForArray {RightValue = value};
+                    general.NameOfVariable.Assignation = new AssignationForArray {RightValue = value, Position = position};
                 }
 
                 if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
@@ -855,7 +858,7 @@ namespace Syntax.Parser
 
                 if (listOptional.Count > 0)
                 {
-                    return new MultideclarationNode {GeneralNode = general, ListOfVariables = listOptional};
+                    return new MultideclarationNode {GeneralNode = general, ListOfVariables = listOptional, Position = position};
                 }
 
                 return new StructDeclaration {General = general};

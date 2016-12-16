@@ -68,7 +68,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
         {
             StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
 
-            StackContext.Context.PastContexts.Remove(CodeGuid);
+            //StackContext.Context.PastContexts.Remove(CodeGuid);
             StackContext.Context.Stack.Pop();
         }
     }

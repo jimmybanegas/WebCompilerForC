@@ -6,6 +6,7 @@ using Syntax.Interpret;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
+using Syntax.Tree.GeneralSentences;
 
 namespace Syntax.Tree.LoopsAndConditions
 {
@@ -41,12 +42,27 @@ namespace Syntax.Tree.LoopsAndConditions
                 foreach (var statement in Sentences)
                 {
                     statement.Interpret();
+
+                    if (statement is ContinueNode)
+                    {
+                        continue;
+                    }
+
+                    if (statement is BreakNode)
+                    {
+                        break;
+                    }
+
+                    if (statement is ReturnStatementNode)
+                    {
+                        return;
+                    }
                 }
 
                 conditional = WhileCondition.Interpret();
             }
 
-            StackContext.Context.PastContexts.Remove(CodeGuid);
+            //StackContext.Context.PastContexts.Remove(CodeGuid);
             StackContext.Context.Stack.Pop();
         }
     }

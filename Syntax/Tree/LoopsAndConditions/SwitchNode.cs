@@ -5,6 +5,7 @@ using Syntax.Exceptions;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
+using Syntax.Tree.GeneralSentences;
 
 namespace Syntax.Tree.LoopsAndConditions
 {
@@ -33,7 +34,7 @@ namespace Syntax.Tree.LoopsAndConditions
         {
             StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
 
-            StackContext.Context.PastContexts.Remove(CodeGuid);
+           // StackContext.Context.PastContexts.Remove(CodeGuid);
             StackContext.Context.Stack.Pop();
         }
     }

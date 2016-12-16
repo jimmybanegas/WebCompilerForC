@@ -89,7 +89,11 @@ namespace Syntax.Tree.Declarations
                         {
                             throw new SemanticException($"You can't assign a {rTipo} to a {lTipo} at Row: {LeftValue.Position.Row}, column : {LeftValue.Position.Column}");
                         }
-                        throw new SemanticException($"You can't assign a {rTipo} to a {lTipo} at Row: {Position.Row}, column : {Position.Column}");
+                        var row = Position.Row == 0 ? LeftValue.Position.Row:Position.Row;
+                        var column = Position.Column == 0 ? LeftValue.Position.Column : Position.Column;
+
+                        throw new SemanticException($"You can't assign a {rTipo} to a {lTipo} " +
+                                                    $"at Row: {row} , column : {column}");
                     }
                 }
             }
@@ -102,6 +106,28 @@ namespace Syntax.Tree.Declarations
 
             var unaryNode = RightValue as ExpressionUnaryNode;
 
+            if (GetValueForUnaries(unaryNode)) return;
+
+            if (unaryNode?.Factor is IdentifierExpression)
+            {
+                value = StackContext.Context.Stack.Peek().GetVariableValue( ((IdentifierExpression) unaryNode.Factor).Name ).Clone();
+            }
+
+            if (unaryNode?.UnaryOperator is NegativeOperatorNode)
+            {
+                value.Value = value.Value *-1;
+            }
+
+            if (unaryNode?.UnaryOperator is NotOperatorNode)
+            {
+                value.Value = !value.Value;
+            }
+
+            StackContext.Context.Stack.Peek().SetVariableValue(LeftValue.StructValue,value);
+        }
+
+        private bool GetValueForUnaries(ExpressionUnaryNode unaryNode)
+        {
             if (unaryNode != null && unaryNode.Type == TokenType.OpAddAndAssignment)
             {
                 var a = new AddAndAssignmentOperatorNode
@@ -111,126 +137,115 @@ namespace Syntax.Tree.Declarations
                 };
 
                 a.Interpret();
-                return;
+                return true;
             }
             if (unaryNode != null && unaryNode.Type == TokenType.OpSusbtractAndAssignment)
             {
                 var a = new SubstractAndAssignmentOperatorNode
                 {
-                    LeftOperand = new IdentifierExpression { Name = LeftValue.Value },
+                    LeftOperand = new IdentifierExpression {Name = LeftValue.Value},
                     RightOperand = RightValue
                 };
 
                 a.Interpret();
-                return;
+                return true;
             }
 
             if (unaryNode != null && unaryNode.Type == TokenType.OpMultiplyAndAssignment)
             {
                 var a = new MultiplicationAndAssignmentOperatorNode
                 {
-                    LeftOperand = new IdentifierExpression { Name = LeftValue.Value },
+                    LeftOperand = new IdentifierExpression {Name = LeftValue.Value},
                     RightOperand = RightValue
                 };
 
                 a.Interpret();
-                return;
+                return true;
             }
 
             if (unaryNode != null && unaryNode.Type == TokenType.OpDivideAssignment)
             {
                 var a = new DivisionAndAssignmentOperatorNode
                 {
-                    LeftOperand = new IdentifierExpression { Name = LeftValue.Value },
+                    LeftOperand = new IdentifierExpression {Name = LeftValue.Value},
                     RightOperand = RightValue
                 };
 
                 a.Interpret();
-                return;
+                return true;
             }
 
             if (unaryNode != null && unaryNode.Type == TokenType.OpModulusAssignment)
             {
                 var a = new ModuleAndAssignmentOperatorNode
                 {
-                    LeftOperand = new IdentifierExpression { Name = LeftValue.Value },
+                    LeftOperand = new IdentifierExpression {Name = LeftValue.Value},
                     RightOperand = RightValue
                 };
 
                 a.Interpret();
-                return;
+                return true;
             }
 
             if (unaryNode != null && unaryNode.Type == TokenType.OpBitShiftLeftAndAssignment)
             {
                 var a = new ShiftLeftAndAssignmentOperatorNode
                 {
-                    LeftOperand = new IdentifierExpression { Name = LeftValue.Value },
+                    LeftOperand = new IdentifierExpression {Name = LeftValue.Value},
                     RightOperand = RightValue
                 };
 
                 a.Interpret();
-                return;
+                return true;
             }
 
             if (unaryNode != null && unaryNode.Type == TokenType.OpBitShiftRightAndAssignment)
             {
                 var a = new ShiftRightAndAssignmentOperatorNode
                 {
-                    LeftOperand = new IdentifierExpression { Name = LeftValue.Value },
+                    LeftOperand = new IdentifierExpression {Name = LeftValue.Value},
                     RightOperand = RightValue
                 };
 
                 a.Interpret();
-                return;
+                return true;
             }
             if (unaryNode != null && unaryNode.Type == TokenType.OpBitwiseAndAssignment)
             {
                 var a = new BitwiseAndAssignmentOperatorNode
                 {
-                    LeftOperand = new IdentifierExpression { Name = LeftValue.Value },
+                    LeftOperand = new IdentifierExpression {Name = LeftValue.Value},
                     RightOperand = RightValue
                 };
 
                 a.Interpret();
-                return;
+                return true;
             }
 
             if (unaryNode != null && unaryNode.Type == TokenType.OpBitwiseXorAndAssignment)
             {
                 var a = new BitwiseXorAndAssignmentOperatorNode()
                 {
-                    LeftOperand = new IdentifierExpression { Name = LeftValue.Value },
+                    LeftOperand = new IdentifierExpression {Name = LeftValue.Value},
                     RightOperand = RightValue
                 };
 
                 a.Interpret();
-                return;
+                return true;
             }
 
             if (unaryNode != null && unaryNode.Type == TokenType.OpBitwiseInclusiveOrAndAssignment)
             {
                 var a = new BitwiseInclusiveOrAndAssignmentOperatorNode
                 {
-                    LeftOperand = new IdentifierExpression { Name = LeftValue.Value },
+                    LeftOperand = new IdentifierExpression {Name = LeftValue.Value},
                     RightOperand = RightValue
                 };
 
                 a.Interpret();
-                return;
+                return true;
             }
-
-            if (unaryNode?.Factor is IdentifierExpression)
-            {
-                value = StackContext.Context.Stack.Peek().GetVariableValue( ((IdentifierExpression) unaryNode.Factor).Name );
-            }
-
-            if (unaryNode?.UnaryOperator is NegativeOperatorNode)
-            {
-                value.Value = value.Value *-1;
-            }
-
-            StackContext.Context.Stack.Peek().SetVariableValue(LeftValue.StructValue,value);
+            return false;
         }
     }
 }

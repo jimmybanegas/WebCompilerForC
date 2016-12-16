@@ -7,6 +7,7 @@ using Syntax.Interpret;
 using Syntax.Semantic;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
+using Syntax.Tree.Operators.Unary;
 
 namespace Syntax.Tree.Identifier
 {
@@ -44,6 +45,42 @@ namespace Syntax.Tree.Identifier
 
         public override Value Interpret()
         {
+            if (IncrementOrdecrement != null)
+            {
+                if (IncrementOrdecrement is PreDecrementOperatorNode)
+                {
+                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Name);
+
+                    valueBefore.Value = valueBefore.Value - 1;
+
+                    StackContext.Context.Stack.Peek().SetVariableValue(Name, valueBefore);
+                }
+                else if (IncrementOrdecrement is PreIncrementOperatorNode)
+                {
+                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Name);
+
+                    valueBefore.Value = valueBefore.Value + 1;
+
+                    StackContext.Context.Stack.Peek().SetVariableValue(Name, valueBefore);
+                }
+                else if (IncrementOrdecrement is PostIncrementOperatorNode)
+                {
+                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Name);
+
+                    valueBefore.Value = valueBefore.Value + 1;
+
+                    StackContext.Context.Stack.Peek().SetVariableValue(Name, valueBefore);
+                }
+                else if (IncrementOrdecrement is PostDecrementOperatorNode)
+                {
+                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Name);
+
+                    valueBefore.Value = valueBefore.Value - 1;
+
+                    StackContext.Context.Stack.Peek().SetVariableValue(Name, valueBefore);
+                }
+            }
+
            return StackContext.Context.Stack.Peek().GetVariableValue(Name);
         }
     }

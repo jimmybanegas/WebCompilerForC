@@ -13,7 +13,7 @@ namespace Syntax.Tree.LoopsAndConditions
 
         public override void Interpret()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

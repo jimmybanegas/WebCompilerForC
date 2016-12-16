@@ -5,6 +5,7 @@ using Syntax.Exceptions;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
+using Syntax.Tree.GeneralSentences;
 using Syntax.Tree.Operators.Binary;
 using Syntax.Tree.Operators.Unary;
 
@@ -43,11 +44,50 @@ namespace Syntax.Tree.LoopsAndConditions
 
         public override void Interpret()
         {
+            //  StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
+
+            //  FirstCondition.Interpret();
+
+            //  dynamic conditional1 = ((ExpressionUnaryNode) ((SimpleAssignmentOperatorNode) FirstCondition).LeftOperand).Factor.Interpret();
+            //  dynamic conditional2 = SecondCondition.Interpret();
+            ////  dynamic conditional3 = 
+
+            //  for (int i = conditional1.Value; conditional2.Value; ThirdCondition.Interpret())
+            //  {
+            //     // ThirdCondition.Interpret();
+
+            //      foreach (var statement in Sentences)
+            //      {
+            //          statement.Interpret();
+            //          if (statement is ContinueNode)
+            //          {
+            //              continue;
+            //          }
+
+            //          if (statement is BreakNode)
+            //          {
+            //              break;
+            //          }
+
+            //          if (statement is ReturnStatementNode)
+            //          {
+            //              return;
+            //          }
+
+            //      }
+
+            //      Console.WriteLine(conditional1.Value);
+            //     // ThirdCondition.Interpret();
+            //  }
+
+            //  StackContext.Context.Stack.Pop();
+
+
             StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
 
             FirstCondition.Interpret();
             //SecondCondition.Interpret();
-            dynamic conditional1 = ((ExpressionUnaryNode) ((SimpleAssignmentOperatorNode) FirstCondition).LeftOperand).Factor.Interpret();
+            dynamic conditional1 = ((ExpressionUnaryNode)((SimpleAssignmentOperatorNode)FirstCondition).LeftOperand).Factor.Interpret();
             dynamic conditional2 = SecondCondition.Interpret();
             //dynamic conditional3 = ThirdCondition.Interpret();
 
@@ -58,12 +98,27 @@ namespace Syntax.Tree.LoopsAndConditions
                 foreach (var statement in Sentences)
                 {
                     statement.Interpret();
+
+                    statement.Interpret();
+                    if (statement is ContinueNode)
+                    {
+                        continue;
+                    }
+
+                    if (statement is BreakNode)
+                    {
+                        break;
+                    }
+
+                    if (statement is ReturnStatementNode)
+                    {
+                        return;
+                    }
                 }
 
                 Console.WriteLine(conditional1.Value);
             }
-
-            StackContext.Context.PastContexts.Remove(CodeGuid);
+            
             StackContext.Context.Stack.Pop();
         }
     }

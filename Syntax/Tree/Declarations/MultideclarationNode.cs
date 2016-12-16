@@ -41,6 +41,8 @@ namespace Syntax.Tree.Declarations
         public override void Interpret()
         {
             dynamic type = GeneralNode.DataType.ValidateTypeSemantic().GetDefaultValue();
+            GeneralNode.NameOfVariable.Interpret();
+
             foreach (var variable in ListOfVariables)
             {
                 if (variable.Assignation != null)

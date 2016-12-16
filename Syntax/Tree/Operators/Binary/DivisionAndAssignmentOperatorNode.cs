@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Syntax.Exceptions;
 using Syntax.Interpret;
@@ -57,6 +58,8 @@ namespace Syntax.Tree.Operators.Binary
         {
             dynamic left = LeftOperand.Interpret();
             dynamic right = RightOperand.Interpret();
+
+           var a =  StackContext.Context.Stack.Peek();
 
             dynamic response = left.Value /= right.Value;
 

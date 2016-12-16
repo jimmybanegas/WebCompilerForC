@@ -66,6 +66,9 @@ namespace Syntax.Semantic
             if (t.Name == "StringValue")
                 return new StringValue {Value = value};
 
+            if (t.Name == "Int32")
+                return new IntValue { Value = Convert.ToInt32(value) };
+
             if (t.Name == "IntValue")
                 return new IntValue {Value = Convert.ToInt32(value)};
 

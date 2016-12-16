@@ -5,6 +5,7 @@ using Syntax.Exceptions;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
+using Syntax.Tree.GeneralSentences;
 
 namespace Syntax.Tree.LoopsAndConditions
 {
@@ -26,11 +27,42 @@ namespace Syntax.Tree.LoopsAndConditions
             foreach (var statement in TrueBlock)
             {
                 statement.ValidateSemantic();
+
+                if (statement is ContinueNode)
+                {
+                    continue;
+                }
+
+                if (statement is BreakNode)
+                {
+                    break;
+                }
+
+                if (statement is ReturnStatementNode)
+                {
+                    return;
+                }
             }
 
-            foreach (var statementNode in FalseBlock)
+            foreach (var statement in FalseBlock)
             {
-                statementNode.ValidateSemantic();
+                statement.ValidateSemantic();
+
+
+                if (statement is ContinueNode)
+                {
+                    continue;
+                }
+
+                if (statement is BreakNode)
+                {
+                    break;
+                }
+
+                if (statement is ReturnStatementNode)
+                {
+                    return;
+                }
             }
 
             StackContext.Context.PastContexts.Add(CodeGuid, StackContext.Context.Stack.Pop());
@@ -59,7 +91,6 @@ namespace Syntax.Tree.LoopsAndConditions
                 }
             }
 
-            StackContext.Context.PastContexts.Remove(CodeGuid);
             StackContext.Context.Stack.Pop();
         }
     }

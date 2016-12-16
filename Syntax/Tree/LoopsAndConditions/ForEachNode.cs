@@ -35,7 +35,7 @@ namespace Syntax.Tree.LoopsAndConditions
 
 
 
-            StackContext.Context.PastContexts.Remove(CodeGuid);
+           // StackContext.Context.PastContexts.Remove(CodeGuid);
             StackContext.Context.Stack.Pop();
         }
     }
