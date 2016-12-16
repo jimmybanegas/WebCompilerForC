@@ -21,8 +21,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
         public override void ValidateSemantic()
         {
             StackContext.Context.Stack.Push(new TypesTable());
-            //StackContext.Context.CanDeclareReturn = true;
-
+         
             List<ParameterFunction> listParams = new List<ParameterFunction>();
             BaseType returnType = null;
 
@@ -60,15 +59,17 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
                 Pointers = Identifier.ListOfPointer
             };
 
-            StackContext.Context.Stack.Pop();
+            StackContext.Context.PastContexts.Add(CodeGuid, StackContext.Context.Stack.Pop());
 
             StackContext.Context.Stack.Peek().RegisterType(Identifier.NameOfVariable.Value, new FunctionType(listParams,returnType), Identifier.Position, variable);
-           // StackContext.Context.CanDeclareReturn = false;
         }
 
         public override void Interpret()
         {
-            throw new NotImplementedException();
+            StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
+
+            StackContext.Context.PastContexts.Remove(CodeGuid);
+            StackContext.Context.Stack.Pop();
         }
     }
 }

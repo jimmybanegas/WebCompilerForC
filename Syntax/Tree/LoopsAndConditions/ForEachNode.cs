@@ -26,12 +26,17 @@ namespace Syntax.Tree.LoopsAndConditions
             };
 
             StackContext.Context.Stack.Peek().RegisterType(Item.Value,type,Position,variable);
-            StackContext.Context.Stack.Pop();
+            StackContext.Context.PastContexts.Add(CodeGuid, StackContext.Context.Stack.Pop());
         }
 
         public override void Interpret()
         {
-            throw new System.NotImplementedException();
+            StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
+
+
+
+            StackContext.Context.PastContexts.Remove(CodeGuid);
+            StackContext.Context.Stack.Pop();
         }
     }
 }

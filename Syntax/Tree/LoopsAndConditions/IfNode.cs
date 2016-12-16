@@ -33,13 +33,14 @@ namespace Syntax.Tree.LoopsAndConditions
                 statementNode.ValidateSemantic();
             }
 
-            StackContext.Context.Stack.Pop();
+            StackContext.Context.PastContexts.Add(CodeGuid, StackContext.Context.Stack.Pop());
         }
 
         public override void Interpret()
         {
+            StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
+
             dynamic condition = IfCondition.Interpret();
-            
            
             if (condition.Value)
             {
@@ -58,7 +59,8 @@ namespace Syntax.Tree.LoopsAndConditions
                 }
             }
 
-           // StackContext.Context.Stack.Pop();
+            StackContext.Context.PastContexts.Remove(CodeGuid);
+            StackContext.Context.Stack.Pop();
         }
     }
 }

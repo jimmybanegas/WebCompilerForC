@@ -10,17 +10,9 @@
 
 <%  
 
-int u ;
-bool ra = true;
-
-if  (ra){ 
-    int t = 75;
-    u = t;
-}
-
 // char ll = "hola";
 
- int negativo = -1;
+//  int negativo = -1;
 
 // int a = 20;
 
@@ -60,6 +52,58 @@ if  (ra){
 // bool r = p > q;
 
 // bool s = p < q;
+
+// int u ;
+// bool ra ;
+
+// if  (ra){ 
+//     int t = 75;
+//     u = t;
+// }
+// else{
+//     u = 32;
+// }
+//  u++;
+   int u;
+ 
+   int v;
+	
+   /* for loop execution */
+   for( v = 10; v < 20; v = v + 1 ){
+      u++;
+   }
+
+    for( v = 10; v < 20; v = v + 1 ){
+      u--;
+   }
+
+   int w = 0;
+
+   while (w < 5){
+
+       u += 10;
+       
+       w++;
+   }
+
+    int x = 10;
+    int y;
+
+   /* do loop execution */
+   do {
+     // printf("value of a: %d\n", a);
+      x = x + 1;
+      y++;
+   }while( x < 20 );
+
+   const int aa = 20;
+
+   int ab = aa;
+
+   const char ac= 'j';
+
+   char ad = ac;
+
 
 %>
 

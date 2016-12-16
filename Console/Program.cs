@@ -59,7 +59,7 @@ namespace ConsoleTest
 
             foreach (var value in StackContext.Context.Stack.Peek().Values)
             {
-                Console.WriteLine(value.Key +" "+ value.Value);
+               // Console.WriteLine(value.Key +" "+ value.Value);
                // Console.WriteLine(StackContext.Context.Stack.Peek().Table);
             }
 

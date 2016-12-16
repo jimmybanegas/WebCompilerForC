@@ -5,6 +5,8 @@ using Syntax.Exceptions;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
+using Syntax.Tree.Operators.Binary;
+using Syntax.Tree.Operators.Unary;
 
 namespace Syntax.Tree.LoopsAndConditions
 {
@@ -17,11 +19,7 @@ namespace Syntax.Tree.LoopsAndConditions
         public override void ValidateSemantic()
         {
             StackContext.Context.Stack.Push(new TypesTable());
-            //StackContext.Context.CanDeclareBreak = true;
-            //StackContext.Context.CanDeclareReturn = true;
-            //StackContext.Context.CanDeclareContinue = true;
-
-
+          
             var conditional1 = FirstCondition.ValidateSemantic();
             var conditional2 = SecondCondition.ValidateSemantic();
             var conditional3 = ThirdCondition.ValidateSemantic();
@@ -40,15 +38,33 @@ namespace Syntax.Tree.LoopsAndConditions
                 statement.ValidateSemantic();
             }
 
-            StackContext.Context.Stack.Pop();
-            //StackContext.Context.CanDeclareBreak = false;
-            //StackContext.Context.CanDeclareReturn = false;
-            //StackContext.Context.CanDeclareContinue = false;
+            StackContext.Context.PastContexts.Add(CodeGuid, StackContext.Context.Stack.Pop());
         }
 
         public override void Interpret()
         {
-            throw new NotImplementedException();
+            StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
+
+            FirstCondition.Interpret();
+            //SecondCondition.Interpret();
+            dynamic conditional1 = ((ExpressionUnaryNode) ((SimpleAssignmentOperatorNode) FirstCondition).LeftOperand).Factor.Interpret();
+            dynamic conditional2 = SecondCondition.Interpret();
+            //dynamic conditional3 = ThirdCondition.Interpret();
+
+            for (int i = conditional1.Value; conditional2.Value; ThirdCondition.Interpret())
+            {
+                conditional2 = SecondCondition.Interpret();
+
+                foreach (var statement in Sentences)
+                {
+                    statement.Interpret();
+                }
+
+                Console.WriteLine(conditional1.Value);
+            }
+
+            StackContext.Context.PastContexts.Remove(CodeGuid);
+            StackContext.Context.Stack.Pop();
         }
     }
 }

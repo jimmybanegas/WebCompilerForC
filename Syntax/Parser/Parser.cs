@@ -659,9 +659,14 @@ namespace Syntax.Parser
                 ||Utilities.CompareTokenType(TokenType.OpBitwiseXorAndAssignment)
                 ||Utilities.CompareTokenType(TokenType.OpBitwiseInclusiveOrAndAssignment))
             {
+                var type = CurrentToken.TokenType;
+
                 Utilities.NextToken();
 
                 var expression = Expressions.Expression();
+
+                var expressionUnaryNode = expression as ExpressionUnaryNode;
+                if (expressionUnaryNode != null) expressionUnaryNode.Type = type;
 
                 List<ExpressionNode> expressionList = new List<ExpressionNode>();
                 expressionList.Add(expression);

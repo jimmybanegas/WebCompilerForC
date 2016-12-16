@@ -16,9 +16,6 @@ namespace Syntax.Semantic
         public Dictionary<string, BaseType> Table;
 
         public Dictionary<string, Variable> Variables;
-
-        public Dictionary<Guid, TypesTable> PastContexts;
-
         public TypesTable()
         {
             Table = new Dictionary<string, BaseType>
@@ -36,8 +33,6 @@ namespace Syntax.Semantic
 
             Variables = new Dictionary<string, Variable>();
             Values = new Dictionary<string, Value>();
-
-            PastContexts = new Dictionary<Guid, TypesTable>();
         }
         public static TypesTable Instance
         {
@@ -152,7 +147,6 @@ namespace Syntax.Semantic
         {
             public List<PointerNode> Pointers { get; set; }
             public List<AccessorNode> Accessors { get; set; }
-
             public Variable() 
             {
                 Pointers = new List<PointerNode>();

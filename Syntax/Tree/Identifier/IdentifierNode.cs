@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Lexer;
 using Syntax.Exceptions;
+using Syntax.Interpret;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Declarations;
+using Syntax.Tree.Operators.Unary;
 
 namespace Syntax.Tree.Identifier
 {
@@ -29,7 +31,7 @@ namespace Syntax.Tree.Identifier
         
             variable = StackContext.Context.Stack.Peek().GetVariable(Value, Position);
 
-            if (Assignation != null && !(variable is StructType))
+            if (Assignation != null && !(variable is StructType) && Assignation.RightValue != null)
             {
                 Assignation.LeftValue = this;
                 Assignation.ValidateSemantic();
@@ -84,8 +86,7 @@ namespace Syntax.Tree.Identifier
                         arrayAccess.Add(Accessors[1]);
                     }
                 }
-
-
+                
                 // var arrayAccessorsCount = Accessors.Count(a => a is ArrayAccessorNode);
 
                 var arrayAccessorsCount = arrayAccess.Count(a => a is ArrayAccessorNode);
@@ -159,11 +160,48 @@ namespace Syntax.Tree.Identifier
 
         public override void Interpret()
         {
-            if (Assignation != null)
+            if (Assignation?.RightValue != null)
             {
                 Assignation.LeftValue.StructValue = Value;
                 Assignation.Interpret();
             }
+
+            if (IncrementOrdecrement != null)
+            {
+                if (IncrementOrdecrement is PreDecrementOperatorNode)
+                {
+                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Value);
+
+                    valueBefore.Value =valueBefore.Value - 1;
+
+                    StackContext.Context.Stack.Peek().SetVariableValue(Value,valueBefore);
+                }
+                else if (IncrementOrdecrement is PreIncrementOperatorNode)
+                {
+                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Value);
+
+                    valueBefore.Value =valueBefore.Value + 1;
+
+                    StackContext.Context.Stack.Peek().SetVariableValue(Value, valueBefore);
+                }
+                else if (IncrementOrdecrement is PostIncrementOperatorNode)
+                {
+                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Value);
+
+                    valueBefore.Value = valueBefore.Value + 1;
+
+                    StackContext.Context.Stack.Peek().SetVariableValue(Value, valueBefore);
+                }
+                else if (IncrementOrdecrement is PostDecrementOperatorNode)
+                {
+                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Value);
+
+                    valueBefore.Value = valueBefore.Value -1;
+
+                    StackContext.Context.Stack.Peek().SetVariableValue(Value, valueBefore);
+                }
+            }
+
 
             if (Accessors.Count == 0)
                // return $"{Value}";

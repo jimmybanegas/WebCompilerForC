@@ -43,7 +43,12 @@ namespace Syntax.Tree.DataTypes
 
         public override void Interpret()
         {
-            throw new NotImplementedException();
+           // TypeOfConst.Interpret();
+            ConstName.Interpret();
+
+            Assignation.LeftValue.StructValue = ConstName.Value;
+
+            Assignation.Interpret();
         }
     }
 }

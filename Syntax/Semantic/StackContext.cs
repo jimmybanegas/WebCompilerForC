@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Syntax.Semantic.Types;
 
@@ -8,6 +9,10 @@ namespace Syntax.Semantic
         private static StackContext _context;
         public Stack<TypesTable> Stack = new Stack<TypesTable>();
         public Dictionary<string, BaseType> TableOfTypes;
+
+
+        public Dictionary<Guid, TypesTable> PastContexts;
+
         public bool CanDeclareBreak = false;
         public bool CanDeclareContinue = false;
         public bool CanDeclareReturn = false;
@@ -28,6 +33,8 @@ namespace Syntax.Semantic
                 {"void", new VoidType()},
                 {"long", new IntType()},
             };
+
+            PastContexts = new Dictionary<Guid, TypesTable>();
         }
 
         public static StackContext Context

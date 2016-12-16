@@ -13,7 +13,7 @@ namespace Syntax.Semantic
     {
         public static bool ValidateReturnTypesEquivalence(BaseType right, BaseType left)
         {
-            if (right is IntType || right is FloatType)
+            if (right is IntType || right is FloatType || right is ConstType)
             {
                 return left is IntType || left is FloatType || left is BooleanType || left is CharType;
             }

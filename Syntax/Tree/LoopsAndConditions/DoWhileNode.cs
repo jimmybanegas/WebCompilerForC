@@ -15,10 +15,7 @@ namespace Syntax.Tree.LoopsAndConditions
         public override void ValidateSemantic()
         {
             StackContext.Context.Stack.Push(new TypesTable());
-            //StackContext.Context.CanDeclareBreak = true;
-            //StackContext.Context.CanDeclareReturn = true;
-            //StackContext.Context.CanDeclareContinue = true;
-
+        
             var conditional = WhileCondition.ValidateSemantic();
 
             if (!(conditional is BooleanType))
@@ -29,15 +26,26 @@ namespace Syntax.Tree.LoopsAndConditions
                 statement.ValidateSemantic();
             }
 
-            StackContext.Context.Stack.Pop();
-            //StackContext.Context.CanDeclareBreak = false;
-            //StackContext.Context.CanDeclareReturn = false;
-            //StackContext.Context.CanDeclareContinue = false;
+            StackContext.Context.PastContexts.Add(CodeGuid, StackContext.Context.Stack.Pop());
         }
 
         public override void Interpret()
         {
-            throw new NotImplementedException();
+            StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
+            dynamic conditional;
+
+            do
+            {
+                foreach (var statement in Sentences)
+                {
+                    statement.Interpret();
+                }
+
+                conditional = WhileCondition.Interpret();
+            } while (conditional.Value);
+
+            StackContext.Context.PastContexts.Remove(CodeGuid);
+            StackContext.Context.Stack.Pop();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Lexer;
 using Syntax.Interpret;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
@@ -11,6 +12,8 @@ namespace Syntax.Tree.Operators.Unary
         public UnaryOperator UnaryOperator;
 
         public ExpressionNode Factor;
+        public TokenType Type { get; set; }
+
         public override BaseType ValidateSemantic()
         {
             return Factor.ValidateSemantic();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Lexer;
 using Syntax.Exceptions;
+using Syntax.Interpret;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
@@ -26,12 +27,27 @@ namespace Syntax.Tree.LoopsAndConditions
                 statement.ValidateSemantic();
             }
 
-            StackContext.Context.Stack.Pop();
+            StackContext.Context.PastContexts.Add(CodeGuid, StackContext.Context.Stack.Pop());
         }
 
         public override void Interpret()
         {
-            throw new NotImplementedException();
+            StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
+
+            dynamic conditional = WhileCondition.Interpret();
+
+            while (conditional.Value)
+            {
+                foreach (var statement in Sentences)
+                {
+                    statement.Interpret();
+                }
+
+                conditional = WhileCondition.Interpret();
+            }
+
+            StackContext.Context.PastContexts.Remove(CodeGuid);
+            StackContext.Context.Stack.Pop();
         }
     }
 }

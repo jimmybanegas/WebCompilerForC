@@ -52,15 +52,6 @@ namespace Syntax.Tree.Declarations
                 {
                     StackContext.Context.Stack.Peek().SetVariableValue(variable.Value, type);
                 }
-            
-
-
-                //else
-                //{
-                //    variable.Assignation = new AssignationNode();
-                //    variable.Assignation.LeftValue.StructValue = variable.Value;
-                //    variable.Assignation?.Interpret();
-                //}
             }
         }
     }

@@ -13,7 +13,8 @@ namespace Syntax.Semantic.Types
 
         public override Value GetDefaultValue()
         {
-            throw new NotImplementedException();
+           // throw new NotImplementedException();
+            return null;
         }
 
         public AssignationNode Assignation;
