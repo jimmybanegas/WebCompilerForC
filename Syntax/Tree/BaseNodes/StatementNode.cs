@@ -1,4 +1,5 @@
-﻿using Lexer;
+﻿using System;
+using Lexer;
 
 namespace Syntax.Tree.BaseNodes
 {
@@ -6,7 +7,8 @@ namespace Syntax.Tree.BaseNodes
     {
         public Token Position = new Token();
         public abstract void ValidateSemantic();
-        public abstract string Interpret();
+        public abstract void Interpret();
 
+        public Guid CodeGuid = Guid.NewGuid();
     }
 }

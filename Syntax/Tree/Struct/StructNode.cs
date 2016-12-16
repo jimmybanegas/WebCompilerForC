@@ -40,7 +40,7 @@ namespace Syntax.Tree.Struct
             StackContext.Context.TableOfTypes.Add(Name.Name, new StructType(elements));
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
             throw new NotImplementedException();
         }

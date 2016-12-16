@@ -35,7 +35,7 @@ namespace Syntax.Tree.LoopsAndConditions
             //StackContext.Context.CanDeclareContinue = false;
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
             throw new NotImplementedException();
         }

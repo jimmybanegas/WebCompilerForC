@@ -1,3 +1,4 @@
+using System;
 using Syntax.Interpret;
 using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
@@ -16,9 +17,7 @@ namespace Syntax.Tree.DataTypes
 
         public override Value Interpret()
         {
-            //return Value;
-
-            return new IntValue();
+           return new IntValue {Value = Convert.ToInt32(Value, 2) };
         }
     }
 }

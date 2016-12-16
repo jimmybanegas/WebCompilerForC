@@ -44,7 +44,9 @@ namespace Syntax.Tree.Identifier
 
         public override Value Interpret()
         {
-            throw new NotImplementedException();
+           // throw new NotImplementedException();
+
+            return StackContext.Context.Stack.Peek().GetVariableValue(Name);
         }
     }
 }

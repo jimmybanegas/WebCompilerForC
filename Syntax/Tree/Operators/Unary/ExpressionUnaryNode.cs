@@ -18,7 +18,7 @@ namespace Syntax.Tree.Operators.Unary
 
         public override Value Interpret()
         {
-            return null;
+            return Factor.Interpret();
         }
     }
 }

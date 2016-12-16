@@ -11,7 +11,7 @@ namespace Syntax.Tree.GeneralSentences
             //throw new NotImplementedException();
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
             throw new NotImplementedException();
         }

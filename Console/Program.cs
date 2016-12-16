@@ -52,7 +52,18 @@ namespace ConsoleTest
 
                 var stack = StackContext.Context.Stack.Peek();
 
-               Console.ReadKey();
+            foreach (var statementNode in root)
+            {
+                statementNode.Interpret();
+            }
+
+            foreach (var value in StackContext.Context.Stack.Peek().Values)
+            {
+                Console.WriteLine(value.Key +" "+ value.Value);
+               // Console.WriteLine(StackContext.Context.Stack.Peek().Table);
+            }
+
+            Console.ReadKey();
             //}
             //catch (Exception e)
             //{

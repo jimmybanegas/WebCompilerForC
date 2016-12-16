@@ -66,7 +66,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
            // StackContext.Context.CanDeclareReturn = false;
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
             throw new NotImplementedException();
         }

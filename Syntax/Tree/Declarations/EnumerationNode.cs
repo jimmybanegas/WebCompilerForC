@@ -36,7 +36,7 @@ namespace Syntax.Tree.Declarations
             StackContext.Context.TableOfTypes.Add(Name.Value, new EnumType(items));
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
             throw new NotImplementedException();
         }

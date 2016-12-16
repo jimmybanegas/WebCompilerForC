@@ -73,9 +73,14 @@ namespace Syntax.Tree.Operators.Binary
 
         public override Value Interpret()
         {
-            dynamic response = LeftOperand.Interpret() + ">=" + RightOperand.Interpret();
+            dynamic left = LeftOperand.Interpret();
+            dynamic right = RightOperand.Interpret();
 
-            return new BoolValue { Value = response.Value };
+            dynamic response = left.Value >= right.Value;
+
+            dynamic typeOfReturn = Validations.GetTypeValue(response, response);
+
+            return typeOfReturn;
         }
     }
 }

@@ -44,14 +44,15 @@ namespace Syntax.Tree.Declarations
             if (NameOfVariable.Assignation !=null)
             {
                 NameOfVariable.Assignation.LeftValue = DataType;
+                NameOfVariable.Assignation.LeftValue.StructValue = NameOfVariable.Value;
 
                 NameOfVariable.Assignation.ValidateSemantic();
             } 
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
-            throw new NotImplementedException();
+            NameOfVariable.Assignation?.Interpret();
         }
     }
 }

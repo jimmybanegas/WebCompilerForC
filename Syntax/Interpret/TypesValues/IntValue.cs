@@ -1,4 +1,6 @@
-﻿namespace Syntax.Interpret.TypesValues
+﻿using System;
+
+namespace Syntax.Interpret.TypesValues
 {
     public class IntValue : Value
     {

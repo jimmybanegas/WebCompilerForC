@@ -36,7 +36,7 @@ namespace Syntax.Tree.Arrays
           
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
             throw new NotImplementedException();
         }

@@ -10,8 +10,6 @@ namespace Syntax.Tree.DataTypes
     public class HexadecimalNode : ExpressionNode
     {
         public string Value { get; set; }
-
-
         public override BaseType ValidateSemantic()
         {
           return StackContext.Context.GetGeneralType("int");
@@ -19,9 +17,7 @@ namespace Syntax.Tree.DataTypes
 
         public override Value Interpret()
         {
-           // return Value;
-
-            return new IntValue();
+            return new IntValue {Value = Convert.ToInt32(Value, 16) };
         }
     }
 }

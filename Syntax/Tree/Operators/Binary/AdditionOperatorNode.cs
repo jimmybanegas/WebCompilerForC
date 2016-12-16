@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Syntax.Interpret;
 using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
@@ -74,9 +75,23 @@ namespace Syntax.Tree.Operators.Binary
 
         public override Value Interpret()
         {
-            dynamic response = LeftOperand.Interpret() + "+" + RightOperand.Interpret();
+            dynamic left = LeftOperand.Interpret();
+            dynamic right = RightOperand.Interpret();
 
-            return new BoolValue { Value = response.Value};
+            dynamic response = left.Value + right.Value;
+
+            dynamic typeOfReturn;
+
+            if (left is CharValue && right is CharValue)
+            {
+                typeOfReturn = Validations.GetTypeValue(new StringValue(), left.Value.ToString() + right.Value.ToString());
+            }
+            else
+            {
+                typeOfReturn = Validations.GetTypeValue(left, response);
+            }
+
+            return typeOfReturn;
         }
     }
 }

@@ -72,6 +72,8 @@ namespace Syntax.Tree.Operators.Binary
             dynamic response =  LeftOperand.Interpret() + "+=" + RightOperand.Interpret();
 
             return new BoolValue {Value = response.Value};
+
+
         }
     }
 }

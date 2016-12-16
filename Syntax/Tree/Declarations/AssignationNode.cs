@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using Lexer;
 using Syntax.Exceptions;
 using Syntax.Semantic;
@@ -42,10 +43,6 @@ namespace Syntax.Tree.Declarations
                     {
                         
                     }
-                    //else if (leftIdentifierPointers.Pointers.Count >0  && !hasDereference)
-                    //{
-
-                    //}
                     else
                     {
                         int? arrayAccessors = null;
@@ -101,9 +98,22 @@ namespace Syntax.Tree.Declarations
          
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
-            throw new NotImplementedException();
+            dynamic value = RightValue.Interpret();
+
+            var unaryNode = RightValue as ExpressionUnaryNode;
+            if (unaryNode?.Factor is IdentifierExpression)
+            {
+                value = StackContext.Context.Stack.Peek().GetVariableValue( ((IdentifierExpression) unaryNode.Factor).Name );
+            }
+
+            if (unaryNode?.UnaryOperator is NegativeOperatorNode)
+            {
+                value.Value = value.Value *-1;
+            }
+
+            StackContext.Context.Stack.Peek().SetVariableValue(LeftValue.StructValue,value);
         }
     }
 }

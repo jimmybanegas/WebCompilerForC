@@ -25,7 +25,7 @@ namespace Syntax.Tree.Declarations
             }
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
             throw new NotImplementedException();
         }

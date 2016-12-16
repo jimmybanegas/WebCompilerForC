@@ -12,7 +12,7 @@ namespace Syntax.Tree.Acessors
           //  throw new NotImplementedException();
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
             throw new NotImplementedException();
         }

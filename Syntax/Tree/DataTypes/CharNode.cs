@@ -17,7 +17,7 @@ namespace Syntax.Tree.DataTypes
 
         public override Value Interpret()
         {
-            return new CharValue();
+            return new CharValue {Value = Convert.ToChar(Value)};
         }
     }
 }

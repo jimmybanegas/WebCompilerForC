@@ -16,9 +16,7 @@ namespace Syntax.Tree.DataTypes
 
         public override Value Interpret()
         {
-           // return $"\"{Value}\"";
-
-            return new StringValue();
+          return new StringValue {Value = Value};
         }
     }
 }

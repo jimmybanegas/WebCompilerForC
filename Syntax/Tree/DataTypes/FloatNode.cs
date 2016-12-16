@@ -18,9 +18,7 @@ namespace Syntax.Tree.DataTypes
 
         public override Value Interpret()
         {
-           // return Value.ToString(CultureInfo.InvariantCulture);
-
-            return new FloatValue();
+          return new FloatValue {Value = Value};
         }
     }
 }

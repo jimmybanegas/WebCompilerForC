@@ -41,7 +41,7 @@ namespace Syntax.Tree.DataTypes
             }, Position,variable);
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
             throw new NotImplementedException();
         }

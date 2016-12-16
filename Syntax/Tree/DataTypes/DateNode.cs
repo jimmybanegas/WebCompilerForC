@@ -1,4 +1,5 @@
-﻿using Syntax.Interpret;
+﻿using System;
+using Syntax.Interpret;
 using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
@@ -17,9 +18,12 @@ namespace Syntax.Tree.DataTypes
 
         public override Value Interpret()
         {
-           // return $"#{Value}#";
 
-            return new DateValue();
+            int year = Convert.ToInt32(Value.Substring(6, 4));
+            int month = Convert.ToInt32(Value.Substring(3, 2));
+            int day = Convert.ToInt32(Value.Substring(0, 2));
+
+            return new DateValue { Value = new DateTime(year, month, day)};
         }
     }
 }

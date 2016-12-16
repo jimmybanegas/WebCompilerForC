@@ -38,9 +38,30 @@ namespace Syntax.Tree.Declarations
             }
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
-            throw new NotImplementedException();
+            dynamic type = GeneralNode.DataType.ValidateTypeSemantic().GetDefaultValue();
+            foreach (var variable in ListOfVariables)
+            {
+                if (variable.Assignation != null)
+                {
+                    variable.Assignation.LeftValue.StructValue = variable.Assignation.LeftValue.Value;
+                    variable.Assignation?.Interpret();
+                }
+                else
+                {
+                    StackContext.Context.Stack.Peek().SetVariableValue(variable.Value, type);
+                }
+            
+
+
+                //else
+                //{
+                //    variable.Assignation = new AssignationNode();
+                //    variable.Assignation.LeftValue.StructValue = variable.Value;
+                //    variable.Assignation?.Interpret();
+                //}
+            }
         }
     }
 }

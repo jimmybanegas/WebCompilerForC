@@ -157,18 +157,24 @@ namespace Syntax.Tree.Identifier
             return type;
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
-            if (Accessors.Count == 0)
-                return $"{Value}";
-
-            string accesors = "";
-            foreach (var accesorNode in Accessors)
+            if (Assignation != null)
             {
-                accesors = accesors + accesorNode.Interpret();
+                Assignation.LeftValue.StructValue = Value;
+                Assignation.Interpret();
             }
 
-            return Value + accesors;
+            if (Accessors.Count == 0)
+               // return $"{Value}";
+
+          //  string accesors = "";
+            foreach (var accesorNode in Accessors)
+            {
+              //  accesors = accesors + accesorNode.Interpret();
+            }
+
+           // return Value + accesors;
         }
     }
 }

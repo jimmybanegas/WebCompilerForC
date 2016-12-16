@@ -31,7 +31,7 @@ namespace Syntax.Tree.LoopsAndConditions
             StackContext.Context.Stack.Pop();
         }
 
-        public override string Interpret()
+        public override void Interpret()
         {
             throw new System.NotImplementedException();
         }

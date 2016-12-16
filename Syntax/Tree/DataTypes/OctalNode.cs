@@ -17,9 +17,7 @@ namespace Syntax.Tree.DataTypes
 
         public override Value Interpret()
         {
-            //throw new NotImplementedException();
-
-            return new IntValue();
+            return new IntValue {Value = Convert.ToInt32(Value, 8)};
         }
     }
 }

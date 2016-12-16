@@ -71,125 +71,127 @@ namespace Syntax.Parser
 
         private BinaryOperatorNode RelationalOperators()
         {
+            var position = new Token { Row =  _parser.CurrentToken.Row, Column = _parser.CurrentToken.Column};
+
             if (_parser.Utilities.CompareTokenType(TokenType.OpLessThan))
             {
                 _parser.Utilities.NextToken();
-                return new LessThanOperatorNode();
+                return new LessThanOperatorNode {Position = position};
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpLessThanOrEqualTo))
             {
                 _parser.Utilities.NextToken();
-                return new LessThanOrEqualToOperatorNode();
+                return new LessThanOrEqualToOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpGreaterThan))
             {
                 _parser.Utilities.NextToken();
-                return new GreaterThanOperatorNode();
+                return new GreaterThanOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpGreaterThanOrEqualTo))
             {
                 _parser.Utilities.NextToken();
-                return new GreaterOrEqualOperatorNode();
+                return new GreaterOrEqualOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpGreaterThanOrEqualTo))
             {
                 _parser.Utilities.NextToken();
-                return new GreaterOrEqualOperatorNode();
+                return new GreaterOrEqualOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpAnd))
             {
                 _parser.Utilities.NextToken();
-                return new AndOperatorNode();
+                return new AndOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpLogicalOr))
             {
                 _parser.Utilities.NextToken();
-                return new LogicalOrOperatorNode();
+                return new LogicalOrOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpBitShiftRight))
             {
                 _parser.Utilities.NextToken();
-                return new ShiftRightOperatorNode();
+                return new ShiftRightOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpBitShiftLeft))
             {
                 _parser.Utilities.NextToken();
-                return new ShiftLeftOperatorNode();
+                return new ShiftLeftOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpEqualTo))
             {
                 _parser.Utilities.NextToken();
-                return new EqualToOperatorNode();
+                return new EqualToOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpEqualTo))
             {
                 _parser.Utilities.NextToken();
-                return new EqualToOperatorNode();
+                return new EqualToOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpBitAnd))
             {
                 _parser.Utilities.NextToken();
-                return new BitwiseAndOperatorNode();
+                return new BitwiseAndOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpBitOr))
             {
                 _parser.Utilities.NextToken();
-                return new BitwiseOrOperatorNode();
+                return new BitwiseOrOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpBitXor))
             {
                 _parser.Utilities.NextToken();
-                return new BitBinXorOperatorNode();
+                return new BitBinXorOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpNotEqualTo))
             {
                 _parser.Utilities.NextToken();
-                return new NotEqualToOperatorNode();
+                return new NotEqualToOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpAddAndAssignment))
             {
                 _parser.Utilities.NextToken();
-                return new AddAndAssignmentOperatorNode();
+                return new AddAndAssignmentOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpSusbtractAndAssignment))
             {
                 _parser.Utilities.NextToken();
-                return new SubstractAndAssignmentOperatorNode();
+                return new SubstractAndAssignmentOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplyAndAssignment))
             {
                 _parser.Utilities.NextToken();
-                return new MultiplicationAndAssignmentOperatorNode();
+                return new MultiplicationAndAssignmentOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpDivideAssignment))
             {
                 _parser.Utilities.NextToken();
-                return new DivisionAndAssignmentOperatorNode();
+                return new DivisionAndAssignmentOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpModulusAssignment))
             {
                 _parser.Utilities.NextToken();
-                return new ModuleAndAssignmentOperatorNode();
+                return new ModuleAndAssignmentOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpBitwiseAndAssignment))
             {
                 _parser.Utilities.NextToken();
-                return new BitwiseAndAssignmentOperatorNode();
+                return new BitwiseAndAssignmentOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpBitwiseXorAndAssignment))
             {
                 _parser.Utilities.NextToken();
-                return new BitwiseXorAndAssignmentOperatorNode();
+                return new BitwiseXorAndAssignmentOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpBitwiseInclusiveOrAndAssignment))
             {
                 _parser.Utilities.NextToken();
-                return new BitwiseInclusiveOrAndAssignmentOperatorNode();
+                return new BitwiseInclusiveOrAndAssignmentOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpSimpleAssignment))
             {
                 _parser.Utilities.NextToken();
-                return new SimpleAssignmentOperatorNode();
+                return new SimpleAssignmentOperatorNode { Position = position };
             }
             throw new Exception("A relational operator was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
         }
@@ -224,15 +226,17 @@ namespace Syntax.Parser
 
         private BinaryOperatorNode AdditiveOperrators()
         {
+            var position = new Token { Row = _parser.CurrentToken.Row, Column = _parser.CurrentToken.Column };
+
             if (_parser.Utilities.CompareTokenType(TokenType.OpAdd))
             {
                 _parser.Utilities.NextToken();
-                return new AdditionOperatorNode();
+                return new AdditionOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpSubstraction))
             {
                 _parser.Utilities.NextToken();
-                return new SubstractionOperatorNode();
+                return new SubstractionOperatorNode { Position = position };
             }
 
             throw new Exception("An additive operator was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
@@ -268,20 +272,22 @@ namespace Syntax.Parser
 
         private BinaryOperatorNode MultiplicativeOperators()
         {
+            var position = new Token { Row = _parser.CurrentToken.Row, Column = _parser.CurrentToken.Column };
+
             if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
                 _parser.Utilities.NextToken();
-                return new MultiplicationOperatorNode();
+                return new MultiplicationOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpDivision))
             {
                 _parser.Utilities.NextToken();
-                return new DivisionOperatorNode();
+                return new DivisionOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpModule))
             {
                 _parser.Utilities.NextToken();
-                return new ModuleOperatorNode();
+                return new ModuleOperatorNode { Position = position };
             }
  
             throw  new Exception("A multiplicative operator was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
@@ -314,35 +320,37 @@ namespace Syntax.Parser
 
         private UnaryOperator UnaryOperators()
         {
+            var position = new Token { Row = _parser.CurrentToken.Row, Column = _parser.CurrentToken.Column };
+
             if (_parser.Utilities.CompareTokenType(TokenType.OpComplement))
             {
                 _parser.Utilities.NextToken();
-                return new ComplementOperatorNode();
+                return new ComplementOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpIncrement))
             {
                 _parser.Utilities.NextToken();
-                return new PostIncrementOperatorNode();
+                return new PostIncrementOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpDecrement))
             {
                 _parser.Utilities.NextToken();
-                return new PostDecrementOperatorNode();
+                return new PostDecrementOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpBitAnd))
             {
                 _parser.Utilities.NextToken();
-                return new BitAndOperatorNode();
+                return new BitAndOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpBitOr))
             {
                 _parser.Utilities.NextToken();
-                return new BitOrOperatorNode();
+                return new BitOrOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpNot))
             {
                 _parser.Utilities.NextToken();
-                return new NotOperatorNode();
+                return new NotOperatorNode { Position = position };
             }
             //if (_parser.Utilities.CompareTokenType(TokenType.OpBitXor))
             //{
@@ -352,12 +360,12 @@ namespace Syntax.Parser
             if (_parser.Utilities.CompareTokenType(TokenType.OpMultiplication))
             {
                 _parser.Utilities.NextToken();
-                return new ReferenceOperatorNode();
+                return new ReferenceOperatorNode { Position = position };
             }
             if (_parser.Utilities.CompareTokenType(TokenType.OpSubstraction))
             {
                 _parser.Utilities.NextToken();
-                return new NegativeOperatorNode();
+                return new NegativeOperatorNode { Position = position };
             }
           
             throw new Exception("An unary operator was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
@@ -532,8 +540,6 @@ namespace Syntax.Parser
             {
                 _parser.Utilities.NextToken();
 
-               // var position = new Token { Row = _parser.CurrentToken.Row, Column = _parser.CurrentToken.Column };
-
                 var accessor = _parser.Arrays.SizeForBidArray();
 
                 listOfAccessors.Add(accessor);
@@ -583,16 +589,17 @@ namespace Syntax.Parser
 
         public bool ArrowOrPointer(List<AccessorNode> listOfAccessors)
         {
+            var position = new Token { Row = _parser.CurrentToken.Row, Column = _parser.CurrentToken.Column };
             if (_parser.Utilities.CompareTokenType(TokenType.OpPointerStructs))
             {
-               // listOfAccessors.Add(new PointerAccessorNode());
                 _parser.Utilities.NextToken();
                 listOfAccessors.Add(new PointerAccessorNode
                 {
                     IdentifierNode = new IdentifierNode
                     {
                         Accessors = new List<AccessorNode>(),
-                        Value = _parser.CurrentToken.Lexeme
+                        Value = _parser.CurrentToken.Lexeme,
+                        Position = position
                     }
                 });
                 return true;
@@ -604,7 +611,7 @@ namespace Syntax.Parser
                 {
                     IdentifierNode =  new IdentifierNode
                     {
-                        Accessors = new List<AccessorNode>(),Value = _parser.CurrentToken.Lexeme
+                        Accessors = new List<AccessorNode>(),Value = _parser.CurrentToken.Lexeme, Position = position
                     }
                 });
                 return false;

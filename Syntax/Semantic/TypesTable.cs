@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Lexer;
 using Syntax.Exceptions;
 using Syntax.Interpret;
@@ -9,12 +10,14 @@ namespace Syntax.Semantic
 {
     public class TypesTable
     {
-        public Dictionary<string, BaseType> Table;
-
         private static TypesTable _instance;
 
-        public Dictionary<string, Variable> Variables;
         public Dictionary<string, Value> Values;
+        public Dictionary<string, BaseType> Table;
+
+        public Dictionary<string, Variable> Variables;
+
+        public Dictionary<Guid, TypesTable> PastContexts;
 
         public TypesTable()
         {
@@ -33,6 +36,8 @@ namespace Syntax.Semantic
 
             Variables = new Dictionary<string, Variable>();
             Values = new Dictionary<string, Value>();
+
+            PastContexts = new Dictionary<Guid, TypesTable>();
         }
         public static TypesTable Instance
         {
@@ -115,14 +120,31 @@ namespace Syntax.Semantic
             //}
             //else
             //{
-                Values[name] = value;
-           // }
+                //Values[name] = value;
+            // }
+
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                if (stack.Values.ContainsKey(name))
+                {
+                    stack.Values[name] = value;
+                }
+            }
 
         }
 
         public Value GetVariableValue(string name)
         {
-            return Values[name];
+            //return Values[name];
+
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                if (stack.Values.ContainsKey(name))
+                {
+                   return  stack.Values[name] ;
+                }
+            }
+            return null;
         }
 
 
