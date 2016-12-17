@@ -9,5 +9,9 @@ namespace Syntax.Interpret
     public abstract class Value
     {
         public abstract Value Clone();
+
+        public int? Position1 { get; set; }
+        public int? Position2 { get; set; }
+
     }
 }

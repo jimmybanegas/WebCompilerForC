@@ -58,7 +58,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
 
         public override void Interpret()
         {
-            throw new NotImplementedException();
+           
         }
     }
 }

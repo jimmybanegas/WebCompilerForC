@@ -160,7 +160,7 @@ namespace Syntax.Tree.Identifier
 
         public override void Interpret()
         {
-            if (Assignation?.RightValue != null)
+            if (Assignation?.RightValue != null )
             {
                 Assignation.LeftValue.StructValue = Value;
                 Assignation.Interpret();
@@ -203,10 +203,8 @@ namespace Syntax.Tree.Identifier
             }
 
 
-            if (Accessors.Count == 0)
-               // return $"{Value}";
-
-          //  string accesors = "";
+            if (Accessors.Count > 0)
+        
             foreach (var accesorNode in Accessors)
             {
               //  accesors = accesors + accesorNode.Interpret();

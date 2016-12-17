@@ -91,10 +91,8 @@ namespace Syntax.Tree.Identifier
                 {
                     dynamic pos = accessor.Interpret();
 
-                    return StackContext.Context.Stack.Peek().GetArrayVariableValues(Name)[pos.Value - 1];
+                    return StackContext.Context.Stack.Peek().GetArrayVariableValues(Name)[pos.Value];
                 }
-
-                throw new SemanticException("Array Index Out of bound exception");
             }
 
            return StackContext.Context.Stack.Peek().GetVariableValue(Name);

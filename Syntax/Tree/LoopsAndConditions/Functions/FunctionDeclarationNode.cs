@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Lexer;
 using Syntax.Exceptions;
+using Syntax.Interpret;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
@@ -68,8 +69,30 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
         {
             StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
 
+            StackContext.Context.FunctionsNodes.Add(Identifier.NameOfVariable.Value, this);
+
             //StackContext.Context.PastContexts.Remove(CodeGuid);
             StackContext.Context.Stack.Pop();
+        }
+
+        public Value Execute()
+        {
+          //  StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
+            dynamic returnValue = null;
+
+            foreach (var sentence in Sentences)
+            {
+
+                if (sentence is ReturnStatementNode)
+                {
+                    returnValue = (sentence as ReturnStatementNode).GetValueOfReturn();
+                }
+                sentence.Interpret();
+            }
+
+       //     StackContext.Context.Stack.Pop();
+
+            return returnValue;
         }
     }
 }

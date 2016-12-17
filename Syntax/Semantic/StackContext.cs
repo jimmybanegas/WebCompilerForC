@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Syntax.Semantic.Types;
+using Syntax.Tree.LoopsAndConditions.Functions;
 
 namespace Syntax.Semantic
 {
@@ -9,6 +10,8 @@ namespace Syntax.Semantic
         private static StackContext _context;
         public Stack<TypesTable> Stack = new Stack<TypesTable>();
         public Dictionary<string, BaseType> TableOfTypes;
+
+        public Dictionary<string, FunctionDeclarationNode> FunctionsNodes;
 
 
         public Dictionary<Guid, TypesTable> PastContexts;
@@ -35,6 +38,7 @@ namespace Syntax.Semantic
             };
 
             PastContexts = new Dictionary<Guid, TypesTable>();
+            FunctionsNodes = new Dictionary<string, FunctionDeclarationNode>();
         }
 
         public static StackContext Context

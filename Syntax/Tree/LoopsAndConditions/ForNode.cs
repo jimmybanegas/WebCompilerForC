@@ -35,9 +35,12 @@ namespace Syntax.Tree.LoopsAndConditions
             if (!(conditional3 is IntType))
                 throw new SemanticException($"An Integer expression is expected at Row: {Position.Row} , Column {Position.Column}");
 
-            foreach (var statement in Sentences)
+            if (Sentences != null)
             {
-                statement.ValidateSemantic();
+                foreach (var statement in Sentences)
+                {
+                    statement.ValidateSemantic();
+                }
             }
 
             StackContext.Context.PastContexts.Add(CodeGuid, StackContext.Context.Stack.Pop());
@@ -74,23 +77,27 @@ namespace Syntax.Tree.LoopsAndConditions
 
                 if (!conditional2.Value) continue;
 
-                foreach (var statement in Sentences)
+                if (Sentences != null)
                 {
-                    statement.Interpret();
-
-                    if (statement is ContinueNode)
+                    foreach (var statement in Sentences)
                     {
-                        continue;
-                    }
+                        if (statement is ContinueNode)
+                        {
+                            continue;
+                        }
 
-                    if (statement is BreakNode)
-                    {
-                        break;
-                    }
+                        if (statement is BreakNode)
+                        {
+                            break;
+                        }
 
-                    if (statement is ReturnStatementNode)
-                    {
-                        return;
+                        if (statement is ReturnStatementNode)
+                        {
+                            return;
+                        }
+
+                        statement.Interpret();
+                        Console.WriteLine(conditional1.Value);
                     }
                 }
             }

@@ -6,6 +6,7 @@ using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
+using Syntax.Tree.Operators.Unary;
 
 namespace Syntax.Tree.Operators.Binary
 {
@@ -77,6 +78,18 @@ namespace Syntax.Tree.Operators.Binary
         {
             dynamic left = LeftOperand.Interpret();
             dynamic right = RightOperand.Interpret();
+
+            var unaryNode = LeftOperand is ExpressionUnaryNode;
+            if (unaryNode && ((ExpressionUnaryNode) LeftOperand).UnaryOperator is NegativeOperatorNode)
+            {
+                left.Value = left.Value * -1;
+            }
+
+            var unaryNode2 = RightOperand is ExpressionUnaryNode;
+            if (unaryNode2 && ((ExpressionUnaryNode)RightOperand).UnaryOperator is NegativeOperatorNode)
+            {
+                right.Value = right.Value * -1;
+            }
 
             dynamic response = left.Value + right.Value;
 

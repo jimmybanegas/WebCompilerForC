@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Lexer;
 using Syntax.Exceptions;
 using Syntax.Interpret;
+using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
@@ -71,7 +72,25 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
 
         public override Value Interpret()
         {
-            throw new NotImplementedException();
+            var functiondeclaration = StackContext.Context.FunctionsNodes[Name];
+
+            StackContext.Context.Stack.Push(StackContext.Context.PastContexts[functiondeclaration.CodeGuid]);
+            
+            int pos = 0;
+            foreach (var parameter in functiondeclaration.Parameters)
+            {
+                dynamic valueOfParameter = ListOfExpressions[pos].Interpret();
+
+                StackContext.Context.Stack.Peek().SetVariableValue(parameter.NameOfVariable.Value, valueOfParameter);
+                pos++;
+            }
+
+
+            var returnValue = functiondeclaration.Execute();
+
+            StackContext.Context.Stack.Pop();
+
+            return returnValue;
         }
     }
 }

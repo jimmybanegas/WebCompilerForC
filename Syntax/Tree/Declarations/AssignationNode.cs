@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Lexer;
 using Syntax.Exceptions;
 using Syntax.Semantic;
@@ -124,6 +126,46 @@ namespace Syntax.Tree.Declarations
             if (unaryNode?.UnaryOperator is NotOperatorNode)
             {
                 value.Value = !value.Value;
+            }
+
+            int? position1 = null;
+            int? position2 = null;
+            bool isArray = false;
+
+            if (LeftValue.Accessors != null)
+            {
+                if (LeftValue.Accessors.OfType<ArrayAccessorNode>().Any())
+                {
+                    var accesors = LeftValue.Accessors.OfType<ArrayAccessorNode>();
+
+                    var arrayAccessorNodes = accesors as IList<ArrayAccessorNode> ?? accesors.ToList();
+
+                    if (arrayAccessorNodes.Count == 1)
+                    {
+                        dynamic val = arrayAccessorNodes.First().IndexExpression.Interpret();
+                        position1 = val.Value;
+                        isArray = true;
+                    }
+
+                    if (arrayAccessorNodes.Count == 2)
+                    {
+                        dynamic val = arrayAccessorNodes.First().IndexExpression.Interpret();
+                        dynamic val2 = arrayAccessorNodes.Last().IndexExpression.Interpret();
+                        position1 = val.Value;
+                        position2 = val2.Value;
+                        isArray = true;
+                    }
+                }
+            }
+
+
+            if (isArray)
+            {
+                value.Position1 = position1;
+                value.Position2 = position2;
+
+                StackContext.Context.Stack.Peek().SetArrayVariableValue(LeftValue.StructValue, value);
+                return;
             }
 
             StackContext.Context.Stack.Peek().SetVariableValue(LeftValue.StructValue,value);

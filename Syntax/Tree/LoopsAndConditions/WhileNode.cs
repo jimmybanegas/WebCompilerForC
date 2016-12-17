@@ -24,9 +24,12 @@ namespace Syntax.Tree.LoopsAndConditions
             if (!(conditional is BooleanType))
                 throw new SemanticException($"A boolean expression is expected, not a {conditional} at Row: {Position.Row} , Column {Position.Column}");
 
-            foreach (var statement in Sentences)
+            if (Sentences != null)
             {
-                statement.ValidateSemantic();
+                foreach (var statement in Sentences)
+                {
+                    statement.ValidateSemantic();
+                }
             }
 
             StackContext.Context.PastContexts.Add(CodeGuid, StackContext.Context.Stack.Pop());
@@ -46,10 +49,9 @@ namespace Syntax.Tree.LoopsAndConditions
 
             while (conditional.Value)
             {
+                if (Sentences == null) continue;
                 foreach (var statement in Sentences)
                 {
-                    statement.Interpret();
-
                     if (statement is ContinueNode)
                     {
                         continue;
@@ -64,11 +66,11 @@ namespace Syntax.Tree.LoopsAndConditions
                     {
                         return;
                     }
+                    statement.Interpret();
                 }
 
                 conditional = WhileCondition.Interpret();
             }
-
             //StackContext.Context.PastContexts.Remove(CodeGuid);
             StackContext.Context.Stack.Pop();
         }

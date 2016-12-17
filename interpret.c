@@ -207,12 +207,7 @@
 //        cuatro = "si funciona Rafa";
 //    }
 
-// int asd = 0;
-// string saludo;
 
-// for (asd = 0; asd < 3; asd++){
-//     saludo += " hola " ;
-// }
 
 //   int num=212, i;
 //     int respuesta = 0, respuesta2 =0;
@@ -233,19 +228,19 @@
 //     }
 
 //      /* local variable definition */
-//    int a = 10, cont = 0 ;
+   int a = 10, cont = 0 ;
 
-//    /* while loop execution */
-//    while( a < 20 ) {
-//       //cont++;
-//       a++;
+   /* while loop execution */
+   while( a < 20 ) {
+      //cont++;
+      a++;
 		
-//       if( a > 15) {
-//          /* terminate the loop using break statement */
-//          cont++;
-//          break;
-//       }		
-//    }
+      if( a > 15) {
+         /* terminate the loop using break statement */
+         cont++;
+         break;
+      }		
+   }
 
 
 //     /* local variable definition */
@@ -293,9 +288,57 @@
 
 //char cha,nplname[10], *ch , *plname[20] ;
 
+//int mark[5] = {19, 10, 8, 17, 9};
+
+// int x = mark[0];
+
+
+
+// int mark2[3][2] = {19, 10, 8, 17, 9, 12};
+
+// mark2[0][1] = 12;
+
+// int c[2][3] = {1, 3, 0, -1, 5, 9};
+
+// int dos = c[0][1];
+
+int c[3][4]  = {0, 1, 2, 3,   /*  initializers for row indexed by 0 */
+   4, 5, 6, 7 ,   /*  initializers for row indexed by 1 */
+  8, 9, 10, 11   /*  initializers for row indexed by 2 */
+};
+
 int mark[5] = {19, 10, 8, 17, 9};
 
-int x = mark[2];
+mark[0] = 12;
+
+
+int x = -9 * 4;
+
+int suma (int a, int b){
+    return a+b;
+}
+
+int e = 3;
+int d = 4;
+
+int res = suma(e,d);
+
+void displayNumbers(int num[2][2])
+{
+    // Instead of the above line,
+    // void displayNumbers(int num[][2]) is also valid
+    int i, j;
+  //  printf("Displaying:\n");
+    for (i = 0; i < 2; ++i){
+        for (j = 0; j < 2; ++j){
+            int mark5[5] = {19, 10, 8, 17, 9};
+        }
+    }
+       
+            //printf("%d\n", num[i][j]);
+}
+
+displayNumbers(mark);
 
 %>
 

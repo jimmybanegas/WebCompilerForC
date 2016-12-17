@@ -1,5 +1,6 @@
 ﻿using System;
 using Lexer;
+using Syntax.Interpret;
 using Syntax.Semantic;
 using Syntax.Tree.BaseNodes;
 
@@ -21,7 +22,12 @@ namespace Syntax.Tree.GeneralSentences
 
         public override void Interpret()
         {
-            throw new NotImplementedException();
+           // throw new NotImplementedException();
+        }
+
+        public Value GetValueOfReturn()
+        {
+            return ReturnExpression.Interpret();
         }
     }
 }

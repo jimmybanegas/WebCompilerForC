@@ -71,26 +71,81 @@ namespace Syntax.Tree.Arrays
             var accesorsOfArray =
                 StackContext.Context.Stack.Peek().GetVariableAccessorsAndPointers(ArrayIdentifier.Value);
 
-            var dimension = 1;
+           // var dimension = 1;
+            int? position1 = null;
+            int? position2 = null;
 
-            foreach (var accessor in accesorsOfArray.Accessors.OfType<ArrayAccessorNode>())
+            //foreach (var accessor in accesorsOfArray.Accessors.OfType<ArrayAccessorNode>())
+            //{
+            //    var expressionUnaryNode = accessor.IndexExpression as ExpressionUnaryNode;
+            //    if (expressionUnaryNode != null)
+            //    {
+            //        dynamic val = expressionUnaryNode.Factor.Interpret();
+
+            //        dimension *= val.Value;
+            //    }
+            //}
+
+            var accesors = accesorsOfArray.Accessors.OfType<ArrayAccessorNode>();
+
+            var arrayAccessorNodes = accesors as IList<ArrayAccessorNode> ?? accesors.ToList();
+
+            if (arrayAccessorNodes.Count == 1)
             {
-                var expressionUnaryNode = accessor.IndexExpression as ExpressionUnaryNode;
-                if (expressionUnaryNode != null)
-                {
-                    dynamic val = expressionUnaryNode.Factor.Interpret();
+                dynamic val = arrayAccessorNodes.First().IndexExpression.Interpret();
+                position1 = val.Value;
+            }
 
-                    dimension *= val.Value;
-                }
+            if (arrayAccessorNodes.Count == 2)
+            {
+                dynamic val = arrayAccessorNodes.First().IndexExpression.Interpret();
+                dynamic val2 = arrayAccessorNodes.Last().IndexExpression.Interpret();
+                position1 = val.Value;
+                position2 = val2.Value;
             }
 
             List<Value> values = new List<Value>();
+
+            int pos1 = 0;
+            int pos2 = 0;
 
             foreach (var node in RightValue)
             {
                 dynamic value = node.Interpret();
 
+                if (position2 == null)
+                {
+                    value.Position1 = pos1;
+                }
+
+                if (position2 != null)
+                {
+                    value.Position1 = pos1;
+                    value.Position2 = pos2;
+                }
+
                 values.Add(value);
+
+                if (position2 != null)
+                {
+                    if (pos2 < position2.Value-1)
+                    {
+                        pos2++;
+                    }
+                    else
+                    {
+                        pos1++;
+                        pos2 = 0;
+                    }
+                }
+                else
+                {
+                    if (pos1 < position1.Value)
+                    {
+                        pos1++;
+                    }
+                }
+             
             }
 
             StackContext.Context.Stack.Peek().SetArrayVariableValue(ArrayIdentifier.Value,values);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Lexer;
 using Syntax.Exceptions;
 using Syntax.Interpret;
@@ -103,7 +104,46 @@ namespace Syntax.Semantic
 
         }
 
-        public void SetArrayVariableValue(string name, List<Value> values)
+        public void SetArrayVariableValue(string name, Value value)
+        {
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                //if (stack.ValuesOfArrays.ContainsKey(name))
+                //{
+                //    int pos= 0;
+                //    var values = stack.ValuesOfArrays[name];
+
+                //    foreach (var value1 in values)
+                //    {
+                //        if (value1.Position1 == value.Position1 && value1.Position2 == value.Position2)
+                //        {
+                //            values[pos] = value;
+                //        }
+                //        pos++;
+                //    }
+                //}
+
+                List<Value> existing;
+                if (!stack.ValuesOfArrays.TryGetValue(name, out existing))
+                {
+                    existing = new List<Value>();
+                    stack.ValuesOfArrays[name] = existing;
+                }
+                // At this point we know that "existing" refers to the relevant list in the 
+                // dictionary, one way or another.
+                int pos = 0;            
+                foreach (var value1 in existing.ToList())
+                {
+                    if (value1.Position1 == value.Position1 && value1.Position2 == value.Position2)
+                    {
+                        existing[pos] = value;
+                    }
+                    pos++;
+                }
+            }
+        }
+
+        internal void SetArrayVariableValue(string name, List<Value> values)
         {
             foreach (var stack in StackContext.Context.Stack)
             {

@@ -28,42 +28,11 @@ namespace Syntax.Tree.LoopsAndConditions
             foreach (var statement in TrueBlock)
             {
                 statement.ValidateSemantic();
-
-                if (statement is ContinueNode)
-                {
-                    continue;
-                }
-
-                if (statement is BreakNode)
-                {
-                    break;
-                }
-
-                if (statement is ReturnStatementNode)
-                {
-                    return;
-                }
             }
 
             foreach (var statement in FalseBlock)
             {
                 statement.ValidateSemantic();
-
-
-                if (statement is ContinueNode)
-                {
-                    continue;
-                }
-
-                if (statement is BreakNode)
-                {
-                    break;
-                }
-
-                if (statement is ReturnStatementNode)
-                {
-                    return;
-                }
             }
 
             StackContext.Context.PastContexts.Add(CodeGuid, StackContext.Context.Stack.Pop());
@@ -86,22 +55,25 @@ namespace Syntax.Tree.LoopsAndConditions
                 if (TrueBlock == null) return;
                 foreach (var node in TrueBlock)
                 {
-                    node.Interpret();
-
                     if (node is ContinueNode)
                     {
                         continue;
                     }
 
+                    //bool breakN = false;
                     if (node is BreakNode)
                     {
-                        break;
+                        goto exit;
                     }
+
+                    //if (breakN) break;
 
                     if (node is ReturnStatementNode)
                     {
                         return;
                     }
+
+                    node.Interpret();
                 }
             }
             else
@@ -109,8 +81,6 @@ namespace Syntax.Tree.LoopsAndConditions
                 if (FalseBlock == null) return;
                 foreach (var node in FalseBlock)
                 {
-                    node.Interpret();
-
                     if (node is ContinueNode)
                     {
                         continue;
@@ -125,9 +95,11 @@ namespace Syntax.Tree.LoopsAndConditions
                     {
                         return;
                     }
+
+                    node.Interpret();
                 }
             }
-
+            exit: Console.WriteLine("salit");
             StackContext.Context.Stack.Pop();
         }
     }
