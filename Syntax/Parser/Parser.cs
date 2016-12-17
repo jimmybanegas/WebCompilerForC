@@ -838,7 +838,7 @@ namespace Syntax.Parser
                 {
                     value = InitializationForStruct();
 
-                    general.NameOfVariable.Assignation = new AssignationForArray {RightValue = value, Position = position};
+                    general.NameOfVariable.Assignation = new AssignationForArray {RightValue = value, Position = position, ArrayIdentifier = general.NameOfVariable};
                 }
 
                 if (Utilities.CompareTokenType(TokenType.OpenSquareBracket))
@@ -1220,7 +1220,7 @@ namespace Syntax.Parser
                 var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
 
                 generalDecla.NameOfVariable.Accessors.AddRange(tuppleArray.Item1);
-                generalDecla.NameOfVariable.Assignation = new AssignationForArray {RightValue = tuppleArray.Item2 , Position = position};
+                generalDecla.NameOfVariable.Assignation = new AssignationForArray {RightValue = tuppleArray.Item2 , Position = position, ArrayIdentifier = generalDecla.NameOfVariable};
 
                 if (Utilities.CompareTokenType(TokenType.Comma))
                 {
@@ -1484,7 +1484,7 @@ namespace Syntax.Parser
 
                 var position = new Token { Row = CurrentToken.Row, Column = CurrentToken.Column };
 
-                generalDeclaration.NameOfVariable.Assignation = new AssignationForArray {RightValue = tupleArray.Item2, Position = position};
+                generalDeclaration.NameOfVariable.Assignation = new AssignationForArray {RightValue = tupleArray.Item2, Position = position, ArrayIdentifier = generalDeclaration.NameOfVariable};
 
                 if (Utilities.CompareTokenType(TokenType.Comma))
                 {

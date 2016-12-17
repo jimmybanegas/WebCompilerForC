@@ -19,9 +19,9 @@ namespace Syntax.Tree.Acessors
         
         public override Value Interpret()
         {
-            dynamic response = "[" + IndexExpression.Interpret() + "]";
+            dynamic response = IndexExpression.Interpret();
 
-            return new FloatValue { Value = response.Value};
+            return new IntValue {Value = response.Value};
         }
 
         public override BaseType ValidateSemanticType(BaseType type)

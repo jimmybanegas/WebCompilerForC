@@ -23,8 +23,6 @@
 //          respuesta2 = num << tc;
 //      }
       
-
-
 //     int jc = 12, kc = 25;
 
 //     int lc = jc & kc;
@@ -201,100 +199,103 @@
 
 //     cc %= ic; // c = c%
 
-   int dos = 6 , tres = 6;
+//    int dos = 6 , tres = 6;
 
-   string cuatro;
+//    string cuatro;
 
-   if   (!(dos == tres)){
-       cuatro = "si funciona Rafa";
-   }
+//    if   (!(dos == tres)){
+//        cuatro = "si funciona Rafa";
+//    }
 
-char cha,nplname[10], *ch , *plname[20] ;
+// int asd = 0;
+// string saludo;
 
-int asd = 0;
-string saludo;
+// for (asd = 0; asd < 3; asd++){
+//     saludo += " hola " ;
+// }
 
-for (asd = 0; asd < 3; asd++){
-    saludo += " hola " ;
-}
+//   int num=212, i;
+//     int respuesta = 0, respuesta2 =0;
 
-  int num=212, i;
-    int respuesta = 0, respuesta2 =0;
-
-    for (i=0; i < 3; i++){
-         respuesta = num >> i;
-         respuesta2 = num << i;
-    }
+//     for (i=0; i < 3; i++){
+//          respuesta = num >> i;
+//          respuesta2 = num << i;
+//     }
 
   
-    int num2 = 10, count, sum = 0;
+//     int num2 = 10, count, sum = 0;
 
 
-    // for loop terminates when n is less than count
-    for(count = 1; count <= num2; ++count)
-    {
-        sum += count;
-    }
+//     // for loop terminates when n is less than count
+//     for(count = 1; count <= num2; ++count)
+//     {
+//         sum += count;
+//     }
 
-     /* local variable definition */
-   int a = 10, cont = 0 ;
+//      /* local variable definition */
+//    int a = 10, cont = 0 ;
 
-   /* while loop execution */
-   while( a < 20 ) {
-      //cont++;
-      a++;
+//    /* while loop execution */
+//    while( a < 20 ) {
+//       //cont++;
+//       a++;
 		
-      if( a > 15) {
-         /* terminate the loop using break statement */
-         cont++;
-         break;
-      }		
-   }
+//       if( a > 15) {
+//          /* terminate the loop using break statement */
+//          cont++;
+//          break;
+//       }		
+//    }
 
 
-    /* local variable definition */
-   int aas = 10;
+//     /* local variable definition */
+//    int aas = 10;
 
-   /* do loop execution */
-   do {
+//    /* do loop execution */
+//    do {
    
-      if( aas == 15) {
-         /* skip the iteration */
-         aas = aas + 1;
-         continue;
-      }
+//       if( aas == 15) {
+//          /* skip the iteration */
+//          aas = aas + 1;
+//          continue;
+//       }
 		
-      //printf("value of a: %d\n", a);
-      aas++;
+//       //printf("value of a: %d\n", a);
+//       aas++;
      
-   } while( aas < 20 );
+//    } while( aas < 20 );
 
 
-    char operator = 'a';
-    int firstNumber = 10,secondNumber = 23;
-    int result;
+//     char operator = 'a';
+//     int firstNumber = 10,secondNumber = 23;
+//     int result;
 
-    switch(operator)
-    {
-        case '+':
-            result = firstNumber+secondNumber;
-            break;
+//     switch(operator)
+//     {
+//         case '+':
+//             result = firstNumber+secondNumber;
+//             break;
 
-        case '-':
-             result = firstNumber-secondNumber;
-            break;
+//         case '-':
+//              result = firstNumber-secondNumber;
+//             break;
 
-        case '*':
-            result = firstNumber*secondNumber;
-            break;
+//         case '*':
+//             result = firstNumber*secondNumber;
+//             break;
 
-        case '/':
-             result = firstNumber/secondNumber;
-            break;
-        default:
-             result = 18061993;
-    }
+//         case '/':
+//              result = firstNumber/secondNumber;
+//             break;
+//         default:
+//              result = 18061993;
+//     }
 
+//char cha,nplname[10], *ch , *plname[20] ;
+
+int mark[5] = {19, 10, 8, 17, 9};
+
+int x = mark[2];
 
 %>
 

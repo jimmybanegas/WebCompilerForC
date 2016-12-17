@@ -15,6 +15,8 @@ namespace Syntax.Semantic
         public Dictionary<string, Value> Values;
         public Dictionary<string, BaseType> Table;
 
+        public Dictionary<string, List<Value>> ValuesOfArrays;
+
         public Dictionary<string, Variable> Variables;
         public TypesTable()
         {
@@ -33,18 +35,9 @@ namespace Syntax.Semantic
 
             Variables = new Dictionary<string, Variable>();
             Values = new Dictionary<string, Value>();
+            ValuesOfArrays = new Dictionary<string, List<Value>>();
         }
-        public static TypesTable Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new TypesTable();
-                }
-                return _instance;
-            }
-        }
+        public static TypesTable Instance => _instance ?? (_instance = new TypesTable());
 
         public void RegisterType(string name, BaseType baseType, Token currentToken, Variable variable)
         {
@@ -100,24 +93,6 @@ namespace Syntax.Semantic
 
         public void SetVariableValue(string name, Value value)
         {
-            //Si es rreglo
-            //if (_accesores[name])
-            //{
-            //    List<Value> existing;
-
-            //    if (!_valuesOfArrays.TryGetValue(name, out existing))
-            //    {
-            //        existing = new List<Value>();
-            //        _valuesOfArrays[name] = existing;
-            //    }
-
-            //    existing.Add(value);
-            //}
-            //else
-            //{
-                //Values[name] = value;
-            // }
-
             foreach (var stack in StackContext.Context.Stack)
             {
                 if (stack.Values.ContainsKey(name))
@@ -128,10 +103,19 @@ namespace Syntax.Semantic
 
         }
 
+        public void SetArrayVariableValue(string name, List<Value> values)
+        {
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                if (stack.Values.ContainsKey(name))
+                {
+                    stack.ValuesOfArrays[name] = values;
+                }
+            }
+        }
+
         public Value GetVariableValue(string name)
         {
-            //return Values[name];
-
             foreach (var stack in StackContext.Context.Stack)
             {
                 if (stack.Values.ContainsKey(name))
@@ -142,6 +126,17 @@ namespace Syntax.Semantic
             return null;
         }
 
+        public List<Value> GetArrayVariableValues(string name)
+        {
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                if (stack.Values.ContainsKey(name))
+                {
+                    return stack.ValuesOfArrays[name];
+                }
+            }
+            return null;
+        }
 
         public class Variable
         {

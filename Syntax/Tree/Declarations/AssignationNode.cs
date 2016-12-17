@@ -110,7 +110,10 @@ namespace Syntax.Tree.Declarations
 
             if (unaryNode?.Factor is IdentifierExpression)
             {
-                value = StackContext.Context.Stack.Peek().GetVariableValue( ((IdentifierExpression) unaryNode.Factor).Name ).Clone();
+                if (!((IdentifierExpression) unaryNode.Factor).Accessors.OfType<ArrayAccessorNode>().Any())
+                {
+                    value = StackContext.Context.Stack.Peek().GetVariableValue(((IdentifierExpression)unaryNode.Factor).Name).Clone();
+                }
             }
 
             if (unaryNode?.UnaryOperator is NegativeOperatorNode)

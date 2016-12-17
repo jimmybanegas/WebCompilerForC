@@ -15,6 +15,7 @@ namespace Syntax.Tree.Identifier
     {
         public string Name { get; set; }
         public UnaryOperator IncrementOrdecrement { get; set; }
+
         public List<AccessorNode> Accessors = new List<AccessorNode>();
 
         public override BaseType ValidateSemantic()
@@ -82,6 +83,18 @@ namespace Syntax.Tree.Identifier
 
                     StackContext.Context.Stack.Peek().SetVariableValue(Name, valueBefore);
                 }
+            }
+
+            if (Accessors != null )
+            {
+                foreach (var accessor in Accessors)
+                {
+                    dynamic pos = accessor.Interpret();
+
+                    return StackContext.Context.Stack.Peek().GetArrayVariableValues(Name)[pos.Value - 1];
+                }
+
+                throw new SemanticException("Array Index Out of bound exception");
             }
 
            return StackContext.Context.Stack.Peek().GetVariableValue(Name);
