@@ -34,7 +34,38 @@ namespace Syntax.Tree.LoopsAndConditions
         {
             StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
 
-           // StackContext.Context.PastContexts.Remove(CodeGuid);
+            dynamic switchExpre = Expression.Interpret();
+
+            var defaultStatements = new List<StatementNode>();
+
+            foreach (var statement in CaseStatements)
+            {
+                if (statement.Expression == null)
+                {
+                    defaultStatements = statement.Sentences;
+                }
+                else
+                {
+                    dynamic result = statement.Expression.Interpret();
+
+                    if (result.Value == switchExpre.Value)
+                    {
+                        foreach (var sentence in statement.Sentences)
+                        {
+                            sentence.Interpret();
+                        }
+
+                        return;
+                    }
+                }
+
+                foreach (var defaultStatement in defaultStatements)
+                {
+                    defaultStatement.Interpret();
+                }
+            }
+         
+
             StackContext.Context.Stack.Pop();
         }
     }

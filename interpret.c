@@ -10,192 +10,290 @@
 
 <%  
 
-    int jc = 12, kc = 25;
+//string kds = 1 + 2;
 
-    int lc = jc & kc;
+//float kdx = 2 + 2.5;
 
-     int llc = 12, mc = 25;
-     int nc = llc | mc;
+// int num=212, tc;
 
-      int oc = 12, pc = 25;
-      int  qc = oc^pc;
+//  int respuesta, respuesta2;
 
-      int rc = ~35;
-      int sc = ~(-12);
+//      for (tc = 0; tc <= 2; ++tc){
+//          respuesta = num >> tc ;
+//          respuesta2 = num << tc;
+//      }
+      
 
-    int num=212, tc;
 
-    int respuesta;
+//     int jc = 12, kc = 25;
 
-    for (tc=0; tc<=2; ++tc)
-       respuesta = num >> tc ;
-       // printf("Right shift by %d: %d\n", i, num>>i);
+//     int lc = jc & kc;
 
-    // for (tci=0; tc<=2; ++tc) 
-      //  printf("Left shift by %d: %d\n", i, num<<i);    
+//      int llc = 12, mc = 25;
+//      int nc = llc | mc;
 
-char ll = "hola";
+//       int oc = 12, pc = 25;
+//       int  qc = oc^pc;
 
- int negativo = -1;
+//       int rc = ~35;
+//       int sc = ~(-12);
 
-int a = 20;
+// char ll = "hola";
 
-char b = 'h';
+//  int negativo = -1;
 
-bool c = true;
+// int a = 20;
 
-bool d;
+// char b = 'h';
 
-float normalizationFactor = 22.442e2;
+// bool c = true;
 
-int uno = 0xF;
-int dos = 00001111;
+// bool d;
 
-string hola = "hola mundo";
+// float normalizationFactor = 22.442e2;
 
-date fecha = #14-04-1991#;
+// int uno = 0xF;
+// int dos = 00001111;
 
-int e, f=12, g = true, h;
+// string hola = "hola mundo";
 
-int i = 1 + 2;
+// date fecha = #14-04-1991#;
 
-string j = "hola " + "mundo";
+// int e, f=12, g = true, h;
 
-string k = 'j'+'i';
+// int i = 1 + 2;
 
-bool l = 0+1;
+// string j = "hola " + "mundo";
 
-int m = 6*5;
+// string k = 'j'+'i';
 
-int o = 10/5;
+// bool l = 0+1;
 
-float p = 20.5-6.5;
+// int m = 6*5;
 
-int q = 10-6.5;
+// int o = 10/5;
 
-bool r = p > q;
+// float p = 20.5-6.5;
 
-bool s = p < q;
+// int q = 10-6.5;
 
-int u ;
-bool ra ;
+// bool r = p > q;
 
-if  (ra){ 
-    int t = 75;
-    u = t;
-}
-else{
-    u = 32;
-}
- u++;
+// bool s = p < q;
+
+// int u ;
+// bool ra ;
+
+// if  (ra){ 
+//     int t = 75;
+//     u = t;
+// }
+// else{
+//     u = 32;
+// }
+//  u++;
  
-   int v;
+//    int v;
 	
-   /* for loop execution */
-   for( v = 10; v < 20; v = v + 1 ){
-      u++;
-   }
+//    /* for loop execution */
+//    for( v = 10; v < 20; v = v + 1 ){
+//       u++;
+//    }
 
-    for( v = 10; v < 20; v = v + 1 ){
-      u--;
-   }
+//     for( v = 10; v < 20; v = v + 1 ){
+//       u--;
+//    }
 
-   int w = 0;
+//    int w = 0;
 
-   while (w < 5){
+//    while (w < 5){
 
-       u += 10;
+//        u += 10;
        
-       w++;
+//        w++;
+//    }
+
+//     int x = 10;
+//     int y;
+
+//    /* do loop execution */
+//    do {
+//       x = x + 1;
+//       y++;
+//    }while( x < 20 );
+
+//    const int aa = 20;
+
+//    int ab = aa;
+
+//    const char ac= 'j';
+
+//    char ad = ac;
+// bool af = false;
+
+// bool ag = !af;
+
+
+//     int ij, jk;
+
+//     int ae;
+
+//     string er;
+
+//     while (ij <= 5)
+//     {
+//         jk=1;
+//         while (jk <= ij )
+//         {           
+//             jk++;
+//             er = er + "x";
+//         }
+//         ij++;
+//     }
+
+//     int i2=1,j2;
+//     do
+//     {
+//         j2=1;
+//         do
+//         {
+//            // printf("*");
+//             j2++;
+//         }while(j2 <= i2);
+//         i2++;
+//        // printf("\n");
+//     }while(i2 <= 5);
+
+//      int i3,j3,n = 20;
+//      bool tr = true;
+
+//     for(i3 = 7;i3 <= n;i3 ++)
+//     {
+//         for(j3=3;j3<=10;j3++)
+//         {
+//             if(tr)
+//             {
+//                 er = er + "jim-bob-rob";
+//                 break;
+//             }          
+//         }
+
+//         tr = false;    
+//     }
+
+
+//  int ic = 5, cc, dc, ec, fc,gc,hc;
+
+//     cc = ic;
+//     dc = cc;
+   
+//     cc += ic; // c = c+a
+//     ec= cc;
+
+//     cc -= ic; // c = c-a
+//     fc = cc;
+  
+//     cc *= ic; // c = c*a
+//     gc =cc;
+  
+//     cc /= ic; // c = c/a
+//     hc=cc;
+
+//     cc %= ic; // c = c%
+
+   int dos = 6 , tres = 6;
+
+   string cuatro;
+
+   if   (!(dos == tres)){
+       cuatro = "si funciona Rafa";
    }
 
-    int x = 10;
-    int y;
+char cha,nplname[10], *ch , *plname[20] ;
+
+int asd = 0;
+string saludo;
+
+for (asd = 0; asd < 3; asd++){
+    saludo += " hola " ;
+}
+
+  int num=212, i;
+    int respuesta = 0, respuesta2 =0;
+
+    for (i=0; i < 3; i++){
+         respuesta = num >> i;
+         respuesta2 = num << i;
+    }
+
+  
+    int num2 = 10, count, sum = 0;
+
+
+    // for loop terminates when n is less than count
+    for(count = 1; count <= num2; ++count)
+    {
+        sum += count;
+    }
+
+     /* local variable definition */
+   int a = 10, cont = 0 ;
+
+   /* while loop execution */
+   while( a < 20 ) {
+      //cont++;
+      a++;
+		
+      if( a > 15) {
+         /* terminate the loop using break statement */
+         cont++;
+         break;
+      }		
+   }
+
+
+    /* local variable definition */
+   int aas = 10;
 
    /* do loop execution */
    do {
-      x = x + 1;
-      y++;
-   }while( x < 20 );
-
-   const int aa = 20;
-
-   int ab = aa;
-
-   const char ac= 'j';
-
-   char ad = ac;
-bool af = false;
-
-bool ag = !af;
-
-
-    int ij, jk;
-
-    int ae;
-
-    string er;
-
-    while (ij <= 5)
-    {
-        jk=1;
-        while (jk <= ij )
-        {           
-            jk++;
-            er = er + "x";
-        }
-        ij++;
-    }
-
-    int i2=1,j2;
-    do
-    {
-        j2=1;
-        do
-        {
-           // printf("*");
-            j2++;
-        }while(j2 <= i2);
-        i2++;
-       // printf("\n");
-    }while(i2 <= 5);
-
-     int i3,j3,n = 20;
-     bool tr = true;
-
-    for(i3 = 7;i3 <= n;i3 ++)
-    {
-        for(j3=3;j3<=10;j3++)
-        {
-            if(tr)
-            {
-                er = er + "jim-bob-rob";
-                break;
-            }          
-        }
-
-        tr = false;    
-    }
-
-
- int ic = 5, cc, dc, ec, fc,gc,hc;
-
-    cc = ic;
-    dc = cc;
    
-    cc += ic; // c = c+a
-    ec= cc;
+      if( aas == 15) {
+         /* skip the iteration */
+         aas = aas + 1;
+         continue;
+      }
+		
+      //printf("value of a: %d\n", a);
+      aas++;
+     
+   } while( aas < 20 );
 
-    cc -= ic; // c = c-a
-    fc = cc;
-  
-    cc *= ic; // c = c*a
-    gc =cc;
-  
-    cc /= ic; // c = c/a
-    hc=cc;
 
-    cc %= ic; // c = c%
+    char operator = 'a';
+    int firstNumber = 10,secondNumber = 23;
+    int result;
+
+    switch(operator)
+    {
+        case '+':
+            result = firstNumber+secondNumber;
+            break;
+
+        case '-':
+             result = firstNumber-secondNumber;
+            break;
+
+        case '*':
+            result = firstNumber*secondNumber;
+            break;
+
+        case '/':
+             result = firstNumber/secondNumber;
+            break;
+        default:
+             result = 18061993;
+    }
 
 
 %>

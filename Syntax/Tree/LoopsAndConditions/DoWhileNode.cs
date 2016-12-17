@@ -6,6 +6,7 @@ using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.GeneralSentences;
+using Syntax.Tree.Operators.Unary;
 
 namespace Syntax.Tree.LoopsAndConditions
 {
@@ -58,9 +59,14 @@ namespace Syntax.Tree.LoopsAndConditions
                 }
 
                 conditional = WhileCondition.Interpret();
+                var expressionUnaryNode = WhileCondition as ExpressionUnaryNode;
+                if (expressionUnaryNode?.UnaryOperator is NotOperatorNode)
+                {
+                    conditional.Value = !conditional.Value;
+                }
+
             } while (conditional.Value);
 
-          //  StackContext.Context.PastContexts.Remove(CodeGuid);
             StackContext.Context.Stack.Pop();
         }
     }

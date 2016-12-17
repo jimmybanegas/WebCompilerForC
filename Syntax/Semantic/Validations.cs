@@ -17,7 +17,7 @@ namespace Syntax.Semantic
             {
                 return left is IntType || left is FloatType || left is BooleanType || left is CharType;
             }
-
+            
             if (right is BooleanType)
             {
                 return left is IntType || left is BooleanType;

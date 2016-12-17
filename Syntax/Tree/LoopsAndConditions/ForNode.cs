@@ -6,6 +6,7 @@ using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.GeneralSentences;
+using Syntax.Tree.Identifier;
 using Syntax.Tree.Operators.Binary;
 using Syntax.Tree.Operators.Unary;
 
@@ -44,45 +45,6 @@ namespace Syntax.Tree.LoopsAndConditions
 
         public override void Interpret()
         {
-            //  StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
-
-            //  FirstCondition.Interpret();
-
-            //  dynamic conditional1 = ((ExpressionUnaryNode) ((SimpleAssignmentOperatorNode) FirstCondition).LeftOperand).Factor.Interpret();
-            //  dynamic conditional2 = SecondCondition.Interpret();
-            ////  dynamic conditional3 = 
-
-            //  for (int i = conditional1.Value; conditional2.Value; ThirdCondition.Interpret())
-            //  {
-            //     // ThirdCondition.Interpret();
-
-            //      foreach (var statement in Sentences)
-            //      {
-            //          statement.Interpret();
-            //          if (statement is ContinueNode)
-            //          {
-            //              continue;
-            //          }
-
-            //          if (statement is BreakNode)
-            //          {
-            //              break;
-            //          }
-
-            //          if (statement is ReturnStatementNode)
-            //          {
-            //              return;
-            //          }
-
-            //      }
-
-            //      Console.WriteLine(conditional1.Value);
-            //     // ThirdCondition.Interpret();
-            //  }
-
-            //  StackContext.Context.Stack.Pop();
-
-
             StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
 
             FirstCondition.Interpret();
@@ -91,15 +53,31 @@ namespace Syntax.Tree.LoopsAndConditions
             dynamic conditional2 = SecondCondition.Interpret();
             //dynamic conditional3 = ThirdCondition.Interpret();
 
-            for (int i = conditional1.Value; conditional2.Value; ThirdCondition.Interpret())
+            if (ThirdCondition is ExpressionUnaryNode)
+            {
+                if ((ThirdCondition as ExpressionUnaryNode).Factor is IdentifierExpression)
+                {
+                    if ((ThirdCondition as ExpressionUnaryNode).UnaryOperator is PostIncrementOperatorNode)
+                    {
+                        ((ThirdCondition as ExpressionUnaryNode).Factor as IdentifierExpression).IncrementOrdecrement = new PreIncrementOperatorNode();
+                    }
+                    else  if ((ThirdCondition as ExpressionUnaryNode).UnaryOperator is PostDecrementOperatorNode)
+                        {
+                            ((ThirdCondition as ExpressionUnaryNode).Factor as IdentifierExpression).IncrementOrdecrement = new PreDecrementOperatorNode();
+                        }
+                } 
+            }
+
+            for (int i = conditional1.Value; conditional2.Value ; ThirdCondition.Interpret())
             {
                 conditional2 = SecondCondition.Interpret();
+
+                if (!conditional2.Value) continue;
 
                 foreach (var statement in Sentences)
                 {
                     statement.Interpret();
 
-                    statement.Interpret();
                     if (statement is ContinueNode)
                     {
                         continue;
@@ -115,8 +93,6 @@ namespace Syntax.Tree.LoopsAndConditions
                         return;
                     }
                 }
-
-                Console.WriteLine(conditional1.Value);
             }
             
             StackContext.Context.Stack.Pop();

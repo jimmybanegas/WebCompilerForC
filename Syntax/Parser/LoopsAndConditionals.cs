@@ -415,7 +415,7 @@ namespace Syntax.Parser
 
             if (!_parser.Utilities.CompareTokenType(TokenType.CloseParenthesis))
             {
-                throw new Exception("Closign parenthesis was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
+                throw new Exception("Closing parenthesis was expected at row: " + _parser.CurrentToken.Row + " , column: " + _parser.CurrentToken.Column);
             }
 
             var trueB = BlockForLoops();

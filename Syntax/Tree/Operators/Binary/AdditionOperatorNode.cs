@@ -90,6 +90,7 @@ namespace Syntax.Tree.Operators.Binary
             {
                 typeOfReturn = Validations.GetTypeValue(left, response);
             }
+  
 
             return typeOfReturn;
         }

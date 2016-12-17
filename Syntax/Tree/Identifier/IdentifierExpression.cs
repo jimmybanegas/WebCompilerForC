@@ -57,17 +57,20 @@ namespace Syntax.Tree.Identifier
                 }
                 else if (IncrementOrdecrement is PreIncrementOperatorNode)
                 {
-                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Name);
+                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Name).Clone();
 
-                    valueBefore.Value = valueBefore.Value + 1;
+                     valueBefore.Value = valueBefore.Value + 1;
+
+                    //valueBefore.Value = ++valueBefore.Value;
 
                     StackContext.Context.Stack.Peek().SetVariableValue(Name, valueBefore);
                 }
                 else if (IncrementOrdecrement is PostIncrementOperatorNode)
                 {
-                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Name);
+                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Name).Clone();
 
-                    valueBefore.Value = valueBefore.Value + 1;
+                     valueBefore.Value = valueBefore.Value + 1;
+                  //  valueBefore.Value = valueBefore.Value++;
 
                     StackContext.Context.Stack.Peek().SetVariableValue(Name, valueBefore);
                 }

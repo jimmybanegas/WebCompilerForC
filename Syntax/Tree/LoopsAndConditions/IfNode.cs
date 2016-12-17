@@ -6,6 +6,7 @@ using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.GeneralSentences;
+using Syntax.Tree.Operators.Unary;
 
 namespace Syntax.Tree.LoopsAndConditions
 {
@@ -73,13 +74,34 @@ namespace Syntax.Tree.LoopsAndConditions
             StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
 
             dynamic condition = IfCondition.Interpret();
-           
+
+            var expressionUnaryNode = IfCondition as ExpressionUnaryNode;
+            if (expressionUnaryNode?.UnaryOperator is NotOperatorNode)
+            {
+                condition.Value = !condition.Value;
+            }
+
             if (condition.Value)
             {
                 if (TrueBlock == null) return;
                 foreach (var node in TrueBlock)
                 {
                     node.Interpret();
+
+                    if (node is ContinueNode)
+                    {
+                        continue;
+                    }
+
+                    if (node is BreakNode)
+                    {
+                        break;
+                    }
+
+                    if (node is ReturnStatementNode)
+                    {
+                        return;
+                    }
                 }
             }
             else
@@ -88,6 +110,21 @@ namespace Syntax.Tree.LoopsAndConditions
                 foreach (var node in FalseBlock)
                 {
                     node.Interpret();
+
+                    if (node is ContinueNode)
+                    {
+                        continue;
+                    }
+
+                    if (node is BreakNode)
+                    {
+                        break;
+                    }
+
+                    if (node is ReturnStatementNode)
+                    {
+                        return;
+                    }
                 }
             }
 
