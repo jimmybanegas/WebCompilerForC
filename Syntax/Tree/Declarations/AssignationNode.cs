@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting;
 using Lexer;
 using Syntax.Exceptions;
+using Syntax.Interpret;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.Acessors;
@@ -128,6 +130,14 @@ namespace Syntax.Tree.Declarations
                 value.Value = !value.Value;
             }
 
+            if (unaryNode?.UnaryOperator is BitAndOperatorNode)
+            {
+                var leftAssignation = StackContext.Context.Stack.Peek().GetVariableValue(LeftValue.StructValue);
+                leftAssignation.Pointer = ((IdentifierExpression) ((ExpressionUnaryNode) RightValue).Factor).Name;
+
+                value = leftAssignation;
+            }
+
             int? position1 = null;
             int? position2 = null;
             bool isArray = false;
@@ -168,6 +178,12 @@ namespace Syntax.Tree.Declarations
                 return;
             }
 
+            if (unaryNode?.UnaryOperator is ReferenceOperatorNode)
+            {
+               //int cuatro = *pc;
+                StackContext.Context.Stack.Peek().SetVariableValueWithRightPointer(LeftValue.StructValue, value);
+                return;
+            }
             StackContext.Context.Stack.Peek().SetVariableValue(LeftValue.StructValue,value);
         }
 

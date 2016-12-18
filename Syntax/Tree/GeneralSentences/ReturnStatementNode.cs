@@ -27,7 +27,7 @@ namespace Syntax.Tree.GeneralSentences
 
         public Value GetValueOfReturn()
         {
-            return ReturnExpression.Interpret();
+            return ReturnExpression?.Interpret();
         }
     }
 }

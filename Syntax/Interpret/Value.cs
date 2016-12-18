@@ -12,6 +12,6 @@ namespace Syntax.Interpret
 
         public int? Position1 { get; set; }
         public int? Position2 { get; set; }
-
+        public string Pointer { get; set; }
     }
 }

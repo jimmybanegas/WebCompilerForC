@@ -32,7 +32,12 @@ namespace Syntax.Semantic
             {
                 return left is DateType;
             }
-            
+
+            if (right == null)
+            {
+                return left is VoidType;
+            }
+
             return false;
         }
 

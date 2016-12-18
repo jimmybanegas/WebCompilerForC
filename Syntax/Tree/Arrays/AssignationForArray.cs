@@ -71,20 +71,8 @@ namespace Syntax.Tree.Arrays
             var accesorsOfArray =
                 StackContext.Context.Stack.Peek().GetVariableAccessorsAndPointers(ArrayIdentifier.Value);
 
-           // var dimension = 1;
             int? position1 = null;
             int? position2 = null;
-
-            //foreach (var accessor in accesorsOfArray.Accessors.OfType<ArrayAccessorNode>())
-            //{
-            //    var expressionUnaryNode = accessor.IndexExpression as ExpressionUnaryNode;
-            //    if (expressionUnaryNode != null)
-            //    {
-            //        dynamic val = expressionUnaryNode.Factor.Interpret();
-
-            //        dimension *= val.Value;
-            //    }
-            //}
 
             var accesors = accesorsOfArray.Accessors.OfType<ArrayAccessorNode>();
 

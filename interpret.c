@@ -228,19 +228,19 @@
 //     }
 
 //      /* local variable definition */
-   int a = 10, cont = 0 ;
+//    int a = 10, cont = 0 ;
 
-   /* while loop execution */
-   while( a < 20 ) {
-      //cont++;
-      a++;
+//    /* while loop execution */
+//    while( a < 20 ) {
+//       //cont++;
+//       a++;
 		
-      if( a > 15) {
-         /* terminate the loop using break statement */
-         cont++;
-         break;
-      }		
-   }
+//       if( a > 15) {
+//          /* terminate the loop using break statement */
+//          cont++;
+//          break;
+//       }		
+//    }
 
 
 //     /* local variable definition */
@@ -302,40 +302,135 @@
 
 // int dos = c[0][1];
 
-int c[3][4]  = {0, 1, 2, 3,   /*  initializers for row indexed by 0 */
-   4, 5, 6, 7 ,   /*  initializers for row indexed by 1 */
-  8, 9, 10, 11   /*  initializers for row indexed by 2 */
-};
+// int c[3][4]  = {0, 1, 2, 3,   /*  initializers for row indexed by 0 */
+//    4, 5, 6, 7 ,   /*  initializers for row indexed by 1 */
+//   8, 9, 10, 11   /*  initializers for row indexed by 2 */
+// };
 
-int mark[5] = {19, 10, 8, 17, 9};
+// int mark[5] = {19, 10, 8, 17, 9};
 
-mark[0] = 12;
+// mark[0] = 12;
 
 
-int x = -9 * 4;
+// int x = -9 * 4;
 
-int suma (int a, int b){
-    return a+b;
-}
+// int suma (int a, int b){
+//     return a+b;
+// }
 
-int e = 3;
-int d = 4;
+// int e = 3;
+// int d = 4;
 
-int res = suma(e,d);
+// int res = suma(e,d);
 
-int displayNumbers(int num[])
-{
-    // Instead of the above line,
-    // void displayNumbers(int num[][2]) is also valid
-    int i, j;
-  //  printf("Displaying:\n");
-    return num[0];
+// int displayNumbers(int num[])
+// {
+//     // Instead of the above line,
+//     // void displayNumbers(int num[][2]) is also valid
+//     int i, j;
+//   //  printf("Displaying:\n");
+//     return num[0];
        
-}
+// }
 
-int sdf;
+// int sdf;
 
- sdf = displayNumbers(mark);
+//  sdf = displayNumbers(mark);
+
+//  int max(int num1, int num2) {
+
+//    /* local variable declaration */
+//    int result;
+ 
+//    if (num1 > num2)
+//       result = num1;
+//    else
+//       result = num2;
+ 
+//    return result; 
+// }
+
+// int maxre = max(10,20);
+
+// /* function definition to swap the values */
+// void swap(int *x, int *y) {
+
+//    int temp;
+//    temp = *x;    /* save the value at address x */
+//    *x = *y;      /* put y into x */
+// //   *y = temp;    /* put temp into y */
+  
+//  //  return;
+// }
+
+// int sp1 = 100;
+// int sp2 = 200;
+
+// // swap(&a, &b);
+
+//  /* function definition to swap the values */
+// void swap2(int x, int y) {
+
+//    int temp;
+
+//    temp = x; /* save the value of x */
+//    x = y;    /* put y into x */
+//    y = temp; /* put temp into y */
+  
+//    return;
+// }
+
+// int increment(int var)
+// {
+//     var = var+1;
+//     return var;
+// }
+
+
+// int num1=20;
+// int num2 = increment(num1);
+
+// //swap2(sp1,sp2);
+
+// void swapnum ( int var1, int var2 )
+// {
+//    int tempnum ;
+//    /*Copying var1 value into temporary variable */
+//    tempnum = var1 ;
+
+//    /* Copying var2 value into var1*/
+//    var1 = var2 ;
+
+//    /*Copying temporary variable value into var2 */
+//    var2 = tempnum ;
+
+// }
+
+// swapnum(sp1,sp2);
+
+// int var = 5;
+  
+// int varp = &var; 
+
+ int* pc;
+ int c;
+
+    c=22;
+//int uno = &c; // Address of c: 2686784
+int dos = c; // Value of c: 22
+
+    pc = &c;
+//int tres = pc; // Address of c: 2686784
+int cuatro = *pc; // Value of c: 22
+
+    c=11;
+// int cinco = pc; // Address of pointer pc: 2686784
+int seis = *pc; // Content of pointer pc: 11
+
+   *pc=2;
+// int siete = &c; // Address of c: 2686784
+ int ocho = c; // Value of c: 2
+
 
 %>
 

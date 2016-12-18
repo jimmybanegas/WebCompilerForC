@@ -82,13 +82,17 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
             foreach (var parameter in functiondeclaration.Parameters)
             {
                 string name = null;
+                var isArray = false;
                 var expressionUnaryNode  = ListOfExpressions[pos] as ExpressionUnaryNode;
                 var identifierExpression = expressionUnaryNode?.Factor as IdentifierExpression;
                 if (identifierExpression != null)
                 {
                     name = identifierExpression.Name ;
                 }
-                var isArray = StackContext.Context.Stack.Peek().GetVariableAccessorsAndPointers(name).Accessors.OfType<ArrayAccessorNode>().Any();
+                if (name != null)
+                {
+                    isArray = StackContext.Context.Stack.Peek().GetVariableAccessorsAndPointers(name).Accessors.OfType<ArrayAccessorNode>().Any();
+                }
 
                 if (isArray)
                 {

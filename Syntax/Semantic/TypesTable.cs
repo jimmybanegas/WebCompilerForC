@@ -94,6 +94,26 @@ namespace Syntax.Semantic
 
         public void SetVariableValue(string name, Value value)
         {
+            var pointer = HasPointer(name);
+
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                if (stack.Values.ContainsKey(name))
+                {
+                    if (!string.IsNullOrEmpty(pointer) && string.IsNullOrEmpty(value.Pointer))
+                    {
+                        stack.Values[pointer] = value;
+                    }
+                    else
+                    {
+                        stack.Values[name] = value;
+                    }
+                }
+            }
+        }
+
+        public void SetVariableValueWithRightPointer(string name, Value value)
+        {
             foreach (var stack in StackContext.Context.Stack)
             {
                 if (stack.Values.ContainsKey(name))
@@ -101,36 +121,19 @@ namespace Syntax.Semantic
                     stack.Values[name] = value;
                 }
             }
-
         }
 
         public void SetArrayVariableValue(string name, Value value)
         {
             foreach (var stack in StackContext.Context.Stack)
             {
-                //if (stack.ValuesOfArrays.ContainsKey(name))
-                //{
-                //    int pos= 0;
-                //    var values = stack.ValuesOfArrays[name];
-
-                //    foreach (var value1 in values)
-                //    {
-                //        if (value1.Position1 == value.Position1 && value1.Position2 == value.Position2)
-                //        {
-                //            values[pos] = value;
-                //        }
-                //        pos++;
-                //    }
-                //}
-
                 List<Value> existing;
                 if (!stack.ValuesOfArrays.TryGetValue(name, out existing))
                 {
                     existing = new List<Value>();
                     stack.ValuesOfArrays[name] = existing;
                 }
-                // At this point we know that "existing" refers to the relevant list in the 
-                // dictionary, one way or another.
+              
                 int pos = 0;            
                 foreach (var value1 in existing.ToList())
                 {
@@ -156,14 +159,47 @@ namespace Syntax.Semantic
 
         public Value GetVariableValue(string name)
         {
+            var pointer = HasPointer(name);
+
             foreach (var stack in StackContext.Context.Stack)
             {
                 if (stack.Values.ContainsKey(name))
                 {
-                   return  stack.Values[name] ;
+                    if (!string.IsNullOrEmpty(pointer))
+                    {
+                        return stack.Values[pointer];
+                    }
+
+                    return  stack.Values[name] ;
                 }
             }
             return null;
+        }
+
+        public string HasPointer(string name)
+        {
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                if (stack.Values.ContainsKey(name))
+                {
+                    var value = stack.Values[name];
+
+                    if (!string.IsNullOrEmpty(value.Pointer))
+                    {
+                        return value.Pointer;
+                    }
+                }
+
+                //foreach (var value in stack.Values.Values)
+                //{
+                //    if (value.Pointer != "")
+                //    {
+                //        return value.Pointer;
+                //    }
+                //}
+            }
+
+            return "";
         }
 
         public List<Value> GetArrayVariableValues(string name)
@@ -188,7 +224,6 @@ namespace Syntax.Semantic
                 Accessors = new List<AccessorNode>();
             }
         }
-
     }
 }
 
