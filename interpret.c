@@ -323,22 +323,19 @@ int d = 4;
 
 int res = suma(e,d);
 
-void displayNumbers(int num[2][2])
+int displayNumbers(int num[])
 {
     // Instead of the above line,
     // void displayNumbers(int num[][2]) is also valid
     int i, j;
   //  printf("Displaying:\n");
-    for (i = 0; i < 2; ++i){
-        for (j = 0; j < 2; ++j){
-            int mark5[5] = {19, 10, 8, 17, 9};
-        }
-    }
+    return num[0];
        
-            //printf("%d\n", num[i][j]);
 }
 
-displayNumbers(mark);
+int sdf;
+
+ sdf = displayNumbers(mark);
 
 %>
 

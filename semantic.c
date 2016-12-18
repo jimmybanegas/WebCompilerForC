@@ -272,7 +272,7 @@ int DoSomethingNice( bool aVariable, int aFunction, int * hola )
 int DoSomething()
 {
     int rv = 0;
-     date fecha = #01-01-1990#;
+    date fecha = #01-01-1990#;
     return rv;
 }
 

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Lexer;
 using Syntax.Exceptions;
 using Syntax.Interpret;
 using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
+using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Identifier;
 using Syntax.Tree.Operators.Unary;
@@ -79,9 +81,27 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
             int pos = 0;
             foreach (var parameter in functiondeclaration.Parameters)
             {
-                dynamic valueOfParameter = ListOfExpressions[pos].Interpret();
+                string name = null;
+                var expressionUnaryNode  = ListOfExpressions[pos] as ExpressionUnaryNode;
+                var identifierExpression = expressionUnaryNode?.Factor as IdentifierExpression;
+                if (identifierExpression != null)
+                {
+                    name = identifierExpression.Name ;
+                }
+                var isArray = StackContext.Context.Stack.Peek().GetVariableAccessorsAndPointers(name).Accessors.OfType<ArrayAccessorNode>().Any();
 
-                StackContext.Context.Stack.Peek().SetVariableValue(parameter.NameOfVariable.Value, valueOfParameter);
+                if (isArray)
+                {
+                    var values = StackContext.Context.Stack.Peek().GetArrayVariableValues(name);
+
+                    StackContext.Context.Stack.Peek().SetArrayVariableValue(parameter.NameOfVariable.Value,values);
+                }
+                {
+                    dynamic valueOfParameter = ListOfExpressions[pos].Interpret();
+
+                    StackContext.Context.Stack.Peek().SetVariableValue(parameter.NameOfVariable.Value, valueOfParameter);
+                }
+               
                 pos++;
             }
 
