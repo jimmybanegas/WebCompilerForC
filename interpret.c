@@ -515,22 +515,22 @@ my_security_level = top_secret;
 
 string sec_level;
 
-    //  if ( my_security_level == black_ops )
-    //    {
-    //        sec_level = "black_ops";
-    //    }
-    // else if ( my_security_level == top_secret )
-    //    {
-    //       sec_level = "top_secret";
-    //    }
-    // else if ( my_security_level == secret )
-    //    {
-    //      sec_level = "secret";
-    //    }
-    // else if ( my_security_level == non_secret )
-    //    {
-    //       sec_level = "non_secret";
-    //    }
+     if ( my_security_level == black_ops )
+       {
+           sec_level = "black_ops";
+       }
+    else if ( my_security_level == top_secret )
+       {
+          sec_level = "top_secret";
+       }
+    else if ( my_security_level == secret )
+       {
+         sec_level = "secret";
+       }
+    else if ( my_security_level == non_secret )
+       {
+          sec_level = "non_secret";
+       }
 
 
 %>

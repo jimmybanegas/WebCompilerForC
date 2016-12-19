@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lexer;
+using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.Acessors;
@@ -45,7 +46,17 @@ namespace Syntax.Tree.Declarations
                     var type = StackContext.Context.GetGeneralType(Name.Value);
 
                     StackContext.Context.Stack.Peek().RegisterType(declaration, type, Position, variable);
+                  //  StackContext.Context.Stack.Peek().Table.Add(declaration,type);
                 }
+            }
+
+            foreach (var item in EnumItems)
+            {
+                var name = ((EnumItemNode) item).ItemName.Value;
+                var type = StackContext.Context.GetGeneralType(Name.Value);
+
+                StackContext.Context.Stack.Peek().RegisterType(name, type, Position, variable);
+                StackContext.Context.Stack.Peek().SetVariableValue(name,new StringValue {Value = name});
             }
         }
 
