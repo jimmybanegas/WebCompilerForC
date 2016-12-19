@@ -115,8 +115,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
                
                 pos++;
             }
-
-
+            
             var returnValue = functiondeclaration.Execute();
 
             StackContext.Context.Stack.Pop();

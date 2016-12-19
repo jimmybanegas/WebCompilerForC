@@ -9,6 +9,7 @@ using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
+using Syntax.Tree.GeneralSentences;
 using Syntax.Tree.Identifier;
 using Syntax.Tree.Operators.Binary;
 using Syntax.Tree.Operators.Unary;
@@ -22,6 +23,12 @@ namespace Syntax.Tree.Declarations
 
         public override void ValidateSemantic()
         {
+            var type = StackContext.Context.Stack.Peek().GetVariable(LeftValue.Value,Position);
+            if (type is EnumType)
+            {
+                return;
+            }
+
             if (LeftValue.Assignation != null)
             {
                 var leftIdentifierPointers =

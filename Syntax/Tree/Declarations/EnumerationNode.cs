@@ -12,8 +12,8 @@ namespace Syntax.Tree.Declarations
     public class EnumerationNode : StatementNode
     {
         public IdentifierNode Name;
-        //public List<TypeOfDeclaration> EnumItems;
         public List<StatementNode> EnumItems;
+        public List<string> EnumDeclarations;
 
         public override void ValidateSemantic()
         {
@@ -34,11 +34,24 @@ namespace Syntax.Tree.Declarations
 
             StackContext.Context.Stack.Peek().RegisterType(Name.Value,new EnumType(items),Position ,variable);
             StackContext.Context.TableOfTypes.Add(Name.Value, new EnumType(items));
+
+            variable.Accessors = new List<AccessorNode>();
+            variable.Pointers = new List<PointerNode>();
+
+            if (EnumDeclarations.Count > 0)
+            {
+                foreach (var declaration in EnumDeclarations)
+                {
+                    var type = StackContext.Context.GetGeneralType(Name.Value);
+
+                    StackContext.Context.Stack.Peek().RegisterType(declaration, type, Position, variable);
+                }
+            }
         }
 
         public override void Interpret()
         {
-            throw new NotImplementedException();
+           
         }
     }
 }

@@ -467,7 +467,7 @@ namespace Syntax.Parser
 
         private StatementNode Enumeration()
         {
-            var enumerationNode = new EnumerationNode();
+            var enumerationNode = new EnumerationNode {EnumDeclarations = new List<string>()};
 
             Utilities.NextToken();
 
@@ -492,6 +492,23 @@ namespace Syntax.Parser
             if (!Utilities.CompareTokenType(TokenType.CloseCurlyBracket))
                 throw new Exception("Closing bracket was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);
             Utilities.NextToken();
+
+            if (Utilities.CompareTokenType(TokenType.Identifier))
+            {
+                List<string> namesOfEnums = new List<string>();
+
+                while (Utilities.CompareTokenType(TokenType.Identifier))
+                {
+                    namesOfEnums.Add(CurrentToken.Lexeme);
+                    Utilities.NextToken();
+                    if (Utilities.CompareTokenType(TokenType.Comma))
+                    {
+                        Utilities.NextToken();
+                    }
+                }
+
+                enumerationNode.EnumDeclarations = new List<string>(namesOfEnums);
+            }
 
             if (!Utilities.CompareTokenType(TokenType.EndOfSentence))
                 throw new Exception("End of sentence was expected at row: " + CurrentToken.Row + " , column: " + CurrentToken.Column);

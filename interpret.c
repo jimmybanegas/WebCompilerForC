@@ -473,35 +473,64 @@
 
 // call_by_reference(&b);
 
- int mark2[3][2] = {19, 10, 8, 17, 9, 12};
+//  int mark2[3][2] = {19, 10, 8, 17, 9, 12};
 
-int az = mark2[0][1];
+// int az = mark2[0][1];
 
-mark2[0][1] = 1993;
+// mark2[0][1] = 1993;
 
-int mark1[6] = {19, 10, 8, 17, 9, 12};
+// int mark1[6] = {19, 10, 8, 17, 9, 12};
 
-mark1[1] = 1993;
+// mark1[1] = 1993;
 
-int mark1pos = mark1[2];
+// int mark1pos = mark1[2];
 
-struct StudentData{
-    string *stu_name;
-    int stu_id;
-    int stu_age;
-};
+// struct StudentData{
+//     string *stu_name;
+//     int stu_id;
+//     int stu_age;
+// };
 
-struct StudentData  student;
+// struct StudentData  student;
 
-student.stu_name = "Chaitanya";
-student.stu_id = 1234;
-student.stu_age = 25;
+// student.stu_name = "Chaitanya";
+// student.stu_id = 1234;
+// student.stu_age = 25;
 
-string nombreantes = student.stu_name;
+// string nombreantes = student.stu_name;
 
-student.stu_name = "Jimmy";
+// student.stu_name = "Jimmy";
 
-string nombre = student.stu_name;
+// string nombre = student.stu_name;
+
+enum Security_Levels
+{
+    black_ops,
+    top_secret,
+    secret,
+    non_secret
+} my_security_level, dos, tres;       // don't forget the semi-colon ; 
+        
+my_security_level = top_secret;
+
+string sec_level;
+
+    //  if ( my_security_level == black_ops )
+    //    {
+    //        sec_level = "black_ops";
+    //    }
+    // else if ( my_security_level == top_secret )
+    //    {
+    //       sec_level = "top_secret";
+    //    }
+    // else if ( my_security_level == secret )
+    //    {
+    //      sec_level = "secret";
+    //    }
+    // else if ( my_security_level == non_secret )
+    //    {
+    //       sec_level = "non_secret";
+    //    }
 
 
 %>

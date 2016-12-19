@@ -5,6 +5,7 @@ using System.Linq;
 using Lexer;
 using Syntax.Exceptions;
 using Syntax.Interpret;
+using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.Acessors;
@@ -161,6 +162,29 @@ namespace Syntax.Tree.Identifier
         public override void Interpret()
         {
             //If LeftValue is null ; then is struct
+            var type = StackContext.Context.Stack.Peek().GetVariable(Value,Position);
+
+            if (type is EnumType)
+            {
+                var nameOfEnumItemIndex = String.Empty;
+                if ((Assignation.RightValue as ExpressionUnaryNode)?.Factor is IdentifierExpression)
+                {
+                    foreach (var element in (type as EnumType).Elements)
+                    {
+                         nameOfEnumItemIndex =
+                            ((IdentifierExpression) (Assignation.RightValue as ExpressionUnaryNode).Factor).Name;
+
+                        if (element.Element.ItemName.Value == nameOfEnumItemIndex)
+                        {
+                            int? pos = element.Element.OptionalPosition.Value;
+                            StackContext.Context.Stack.Peek().SetVariableValue(Value, new StringValue {Value = nameOfEnumItemIndex, Position1 = pos});
+                            return;
+                        }
+                    }   
+                }
+                throw new Exception($"The item {nameOfEnumItemIndex} doesn't exist in the enum type");
+            }
+
             if (Assignation.LeftValue != null)
             {
                 if (Assignation?.RightValue != null)
@@ -209,7 +233,6 @@ namespace Syntax.Tree.Identifier
             {
                 if (Assignation?.RightValue != null)
                 {
-                    // Assignation.LeftValue = Value;
                     dynamic valueOfAssignation = Assignation.RightValue.Interpret();
 
                     var propertyName = ((PropertyAccessorNode) Accessors[0]).IdentifierNode.Value;
