@@ -45,7 +45,8 @@ namespace Syntax.Tree.Acessors
         {
            // return "." + IdentifierNode.Value;
 
-            return new IntValue();
+          //  return new IntValue();
+          throw new NotImplementedException();
         }
     }
 }

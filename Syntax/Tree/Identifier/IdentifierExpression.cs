@@ -122,7 +122,22 @@ namespace Syntax.Tree.Identifier
 
             }
 
-           return StackContext.Context.Stack.Peek().GetVariableValue(Name);
+            if (Accessors != null && Accessors.OfType<PropertyAccessorNode>().Any())
+            {
+                var nameOfProperty = ((PropertyAccessorNode) Accessors[0]).IdentifierNode.Value;
+
+                var valuesOfStructInstance = StackContext.Context.Stack.Peek().GetStructVariableValues(Name);
+
+                foreach (var tuple in valuesOfStructInstance)
+                {
+                    if (tuple.Item1 == nameOfProperty)
+                    {
+                        return tuple.Item2;
+                    }
+                }
+            }
+
+            return StackContext.Context.Stack.Peek().GetVariableValue(Name);
         }
     }
 }

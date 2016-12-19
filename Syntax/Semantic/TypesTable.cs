@@ -248,20 +248,18 @@ namespace Syntax.Semantic
                     stack.ValuesofStructInstances[name] = existing;
                 }
 
+                foreach (var tuple in existing.ToList())
+                {
+                    if (tuple.Item1 == value.Item1)
+                    {
+                        existing.Remove(tuple);
+                    }
+                }
+
                 existing.Add(value);
             }
         }
 
-        //internal void SetStructVariableValue(string name, Tuple<string,Value> value)
-        //{
-        //    foreach (var stack in StackContext.Context.Stack)
-        //    {
-        //        if (stack.Values.ContainsKey(name))
-        //        {
-        //            stack.ValuesofStructInstances[name] = value;
-        //        }
-        //    }
-        //}
         public List <Tuple<string,Value>> GetStructVariableValues(string name)
         {
             foreach (var stack in StackContext.Context.Stack)
