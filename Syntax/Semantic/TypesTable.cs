@@ -102,7 +102,8 @@ namespace Syntax.Semantic
                 {
                     if (!string.IsNullOrEmpty(pointer) && string.IsNullOrEmpty(value.Pointer))
                     {
-                        stack.Values[pointer] = value;
+                       // stack.Values[pointer] = value;
+                       SetVariableValueWithRightPointer(pointer,value);
                     }
                     else
                     {
@@ -121,6 +122,19 @@ namespace Syntax.Semantic
                     stack.Values[name] = value;
                 }
             }
+        }
+
+        public Value GetVariableValueWithRightPointer(string name)
+        {
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                if (stack.Values.ContainsKey(name))
+                {
+                   return  stack.Values[name];
+                }
+            }
+
+            return null;
         }
 
         public void SetArrayVariableValue(string name, Value value)
@@ -167,7 +181,18 @@ namespace Syntax.Semantic
                 {
                     if (!string.IsNullOrEmpty(pointer))
                     {
-                        return stack.Values[pointer];
+                        //if (stack.Values.ContainsKey(pointer))
+                        //{
+
+                        // return stack.Values[pointer];
+                        //}
+                       var returnVal = GetVariableValueWithRightPointer(pointer);
+
+                        if (returnVal != null)
+                        {
+                            return returnVal;
+                        }
+                        break;
                     }
 
                     return  stack.Values[name] ;
@@ -189,14 +214,6 @@ namespace Syntax.Semantic
                         return value.Pointer;
                     }
                 }
-
-                //foreach (var value in stack.Values.Values)
-                //{
-                //    if (value.Pointer != "")
-                //    {
-                //        return value.Pointer;
-                //    }
-                //}
             }
 
             return "";

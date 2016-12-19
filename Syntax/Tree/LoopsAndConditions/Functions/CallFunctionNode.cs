@@ -85,6 +85,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
                 var isArray = false;
                 var expressionUnaryNode  = ListOfExpressions[pos] as ExpressionUnaryNode;
                 var identifierExpression = expressionUnaryNode?.Factor as IdentifierExpression;
+
                 if (identifierExpression != null)
                 {
                     name = identifierExpression.Name ;
@@ -102,6 +103,12 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
                 }
                 {
                     dynamic valueOfParameter = ListOfExpressions[pos].Interpret();
+
+                     if (expressionUnaryNode?.UnaryOperator is BitAndOperatorNode)
+                    {
+                        valueOfParameter.Pointer =
+                            ((IdentifierExpression) ((ExpressionUnaryNode) ListOfExpressions[pos]).Factor).Name;
+                    }
 
                     StackContext.Context.Stack.Peek().SetVariableValue(parameter.NameOfVariable.Value, valueOfParameter);
                 }

@@ -431,6 +431,26 @@ int seis = *pc; // Content of pointer pc: 11
 // int siete = &c; // Address of c: 2686784
  int ocho = c; // Value of c: 2
 
+int increment2(int  *var)
+{
+     *var = *var+1;
+
+     return *var;
+}
+
+ int num1=20;
+
+ int num2 = increment2(&num1);
+
+void swapnum ( int *var1, int *var2 )
+{
+   int tempnum ;
+
+   tempnum = *var1 ;
+   *var1 = *var2 ;
+   *var2 = tempnum ;
+}
+
 
 %>
 
