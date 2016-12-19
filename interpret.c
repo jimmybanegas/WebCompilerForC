@@ -485,15 +485,15 @@
 
 // int mark1pos = mark1[2];
 
-// struct StudentData{
-//     string *stu_name;
-//     int stu_id;
-//     int stu_age;
-// };
+struct StudentData{
+    string *stu_name;
+    int stu_id;
+    int stu_age;
+};
 
-// struct StudentData  student;
+ struct StudentData  student;
 
-// student.stu_name = "Chaitanya";
+ student.stu_name = "Chaitanya";
 // student.stu_id = 1234;
 // student.stu_age = 25;
 
@@ -532,6 +532,26 @@ string sec_level;
           sec_level = "non_secret";
        }
 
+my_security_level = secret;
+
+ int a;
+ int b = 0;
+	
+   /* for loop execution */
+   for( a = 10; a < 20; a = a + 1 ){
+     // printf("value of a: %d\n", a);
+     b ++;
+   }
+ 
+int count;
+
+int c;
+
+ for (count=10; count > 0; count--) {
+// runs all of the code between the { and }
+// 10 times, starting at 10 and working down to 1.
+c++;
+}
 
 %>
 

@@ -62,12 +62,12 @@ namespace Syntax.Tree.LoopsAndConditions
                 {
                     if ((ThirdCondition as ExpressionUnaryNode).UnaryOperator is PostIncrementOperatorNode)
                     {
-                        ((ThirdCondition as ExpressionUnaryNode).Factor as IdentifierExpression).IncrementOrdecrement = new PreIncrementOperatorNode();
+                        ((IdentifierExpression) (ThirdCondition as ExpressionUnaryNode).Factor).IncrementOrdecrement = new PreIncrementOperatorNode();
                     }
                     else  if ((ThirdCondition as ExpressionUnaryNode).UnaryOperator is PostDecrementOperatorNode)
-                        {
-                            ((ThirdCondition as ExpressionUnaryNode).Factor as IdentifierExpression).IncrementOrdecrement = new PreDecrementOperatorNode();
-                        }
+                    {
+                        ((IdentifierExpression) (ThirdCondition as ExpressionUnaryNode).Factor).IncrementOrdecrement = new PreDecrementOperatorNode();
+                    }
                 } 
             }
 
@@ -101,6 +101,21 @@ namespace Syntax.Tree.LoopsAndConditions
                     }
                 }
             }
+
+            var nameOfIterator = ((IdentifierExpression) ((ExpressionUnaryNode) ((SimpleAssignmentOperatorNode) FirstCondition).LeftOperand).Factor).Name;
+
+            dynamic value = StackContext.Context.Stack.Peek().GetVariableValue(nameOfIterator);
+            if (value.Value >= 0)
+            {
+                value.Value = value.Value - 1;
+            }
+            else
+            {
+                value.Value = value.Value + 1;
+            }
+           
+
+            StackContext.Context.Stack.Peek().SetVariableValue(nameOfIterator,value);
             
             StackContext.Context.Stack.Pop();
         }

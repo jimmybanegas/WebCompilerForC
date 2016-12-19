@@ -164,6 +164,25 @@ namespace Syntax.Tree.Identifier
             //If LeftValue is null ; then is struct
             var type = StackContext.Context.Stack.Peek().GetVariable(Value,Position);
 
+            if (type is StructType){
+                    
+           // {
+                    if (Assignation?.RightValue != null)
+                    {
+                        dynamic valueOfAssignation = Assignation.RightValue.Interpret();
+
+                        var propertyName = ((PropertyAccessorNode)Accessors[0]).IdentifierNode.Value;
+
+                        var propertyAndValue = new Tuple<string, Value>(propertyName, valueOfAssignation);
+
+                        StackContext.Context.Stack.Peek().SetStructVariableValue(Value, propertyAndValue);
+
+                    return;
+                    }
+            //    }
+            }
+
+
             if (type is EnumType)
             {
                 var nameOfEnumItemIndex = String.Empty;
@@ -185,8 +204,8 @@ namespace Syntax.Tree.Identifier
                 throw new Exception($"The item {nameOfEnumItemIndex} doesn't exist in the enum type");
             }
 
-            if (Assignation.LeftValue != null)
-            {
+            //if (Assignation.LeftValue != null )
+            //{
                 if (Assignation?.RightValue != null)
                 {
                     Assignation.LeftValue.StructValue = Value;
@@ -228,20 +247,8 @@ namespace Syntax.Tree.Identifier
                         StackContext.Context.Stack.Peek().SetVariableValue(Value, valueBefore);
                     }
                 }
-            }
-            else
-            {
-                if (Assignation?.RightValue != null)
-                {
-                    dynamic valueOfAssignation = Assignation.RightValue.Interpret();
-
-                    var propertyName = ((PropertyAccessorNode) Accessors[0]).IdentifierNode.Value;
-
-                    var propertyAndValue = new Tuple<string,Value>(propertyName,valueOfAssignation);
-
-                    StackContext.Context.Stack.Peek().SetStructVariableValue(Value,propertyAndValue);
-                }
-            }
+        //    }
+        
         }
     }
 }
