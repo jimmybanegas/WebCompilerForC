@@ -17,7 +17,7 @@ namespace Syntax.Semantic
         public Dictionary<string, BaseType> Table;
 
         public Dictionary<string, List<Value>> ValuesOfArrays;
-        public Dictionary<string, Tuple<string, Value>> ValuesofStructInstances;
+        public Dictionary<string, List <Tuple<string, Value>>> ValuesofStructInstances;
 
         public Dictionary<string, Variable> Variables;
         public TypesTable()
@@ -38,7 +38,7 @@ namespace Syntax.Semantic
             Variables = new Dictionary<string, Variable>();
             Values = new Dictionary<string, Value>();
             ValuesOfArrays = new Dictionary<string, List<Value>>();
-            ValuesofStructInstances = new Dictionary<string, Tuple<string, Value>>();
+            ValuesofStructInstances = new Dictionary<string, List<Tuple<string, Value>>>();
         }
         public static TypesTable Instance => _instance ?? (_instance = new TypesTable());
 
@@ -235,40 +235,34 @@ namespace Syntax.Semantic
         }
 
         //Handle Struct Instances Values
-        //public void SetStructVariableValue(string name, Value value)
-        //{
-        //    foreach (var stack in StackContext.Context.Stack)
-        //    {
-        //        List<Value> existing;
-        //        if (!stack.ValuesOfArrays.TryGetValue(name, out existing))
-        //        {
-        //            existing = new List<Value>();
-        //            stack.ValuesOfArrays[name] = existing;
-        //        }
-
-        //        int pos = 0;
-        //        foreach (var value1 in existing.ToList())
-        //        {
-        //            if (value1.Position1 == value.Position1 && value1.Position2 == value.Position2)
-        //            {
-        //                existing[pos] = value;
-        //            }
-        //            pos++;
-        //        }
-        //    }
-        //}
-
-        internal void SetStructVariableValue(string name, Tuple<string,Value> value)
+        public void SetStructVariableValue(string name, Tuple<string,Value> value)
         {
             foreach (var stack in StackContext.Context.Stack)
             {
-                if (stack.Values.ContainsKey(name))
+                List<Tuple<string,Value>> existing;
+
+                if (!stack.ValuesofStructInstances.TryGetValue(name, out existing))
                 {
-                    stack.ValuesofStructInstances[name] = value;
+                    existing = new List<Tuple<string, Value>>();
+
+                    stack.ValuesofStructInstances[name] = existing;
                 }
+
+                existing.Add(value);
             }
         }
-        public Tuple<string,Value> GetStructVariableValues(string name)
+
+        //internal void SetStructVariableValue(string name, Tuple<string,Value> value)
+        //{
+        //    foreach (var stack in StackContext.Context.Stack)
+        //    {
+        //        if (stack.Values.ContainsKey(name))
+        //        {
+        //            stack.ValuesofStructInstances[name] = value;
+        //        }
+        //    }
+        //}
+        public List <Tuple<string,Value>> GetStructVariableValues(string name)
         {
             foreach (var stack in StackContext.Context.Stack)
             {

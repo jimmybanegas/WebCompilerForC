@@ -85,16 +85,9 @@ namespace Syntax.Tree.Identifier
                 }
             }
 
-            if (Accessors != null )
+            if (Accessors != null && Accessors.OfType<ArrayAccessorNode>().Any() )
             {
-                //foreach (var accessor in Accessors)
-                //{
-                //    dynamic pos = accessor.Interpret();
-
-                //    return StackContext.Context.Stack.Peek().GetArrayVariableValues(Name)[pos.Value];
-                //}
-
-                if (Accessors.Count == 1)
+                if (Accessors.Count == 1 )
                 {
                     dynamic pos = ((ArrayAccessorNode)Accessors[0]).IndexExpression.Interpret();
 

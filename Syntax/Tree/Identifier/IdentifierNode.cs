@@ -160,9 +160,9 @@ namespace Syntax.Tree.Identifier
 
         public override void Interpret()
         {
-            //If structvalue is null ; then is struct
-            //if (StructValue != null)
-            //{
+            //If LeftValue is null ; then is struct
+            if (Assignation.LeftValue != null)
+            {
                 if (Assignation?.RightValue != null)
                 {
                     Assignation.LeftValue.StructValue = Value;
@@ -204,15 +204,21 @@ namespace Syntax.Tree.Identifier
                         StackContext.Context.Stack.Peek().SetVariableValue(Value, valueBefore);
                     }
                 }
-            //}
-            //else
-            //{
-            //    if (Assignation?.RightValue != null)
-            //    {
-            //       // Assignation.LeftValue = Value;
-            //       dynamic valueOfAssignation = Assignation.RightValue.Interpret();
-            //    }
-            //}
+            }
+            else
+            {
+                if (Assignation?.RightValue != null)
+                {
+                    // Assignation.LeftValue = Value;
+                    dynamic valueOfAssignation = Assignation.RightValue.Interpret();
+
+                    var propertyName = ((PropertyAccessorNode) Accessors[0]).IdentifierNode.Value;
+
+                    var propertyAndValue = new Tuple<string,Value>(propertyName,valueOfAssignation);
+
+                    StackContext.Context.Stack.Peek().SetStructVariableValue(Value,propertyAndValue);
+                }
+            }
         }
     }
 }

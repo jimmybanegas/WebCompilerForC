@@ -473,29 +473,36 @@
 
 // call_by_reference(&b);
 
-// struct StudentData{
-//     char *stu_name;
-//     int stu_id;
-//     int stu_age;
-// };
+//  int mark2[3][2] = {19, 10, 8, 17, 9, 12};
 
-// struct StudentData  student;
+//  int az = mark2[0][1];
 
-// student.stu_name = "Chaitanya";
-// student.stu_id = 1234;
-// student.stu_age = 25;
+//  mark2[0][1] = 1993;
 
- int mark2[3][2] = {19, 10, 8, 17, 9, 12};
+// int mark1[6] = {19, 10, 8, 17, 9, 12};
 
- //int az = mark2[0][1];
+//  mark1[1] = 1993;
 
- mark2[0][1] = 1993;
+// int mark1pos = mark1[2];
 
-int mark1[6] = {19, 10, 8, 17, 9, 12};
+struct StudentData{
+    string *stu_name;
+    int stu_id;
+    int stu_age;
+};
 
- mark1[1] = 1993;
+struct StudentData  student;
 
-int mark1pos = mark1[2];
+int ghj ;
+
+ghj = 10;
+
+student.stu_name = "Chaitanya";
+student.stu_id = 1234;
+student.stu_age = 25;
+
+string nombre = student.stu_name;
+
 
 %>
 
