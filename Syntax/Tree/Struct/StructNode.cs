@@ -42,7 +42,7 @@ namespace Syntax.Tree.Struct
 
         public override void Interpret()
         {
-            throw new NotImplementedException();
+        //    throw new NotImplementedException();
         }
     }
 }

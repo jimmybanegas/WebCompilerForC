@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Lexer;
 using Syntax.Exceptions;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
+using Syntax.Tree.Acessors;
 using Syntax.Tree.BaseNodes;
 using Syntax.Tree.Declarations;
 using Syntax.Tree.Identifier;
@@ -62,12 +64,52 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
 
             StackContext.Context.Stack.Push(StackContext.Context.PastContexts[functiondeclaration.CodeGuid]);
 
+            //int pos = 0;
+            //foreach (var parameter in functiondeclaration.Parameters)
+            //{
+            //    dynamic valueOfParameter = Parameters[pos].Interpret();
+
+            //    StackContext.Context.Stack.Peek().SetVariableValue(parameter.NameOfVariable.Value, valueOfParameter);
+            //    pos++;
+            //}
+
+
+            //var returnValue = functiondeclaration.Execute();
             int pos = 0;
             foreach (var parameter in functiondeclaration.Parameters)
             {
-                dynamic valueOfParameter = Parameters[pos].Interpret();
+                string name = null;
+                var isArray = false;
+                var expressionUnaryNode = Parameters[pos] as ExpressionUnaryNode;
+                var identifierExpression = expressionUnaryNode?.Factor as IdentifierExpression;
 
-                StackContext.Context.Stack.Peek().SetVariableValue(parameter.NameOfVariable.Value, valueOfParameter);
+                if (identifierExpression != null)
+                {
+                    name = identifierExpression.Name;
+                }
+                if (name != null)
+                {
+                    isArray = StackContext.Context.Stack.Peek().GetVariableAccessorsAndPointers(name).Accessors.OfType<ArrayAccessorNode>().Any();
+                }
+
+                if (isArray)
+                {
+                    var values = StackContext.Context.Stack.Peek().GetArrayVariableValues(name);
+
+                    StackContext.Context.Stack.Peek().SetArrayVariableValue(parameter.NameOfVariable.Value, values);
+                }
+                {
+                    dynamic valueOfParameter = Parameters[pos].Interpret();
+
+                    if (expressionUnaryNode?.UnaryOperator is BitAndOperatorNode)
+                    {
+                        valueOfParameter.Pointer =
+                            ((IdentifierExpression)((ExpressionUnaryNode)Parameters[pos]).Factor).Name;
+                    }
+
+                    StackContext.Context.Stack.Peek().SetVariableValue(parameter.NameOfVariable.Value, valueOfParameter);
+                }
+
                 pos++;
             }
 

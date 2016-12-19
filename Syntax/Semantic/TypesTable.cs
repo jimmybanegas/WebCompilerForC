@@ -17,6 +17,7 @@ namespace Syntax.Semantic
         public Dictionary<string, BaseType> Table;
 
         public Dictionary<string, List<Value>> ValuesOfArrays;
+        public Dictionary<string, Tuple<string, Value>> ValuesofStructInstances;
 
         public Dictionary<string, Variable> Variables;
         public TypesTable()
@@ -37,6 +38,7 @@ namespace Syntax.Semantic
             Variables = new Dictionary<string, Variable>();
             Values = new Dictionary<string, Value>();
             ValuesOfArrays = new Dictionary<string, List<Value>>();
+            ValuesofStructInstances = new Dictionary<string, Tuple<string, Value>>();
         }
         public static TypesTable Instance => _instance ?? (_instance = new TypesTable());
 
@@ -136,41 +138,6 @@ namespace Syntax.Semantic
 
             return null;
         }
-
-        public void SetArrayVariableValue(string name, Value value)
-        {
-            foreach (var stack in StackContext.Context.Stack)
-            {
-                List<Value> existing;
-                if (!stack.ValuesOfArrays.TryGetValue(name, out existing))
-                {
-                    existing = new List<Value>();
-                    stack.ValuesOfArrays[name] = existing;
-                }
-              
-                int pos = 0;            
-                foreach (var value1 in existing.ToList())
-                {
-                    if (value1.Position1 == value.Position1 && value1.Position2 == value.Position2)
-                    {
-                        existing[pos] = value;
-                    }
-                    pos++;
-                }
-            }
-        }
-
-        internal void SetArrayVariableValue(string name, List<Value> values)
-        {
-            foreach (var stack in StackContext.Context.Stack)
-            {
-                if (stack.Values.ContainsKey(name))
-                {
-                    stack.ValuesOfArrays[name] = values;
-                }
-            }
-        }
-
         public Value GetVariableValue(string name)
         {
             var pointer = HasPointer(name);
@@ -181,12 +148,7 @@ namespace Syntax.Semantic
                 {
                     if (!string.IsNullOrEmpty(pointer))
                     {
-                        //if (stack.Values.ContainsKey(pointer))
-                        //{
-
-                        // return stack.Values[pointer];
-                        //}
-                       var returnVal = GetVariableValueWithRightPointer(pointer);
+                        var returnVal = GetVariableValueWithRightPointer(pointer);
 
                         if (returnVal != null)
                         {
@@ -219,6 +181,47 @@ namespace Syntax.Semantic
             return "";
         }
 
+        //Handle Arrays Values
+        public void SetArrayVariableValue(string name, Value value)
+        {
+            bool changed = false;
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                List<Value> existing;
+                if (!stack.ValuesOfArrays.TryGetValue(name, out existing))
+                {
+                    existing = new List<Value>();
+                    stack.ValuesOfArrays[name] = existing;
+                }
+
+                int pos = 0;
+                foreach (var value1 in existing.ToList())
+                {
+                    if (value1.Position1 == value.Position1 && value1.Position2 == value.Position2)
+                    {
+                        existing[pos] = value;
+                        changed = true;
+                    }
+                    pos++;
+                }
+            }
+
+            if (!changed)
+            {
+                throw new Exception($"Position {value.Position1},{value.Position2} doesn't exist in array {name}");
+            }
+        }
+
+        internal void SetArrayVariableValue(string name, List<Value> values)
+        {
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                if (stack.Values.ContainsKey(name))
+                {
+                    stack.ValuesOfArrays[name] = values;
+                }
+            }
+        }
         public List<Value> GetArrayVariableValues(string name)
         {
             foreach (var stack in StackContext.Context.Stack)
@@ -226,6 +229,52 @@ namespace Syntax.Semantic
                 if (stack.Values.ContainsKey(name))
                 {
                     return stack.ValuesOfArrays[name];
+                }
+            }
+            return null;
+        }
+
+        //Handle Struct Instances Values
+        //public void SetStructVariableValue(string name, Value value)
+        //{
+        //    foreach (var stack in StackContext.Context.Stack)
+        //    {
+        //        List<Value> existing;
+        //        if (!stack.ValuesOfArrays.TryGetValue(name, out existing))
+        //        {
+        //            existing = new List<Value>();
+        //            stack.ValuesOfArrays[name] = existing;
+        //        }
+
+        //        int pos = 0;
+        //        foreach (var value1 in existing.ToList())
+        //        {
+        //            if (value1.Position1 == value.Position1 && value1.Position2 == value.Position2)
+        //            {
+        //                existing[pos] = value;
+        //            }
+        //            pos++;
+        //        }
+        //    }
+        //}
+
+        internal void SetStructVariableValue(string name, Tuple<string,Value> value)
+        {
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                if (stack.Values.ContainsKey(name))
+                {
+                    stack.ValuesofStructInstances[name] = value;
+                }
+            }
+        }
+        public Tuple<string,Value> GetStructVariableValues(string name)
+        {
+            foreach (var stack in StackContext.Context.Stack)
+            {
+                if (stack.Values.ContainsKey(name))
+                {
+                    return stack.ValuesofStructInstances[name];
                 }
             }
             return null;

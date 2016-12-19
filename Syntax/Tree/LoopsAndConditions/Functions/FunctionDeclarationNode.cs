@@ -77,7 +77,6 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
 
         public Value Execute()
         {
-          //  StackContext.Context.Stack.Push(StackContext.Context.PastContexts[CodeGuid]);
             dynamic returnValue = null;
 
             foreach (var sentence in Sentences)
@@ -89,8 +88,6 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
                 }
                 sentence.Interpret();
             }
-
-       //     StackContext.Context.Stack.Pop();
 
             return returnValue;
         }

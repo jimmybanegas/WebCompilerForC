@@ -57,8 +57,8 @@ namespace Syntax.Tree.Declarations
                         if (!(leftIdentifierPointers.Pointers.Count > 0 && hasDereference) && 
                             !(leftIdentifierPointers.Pointers.Count > 0 && arrayAccessors > 0) && arrayAccessors !=null)
                         {
-                            throw new SemanticException("You need a reference to assignt value to a pointer," +
-                                                        $" at Row: {LeftValue.Position.Row}, column : {LeftValue.Position.Column}");
+                            //throw new SemanticException("You need a reference to assignt value to a pointer," +
+                            //                            $" at Row: {LeftValue.Position.Row}, column : {LeftValue.Position.Column}");
                         }
                     }
                 }
@@ -116,7 +116,9 @@ namespace Syntax.Tree.Declarations
             {
                 if (!((IdentifierExpression) unaryNode.Factor).Accessors.OfType<ArrayAccessorNode>().Any())
                 {
+                    var pointer = value.Pointer;
                     value = StackContext.Context.Stack.Peek().GetVariableValue(((IdentifierExpression)unaryNode.Factor).Name).Clone();
+                    value.Pointer = pointer;
                 }
             }
 

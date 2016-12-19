@@ -412,45 +412,90 @@
   
 // int varp = &var; 
 
- int* pc;
- int c;
+//  int* pc;
+//  int c;
 
-    c=22;
-//int uno = &c; // Address of c: 2686784
-int dos = c; // Value of c: 22
+//     c=22;
+// //int uno = &c; // Address of c: 2686784
+// int dos = c; // Value of c: 22
 
-    pc = &c;
-//int tres = pc; // Address of c: 2686784
-int cuatro = *pc; // Value of c: 22
+//     pc = &c;
+// //int tres = pc; // Address of c: 2686784
+// int cuatro = *pc; // Value of c: 22
 
-    c=11;
-// int cinco = pc; // Address of pointer pc: 2686784
-int seis = *pc; // Content of pointer pc: 11
+//     c=11;
+// // int cinco = pc; // Address of pointer pc: 2686784
+// int seis = *pc; // Content of pointer pc: 11
 
-   *pc=2;
-// int siete = &c; // Address of c: 2686784
- int ocho = c; // Value of c: 2
+//    *pc=2;
+// // int siete = &c; // Address of c: 2686784
+//  int ocho = c; // Value of c: 2
 
-int increment2(int  *var)
-{
-     *var = *var+1;
+// int increment2(int  *var)
+// {
+//      *var = *var+1;
 
-     return *var;
-}
+//      return *var;
+// }
 
- int num1=20;
+//  int num1=20;
 
- int num2 = increment2(&num1);
+//  int num2 = increment2(&num1);
 
-void swapnum ( int *var1, int *var2 )
-{
-   int tempnum ;
+// void swapnum ( int *var1, int *var2 )
+// {
+//    int tempnum ;
 
-   tempnum = *var1 ;
-   *var1 = *var2 ;
-   *var2 = tempnum ;
-}
+//    tempnum = *var1 ;
+//    *var1 = *var2 ;
+//    *var2 = tempnum ;
+// }
 
+
+// void swap(int * n1, int * n2)
+// {
+//     // pointer n1 and n2 points to the address of num1 and num2 respectively
+//     int temp;
+//     temp = *n1;
+//     *n1 = *n2;
+//     *n2 = temp;
+// }
+
+// int num3 = 35, num4 = 45 ;
+
+// swap ( &num3, &num4 );
+
+// void call_by_reference(int *y) {
+// 	*y += 10;
+// }
+
+// int b=10;
+
+// call_by_reference(&b);
+
+// struct StudentData{
+//     char *stu_name;
+//     int stu_id;
+//     int stu_age;
+// };
+
+// struct StudentData  student;
+
+// student.stu_name = "Chaitanya";
+// student.stu_id = 1234;
+// student.stu_age = 25;
+
+ int mark2[3][2] = {19, 10, 8, 17, 9, 12};
+
+ //int az = mark2[0][1];
+
+ mark2[0][1] = 1993;
+
+int mark1[6] = {19, 10, 8, 17, 9, 12};
+
+ mark1[1] = 1993;
+
+int mark1pos = mark1[2];
 
 %>
 

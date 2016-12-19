@@ -87,12 +87,46 @@ namespace Syntax.Tree.Identifier
 
             if (Accessors != null )
             {
-                foreach (var accessor in Accessors)
-                {
-                    dynamic pos = accessor.Interpret();
+                //foreach (var accessor in Accessors)
+                //{
+                //    dynamic pos = accessor.Interpret();
 
-                    return StackContext.Context.Stack.Peek().GetArrayVariableValues(Name)[pos.Value];
+                //    return StackContext.Context.Stack.Peek().GetArrayVariableValues(Name)[pos.Value];
+                //}
+
+                if (Accessors.Count == 1)
+                {
+                    dynamic pos = ((ArrayAccessorNode)Accessors[0]).IndexExpression.Interpret();
+
+                    var values = StackContext.Context.Stack.Peek().GetArrayVariableValues(Name);
+
+                    foreach (var value in values)
+                    {
+                        if (value.Position1 == pos.Value)
+                        {
+                            return value;
+                        }
+                    }
+                    throw new Exception("Index not in array");
+
                 }
+                else
+                {
+                    dynamic pos = ((ArrayAccessorNode)Accessors[0]).IndexExpression.Interpret();
+                    dynamic pos2 = ((ArrayAccessorNode) Accessors[1]).IndexExpression.Interpret();
+
+                    var values = StackContext.Context.Stack.Peek().GetArrayVariableValues(Name);
+
+                    foreach (var value in values)
+                    {
+                        if (value.Position1 == pos.Value && value.Position2 == pos2.Value)
+                        {
+                            return value;
+                        }
+                    }
+                    throw new Exception("Index not in array");
+                }
+
             }
 
            return StackContext.Context.Stack.Peek().GetVariableValue(Name);

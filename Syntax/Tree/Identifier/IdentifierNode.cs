@@ -160,57 +160,59 @@ namespace Syntax.Tree.Identifier
 
         public override void Interpret()
         {
-            if (Assignation?.RightValue != null )
-            {
-                Assignation.LeftValue.StructValue = Value;
-                Assignation.Interpret();
-            }
-
-            if (IncrementOrdecrement != null)
-            {
-                if (IncrementOrdecrement is PreDecrementOperatorNode)
+            //If structvalue is null ; then is struct
+            //if (StructValue != null)
+            //{
+                if (Assignation?.RightValue != null)
                 {
-                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Value);
-
-                    valueBefore.Value =valueBefore.Value - 1;
-
-                    StackContext.Context.Stack.Peek().SetVariableValue(Value,valueBefore);
+                    Assignation.LeftValue.StructValue = Value;
+                    Assignation.Interpret();
                 }
-                else if (IncrementOrdecrement is PreIncrementOperatorNode)
+
+                if (IncrementOrdecrement != null)
                 {
-                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Value);
+                    if (IncrementOrdecrement is PreDecrementOperatorNode)
+                    {
+                        dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Value);
 
-                    valueBefore.Value =valueBefore.Value + 1;
+                        valueBefore.Value = valueBefore.Value - 1;
 
-                    StackContext.Context.Stack.Peek().SetVariableValue(Value, valueBefore);
+                        StackContext.Context.Stack.Peek().SetVariableValue(Value, valueBefore);
+                    }
+                    else if (IncrementOrdecrement is PreIncrementOperatorNode)
+                    {
+                        dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Value);
+
+                        valueBefore.Value = valueBefore.Value + 1;
+
+                        StackContext.Context.Stack.Peek().SetVariableValue(Value, valueBefore);
+                    }
+                    else if (IncrementOrdecrement is PostIncrementOperatorNode)
+                    {
+                        dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Value);
+
+                        valueBefore.Value = valueBefore.Value + 1;
+
+                        StackContext.Context.Stack.Peek().SetVariableValue(Value, valueBefore);
+                    }
+                    else if (IncrementOrdecrement is PostDecrementOperatorNode)
+                    {
+                        dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Value);
+
+                        valueBefore.Value = valueBefore.Value - 1;
+
+                        StackContext.Context.Stack.Peek().SetVariableValue(Value, valueBefore);
+                    }
                 }
-                else if (IncrementOrdecrement is PostIncrementOperatorNode)
-                {
-                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Value);
-
-                    valueBefore.Value = valueBefore.Value + 1;
-
-                    StackContext.Context.Stack.Peek().SetVariableValue(Value, valueBefore);
-                }
-                else if (IncrementOrdecrement is PostDecrementOperatorNode)
-                {
-                    dynamic valueBefore = StackContext.Context.Stack.Peek().GetVariableValue(Value);
-
-                    valueBefore.Value = valueBefore.Value -1;
-
-                    StackContext.Context.Stack.Peek().SetVariableValue(Value, valueBefore);
-                }
-            }
-
-
-            if (Accessors.Count > 0)
-        
-            foreach (var accesorNode in Accessors)
-            {
-              //  accesors = accesors + accesorNode.Interpret();
-            }
-
-           // return Value + accesors;
+            //}
+            //else
+            //{
+            //    if (Assignation?.RightValue != null)
+            //    {
+            //       // Assignation.LeftValue = Value;
+            //       dynamic valueOfAssignation = Assignation.RightValue.Interpret();
+            //    }
+            //}
         }
     }
 }
