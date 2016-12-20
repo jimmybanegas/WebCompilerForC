@@ -187,22 +187,25 @@ namespace Syntax.Semantic
             bool changed = false;
             foreach (var stack in StackContext.Context.Stack)
             {
-                List<Value> existing;
-                if (!stack.ValuesOfArrays.TryGetValue(name, out existing))
+                if (stack.ValuesOfArrays.ContainsKey(name))
                 {
-                    existing = new List<Value>();
-                    stack.ValuesOfArrays[name] = existing;
-                }
-
-                int pos = 0;
-                foreach (var value1 in existing.ToList())
-                {
-                    if (value1.Position1 == value.Position1 && value1.Position2 == value.Position2)
+                    List<Value> existing;
+                    if (!stack.ValuesOfArrays.TryGetValue(name, out existing))
                     {
-                        existing[pos] = value;
-                        changed = true;
+                        existing = new List<Value>();
+                        stack.ValuesOfArrays[name] = existing;
                     }
-                    pos++;
+
+                    int pos = 0;
+                    foreach (var value1 in existing.ToList())
+                    {
+                        if (value1.Position1 == value.Position1 && value1.Position2 == value.Position2)
+                        {
+                            existing[pos] = value;
+                            changed = true;
+                        }
+                        pos++;
+                    }
                 }
             }
 

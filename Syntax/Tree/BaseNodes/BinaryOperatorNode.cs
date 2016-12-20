@@ -43,6 +43,11 @@ namespace Syntax.Tree.BaseNodes
                 return result;
             }
 
+            if (leftType is FunctionType && rightType is FunctionType)
+            {
+                return new IntType();
+            }
+
             throw new SemanticException($"You can't operate two varibles of different types: {leftType} and {rightType} at Row: {Position.Row} , Column {Position.Column}");
         }
 

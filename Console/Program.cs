@@ -42,47 +42,56 @@ namespace ConsoleTest
             //{
             //    statementNode.Interpret();
             //}
-            var parameters = new List<string> {"10", "20", "Addition"};
+            //var parameters = new List<string> {"10", "20", "Addition"};
 
-            var functiondeclaration = StackContext.Context.FunctionsNodes["operar"];
+            //var functiondeclaration = StackContext.Context.FunctionsNodes["operar"];
 
-            StackContext.Context.Stack.Push(StackContext.Context.PastContexts[functiondeclaration.CodeGuid]);
+            //StackContext.Context.Stack.Push(StackContext.Context.PastContexts[functiondeclaration.CodeGuid]);
 
-            int pos = 0;
-            foreach (var parameter in functiondeclaration.Parameters)
+            //int pos = 0;
+            //foreach (var parameter in functiondeclaration.Parameters)
+            //{
+            //    var typeOfParameter =
+            //        StackContext.Context.Stack.Peek()
+            //            .GetVariable(parameter.NameOfVariable.Value, functiondeclaration.Position);
+
+            //    dynamic value = null;
+
+            //    if (typeOfParameter is StringType)
+            //    {
+            //        value = new StringValue { Value = parameters[pos] };
+            //    }
+            //    else if (typeOfParameter is IntType)
+            //    {
+            //        value = new IntValue { Value = Convert.ToInt32(parameters[pos]) };
+            //    }
+
+            //   // context.Response.Write($"<h3>\r\nValue : {parameter.NameOfVariable.Value} </h3> ");
+
+
+            //    StackContext.Context.Stack.Peek().SetVariableValue(parameter.NameOfVariable.Value, value);
+
+            //    pos++;
+            //}
+
+            //dynamic valueOfResponse = functiondeclaration.Execute();
+
+            //dynamic var1 = StackContext.Context.Stack.Peek().GetVariableValue(functiondeclaration.Identifier.NameOfVariable.Value + "ResponseForServer");
+
+            //Console.WriteLine(var1.Value);
+
+            // Console.WriteLine(valueOfResponse.Value);
+
+            // StackContext.Context.Stack.Pop();
+
+            foreach (var table in StackContext.Context.Stack)
             {
-                var typeOfParameter =
-                    StackContext.Context.Stack.Peek()
-                        .GetVariable(parameter.NameOfVariable.Value, functiondeclaration.Position);
-
-                dynamic value = null;
-
-                if (typeOfParameter is StringType)
+                foreach (var var in table.Values)
                 {
-                    value = new StringValue { Value = parameters[pos] };
+                    dynamic va = var.Value;
+                    Console.WriteLine($"Valor de  : {var.Key.ToUpper()} es : { va.Value} ");
                 }
-                else if (typeOfParameter is IntType)
-                {
-                    value = new IntValue { Value = Convert.ToInt32(parameters[pos]) };
-                }
-
-               // context.Response.Write($"<h3>\r\nValue : {parameter.NameOfVariable.Value} </h3> ");
-           
-
-                StackContext.Context.Stack.Peek().SetVariableValue(parameter.NameOfVariable.Value, value);
-
-                pos++;
             }
-
-            dynamic valueOfResponse = functiondeclaration.Execute();
-
-            dynamic var1 = StackContext.Context.Stack.Peek().GetVariableValue(functiondeclaration.Identifier.NameOfVariable.Value + "ResponseForServer");
-
-            Console.WriteLine(var1.Value);
-
-           // Console.WriteLine(valueOfResponse.Value);
-
-            StackContext.Context.Stack.Pop();
 
             Console.ReadKey();
       

@@ -63,7 +63,7 @@ namespace Syntax.Tree.LoopsAndConditions
                     //bool breakN = false;
                     if (node is BreakNode)
                     {
-                        goto exit;
+                        break;
                     }
 
                     //if (breakN) break;
@@ -99,7 +99,7 @@ namespace Syntax.Tree.LoopsAndConditions
                     node.Interpret();
                 }
             }
-            exit: Console.WriteLine("salit");
+           // exit: Console.WriteLine("salit");
             StackContext.Context.Stack.Pop();
         }
     }

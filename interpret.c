@@ -589,45 +589,100 @@
 //     return result;
 // }
 
-int operar(int num1, int num2, string operation){
-    int result;
+//  int array[10] = { 21,56,23,12,87,9,54,32,32,98} ;
 
-    if (operation == "Addition"){
-        result = num1 + num2;
-    }
-    else if (operation == "Substraction"){
-         result =  num1 - num2;
-    }
-    else if (operation == "Multiplication"){
-         result =  num1 * num2;
-    }
-    else if (operation == "Division"){
-         result =  num1 / num2;
-    }
+//   int n = 10, c, d, swap;
 
-    return result;
-}
-
-  int array[10] = {21,56,23,12,87,9,54,32,32,98};
-
-  int n = 10, c, d, swap;
+    // int array[10] = {21,56,23,12,87,9,54,32,32,98};
+  
+//   int c,i,j;
+  
+//   for( i=0; i<10;i++)
+//     {
+//         for( j=0;j<10-1;j++)
+//         {
+//             if(array[j]<array[j+1])
+//             {
+//                 int temp=array[j];
+//                 array[j]=array[j+1];
+//                 array[j+1]=temp;
+//             }
+//         }
+//     }
  
-  for (c = 0 ; c < ( n - 1 ); c++)
-  {
-    for (d = 0 ; d < n - c - 1; d++)
-    {
-      if (array[d] > array[d+1]) /* For decreasing order use < */
-      {
-        swap       = array[d];
-        array[d]   = array[d+1];
-        array[d+1] = swap;
-      }
-    }
-  }
-
-  int asd = array[1];
  
+//   for (c = 0 ; c < ( n - 1 ); c++)
+//   {
+//     for (d = 0 ; d < n - c - 1; d++)
+//     {
+//       if (array[d] > array[d+1]) /* For decreasing order use < */
+//       {
+//         swap       = array[d];
+//         array[d]   = array[d+1];
+//         array[d+1] = swap;
+//       }
+//     }
+//   }
 
+//   int asd = array[1];
+ 
+// int factorial(int i) {
+//    if(i <= 1) {
+//       return 1;
+//    }
+//    return i * factorial(i - 1);
+// }
+
+// int fibonacci(int i) {
+
+//    if(i == 0) {
+//       return 0;
+//    }
+	
+//    if(i == 1) {
+//       return 1;
+//    }
+//    return fibonacci(i-1) + fibonacci(i-2);
+// }
+
+//  int i = factorial(2);  
+
+
+// int operar(int num1, int num2, string operation){
+//     int result;
+
+//     if (operation == "Addition"){
+//         result = num1 + num2;
+//     }
+//     else if (operation == "Substraction"){
+//          result =  num1 - num2;
+//     }
+//     else if (operation == "Multiplication"){
+//          result =  num1 * num2;
+//     }
+//     else if (operation == "Division"){
+//          result =  num1 / num2;
+//     }
+
+//     return result;
+// }
+ int c = 22;
+ int* pc ;
+
+int uno = &c; // Address of c: 2686784
+int p1 = c; // Value of c: 22
+
+    pc = &c;
+//int tres = pc; // Address of c: 2686784
+int p2 = *pc; // Value of c: 22
+
+    c=11;
+// int cinco = pc; // Address of pointer pc: 2686784
+int p3 = *pc; // Content of pointer pc: 11
+
+    *pc=2;
+// int siete = &c; // Address of c: 2686784
+ int p4 = c; // Value of c: 2
 
 %>
 

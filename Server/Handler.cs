@@ -255,6 +255,20 @@ namespace Server
                     dynamic var22 = StackContext.Context.Stack.Peek().GetVariableValue("valuereferenceresponse");
                     context.Response.Write($"<h5><i>\r\n Valor de retorno de funcion : {var22.Value} </i></h5> ");
 
+
+                    context.Response.Write("<h4>--------------------------------------------------------</h4> ");
+                    context.Response.Write(" TODOS LOS VALORES ");
+                    context.Response.Write("<h4>--------------------------------------------------------</h4> ");
+
+                    foreach (var table in StackContext.Context.Stack)
+                    {
+                        foreach (var var in table.Values)
+                        {
+                            dynamic va = var.Value;
+                            context.Response.Write($"<h5><i>\r\n Valor de  : {var.Key.ToUpper()} es : { va.Value}</i></h5> ");
+                        }
+                    }
+
                 }
 
                 context.Response.Write("%>" +

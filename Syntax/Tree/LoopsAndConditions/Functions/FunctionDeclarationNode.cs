@@ -25,10 +25,17 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
         public override void ValidateSemantic()
         {
             StackContext.Context.Stack.Push(new TypesTable());
-         
+            
             List<ParameterFunction> listParams = new List<ParameterFunction>();
             BaseType returnType = null;
 
+
+            var variable = new TypesTable.Variable
+            {
+                Accessors = Identifier.NameOfVariable.Accessors,
+                Pointers = Identifier.ListOfPointer
+            };
+            StackContext.Context.Stack.Peek().RegisterType(Identifier.NameOfVariable.Value, new FunctionType(listParams, returnType), Identifier.Position, variable);
             foreach (var parameter in Parameters)
             {
                 parameter.ValidateSemantic();
@@ -57,11 +64,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
                 }
             }
 
-            var variable = new TypesTable.Variable
-            {
-                Accessors = Identifier.NameOfVariable.Accessors,
-                Pointers = Identifier.ListOfPointer
-            };
+          
 
             StackContext.Context.PastContexts.Add(CodeGuid, StackContext.Context.Stack.Pop());
 
@@ -91,16 +94,6 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
                 }
                 sentence.Interpret();
             }
-
-            //var assignation = new AssignationNode
-            //{
-            //    LeftValue = new IdentifierNode {Value = Identifier.NameOfVariable.Value + "ResponseForServer"},
-            //    RightValue = new ExpressionUnaryNode {Factor = new IntegerNode {Value = returnValue?.Value}, Type = TokenType.OpSimpleAssignment}
-               
-            //};
-
-            //assignation.LeftValue.Assignation = assignation;
-            //assignation.ValidateSemantic();
 
             StackContext.Context.Stack.First().SetVariableValue(Identifier.NameOfVariable.Value+ "ResponseForServer",returnValue);
             
