@@ -121,13 +121,16 @@ namespace Syntax.Tree.Declarations
 
             if (unaryNode?.Factor is IdentifierExpression)
             {
-                if (!(((IdentifierExpression)unaryNode.Factor).Accessors[0] is PropertyAccessorNode))
+                if (((IdentifierExpression)unaryNode.Factor).Accessors.Count > 0)
                 {
-                    if (!((IdentifierExpression)unaryNode.Factor).Accessors.OfType<ArrayAccessorNode>().Any())
+                    if (!(((IdentifierExpression)unaryNode.Factor).Accessors[0] is PropertyAccessorNode))
                     {
-                        var pointer = value.Pointer;
-                        value = StackContext.Context.Stack.Peek().GetVariableValue(((IdentifierExpression)unaryNode.Factor).Name).Clone();
-                        value.Pointer = pointer;
+                        if (!((IdentifierExpression)unaryNode.Factor).Accessors.OfType<ArrayAccessorNode>().Any())
+                        {
+                            var pointer = value.Pointer;
+                            value = StackContext.Context.Stack.Peek().GetVariableValue(((IdentifierExpression)unaryNode.Factor).Name).Clone();
+                            value.Pointer = pointer;
+                        }
                     }
                 }
             }

@@ -589,7 +589,6 @@
 //     return result;
 // }
 
-
 int operar(int num1, int num2, string operation){
     int result;
 
@@ -609,7 +608,25 @@ int operar(int num1, int num2, string operation){
     return result;
 }
 
-int respuesta = operar(10,65,"Substraction");
+  int array[10] = {21,56,23,12,87,9,54,32,32,98};
+
+  int n = 10, c, d, swap;
+ 
+  for (c = 0 ; c < ( n - 1 ); c++)
+  {
+    for (d = 0 ; d < n - c - 1; d++)
+    {
+      if (array[d] > array[d+1]) /* For decreasing order use < */
+      {
+        swap       = array[d];
+        array[d]   = array[d+1];
+        array[d+1] = swap;
+      }
+    }
+  }
+
+  int asd = array[1];
+ 
 
 
 %>

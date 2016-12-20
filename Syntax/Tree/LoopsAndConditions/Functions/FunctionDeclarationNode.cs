@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Lexer;
 using Syntax.Exceptions;
 using Syntax.Interpret;
+using Syntax.Interpret.TypesValues;
 using Syntax.Semantic;
 using Syntax.Semantic.Types;
 using Syntax.Tree.BaseNodes;
@@ -10,6 +12,7 @@ using Syntax.Tree.DataTypes;
 using Syntax.Tree.Declarations;
 using Syntax.Tree.GeneralSentences;
 using Syntax.Tree.Identifier;
+using Syntax.Tree.Operators.Unary;
 
 namespace Syntax.Tree.LoopsAndConditions.Functions
 {
@@ -63,6 +66,7 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
             StackContext.Context.PastContexts.Add(CodeGuid, StackContext.Context.Stack.Pop());
 
             StackContext.Context.Stack.Peek().RegisterType(Identifier.NameOfVariable.Value, new FunctionType(listParams,returnType), Identifier.Position, variable);
+            StackContext.Context.Stack.First().RegisterType(Identifier.NameOfVariable.Value+"ResponseForServer", new IntType(), Position, variable);
         }
 
         public override void Interpret()
@@ -81,7 +85,6 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
 
             foreach (var sentence in Sentences)
             {
-
                 if (sentence is ReturnStatementNode)
                 {
                     returnValue = (sentence as ReturnStatementNode).GetValueOfReturn();
@@ -89,6 +92,18 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
                 sentence.Interpret();
             }
 
+            //var assignation = new AssignationNode
+            //{
+            //    LeftValue = new IdentifierNode {Value = Identifier.NameOfVariable.Value + "ResponseForServer"},
+            //    RightValue = new ExpressionUnaryNode {Factor = new IntegerNode {Value = returnValue?.Value}, Type = TokenType.OpSimpleAssignment}
+               
+            //};
+
+            //assignation.LeftValue.Assignation = assignation;
+            //assignation.ValidateSemantic();
+
+            StackContext.Context.Stack.First().SetVariableValue(Identifier.NameOfVariable.Value+ "ResponseForServer",returnValue);
+            
             return returnValue;
         }
     }

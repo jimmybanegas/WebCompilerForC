@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Lexer;
+using Syntax.Interpret.TypesValues;
 using Syntax.Parser;
 using Syntax.Semantic;
+using Syntax.Semantic.Types;
 
 namespace ConsoleTest
 {
@@ -9,73 +12,80 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            //try
+            HandlerFiles file = new HandlerFiles();
+            var code = file.GetCode();
+
+            var lex = new Lexer.Lexer(new SourceCode(code));
+
+            var parser = new Parser(lex);
+
+            parser.ValidateSemanticServer();
+
+            //parser.Interpret();
+
+            //if (parser.CurrentToken.TokenType == TokenType.HTMLContent)
             //{
-                //     HandlerFiles file = new HandlerFiles("C:\\Users\\Jimmy Ramos\\Documents\\WebCompilerForC\\code.c");
-                HandlerFiles file = new HandlerFiles();
+            //    Console.WriteLine(parser.CurrentToken.Lexeme);
+            //}
 
-                var code = file.GetCode();
+               //var root = parser.Parse();
 
-                //  var lex = new Lexer.Lexer(new SourceCode(code));
+               //foreach (var statementNode in root)
+               // {
+               //     statementNode.ValidateSemantic();
+               //     Console.WriteLine(statementNode);
+               // }
 
-                //var currentToken = lex.GetNextToken();
+             var stack = StackContext.Context.Stack.Peek();
 
-                //while (currentToken.TokenType != TokenType.EndOfFile)
-                //{
-                //    System.Console.WriteLine(currentToken.ToString());
-                //    //System.Diagnostics.Debug.WriteLine(currentToken.ToString());
+            //foreach (var statementNode in root)
+            //{
+            //    statementNode.Interpret();
+            //}
+            var parameters = new List<string> {"10", "20", "Addition"};
 
-                //    file.WriteCode(currentToken.ToString());
+            var functiondeclaration = StackContext.Context.FunctionsNodes["operar"];
 
-                //    //if (currentToken.TokenType == TokenType.OpBitShiftLeftAndAssignment
-                //    //    || currentToken.TokenType == TokenType.OpBitShiftRightAndAssignment)
-                //    //{
-                //    //    lex.GetNextToken();
-                //    //}
+            StackContext.Context.Stack.Push(StackContext.Context.PastContexts[functiondeclaration.CodeGuid]);
 
-                //    currentToken = lex.GetNextToken();
-
-                //    // file.WriteCode(currentToken.Lexeme);
-                //}
-
-               var lex = new Lexer.Lexer(new SourceCode(code));
-
-                var parser = new Parser(lex);
-
-            if (parser.CurrentToken.TokenType == TokenType.HTMLContent)
+            int pos = 0;
+            foreach (var parameter in functiondeclaration.Parameters)
             {
-                Console.WriteLine(parser.CurrentToken.Lexeme);
-            }
+                var typeOfParameter =
+                    StackContext.Context.Stack.Peek()
+                        .GetVariable(parameter.NameOfVariable.Value, functiondeclaration.Position);
 
-               var root = parser.Parse();
+                dynamic value = null;
 
-               foreach (var statementNode in root)
+                if (typeOfParameter is StringType)
                 {
-                    statementNode.ValidateSemantic();
-                    Console.WriteLine(statementNode);
+                    value = new StringValue { Value = parameters[pos] };
+                }
+                else if (typeOfParameter is IntType)
+                {
+                    value = new IntValue { Value = Convert.ToInt32(parameters[pos]) };
                 }
 
-                var stack = StackContext.Context.Stack.Peek();
+               // context.Response.Write($"<h3>\r\nValue : {parameter.NameOfVariable.Value} </h3> ");
+           
 
-            foreach (var statementNode in root)
-            {
-                statementNode.Interpret();
+                StackContext.Context.Stack.Peek().SetVariableValue(parameter.NameOfVariable.Value, value);
+
+                pos++;
             }
 
-            foreach (var value in StackContext.Context.Stack.Peek().Values)
-            {
-               // Console.WriteLine(value.Key +" "+ value.Value);
-               // Console.WriteLine(StackContext.Context.Stack.Peek().Table);
-            }
+            dynamic valueOfResponse = functiondeclaration.Execute();
+
+            dynamic var1 = StackContext.Context.Stack.Peek().GetVariableValue(functiondeclaration.Identifier.NameOfVariable.Value + "ResponseForServer");
+
+            Console.WriteLine(var1.Value);
+
+           // Console.WriteLine(valueOfResponse.Value);
+
+            StackContext.Context.Stack.Pop();
 
             Console.ReadKey();
-            //}
-            //catch (Exception e)
-            //{
-                
-            //    Console.WriteLine(e.Message);
-            //}
-
+      
         }
     }
 }
