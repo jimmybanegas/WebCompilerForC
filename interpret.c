@@ -485,73 +485,132 @@
 
 // int mark1pos = mark1[2];
 
-struct StudentData{
-    string *stu_name;
-    int stu_id;
-    int stu_age;
-};
+// struct StudentData{
+//     string *stu_name;
+//     int stu_id;
+//     int stu_age;
+// };
 
- struct StudentData  student;
+//  struct StudentData  student;
 
- student.stu_name = "Chaitanya";
-// student.stu_id = 1234;
-// student.stu_age = 25;
+//  student.stu_name = "Chaitanya";
+// // student.stu_id = 1234;
+// // student.stu_age = 25;
 
-// string nombreantes = student.stu_name;
+// // string nombreantes = student.stu_name;
 
-// student.stu_name = "Jimmy";
+// // student.stu_name = "Jimmy";
 
-// string nombre = student.stu_name;
+// // string nombre = student.stu_name;
 
-enum Security_Levels
-{
-    black_ops,
-    top_secret,
-    secret,
-    non_secret
-} my_security_level, dos, tres;       // don't forget the semi-colon ; 
+// enum Security_Levels
+// {
+//     black_ops,
+//     top_secret,
+//     secret,
+//     non_secret
+// } my_security_level, dos, tres;       // don't forget the semi-colon ; 
         
-my_security_level = top_secret;
+// my_security_level = top_secret;
 
-string sec_level;
+// string sec_level;
 
-     if ( my_security_level == black_ops )
-       {
-           sec_level = "black_ops";
-       }
-    else if ( my_security_level == top_secret )
-       {
-          sec_level = "top_secret";
-       }
-    else if ( my_security_level == secret )
-       {
-         sec_level = "secret";
-       }
-    else if ( my_security_level == non_secret )
-       {
-          sec_level = "non_secret";
-       }
+//      if ( my_security_level == black_ops )
+//        {
+//            sec_level = "black_ops";
+//        }
+//     else if ( my_security_level == top_secret )
+//        {
+//           sec_level = "top_secret";
+//        }
+//     else if ( my_security_level == secret )
+//        {
+//          sec_level = "secret";
+//        }
+//     else if ( my_security_level == non_secret )
+//        {
+//           sec_level = "non_secret";
+//        }
 
-my_security_level = secret;
+// my_security_level = secret;
 
- int a;
- int b = 0;
+//  int a;
+//  int b = 0;
 	
-   /* for loop execution */
-   for( a = 10; a < 20; a = a + 1 ){
-     // printf("value of a: %d\n", a);
-     b ++;
-   }
+//    /* for loop execution */
+//    for( a = 10; a < 20; a = a + 1 ){
+//      // printf("value of a: %d\n", a);
+//      b ++;
+//    }
  
-int count;
+// int count;
 
-int c;
+// int c;
 
- for (count=10; count > 0; count--) {
-// runs all of the code between the { and }
-// 10 times, starting at 10 and working down to 1.
-c++;
+//  for (count=10; count > 0; count--) {
+// // runs all of the code between the { and }
+// // 10 times, starting at 10 and working down to 1.
+//     c++;
+// }
+
+
+// int suma(int num1, int num2){
+//     return num1 + num2;
+// }
+
+// int resta(int num1, int num2){
+//     return num1 - num2;
+// }
+
+// int multiplicacion(int num1, int num2){
+//     return num1 * num2;
+// }
+
+// int division(int num1, int num2){
+//     return num1 / num2;
+// }
+
+// int operar(int num1, int num2, string operation){
+//     int result;
+
+//     if (operation == "Addition"){
+//         result = suma(num1,num2);
+//     }
+//     else if (operation == "Substraction"){
+//          result =  resta(num1,num2);
+//     }
+//     else if (operation == "Multiplication"){
+//          result =  multiplicacion(num1,num2);
+//     }
+//     else if (operation == "Division"){
+//          result =  division(num1,num2);
+//     }
+
+//     return result;
+// }
+
+
+int operar(int num1, int num2, string operation){
+    int result;
+
+    if (operation == "Addition"){
+        result = num1 + num2;
+    }
+    else if (operation == "Substraction"){
+         result =  num1 - num2;
+    }
+    else if (operation == "Multiplication"){
+         result =  num1 * num2;
+    }
+    else if (operation == "Division"){
+         result =  num1 / num2;
+    }
+
+    return result;
 }
+
+int respuesta = operar(10,65,"Substraction");
+
 
 %>
 

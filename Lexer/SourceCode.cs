@@ -5,7 +5,7 @@ namespace Lexer
 {
     public class SourceCode
     {
-        private readonly string _sourceCode;
+        public string _sourceCode;
         private int _currentIndex;
         private int _row;
         private int _column;

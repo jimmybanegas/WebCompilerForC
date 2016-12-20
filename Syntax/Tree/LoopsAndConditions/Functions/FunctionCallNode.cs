@@ -64,17 +64,6 @@ namespace Syntax.Tree.LoopsAndConditions.Functions
 
             StackContext.Context.Stack.Push(StackContext.Context.PastContexts[functiondeclaration.CodeGuid]);
 
-            //int pos = 0;
-            //foreach (var parameter in functiondeclaration.Parameters)
-            //{
-            //    dynamic valueOfParameter = Parameters[pos].Interpret();
-
-            //    StackContext.Context.Stack.Peek().SetVariableValue(parameter.NameOfVariable.Value, valueOfParameter);
-            //    pos++;
-            //}
-
-
-            //var returnValue = functiondeclaration.Execute();
             int pos = 0;
             foreach (var parameter in functiondeclaration.Parameters)
             {

@@ -6,7 +6,7 @@ namespace Lexer
 {
     public class Lexer
     {
-        private SourceCode SourceCode { get; }
+        public SourceCode SourceCode { get; }
         public Symbol CurrentSymbol { get; set; }
         public ReserverdWords ReservedWords { get; set; }  
       //  private bool CMode { get; set; }  

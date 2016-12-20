@@ -42,6 +42,11 @@ namespace ConsoleTest
 
                 var parser = new Parser(lex);
 
+            if (parser.CurrentToken.TokenType == TokenType.HTMLContent)
+            {
+                Console.WriteLine(parser.CurrentToken.Lexeme);
+            }
+
                var root = parser.Parse();
 
                foreach (var statementNode in root)

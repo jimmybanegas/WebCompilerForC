@@ -6,13 +6,10 @@ namespace Server
 {
     public class HandlerFiles
     {
-        string _defaultPath = System.Web.Hosting.HostingEnvironment.MapPath("~/bin/html.c");
-        //   public readonly string _defaultPathLexer = Directory.GetParent(@"..\..\..\").FullName + @"\lexer.c";
-        
+        private readonly string _defaultPath = System.Web.Hosting.HostingEnvironment.MapPath("~/bin/html.c");
     
         public HandlerFiles()
         {
-
         }
 
         public HandlerFiles(string path)
@@ -26,13 +23,11 @@ namespace Server
             try
             {
                 file = File.ReadAllText(_defaultPath);
-                //  file = Regex.Replace(File.ReadAllText(_defaultPath), @"[\r\t]+", "");
-
             }
             catch (Exception e)
 
             {
-                System.Console.Write(" No se ha encontrado el archivo");
+                Console.Write(" No se ha encontrado el archivo "+e.Message);
                 return "";
             }
             return file;
@@ -47,7 +42,7 @@ namespace Server
             }
             catch (Exception e)
             {
-                System.Console.Write(" No se ha encontrado el archivo");
+                Console.Write(" No se ha encontrado el archivo "+e.Message);
             }
         }
     }

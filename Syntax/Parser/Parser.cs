@@ -18,7 +18,7 @@ namespace Syntax.Parser
 {
     public class Parser
     {
-        public readonly Lexer.Lexer Lexer;
+        public Lexer.Lexer Lexer;
 
         public Token CurrentToken;
         public readonly Arrays Arrays;
