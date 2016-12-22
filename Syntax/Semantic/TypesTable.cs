@@ -229,7 +229,7 @@ namespace Syntax.Semantic
         {
             foreach (var stack in StackContext.Context.Stack)
             {
-                if (stack.Values.ContainsKey(name))
+                if (stack.ValuesOfArrays.ContainsKey(name))
                 {
                     return stack.ValuesOfArrays[name];
                 }

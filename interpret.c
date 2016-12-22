@@ -684,6 +684,27 @@ int p3 = *pc; // Content of pointer pc: 11
 // int siete = &c; // Address of c: 2686784
  int p4 = c; // Value of c: 2
 
+
+
+int a[10] = {1, 2, 0, 0, 4, 5, 6, 9, 9, 17};
+
+
+int sum_array(int a[])
+{
+   int i, sum=0;
+   for (i=0; i<10; i++)
+   {
+	 sum = sum + a[i];
+   }
+   return sum;
+}
+
+
+   int sum;
+
+
+   sum = sum_array(a);
+
 %>
 
 <div>

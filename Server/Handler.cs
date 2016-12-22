@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Hosting;
 using Lexer;
 using Syntax;
+using Syntax.Interpret;
 using Syntax.Interpret.TypesValues;
 using Syntax.Parser;
 using Syntax.Semantic;
@@ -56,6 +57,15 @@ namespace Server
 
                 if (keys.Length > 0)
                 {
+                    foreach (var table in StackContext.Context.Stack)
+                    {
+                        //  table.Table = new Dictionary<string, BaseType>();
+                        table.Values = new Dictionary<string, Value>();
+                        table.ValuesOfArrays = new Dictionary<string, List<Value>>();
+                        table.Variables = new Dictionary<string, TypesTable.Variable>();
+                        table.ValuesofStructInstances = new Dictionary<string, List<Tuple<string, Value>>>();
+                    }
+
                     //parser = new Parser(lex);
 
                     //parser.ValidateSemanticServer();
@@ -82,6 +92,8 @@ namespace Server
 
                     StackContext.Context.FunctionsNodes.Remove("operar");
 
+                    string arrayparams = "";
+
                     foreach (var key in HttpContext.Current.Request.Form.AllKeys)
                 {
                     var value = HttpContext.Current.Request.Form[key];
@@ -95,9 +107,17 @@ namespace Server
                     {
                         value = "\"" + value + "\"";
                     }
+                    if (key != "elementsofarray")
+                    {
+                            parameters.Add(value);
+                        }
 
-                    parameters.Add(value);
-                }
+                        if (key == "elementsofarray")
+                        {
+                            arrayparams = value.Replace("\"", ""); ;
+                        }
+
+                    }
 
                     string csvString = string.Join(",", parameters);
 
@@ -111,16 +131,25 @@ namespace Server
                         //  var replace = parser.Lexer.SourceCode._sourceCode.Replace("int respuesta = operar();", newValue);
                         replace2 = Lex.SourceCode._sourceCode.Replace("int respuesta = operar();", newValue);
                     }
-                    
+
+                    string newValue2 = "int a[5] = {" + arrayparams + "};";
+
+                    context.Response.Write(newValue2);
+                    if (Lex.SourceCode._sourceCode.Contains("int a[5] = {};"))
+                    {
+                        //  var replace = parser.Lexer.SourceCode._sourceCode.Replace("int respuesta = operar();", newValue);
+                        replace2 = replace2.Replace("int a[5] = {};",newValue2);
+                    }
+
                     Lex = new Lexer.Lexer(new SourceCode(replace2));
                     Parser = new Parser(Lex);
 
                     var root = Parser.Parse();
 
-                    if (!_semanticIsValidated)
-                    {
+                    //if (!_semanticIsValidated)
+                    //{
                         ValidateSemantic(root);
-                    }
+                    //}
 
                     //foreach (var statementNode in root)
                     //{
@@ -168,6 +197,13 @@ namespace Server
                     context.Response.Write($"<h3>\r\nResponse Operation : {var1.Value} </h3> ");
 
                     StackContext.Context.Stack.Pop();
+
+                    context.Response.Write("<h4>--------------------------------------------------------</h4> ");
+                    context.Response.Write(" FUNCTION CALL AND ARRAY");
+                    context.Response.Write("<h4>--------------------------------------------------------</h4> ");
+
+                    dynamic var23 = StackContext.Context.Stack.Peek().GetVariableValue("sum");
+                    context.Response.Write($"<h5><i>\r\n Suma de valores de arreglo: {var23.Value} </i></h5> ");
 
                     context.Response.Write("<h4>--------------------------------------------------------</h4> ");
                     context.Response.Write("<h4> TIPOS DE DATOS - ASIGNACIONES</h4> ");
@@ -255,7 +291,6 @@ namespace Server
                     dynamic var22 = StackContext.Context.Stack.Peek().GetVariableValue("valuereferenceresponse");
                     context.Response.Write($"<h5><i>\r\n Valor de retorno de funcion : {var22.Value} </i></h5> ");
 
-
                     context.Response.Write("<h4>--------------------------------------------------------</h4> ");
                     context.Response.Write(" TODOS LOS VALORES ");
                     context.Response.Write("<h4>--------------------------------------------------------</h4> ");
@@ -269,6 +304,17 @@ namespace Server
                         }
                     }
 
+                    foreach (var table in StackContext.Context.Stack)
+                    {
+                    //  table.Table = new Dictionary<string, BaseType>();
+                        table.Values = new Dictionary<string, Value>();
+                        table.ValuesOfArrays = new Dictionary<string, List<Value>>();
+                        table.Variables = new Dictionary<string, TypesTable.Variable>();
+                        table.ValuesofStructInstances = new Dictionary<string, List<Tuple<string, Value>>>();
+                    }
+
+
+                  
                 }
 
                 context.Response.Write("%>" +
